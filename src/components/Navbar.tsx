@@ -12,7 +12,7 @@ const Navbar = React.forwardRef<HTMLElement, NavProps>(
     return (
       <nav
         className={cn(
-          "p-5 md:px-[100px] flex justify-between md:grid grid-cols-3 bg-white items-center",
+          "p-5 md:px-[100px] flex justify-between md:grid grid-cols-3 bg-white items-center z-30",
           className
         )}
         ref={ref}
