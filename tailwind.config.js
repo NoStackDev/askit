@@ -21,6 +21,7 @@ module.exports = {
       fontFamily: {
         body: ["var(--font-space-grotest)", "system-ui"],
         headline: ["var(--font-space-mono)", "system-ui"],
+        inter: ["var(--font-inter)"],
       },
 
       backgroundImage: {
