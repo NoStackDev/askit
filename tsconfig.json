@@ -20,9 +20,6 @@
       }
     ],
     "paths": {
-      "@/ui/*": ["./src/app/components/ui/*"],
-      "@/components/*": ["./src/app/components/*"],
-      "@/sections/*": ["./src/app/sections/*"],
       "@/*": ["./src/*"]
     }
   },

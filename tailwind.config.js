@@ -18,7 +18,8 @@ module.exports = {
 
     extend: {
       fontFamily: {
-        sans: ["var(--font-space-mono)", "var(--font-space-grotest)"],
+        body: ["var(--font-space-grotest)", "system-ui"],
+        headline: ["var(--font-space-mono)", "system-ui"],
       },
 
       backgroundImage: {
