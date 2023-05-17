@@ -9,11 +9,12 @@ module.exports = {
     colors: {
       primary: "#6356E5",
       black: "#000318",
-      card_faded: "#F3F6F6",
+      faded: "#F3F6F6",
       background: "#F7F7F9",
       grey: "#B3ABABC",
       stroke: "#9696A0",
       secondary: "#48466D",
+      white: "#FFFFFF",
     },
 
     extend: {
