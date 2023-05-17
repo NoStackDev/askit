@@ -11,7 +11,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
       <div
         ref={ref}
         className={cn(
-          "rounded-[20px] px-5 py-10 bg-black text-white mb-10",
+          "rounded-[20px] px-5 py-10 bg-black text-white mb-10 min-w-[255px]",
           className
         )}
         {...props}
@@ -37,7 +37,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
               Categories
             </span>
 
-            <ol className="flex flex-col gap-[15px]">
+            <ol className="flex flex-col gap-[15px] text-title_3">
               <li>
                 <Link
                   href="/"
