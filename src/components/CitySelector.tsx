@@ -9,12 +9,13 @@ import { flagsConfig } from "@/config.ts/flags";
 const CitySelector = React.forwardRef<
   React.ElementRef<typeof Select.Root>,
   React.ComponentPropsWithoutRef<typeof Select.Root>
->(({ children }) => {
+>(({ children }, ref) => {
   return (
     <Select.Root defaultValue="wholeCountry">
       <Select.Trigger
         className="text-title_3 font-medium font-body text-black inline-flex items-center justify-between w-full rounded"
         aria-label="Food"
+        ref={ref}
       >
         <Select.Value className="text-title_3 font-medium font-body text-black" />
         <Select.Icon className="SelectIcon">

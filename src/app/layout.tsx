@@ -1,3 +1,4 @@
+import Footer from "@/section/Footer";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Space_Grotesk } from "next/font/google";
@@ -33,6 +34,7 @@ export default function RootLayout({
         className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} min-h-screen bg-background`}
       >
         {children}
+        <Footer />
       </body>
     </html>
   );
