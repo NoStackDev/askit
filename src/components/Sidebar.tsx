@@ -45,11 +45,11 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                 >
                   <span>Products</span>
                   <Image
-                    src="/images/icons/arrow.png"
+                    src="/images/icons/arrow.svg"
                     alt="goto"
                     height={11.31}
                     width={6.71}
-                    className="h-[11.31px] w-[6.71px]"
+                    className="h-[11.31px] w-[6.71px] fill-white invert-[100%] sepia-[100%] saturate-0 hue-rotate-[159deg] brightness-[106%] contrast-[103%]"
                   />
                 </Link>
               </li>
@@ -61,11 +61,11 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                 >
                   <span>Services</span>
                   <Image
-                    src="/images/icons/arrow.png"
+                    src="/images/icons/arrow.svg"
                     alt="goto"
                     height={11.31}
                     width={6.71}
-                    className="h-[11.31px] w-[6.71px]"
+                    className="h-[11.31px] w-[6.71px] fill-white invert-[100%] sepia-[100%] saturate-0 hue-rotate-[159deg] brightness-[106%] contrast-[103%]"
                   />
                 </Link>
               </li>
@@ -77,11 +77,11 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                 >
                   <span>Accomodation</span>
                   <Image
-                    src="/images/icons/arrow.png"
+                    src="/images/icons/arrow.svg"
                     alt="goto"
                     height={11.31}
                     width={6.71}
-                    className="h-[11.31px] w-[6.71px]"
+                    className="h-[11.31px] w-[6.71px] fill-white invert-[100%] sepia-[100%] saturate-0 hue-rotate-[159deg] brightness-[106%] contrast-[103%]"
                   />
                 </Link>
               </li>
@@ -93,11 +93,11 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                 >
                   <span>Job</span>
                   <Image
-                    src="/images/icons/arrow.png"
+                    src="/images/icons/arrow.svg"
                     alt="goto"
                     height={11.31}
                     width={6.71}
-                    className="h-[11.31px] w-[6.71px]"
+                    className="h-[11.31px] w-[6.71px] fill-white invert-[100%] sepia-[100%] saturate-0 hue-rotate-[159deg] brightness-[106%] contrast-[103%]"
                   />
                 </Link>
               </li>
@@ -109,11 +109,11 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                 >
                   <span>Suggestion</span>
                   <Image
-                    src="/images/icons/arrow.png"
+                    src="/images/icons/arrow.svg"
                     alt="goto"
                     height={11.31}
                     width={6.71}
-                    className="h-[11.31px] w-[6.71px]"
+                    className="h-[11.31px] w-[6.71px] fill-white invert-[100%] sepia-[100%] saturate-0 hue-rotate-[159deg] brightness-[106%] contrast-[103%]"
                   />
                 </Link>
               </li>
