@@ -125,7 +125,7 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
 
         <div className="mt-4 mb-6 md:mb-14 flex flex-col md:flex-row items-center md:items-start w-[261px] md:w-full gap-2 md:gap-10">
           <span className="text-body_1 font-body">© 2023 Askit. All Rights Reserved.</span>
-          <span className="font-body text-sm underline underline-offset-2">Privacy Policy</span>
+          <span className="font-body text-sm underline underline-offset-2 hover:cursor-pointer">Privacy Policy</span>
         </div>
       </footer>
     );
