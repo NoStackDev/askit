@@ -29,7 +29,10 @@ const CitySelector = React.forwardRef<
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal className="z-30">
-        <Select.Content className="group overflow-hidden pl-3 bg-white data-[state=closed]">
+        <Select.Content
+          position="popper"
+          className="group overflow-hidden pl-3 bg-white data-[state=closed]"
+        >
           <Select.Viewport className="SelectViewport">
             <Select.Group className="flex flex-col gap-4 bg-white w-fit">
               <Select.Label className="SelectLabel"></Select.Label>
