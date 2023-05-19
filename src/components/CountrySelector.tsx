@@ -29,26 +29,31 @@ const CountrySelector = React.forwardRef<
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal className="z-30">
-        <Select.Content position="popper" className="group overflow-hidden bg-white data-[state=closed]">
+        <Select.Content
+          position="popper"
+          className="group overflow-hidden bg-white data-[state=closed]"
+        >
           <Select.Viewport className="SelectViewport">
             <Select.Group className="flex flex-col gap-4 bg-white w-fit">
               <Select.Label className="SelectLabel"></Select.Label>
               {flagsConfig.map((flagConfig) => {
                 return (
-                  <SelectItem
-                    key={flagConfig.countryCode}
-                    value={flagConfig.countryCode}
-                    className="flex gap-1 items-center justify-center"
-                  >
-                    <Image
-                      src={`https://flagcdn.com/w40/${flagConfig.countryCode}.png`}
-                      width={24}
-                      height={18}
-                      alt={`${flagConfig.countryName}`}
-                      className="w-6 h-4"
-                    />
-                    {/* <Select.Label className="inline group-data-[state=closed]:hidden">{flagConfig.countryName}</Select.Label> */}
-                  </SelectItem>
+                  <>
+                    <SelectItem
+                      key={flagConfig.countryCode}
+                      value={flagConfig.countryCode}
+                      className="flex gap-1 items-center justify-center mb-1"
+                    >
+                      <Image
+                        src={`https://flagcdn.com/w40/${flagConfig.countryCode}.png`}
+                        width={24}
+                        height={18}
+                        alt={`${flagConfig.countryName}`}
+                        className="w-6 h-4"
+                      />
+                      {/* <Select.Label className="inline group-data-[state=closed]:hidden">{flagConfig.countryName}</Select.Label> */}
+                    </SelectItem>
+                  </>
                 );
               })}
             </Select.Group>
@@ -75,4 +80,3 @@ const SelectItem = React.forwardRef<
 SelectItem.displayName = "SelectItem";
 
 export default CountrySelector;
-

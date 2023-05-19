@@ -31,7 +31,7 @@ const CitySelector = React.forwardRef<
       <Select.Portal className="z-30">
         <Select.Content
           position="popper"
-          className="group overflow-hidden pl-3 bg-white data-[state=closed]"
+          className="group overflow-hidden bg-white"
         >
           <Select.Viewport className="SelectViewport">
             <Select.Group className="flex flex-col gap-4 bg-white w-fit">
@@ -42,6 +42,7 @@ const CitySelector = React.forwardRef<
               >
                 whole country
               </SelectItem>
+              <Select.Separator className="bg-stroke" />
             </Select.Group>
           </Select.Viewport>
         </Select.Content>
