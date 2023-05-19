@@ -1,12 +1,19 @@
+"use client"
+
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
+import { usePathname } from "next/navigation"
+import clsx from "clsx";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const Sidebar = React.forwardRef<HTMLDivElement, Props>(
   ({ children, className, ...props }, ref) => {
+    const path = usePathname()
+    console.log(path)
+
     return (
       <div
         ref={ref}
@@ -17,7 +24,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
         {...props}
       >
         <ol className="font-body text-title_1 font-medium flex flex-col gap-5">
-          <li className="border-[1px] border-white rounded-lg">
+          <li className={clsx("border-[1px] border-white rounded-lg", path==="/" && 'bg-white text-black')}>
             <Link
               href="/"
               className="whitespace-nowrap inline-flex w-full px-4 py-2"

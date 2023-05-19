@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
@@ -5,7 +7,9 @@ import Searchbox from "./Searchbox";
 import Button from "./ui/Button";
 import { cn } from "@/lib/utils";
 
-interface NavProps extends HTMLAttributes<HTMLElement> {}
+interface NavProps extends HTMLAttributes<HTMLElement> {
+  handleSidebar: () => void
+}
 
 const Navbar = React.forwardRef<HTMLElement, NavProps>(
   ({ className, ...props }, ref) => {
@@ -51,6 +55,7 @@ const Navbar = React.forwardRef<HTMLElement, NavProps>(
           <Link
             href="/"
             className="md:hidden relative  h-10 w-10 bg-background rounded"
+            onClick={props.handleSidebar}
           >
             <div className="w-[16px] h-[2px] absolute top-[14px] -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
             <div className="w-[16px] h-[2px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>

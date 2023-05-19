@@ -30,7 +30,7 @@ const ProductCard = React.forwardRef<React.ElementRef<"div">, Props>(
       <div
         ref={ref}
         className={cn(
-          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 p-4",
+          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 p-4 hover:cursor-pointer",
           className
         )}
         {...props}

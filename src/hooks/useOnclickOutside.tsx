@@ -11,6 +11,7 @@ export default function useOnClickOutside(
         return;
       }
       handler(false);
+      document.body.style.overflow = "";
     };
     document.addEventListener("mousedown", listener);
     document.addEventListener("touchstart", listener);

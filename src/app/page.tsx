@@ -1,3 +1,5 @@
+"use client";
+
 import Advertisements from "@/components/Advertisements";
 import CitySelector from "@/components/CitySelector";
 import CountrySelector from "@/components/CountrySelector";
@@ -5,16 +7,37 @@ import DealsCard from "@/components/DealsCard";
 import Navbar from "@/components/Navbar";
 import Searchbox from "@/components/Searchbox";
 import Sidebar from "@/components/Sidebar";
+import Button from "@/components/ui/Button";
+import useOnClickOutside from "@/hooks/useOnclickOutside";
 import Products from "@/section/Products";
+import clsx from "clsx";
 import Image from "next/image";
+import { use, useRef, useState } from "react";
 
 export default function Home() {
+  const [showSidebar, setShowSidebar] = useState(false);
+  const openSidebarRef = useRef<HTMLDivElement>(null)
+
+  useOnClickOutside(openSidebarRef, setShowSidebar)
+
+  const handleSidebar = () => {
+    setShowSidebar(!showSidebar);
+    document.body.style.overflow =
+      document.body.style.overflow === "hidden" ? "" : "hidden";
+  };
+
   return (
     <main className="">
-      <Navbar className="sticky top-0" />
+      <Navbar handleSidebar={handleSidebar} className="sticky top-0" />
 
       <div className="relative flex md:gap-[92px] md:px-[100px] md:mb-10">
-        <div className="absolute md:relative -translate-x-full md:translate-x-0 md:mt-14">
+        <div
+          className={clsx(
+            "absolute -translate-y-20 md:translate-y-0 md:relative -left-full md:left-0 md:mt-14 z-30 md:z-0 transition-all duration-300 ease-in-out",
+            showSidebar && "-left-0"
+          )}
+          ref={openSidebarRef}
+        >
           <Sidebar />
           <Advertisements className="hidden md:flex">
             <div className="flex flex-col gap-1">
@@ -43,7 +66,7 @@ export default function Home() {
           </Advertisements>
         </div>
 
-        <div className="mx-5 my-6 mt-[56px] w-full">
+        <div className="mx-5 my-6 mt-[56px] w-full z-10">
           <Searchbox className="md:hidden" />
 
           <DealsCard className="md:hidden mt-5">
@@ -79,6 +102,12 @@ export default function Home() {
           <Products className="mt-4 md:mt-8" />
         </div>
       </div>
+
+      <Button
+        className={clsx("md:hidden fixed bottom-10 right-5 z-20", showSidebar && 'hidden')}
+      >
+        Place a Request
+      </Button>
     </main>
   );
 }
