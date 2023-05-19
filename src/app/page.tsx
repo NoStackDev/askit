@@ -8,33 +8,46 @@ import Navbar from "@/components/Navbar";
 import Searchbox from "@/components/Searchbox";
 import Sidebar from "@/components/Sidebar";
 import Button from "@/components/ui/Button";
+import useDebounce from "@/hooks/useDebounce";
 import useOnClickOutside from "@/hooks/useOnclickOutside";
 import Products from "@/section/Products";
 import clsx from "clsx";
 import Image from "next/image";
-import { use, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
-  const openSidebarRef = useRef<HTMLDivElement>(null)
+  const openSidebarRef = useRef<HTMLDivElement>(null);
 
-  useOnClickOutside(openSidebarRef, setShowSidebar)
+  useOnClickOutside(openSidebarRef, setShowSidebar);
 
   const handleSidebar = () => {
     setShowSidebar(!showSidebar);
+
     document.body.style.overflow =
       document.body.style.overflow === "hidden" ? "" : "hidden";
   };
 
   return (
-    <main className="">
-      <Navbar handleSidebar={handleSidebar} className="sticky top-0" />
+    <main className="relative">
+      <div
+        className={clsx(
+          "fixed top-0 h-0 w-screen bg-black/5 backdrop-blur-sm z-20 overflow-hidden transition-all duration-[600ms] ease-in-out md:!hidden",
+          showSidebar && "h-screen"
+        )}
+      ></div>
+
+      <Navbar
+        showSidebar={showSidebar}
+        handleSidebar={handleSidebar}
+        className="sticky top-0"
+      />
 
       <div className="relative flex md:gap-[92px] md:px-[100px] md:mb-10">
         <div
           className={clsx(
             "absolute -translate-y-20 md:translate-y-0 md:relative -left-full md:left-0 md:mt-14 z-30 md:z-0 transition-all duration-300 ease-in-out",
-            showSidebar && "-left-0"
+            showSidebar && "left-0"
           )}
           ref={openSidebarRef}
         >
@@ -104,7 +117,10 @@ export default function Home() {
       </div>
 
       <Button
-        className={clsx("md:hidden fixed bottom-10 right-5 z-20", showSidebar && 'hidden')}
+        className={clsx(
+          "md:hidden fixed bottom-10 right-5 z-20",
+          showSidebar && "hidden"
+        )}
       >
         Place a Request
       </Button>

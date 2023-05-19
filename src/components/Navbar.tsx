@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -6,9 +6,11 @@ import React, { HTMLAttributes } from "react";
 import Searchbox from "./Searchbox";
 import Button from "./ui/Button";
 import { cn } from "@/lib/utils";
+import clsx from "clsx";
 
 interface NavProps extends HTMLAttributes<HTMLElement> {
-  handleSidebar: () => void
+  handleSidebar: () => void;
+  showSidebar: boolean;
 }
 
 const Navbar = React.forwardRef<HTMLElement, NavProps>(
@@ -54,13 +56,23 @@ const Navbar = React.forwardRef<HTMLElement, NavProps>(
 
           <Link
             href="/"
-            className="md:hidden relative  h-10 w-10 bg-background rounded"
+            className={clsx(
+              "md:hidden relative  h-10 w-10 bg-background rounded",
+              props.showSidebar && "opacity-0"
+            )}
             onClick={props.handleSidebar}
           >
             <div className="w-[16px] h-[2px] absolute top-[14px] -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
             <div className="w-[16px] h-[2px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
             <div className="w-[16px] h-[2px] absolute bottom-[12px] -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
           </Link>
+
+          {/* <div
+            className={clsx(
+              "hidden relative  h-10 w-10 bg-background rounded",
+              props.showSidebar && "opacity-0 block md:hidden"
+            )}
+          ></div> */}
 
           <Link href="/" className="w-fit h-fit">
             <Button className="hidden md:block">Place a Request</Button>

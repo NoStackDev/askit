@@ -12,7 +12,6 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 const Sidebar = React.forwardRef<HTMLDivElement, Props>(
   ({ children, className, ...props }, ref) => {
     const path = usePathname()
-    console.log(path)
 
     return (
       <div
