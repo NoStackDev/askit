@@ -58,7 +58,7 @@ const Navbar = React.forwardRef<HTMLElement, NavProps>(
             href="/"
             className={clsx(
               "md:hidden relative  h-10 w-10 bg-background rounded",
-              props.showSidebar && "opacity-0"
+              props.showSidebar && "hidden"
             )}
             onClick={props.handleSidebar}
           >
@@ -67,15 +67,12 @@ const Navbar = React.forwardRef<HTMLElement, NavProps>(
             <div className="w-[16px] h-[2px] absolute bottom-[12px] -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
           </Link>
 
-          {/* <div
-            className={clsx(
-              "hidden relative  h-10 w-10 bg-background rounded",
-              props.showSidebar && "opacity-0 block md:hidden"
-            )}
-          ></div> */}
+          {props.showSidebar && (
+            <div className="h-10 w-10 bg-background rounded opacity-0"></div>
+          )}
 
-          <Link href="/" className="w-fit h-fit">
-            <Button className="hidden md:block">Place a Request</Button>
+          <Link href="/" className="w-fit h-fit hidden md:block">
+            <Button className="">Place a Request</Button>
           </Link>
         </div>
       </nav>
