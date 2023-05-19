@@ -39,7 +39,7 @@ const Products = React.forwardRef<React.ElementRef<"section">, Props>(
           <div className="px-3 py-[5px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer">3</div>
           <div className="px-3 py-[5px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer">4</div>
           <div className="px-3 py-[5px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer">5</div>
-          <div className="px-2 py-[5px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer">100</div>
+          <div className="px-2 py-[5px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer md:ml-6">100</div>
           <div className="px-2 py-[5px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer">101</div>
         </div>
       </section>
