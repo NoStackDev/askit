@@ -7,6 +7,7 @@ import React, { HTMLAttributes } from "react";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { sidebarConfig } from "@/config.ts/sidebarConfig";
+import { sidebarItem } from "@/types";
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
