@@ -72,11 +72,10 @@ const SidebarItem = ({ item, path, children, className }: SidebarItemProps) => {
           <ol className="flex flex-col gap-[15px] text-title_3">
             {item.children.map((childEle) => {
               return (
-                <li>
+                <li key={childEle.id}>
                   <Link
                     href={childEle.href || "/"}
                     className="whitespace-nowrap flex w-full pl-10 pr-[22px] my-3 items-center justify-between"
-                    key={childEle.id}
                   >
                     <span>{childEle.title}</span>
                     <Image
