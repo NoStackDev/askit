@@ -1,3 +1,5 @@
+import { sidebarItem } from "@/types";
+
 export const sidebarConfig: sidebarItem[] = [
   {
     id: "home",
