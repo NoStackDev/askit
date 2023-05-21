@@ -14,7 +14,7 @@ const Products = React.forwardRef<React.ElementRef<"section">, Props>(
         className={cn("flex flex-col items-center", className)}
         {...props}
       >
-        <div className="flex flex-col gap-6 md:grid md:grid-cols-2 md:gap-x-5 gap-y-6">
+        <div className="flex flex-col gap-6 md:grid md:grid-cols-2 2xl:grid-cols-3 md:gap-x-5 gap-y-6">
           {productsConfig.map((productConfig) => {
             return (
               <ProductCard

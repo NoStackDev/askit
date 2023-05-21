@@ -54,18 +54,20 @@ const Navbar = React.forwardRef<HTMLElement, NavProps>(
             />
           </Link>
 
-          <Link
-            href="/"
-            className={clsx(
-              "md:hidden relative  h-10 w-10 bg-background rounded",
-              props.showSidebar && "hidden"
-            )}
-            onClick={props.handleSidebar}
-          >
-            <div className="w-[16px] h-[2px] absolute top-[14px] -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
-            <div className="w-[16px] h-[2px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
-            <div className="w-[16px] h-[2px] absolute bottom-[12px] -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
-          </Link>
+          {!props.showSidebar && (
+            <Link
+              href="/"
+              className={clsx(
+                "md:hidden relative  h-10 w-10 bg-background rounded",
+                props.showSidebar && "hidden"
+              )}
+              onClick={props.handleSidebar}
+            >
+              <div className="w-[16px] h-[2px] absolute top-[14px] -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
+              <div className="w-[16px] h-[2px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
+              <div className="w-[16px] h-[2px] absolute bottom-[12px] -translate-y-1/2 left-1/2 -translate-x-1/2 bg-black"></div>
+            </Link>
+          )}
 
           {props.showSidebar && (
             <div className="h-10 w-10 bg-background rounded opacity-0"></div>
