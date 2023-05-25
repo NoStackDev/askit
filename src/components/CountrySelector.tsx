@@ -16,9 +16,10 @@ const CountrySelector = React.forwardRef<
         className="inline-flex items-center justify-center rounded bg-white gap-2 py-2 px-1 w-12 h-8"
         aria-label="Food"
         ref={ref}
+        disabled
       >
         <Select.Value />
-        <Select.Icon className="SelectIcon">
+        {/* <Select.Icon className="SelectIcon">
           <Image
             src="/images/icons/arrow.svg"
             alt="goto"
@@ -26,7 +27,7 @@ const CountrySelector = React.forwardRef<
             width={8}
             className="scale-100 invert-[43%] sepia-[24%] saturate-[0%] hue-rotate-[222deg] brightness-[111%] contrast-[91%] rotate-90"
           />
-        </Select.Icon>
+        </Select.Icon> */}
       </Select.Trigger>
       <Select.Portal className="z-30">
         <Select.Content

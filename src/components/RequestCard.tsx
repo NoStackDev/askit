@@ -30,7 +30,7 @@ const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
       <div
         ref={ref}
         className={cn(
-          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 p-4 hover:cursor-pointer",
+          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 p-4 hover:cursor-pointer hover:border-black hover:scale-[1.01] transition-transform duration-100",
           className
         )}
         {...props}
