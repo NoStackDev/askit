@@ -13,7 +13,7 @@ const CountrySelector = React.forwardRef<
   return (
     <Select.Root defaultValue="ng">
       <Select.Trigger
-        className="inline-flex items-center justify-center rounded bg-white gap-2 py-2 px-1 w-12 h-8"
+        className="inline-flex items-center justify-center rounded bg-white gap-2 py-2 px-1 w-10 h-8"
         aria-label="Food"
         ref={ref}
         disabled
@@ -49,7 +49,7 @@ const CountrySelector = React.forwardRef<
                       width={24}
                       height={18}
                       alt={`${flagConfig.countryName}`}
-                      className="w-6 h-4"
+                      className="w-6 h-[18px]"
                     />
                     {/* <Select.Label className="inline group-data-[state=closed]:hidden">{flagConfig.countryName}</Select.Label> */}
                   </SelectItem>

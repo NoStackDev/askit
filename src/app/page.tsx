@@ -5,6 +5,7 @@ import CitySelector from "@/components/CitySelector";
 import CountrySelector from "@/components/CountrySelector";
 import DealsCard from "@/components/DealsCard";
 import Navbar from "@/components/Navbar";
+import RequestsFilter from "@/components/RequestsFilter";
 import Searchbox from "@/components/Searchbox";
 import Sidebar from "@/components/Sidebar";
 import Button from "@/components/ui/Button";
@@ -105,9 +106,8 @@ export default function Home() {
               Latest Requests
             </div>
 
-            <div className="border-[1px] border-stroke rounded px-4 flex gap-4 md:w-[229px]">
-              <CountrySelector />
-              <CitySelector />
+            <div className="">
+              <RequestsFilter />
             </div>
           </div>
 

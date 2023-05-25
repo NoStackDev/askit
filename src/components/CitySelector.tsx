@@ -1,69 +1,75 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import * as Select from "@radix-ui/react-select";
+import React from "react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import Image from "next/image";
-
-import { flagsConfig } from "@/config.ts/flags";
+import CheckIcon from "@mui/icons-material/Check";
+import { citiesConfig } from "@/config.ts/cities";
+import ScrollArea from "./ui/ScrollAreaPrimitive";
 
 const CitySelector = React.forwardRef<
-  React.ElementRef<typeof Select.Root>,
-  React.ComponentPropsWithoutRef<typeof Select.Root>
->(({ children }, ref) => {
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+>(({ className, children, ...props }, ref) => {
   return (
-    <Select.Root defaultValue="wholeCountry">
-      <Select.Trigger
-        className="text-title_3 font-medium font-body text-black inline-flex items-center justify-between w-full rounded"
-        aria-label="Food"
-        ref={ref}
+    <DialogPrimitive.Root>
+      <DialogPrimitive.Trigger
+        asChild
+        id="DialogPrimitive.Trigger"
+        className="flex gap-2"
       >
-        <Select.Value className="text-title_3 font-medium font-body text-black" />
-        <Select.Icon className="SelectIcon">
-          <Image
-            src="/images/icons/arrow.svg"
-            alt="goto"
-            height={11.31}
-            width={6.71}
-            className="h-[11.31px] w-[6.71px] invert-[43%] sepia-[24%] saturate-[0%] hue-rotate-[222deg] brightness-[111%] contrast-[91%] rotate-90"
-          />
-        </Select.Icon>
-      </Select.Trigger>
-      <Select.Portal className="z-30">
-        <Select.Content
-          position="popper"
-          className="group overflow-hidden bg-white"
-        >
-          <Select.Viewport className="SelectViewport">
-            <Select.Group className="flex flex-col gap-4 bg-white w-fit">
-              <Select.Label className="SelectLabel"></Select.Label>
-              <SelectItem
-                value={"wholeCountry"}
-                className="flex gap-1 items-center justify-center text-title_3 font-medium font-body text-black"
-              >
-                whole country
-              </SelectItem>
-              <Select.Separator className="bg-stroke" />
-            </Select.Group>
-          </Select.Viewport>
-        </Select.Content>
-      </Select.Portal>
-    </Select.Root>
+        <div className="flex justify-end items-center">
+          <button className="h-6 w-6 bg-[#D9D9D9] border-[1px] border-primary"></button>
+          <label
+            htmlFor="DialogPrimitive.Trigger"
+            className="text-primary font-body text-title_3"
+          >
+            Filter
+          </label>
+        </div>
+      </DialogPrimitive.Trigger>
+
+      <DialogPrimitive.Portal className="">
+        <DialogPrimitive.Overlay className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen bg-stroke/70 z-20 overflow-hidden transition-all duration-[600ms] ease-in-out" />
+
+        <DialogPrimitive.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 p-4 bg-white border-[1px] border-stroke rounded-[20px]">
+          <form>
+            <ScrollArea className="z-40">
+              {citiesConfig.map((cityConfig) => {
+                return (
+                  <div
+                    className="flex gap-2 items-center"
+                    key={cityConfig.geonameid}
+                  >
+                    <CheckboxPrimitive.Root
+                      className="flex h-5 w-5 appearance-none items-center justify-center rounded-[4px] border-[1px] border-stroke"
+                      id={cityConfig.geonameid.toString()}
+                    >
+                      <CheckboxPrimitive.Indicator className="">
+                        <CheckIcon className="text-stroke" />
+                      </CheckboxPrimitive.Indicator>
+                    </CheckboxPrimitive.Root>
+                    <label className="Label" htmlFor={cityConfig.geonameid.toString()}>
+                      {cityConfig.name}
+                    </label>
+                  </div>
+                );
+              })}
+            </ScrollArea>
+          </form>
+
+          <div className="flex justify-between">
+            <button className="text-body_2 font-body text-primary/70">clear all</button>
+
+            <button className="text-body_2 font-body text-primary">apply</button>
+          </div>
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
   );
 });
 
 CitySelector.displayName = "CitySelector";
-
-const SelectItem = React.forwardRef<
-  React.ElementRef<typeof Select.Item>,
-  React.ComponentPropsWithoutRef<typeof Select.Item>
->(({ children, className, ...props }, forwardedRef) => {
-  return (
-    <Select.Item className="" {...props} ref={forwardedRef}>
-      <Select.ItemText>{children}</Select.ItemText>
-    </Select.Item>
-  );
-});
-
-SelectItem.displayName = "SelectItem";
 
 export default CitySelector;
