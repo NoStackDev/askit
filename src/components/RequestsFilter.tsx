@@ -9,8 +9,8 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
   ({ className, ...props }, ref) => {
-    const [country, setCountry] = React.useState('ng')
-    const [city, setCity] = React.useState<string|null>(null)
+    const [country, setCountry] = React.useState("ng");
+    const [city, setCity] = React.useState<string | null>(null);
 
     return (
       <div
@@ -21,11 +21,15 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
         )}
       >
         <CountrySelector />
-        <div className="font-body text-body_2 font-normal max-w-[32ch]">whole country</div>
-        <CitySelector className="w-full "/>
+        <div className="font-body text-body_2 font-normal max-w-[32ch]">
+          whole country
+        </div>
+        <CitySelector className="w-full " />
       </div>
     );
   }
 );
+
+RequestsFilter.displayName = "RequestsFilter";
 
 export default RequestsFilter;
