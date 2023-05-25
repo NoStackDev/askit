@@ -36,7 +36,7 @@ const CitySelector = React.forwardRef<
         <DialogPrimitive.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 p-4 bg-white border-[1px] border-stroke rounded-[20px]">
           <form>
             <ScrollArea className="z-40">
-              {citiesConfig.map((cityConfig) => {
+              {citiesConfig.reverse().map((cityConfig) => {
                 return (
                   <div
                     className="flex gap-2 items-center"
@@ -50,7 +50,10 @@ const CitySelector = React.forwardRef<
                         <CheckIcon className="text-stroke" />
                       </CheckboxPrimitive.Indicator>
                     </CheckboxPrimitive.Root>
-                    <label className="Label" htmlFor={cityConfig.geonameid.toString()}>
+                    <label
+                      className="Label"
+                      htmlFor={cityConfig.geonameid.toString()}
+                    >
                       {cityConfig.name}
                     </label>
                   </div>
@@ -60,9 +63,13 @@ const CitySelector = React.forwardRef<
           </form>
 
           <div className="flex justify-between">
-            <button className="text-body_2 font-body text-primary/70">clear all</button>
+            <button className="text-body_2 font-body text-primary/70">
+              clear all
+            </button>
 
-            <button className="text-body_2 font-body text-primary">apply</button>
+            <button className="text-body_2 font-body text-primary">
+              apply
+            </button>
           </div>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
