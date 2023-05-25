@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-menubar": "^1.0.2",
     "@radix-ui/react-select": "^1.2.1",
     "@types/node": "20.1.6",
     "@types/react": "18.2.6",

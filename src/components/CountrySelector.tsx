@@ -38,22 +38,20 @@ const CountrySelector = React.forwardRef<
               <Select.Label className="SelectLabel"></Select.Label>
               {flagsConfig.map((flagConfig) => {
                 return (
-                  <>
-                    <SelectItem
-                      key={flagConfig.countryCode}
-                      value={flagConfig.countryCode}
-                      className="flex gap-1 items-center justify-center mb-1"
-                    >
-                      <Image
-                        src={`https://flagcdn.com/w40/${flagConfig.countryCode}.png`}
-                        width={24}
-                        height={18}
-                        alt={`${flagConfig.countryName}`}
-                        className="w-6 h-4"
-                      />
-                      {/* <Select.Label className="inline group-data-[state=closed]:hidden">{flagConfig.countryName}</Select.Label> */}
-                    </SelectItem>
-                  </>
+                  <SelectItem
+                    key={flagConfig.countryCode}
+                    value={flagConfig.countryCode}
+                    className="flex gap-1 items-center justify-center mb-1"
+                  >
+                    <Image
+                      src={`https://flagcdn.com/w40/${flagConfig.countryCode}.png`}
+                      width={24}
+                      height={18}
+                      alt={`${flagConfig.countryName}`}
+                      className="w-6 h-4"
+                    />
+                    {/* <Select.Label className="inline group-data-[state=closed]:hidden">{flagConfig.countryName}</Select.Label> */}
+                  </SelectItem>
                 );
               })}
             </Select.Group>

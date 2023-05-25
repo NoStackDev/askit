@@ -8,12 +8,11 @@ import Navbar from "@/components/Navbar";
 import Searchbox from "@/components/Searchbox";
 import Sidebar from "@/components/Sidebar";
 import Button from "@/components/ui/Button";
-import useDebounce from "@/hooks/useDebounce";
 import useOnClickOutside from "@/hooks/useOnclickOutside";
-import Products from "@/section/Products";
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
+import Requests from "@/section/Requests";
 import Image from "next/image";
-import { use, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -31,7 +30,7 @@ export default function Home() {
   return (
     <main className="relative">
       <div
-        className={clsx(
+        className={cn(
           "fixed top-0 h-0 w-screen bg-black/5 backdrop-blur-sm z-20 overflow-hidden transition-all duration-[600ms] ease-in-out md:!hidden",
           showSidebar && "h-screen"
         )}
@@ -45,14 +44,14 @@ export default function Home() {
 
       <div className="relative flex md:gap-[92px] md:px-[100px] md:mb-10">
         <div
-          className={clsx(
+          className={cn(
             "absolute -translate-y-20 md:translate-y-0 md:relative -left-full md:left-0 md:mt-14 z-30 md:z-0 transition-all duration-300 ease-in-out",
             showSidebar && "left-0"
           )}
           ref={openSidebarRef}
         >
           <Sidebar />
-          <Advertisements className="hidden md:flex">
+          {/* <Advertisements className="hidden md:flex">
             <div className="flex flex-col gap-1">
               <Image
                 src="/images/pictures/cocacola.png"
@@ -76,7 +75,7 @@ export default function Home() {
                 Sponsored
               </span>
             </div>
-          </Advertisements>
+          </Advertisements> */}
         </div>
 
         <div className="mx-5 my-6 mt-[56px] w-full z-10">
@@ -112,12 +111,12 @@ export default function Home() {
             </div>
           </div>
 
-          <Products className="mt-4 md:mt-8" />
+          <Requests className="mt-4 md:mt-8" />
         </div>
       </div>
 
       <Button
-        className={clsx(
+        className={cn(
           "md:hidden fixed bottom-10 right-5 z-20",
           showSidebar && "hidden"
         )}

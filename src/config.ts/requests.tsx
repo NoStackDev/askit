@@ -1,4 +1,4 @@
-type Product = {
+type Request = {
   id: number;
   image?: boolean;
   description: string;
@@ -8,7 +8,7 @@ type Product = {
   bookmarked: boolean;
 };
 
-export const productsConfig: Product[] = [
+export const requestsConfig: Request[] = [
   {
     id: 0,
     image: true,

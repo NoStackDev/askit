@@ -11,7 +11,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   bookmarked: boolean;
 }
 
-const ProductCard = React.forwardRef<React.ElementRef<"div">, Props>(
+const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
   (
     {
       children,
@@ -95,6 +95,6 @@ const ProductCard = React.forwardRef<React.ElementRef<"div">, Props>(
   }
 );
 
-ProductCard.displayName = "ProductCard";
+RequestCard.displayName = "RequestCard";
 
-export default ProductCard;
+export default RequestCard;

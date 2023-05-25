@@ -1,12 +1,12 @@
-import ProductCard from "@/components/ProductCard";
+import RequestCard from "@/components/RequestCard";
 import Button from "@/components/ui/Button";
-import { productsConfig } from "@/config.ts/products";
+import { requestsConfig } from "@/config.ts/requests";
 import { cn } from "@/lib/utils";
 import React, { HTMLAttributes } from "react";
 
 interface Props extends HTMLAttributes<HTMLElement> {}
 
-const Products = React.forwardRef<React.ElementRef<"section">, Props>(
+const Requests = React.forwardRef<React.ElementRef<"section">, Props>(
   ({ children, className, ...props }, ref) => {
     return (
       <section
@@ -15,16 +15,16 @@ const Products = React.forwardRef<React.ElementRef<"section">, Props>(
         {...props}
       >
         <div className="flex flex-col gap-6 md:grid md:grid-cols-2 2xl:grid-cols-3 md:gap-x-5 gap-y-6">
-          {productsConfig.map((productConfig) => {
+          {requestsConfig.map((requestConfig) => {
             return (
-              <ProductCard
-                key={productConfig.id}
-                image={productConfig.image}
-                description={productConfig.description}
-                commentCount={productConfig.commentCount}
-                date={productConfig.date}
-                location={productConfig.location}
-                bookmarked={productConfig.bookmarked}
+              <RequestCard
+                key={requestConfig.id}
+                image={requestConfig.image}
+                description={requestConfig.description}
+                commentCount={requestConfig.commentCount}
+                date={requestConfig.date}
+                location={requestConfig.location}
+                bookmarked={requestConfig.bookmarked}
               />
             );
           })}
@@ -47,6 +47,6 @@ const Products = React.forwardRef<React.ElementRef<"section">, Props>(
   }
 );
 
-Products.displayName = "Products";
+Requests.displayName = "Requests";
 
-export default Products;
+export default Requests;

@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
 import { usePathname } from "next/navigation";
-import clsx from "clsx";
 import { sidebarConfig } from "@/config.ts/sidebarConfig";
 import { sidebarItem } from "@/types";
 
@@ -50,7 +49,7 @@ const SidebarItem = ({ item, path, children, className }: SidebarItemProps) => {
     <>
       {item.href && (
         <li
-          className={clsx(
+          className={cn(
             "border-[1px] border-white rounded-lg hover:bg-white hover:text-black",
             path === item.href && "bg-white text-black"
           )}

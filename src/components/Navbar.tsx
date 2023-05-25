@@ -6,7 +6,6 @@ import React, { HTMLAttributes } from "react";
 import Searchbox from "./Searchbox";
 import Button from "./ui/Button";
 import { cn } from "@/lib/utils";
-import clsx from "clsx";
 
 interface NavProps extends HTMLAttributes<HTMLElement> {
   handleSidebar: () => void;
@@ -57,7 +56,7 @@ const Navbar = React.forwardRef<HTMLElement, NavProps>(
           {!props.showSidebar && (
             <Link
               href="/"
-              className={clsx(
+              className={cn(
                 "md:hidden relative  h-10 w-10 bg-background rounded",
                 props.showSidebar && "hidden"
               )}
