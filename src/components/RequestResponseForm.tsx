@@ -7,3 +7,5 @@ const RequestResponseForm = (props: Props) => {
     <div>RequestResponseForm</div>
   )
 }
+
+export default RequestResponseForm

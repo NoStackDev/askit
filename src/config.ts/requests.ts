@@ -2,6 +2,7 @@ type Request = {
   id: number;
   image?: boolean;
   description: string;
+  moreDetail: null | string;
   commentCount: number;
   date: Date;
   location: string;
@@ -14,6 +15,8 @@ export const requestsConfig: Request[] = [
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
+    moreDetail:
+      "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
     commentCount: 16,
     date: new Date(Date.now()),
     location: "Port Harcout",
@@ -24,6 +27,7 @@ export const requestsConfig: Request[] = [
     image: false,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",
+    moreDetail: null,
     commentCount: 16,
     date: new Date(Date.now()),
     location: "Port Harcout",
@@ -34,6 +38,7 @@ export const requestsConfig: Request[] = [
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
+    moreDetail: null,
     commentCount: 16,
     date: new Date(Date.now()),
     location: "Port Harcout",
@@ -44,6 +49,7 @@ export const requestsConfig: Request[] = [
     image: false,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",
+    moreDetail: null,
     commentCount: 16,
     date: new Date(Date.now()),
     location: "Port Harcout",
@@ -54,6 +60,8 @@ export const requestsConfig: Request[] = [
     image: false,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",
+    moreDetail:
+      "orem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",
     commentCount: 16,
     date: new Date(Date.now()),
     location: "Port Harcout",
@@ -63,6 +71,8 @@ export const requestsConfig: Request[] = [
     id: 5,
     image: true,
     description:
+      "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
+    moreDetail:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
     commentCount: 16,
     date: new Date(Date.now()),
@@ -74,6 +84,7 @@ export const requestsConfig: Request[] = [
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
+    moreDetail: null,
     commentCount: 16,
     date: new Date(Date.now()),
     location: "Port Harcout",
@@ -84,6 +95,7 @@ export const requestsConfig: Request[] = [
     image: false,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",
+    moreDetail: null,
     commentCount: 16,
     date: new Date(Date.now()),
     location: "Port Harcout",
@@ -94,6 +106,7 @@ export const requestsConfig: Request[] = [
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
+    moreDetail: null,
     commentCount: 16,
     date: new Date(Date.now()),
     location: "Port Harcout",
@@ -104,6 +117,7 @@ export const requestsConfig: Request[] = [
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
+    moreDetail: null,
     commentCount: 16,
     date: new Date(Date.now()),
     location: "Port Harcout",
@@ -114,6 +128,7 @@ export const requestsConfig: Request[] = [
     image: false,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",
+    moreDetail: null,
     commentCount: 16,
     date: new Date(Date.now()),
     location: "Port Harcout",

@@ -1,8 +1,5 @@
 "use client";
 
-import Advertisements from "@/components/Advertisements";
-import CitySelector from "@/components/CitySelector";
-import CountrySelector from "@/components/CountrySelector";
 import DealsCard from "@/components/DealsCard";
 import Navbar from "@/components/Navbar";
 import RequestsFilter from "@/components/RequestsFilter";
