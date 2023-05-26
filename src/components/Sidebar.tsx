@@ -1,12 +1,13 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
 import { usePathname } from "next/navigation";
 import { sidebarConfig } from "@/config.ts/sidebarConfig";
 import { sidebarItem } from "@/types";
+
+const ChevronRight = React.lazy(() => import('@mui/icons-material/ChevronRight'))
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -72,19 +73,15 @@ const SidebarItem = ({ item, path, children, className }: SidebarItemProps) => {
           <ol className="flex flex-col gap-[15px] text-title_3">
             {item.children.map((childEle) => {
               return (
-                <li key={childEle.id}>
+                <li key={childEle.id} className="">
                   <Link
                     href={childEle.href || "/"}
-                    className="whitespace-nowrap flex w-full pl-10 pr-[22px] my-3 items-center justify-between"
+                    className="whitespace-nowrap flex w-full pl-10 pr-[22px] py-3 items-center justify-between hover:bg-white hover:text-black"
                   >
                     <span>{childEle.title}</span>
-                    <Image
-                      src="/images/icons/arrow.svg"
-                      alt="goto"
-                      height={11.31}
-                      width={6.71}
-                      className="h-[11.31px] w-[6.71px] fill-white invert-[100%] sepia-[100%] saturate-0 hue-rotate-[159deg] brightness-[106%] contrast-[103%]"
-                    />
+                    <React.Suspense>
+                      <ChevronRight />
+                    </React.Suspense>
                   </Link>
                 </li>
               );

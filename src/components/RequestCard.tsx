@@ -2,6 +2,18 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React, { HTMLAttributes } from "react";
 
+const CommentsIcon = React.lazy(() => import("@mui/icons-material/Quickreply"));
+const WatchLaterIcon = React.lazy(
+  () => import("@mui/icons-material/WatchLater")
+);
+const LocationOnIcon = React.lazy(
+  () => import("@mui/icons-material/LocationOn")
+);
+const BookmarkBorderIcon = React.lazy(
+  () => import("@mui/icons-material/BookmarkBorder")
+);
+const BookmarkIcon = React.lazy(() => import("@mui/icons-material/Bookmark"));
+
 interface Props extends HTMLAttributes<HTMLDivElement> {
   image?: boolean;
   description: string;
@@ -51,44 +63,50 @@ const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
         </div>
 
         <div className="flex justify-between pt-4">
-          <div className="flex items-center gap-1">
-            <Image
-              src="/images/icons/commentsIcon.png"
-              width={16}
-              height={16}
-              alt="comments"
-            />
-            <span>16</span>
-          </div>
+          <React.Suspense
+            fallback={
+              <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+            }
+          >
+            <div className="flex items-center gap-1">
+              <CommentsIcon className="text-primary" />
+              <span>16</span>
+            </div>
+          </React.Suspense>
 
-          <div className="flex items-center gap-1">
-            <Image
-              src="/images/icons/dateIcon.png"
-              width={16}
-              height={16}
-              alt="comments"
-            />
-            <span>22 Apr</span>
-          </div>
+          <React.Suspense
+            fallback={
+              <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+            }
+          >
+            <div className="flex items-center gap-1">
+              <WatchLaterIcon className="text-[#ADABAB]" />
+              <span className="text-[#000000]/60">22 Apr</span>
+            </div>
+          </React.Suspense>
 
-          <div className="flex items-center gap-1">
-            <Image
-              src="/images/icons/locationIcon.png"
-              width={12.92}
-              height={16.3}
-              alt="comments"
-            />
-            <span>Port Harcourt</span>
-          </div>
+          <React.Suspense
+            fallback={
+              <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+            }
+          >
+            <div className="flex items-center gap-1">
+              <LocationOnIcon className="text-[#ADABAB]" />
+              <span className="text-[#000000]/60">Port Harcourt</span>
+            </div>
+          </React.Suspense>
 
-          <div className="flex items-center gap-1">
-            <Image
-              src="/images/icons/bookmarkIcon.svg"
-              width={12.92}
-              height={16.3}
-              alt="comments"
-            />
-          </div>
+          <React.Suspense
+            fallback={
+              <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+            }
+          >
+            {bookmarked ? (
+              <BookmarkIcon className="text-[#000000]" />
+            ) : (
+              <BookmarkBorderIcon className="text-[#000000]" />
+            )}
+          </React.Suspense>
         </div>
       </div>
     );

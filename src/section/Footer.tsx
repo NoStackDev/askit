@@ -1,7 +1,12 @@
+'use client'
+
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
+
+const LinkedInIcon = React.lazy(() => import("@mui/icons-material/LinkedIn"));
+const FacebookIcon = React.lazy(() => import("@mui/icons-material/Facebook"));
+const TwitterIcon = React.lazy(() => import("@mui/icons-material/Twitter"));
 
 interface Props extends HTMLAttributes<HTMLElement> {}
 
@@ -56,30 +61,33 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
 
           <div className="flex gap-5 items-center mt-6 md:mt-0">
             <Link href="/">
-              <Image
-                src="/images/icons/linkedinIcon.png"
-                height={30}
-                width={30}
-                alt="linkedIn"
-              />
+              <React.Suspense
+                fallback={
+                  <div className="h-[30px] w-[30px] bg-stroke/80 animate-pulse"></div>
+                }
+              >
+                <LinkedInIcon />
+              </React.Suspense>
             </Link>
 
             <Link href="/">
-              <Image
-                src="/images/icons/facebookIcon.png"
-                height={30}
-                width={30}
-                alt="facebook"
-              />
+              <React.Suspense
+                fallback={
+                  <div className="h-[30px] w-[30px] bg-stroke/80 animate-pulse"></div>
+                }
+              >
+                <FacebookIcon />
+              </React.Suspense>
             </Link>
 
             <Link href="/">
-              <Image
-                src="/images/icons/twitterIcon.png"
-                height={30}
-                width={30}
-                alt="twitter"
-              />
+              <React.Suspense
+                fallback={
+                  <div className="h-[30px] w-[30px] bg-stroke/80 animate-pulse"></div>
+                }
+              >
+                <TwitterIcon />
+              </React.Suspense>
             </Link>
           </div>
         </div>
@@ -124,8 +132,12 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
         </div>
 
         <div className="mt-4 mb-6 md:mb-14 flex flex-col md:flex-row items-center md:items-start w-[261px] md:w-full gap-2 md:gap-10">
-          <span className="text-body_1 font-body">© 2023 Askit. All Rights Reserved.</span>
-          <span className="font-body text-sm underline underline-offset-2 hover:cursor-pointer">Privacy Policy</span>
+          <span className="text-body_1 font-body">
+            © 2023 Askit. All Rights Reserved.
+          </span>
+          <span className="font-body text-sm underline underline-offset-2 hover:cursor-pointer">
+            Privacy Policy
+          </span>
         </div>
       </footer>
     );

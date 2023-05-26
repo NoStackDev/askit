@@ -46,37 +46,12 @@ export default function Home() {
       <div className="relative flex md:gap-[92px] md:px-[100px] md:mb-10">
         <div
           className={cn(
-            "absolute -translate-y-20 md:translate-y-0 md:relative -left-full md:left-0 md:mt-14 z-30 md:z-0 transition-all duration-300 ease-in-out",
+            "fixed -translate-y-20 md:translate-y-0 md:relative -left-full md:left-0 md:mt-14 z-30 md:z-0 transition-all duration-300 ease-in-out",
             showSidebar && "left-0"
           )}
           ref={openSidebarRef}
         >
           <Sidebar />
-          {/* <Advertisements className="hidden md:flex">
-            <div className="flex flex-col gap-1">
-              <Image
-                src="/images/pictures/cocacola.png"
-                height={228}
-                width={255}
-                alt="advert"
-              />
-              <span className="self-start font-inter text-[12px] text-[#000000] opacity-50">
-                Sponsored
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <Image
-                src="/images/pictures/yumyum.png"
-                height={228}
-                width={255}
-                alt="advert"
-              />
-              <span className="self-start font-inter text-[12px] text-[#000000] opacity-50">
-                Sponsored
-              </span>
-            </div>
-          </Advertisements> */}
         </div>
 
         <div className="mx-5 my-6 mt-[56px] w-full z-10">
