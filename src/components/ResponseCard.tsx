@@ -95,7 +95,7 @@ const ResponseCard = React.forwardRef<
             </div>
           </div>
 
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-1 items-center hover:cursor-pointer">
             <div className="text-primary font-headline font-bold text-sm">WhatsApp</div>
             <React.Suspense>
                 <NorthEastIcon className="text-primary"/>
