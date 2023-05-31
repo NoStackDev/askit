@@ -44,12 +44,15 @@ const ResponseCard = React.forwardRef<
         className={cn("p-4 bg-black rounded-[20px] w-[344px]", className)}
         {...props}
       >
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-3 items-start">
           {/* <Image  /> */}
           {/* replace with image tag before production */}
-          <div>
-            <div className="w-[92px] h-[92px] bg-[#D9D9D9]"></div>
-          </div>
+          {image && (
+            <div>
+              <div className="w-[92px] h-[92px] bg-[#D9D9D9]"></div>
+            </div>
+          )}
+
           <div className="font-body text-white text-title_3 font-medium">
             {response}
           </div>
@@ -65,7 +68,7 @@ const ResponseCard = React.forwardRef<
               <div className="flex items-center gap-1">
                 <LocationOnIcon className="text-[#A3A1A1] h-[16.3px] w-auto" />
                 <span className="text-grey text-special font-body font-light">
-                  Port Harcourt
+                  {location}
                 </span>
               </div>
             </React.Suspense>
@@ -96,9 +99,11 @@ const ResponseCard = React.forwardRef<
           </div>
 
           <div className="flex gap-1 items-center hover:cursor-pointer">
-            <div className="text-primary font-headline font-bold text-sm">WhatsApp</div>
+            <div className="text-primary font-headline font-bold text-sm">
+              WhatsApp
+            </div>
             <React.Suspense>
-                <NorthEastIcon className="text-primary"/>
+              <NorthEastIcon className="text-primary" />
             </React.Suspense>
           </div>
         </div>

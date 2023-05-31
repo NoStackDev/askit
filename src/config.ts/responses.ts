@@ -27,7 +27,7 @@ export const responsesConfig: Responses[] = [
     id: 1,
     username: "Username",
     avatar: null,
-    image: true,
+    image: false,
     response:
       "Lorem ipsum dolor sit amet consectetur. Eros tristique rhoncus est facilisi. Lectus leo cursus scelerisque pretium mauris purus eget sit. Mi in malesuada dictum risus. Ultricies",
     date: new Date(Date.now()),
@@ -63,7 +63,7 @@ export const responsesConfig: Responses[] = [
     id: 4,
     username: "Username",
     avatar: null,
-    image: true,
+    image: false,
     response:
       "Lorem ipsum dolor sit amet consectetur. Eros tristique rhoncus est facilisi. Lectus leo cursus scelerisque pretium mauris purus eget sit. Mi in malesuada dictum risus. Ultricies",
     date: new Date(Date.now()),
@@ -75,7 +75,7 @@ export const responsesConfig: Responses[] = [
     id: 5,
     username: "Username",
     avatar: null,
-    image: true,
+    image: false,
     response:
       "Lorem ipsum dolor sit amet consectetur. Eros tristique rhoncus est facilisi. Lectus leo cursus scelerisque pretium mauris purus eget sit. Mi in malesuada dictum risus. Ultricies",
     date: new Date(Date.now()),

@@ -12,6 +12,9 @@ const CitySelector = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
+  const aaa = (event: any) => {
+    console.log(event);
+  };
   return (
     <DialogPrimitive.Root>
       <DialogPrimitive.Trigger
@@ -45,6 +48,7 @@ const CitySelector = React.forwardRef<
                     <CheckboxPrimitive.Root
                       className="flex h-5 w-5 appearance-none items-center justify-center rounded-[4px] border-[1px] border-stroke"
                       id={cityConfig.geonameid.toString()}
+                      onSelect={aaa}
                     >
                       <CheckboxPrimitive.Indicator className="">
                         <CheckIcon className="text-stroke" />
