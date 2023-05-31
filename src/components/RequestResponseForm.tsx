@@ -5,11 +5,7 @@ import * as FormPrimitive from "@radix-ui/react-form";
 import FileDragDrop from "./FileDragDrop";
 
 const ImageIcon = React.lazy(() => import("@mui/icons-material/Image"));
-// const FilesDragDrop = React.lazy(() => import("Fil"))
-
-// interface DragEvent<T = Element> extends MouseEvent<T> {
-//   dataTransfer: DataTransfer;
-// }
+const DeleteIcon = React.lazy(() => import("@mui/icons-material/Delete"));
 
 const RequestResponseForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -22,14 +18,17 @@ const RequestResponseForm = React.forwardRef<
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const selectFiles = () => {
+    console.log("clicked to select files");
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
   const onFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("file selected");
     event.preventDefault();
     const files = event.target.files;
+    console.log("file selected: ", files);
     if (!files || files?.length === 0) return;
 
     // for (let i = 0; i < files.length; i++) {
@@ -45,10 +44,12 @@ const RequestResponseForm = React.forwardRef<
     setImages([{ name: files[0].name, url: URL.createObjectURL(files[0]) }]);
   };
 
-  const deleteImage = () => {
-    setImages([])
-  }
+  const deleteImage = (event: MouseEvent) => {
+    event.stopPropagation();
+    setImages([]);
+  };
 
+  console.log("images: ", images);
   return (
     <FormPrimitive.Root className="py-8 flex flex-col items-center bg-white">
       <div className="font-headline text-headline_3 font-bold text-black px-5 pb-2 border-b-[1px] border-grey/20 w-full text-center">
@@ -87,12 +88,22 @@ const RequestResponseForm = React.forwardRef<
             {images.length > 0 ? (
               images.map((image, index) => {
                 return (
-                  <div className="w-[100px] h-[100px]" key={index}>
+                  <div className="relative w-[100px] h-[100px]" key={index}>
                     <img
                       src={image.url}
                       alt={image.name}
-                      className="h-[100px] w-auto"
+                      className="h-[100px] w-fit"
                     />
+                    <React.Suspense
+                      fallback={
+                        <div className="absolute top-0 right-0 w-4 h-4 bg-stroke/80"></div>
+                      }
+                    >
+                      <DeleteIcon
+                        className="absolute top-0 right-0 text-stroke w-4 h-4"
+                        onClick={deleteImage}
+                      />
+                    </React.Suspense>
                   </div>
                 );
               })
@@ -110,8 +121,6 @@ const RequestResponseForm = React.forwardRef<
               ref={fileInputRef}
               onChange={onFileSelect}
             />
-
-            
           </div>
         </FormPrimitive.Control>
 
@@ -119,11 +128,8 @@ const RequestResponseForm = React.forwardRef<
           <FormPrimitive.Label className="font-body text-title_3 font-medium">
             <span>Add Image</span> <span>(optional)</span>
           </FormPrimitive.Label>
-          {/* <FormPrimitive.Message match={"valueMissing"}></FormPrimitive.Message> */}
         </div>
       </FormPrimitive.Field>
-
-      {/* <FileDragDrop /> */}
 
       {/* <FormPrimitive.Submit asChild className="px-5">
         <button>Post question</button>
