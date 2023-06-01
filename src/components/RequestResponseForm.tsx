@@ -140,7 +140,7 @@ const RequestResponseForm = React.forwardRef<
         </FormPrimitive.Submit>
       </div>
 
-      <div className="font-body text-body_3 text-[#000000] mt-3">Only post a response that aligns with this request</div>
+      <div className="font-body text-body_3 text-[#000000] mt-3 px-5">Only post a response that aligns with this request</div>
     </FormPrimitive.Root>
   );
 });
