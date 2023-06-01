@@ -88,6 +88,7 @@ const FileDragDrop = React.forwardRef<
     event.preventDefault();
     setIsDragging(false);
   };
+
   return (
     <div
       className={cn(

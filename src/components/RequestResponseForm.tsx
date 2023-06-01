@@ -2,8 +2,9 @@
 
 import React from "react";
 import * as FormPrimitive from "@radix-ui/react-form";
-import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import FileDragDrop from "./FileDragDrop";
+import VisibilityRadioGroup from "./ui/RequestVisibilityRadioGroup";
+import Button from "./ui/Button";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -38,7 +39,12 @@ const RequestResponseForm = React.forwardRef<
             Comment
           </FormPrimitive.Label>
 
-          <FormPrimitive.Message match={"valueMissing"}></FormPrimitive.Message>
+          <FormPrimitive.Message
+            match={"valueMissing"}
+            className="font-body text-body_3 text-black/80"
+          >
+            comment required
+          </FormPrimitive.Message>
         </div>
 
         <FormPrimitive.Control asChild>
@@ -70,46 +76,71 @@ const RequestResponseForm = React.forwardRef<
         </div>
       </FormPrimitive.Field>
 
-      <FormPrimitive.Field name="location" className="relative h-fit mt-6">
-        <FormPrimitive.Message match={"valueMissing"}></FormPrimitive.Message>
+      <div className="w-full px-4">
+        <FormPrimitive.Field
+          name="location"
+          className="relative h-fit mt-6 w-full flex flex-col"
+        >
+          <FormPrimitive.Message
+            match={"valueMissing"}
+            className="self-end font-body text-body_3 text-black/80"
+          >
+            location required
+          </FormPrimitive.Message>
 
-        <FormPrimitive.Control asChild>
-          <input
-            type="text"
-            placeholder="Your location"
-            className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
-            required
-          />
-        </FormPrimitive.Control>
-        <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
-      </FormPrimitive.Field>
+          <div className="relative h-fit w-full">
+            <FormPrimitive.Control asChild>
+              <input
+                type="text"
+                placeholder="Your location"
+                className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
+                required
+              />
+            </FormPrimitive.Control>
+            <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+          </div>
+        </FormPrimitive.Field>
 
-      <FormPrimitive.Field name="price" className="relative h-fit mt-4">
-        <FormPrimitive.Control asChild>
-          <input
-            type="text"
-            placeholder="Price (optional)"
-            className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
-          />
-        </FormPrimitive.Control>
-        <AttachMoneyIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
-      </FormPrimitive.Field>
+        <FormPrimitive.Field
+          name="price"
+          className="relative h-fit mt-4 w-full"
+        >
+          <FormPrimitive.Control asChild>
+            <input
+              type="text"
+              placeholder="Price (optional)"
+              className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
+            />
+          </FormPrimitive.Control>
+          <AttachMoneyIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+        </FormPrimitive.Field>
 
-      <FormPrimitive.Field name="Whatsapp number" className="relative h-fit mt-4">
-        <FormPrimitive.Control asChild>
-          <input
-            type="text"
-            placeholder="WhatsApp number"
-            className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
-          />
-        </FormPrimitive.Control>
-        <WhatsAppIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
-      </FormPrimitive.Field>
+        <FormPrimitive.Field
+          name="Whatsapp number"
+          className="relative h-fit mt-4 w-full"
+        >
+          <FormPrimitive.Control asChild>
+            <input
+              type="text"
+              placeholder="WhatsApp number"
+              className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
+            />
+          </FormPrimitive.Control>
+          <WhatsAppIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+        </FormPrimitive.Field>
 
+        <VisibilityRadioGroup className="mt-6" />
+      </div>
 
-      {/* <FormPrimitive.Submit asChild className="px-5">
-        <button>Post question</button>
-      </FormPrimitive.Submit> */}
+      <div className="px-4 w-full mt-6 flex items-center justify-center">
+        <FormPrimitive.Submit asChild className="">
+          <Button className="w-full max-w-[315px] py-[6px]">
+            Send Response
+          </Button>
+        </FormPrimitive.Submit>
+      </div>
+
+      <div className="font-body text-body_3 text-[#000000] mt-3">Only post a response that aligns with this request</div>
     </FormPrimitive.Root>
   );
 });

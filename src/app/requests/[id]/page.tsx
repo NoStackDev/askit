@@ -6,7 +6,7 @@ import RequestResponseForm from "@/components/RequestResponseForm";
 
 export default function RequestPage() {
   return (
-    <div className="bg-background md:py-14 md:px-[100px]">
+    <div className="bg-background md:py-14 md:px-[100px] mb-20">
       <div className="md:grid md:grid-cols-[67%_33%] md:gap-5">
         <div>
           <Topbar>Fashion</Topbar>
@@ -17,7 +17,7 @@ export default function RequestPage() {
           <Responses className="mt-8 md:mt-14 mx-[20px] md:mx-0" />
         </div>
 
-        <div className="">
+        <div className="hidden md:block">
           <RequestResponseForm />
         </div>
       </div>
