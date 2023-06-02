@@ -125,7 +125,7 @@ const FileDragDrop = React.forwardRef<
         })
       ) : (
         <React.Suspense>
-          <ImageIcon className="text-stroke w-[28px] h-[28px]" />
+          <ImageIcon className="text-[#000000]/60 w-[28px] h-[28px]" />
         </React.Suspense>
       )}
 

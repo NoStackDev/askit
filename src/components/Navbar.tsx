@@ -13,7 +13,7 @@ const NotificationsIcon = React.lazy(
 );
 
 interface NavProps extends HTMLAttributes<HTMLElement> {
-  handleSidebar: () => void;
+  handleSidebar?: () => void;
   showSidebar: boolean;
 }
 
@@ -85,7 +85,7 @@ const Navbar = React.forwardRef<HTMLElement, NavProps>(
             </div>
           </React.Suspense>
 
-          <Link href="/" className="w-fit h-fit hidden md:block">
+          <Link href="/request/" className="w-fit h-fit hidden md:block">
             <Button className="">Place a Request</Button>
           </Link>
         </div>

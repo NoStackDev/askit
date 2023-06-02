@@ -10,6 +10,7 @@ import useOnClickOutside from "@/hooks/useOnclickOutside";
 import { cn } from "@/lib/utils";
 import Requests from "@/section/Requests";
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState } from "react";
 
 export default function Home() {
@@ -87,14 +88,16 @@ export default function Home() {
         </div>
       </div>
 
-      <Button
-        className={cn(
-          "md:hidden fixed bottom-10 right-5 z-20",
-          showSidebar && "hidden"
-        )}
-      >
-        Place a Request
-      </Button>
+      <Link href="/request/" className="md:hidden h-fit w-fit">
+        <Button
+          className={cn(
+            "md:hidden fixed bottom-10 right-5 z-20",
+            showSidebar && "hidden"
+          )}
+        >
+          Place a Request
+        </Button>
+      </Link>
     </main>
   );
 }

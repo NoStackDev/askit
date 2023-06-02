@@ -1,4 +1,4 @@
-export default function RequestLayout({
+export default function RequestsLayout({
   children,
 }: {
   children: React.ReactNode;
