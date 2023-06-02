@@ -66,6 +66,8 @@ const SelectItem = React.forwardRef<
   );
 });
 
+SelectItem.displayName = "SelectItem"
+
 const Menubar = React.forwardRef<
   React.ElementRef<typeof MenubarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root> & {
@@ -104,3 +106,5 @@ const Menubar = React.forwardRef<
     </MenubarPrimitive.Menu>
   </MenubarPrimitive.Root>
 ));
+
+Menubar.displayName = "Menubar"
