@@ -18,30 +18,30 @@ const UserInfo = React.forwardRef<
     <div
       ref={forwardRef}
       className={cn(
-        "w-full bg-primary py-4 px-5 rounded-[20px] flex flex-col gap-4 justify-center items-center shadow-boxShadow_3 border-[1px] border-black",
+        "w-full bg-primary py-4 px-5 rounded-[20px] flex flex-col items-center shadow-boxShadow_3 border-[1px] border-black max-w-[348px]",
         className
       )}
       {...props}
     >
       <React.Suspense>
-        <PersonIcon className="text-stroke scale-[200%] mt-4 bg-[#D9D9D9] p-[2px] rounded-[50%]" fontSize="large"/>
+        <PersonIcon className="text-stroke scale-[200%] bg-[#D9D9D9] p-[2px] rounded-[50%] mt-4" fontSize="large"/>
       </React.Suspense>
 
-      <div className="flex flex-col gap-1 justify-center mt-4 items-center">
+      <div className="flex flex-col gap-1 justify-center mt-6 items-center">
         <div className="font-headline text-headline_2 font-bold text-white">
           User Name
         </div>
 
         <div className="flex gap-1 text-white font-body text-title_3 font-medium">
           <React.Suspense>
-            <CallIcon className="text-[20px]" />
+            <CallIcon className=""/>
           </React.Suspense>
 
-          <div>08054423423</div>
+          <div className="font-body text-title_3 font-bold">08054423423</div>
         </div>
       </div>
 
-      <div className="flex flex-col gap-1 justify-center items-center">
+      <div className="flex flex-col gap-1 mt-4 justify-center items-center">
         <div className="font-body text-special font-light text-white">
           Business Address
         </div>

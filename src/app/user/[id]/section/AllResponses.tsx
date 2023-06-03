@@ -9,8 +9,7 @@ const AllResponses = React.forwardRef<
 >(({ className, ...props }, forwardRef) => {
   return (
     <div ref={forwardRef} className={cn("", className)} {...props}>
-        <div></div>
-      All Responses
+      <div className="font-headline text-headline_2 font-bold text-white bg-[#48466D] w-fit"> All Responses</div>
     </div>
   );
 });
