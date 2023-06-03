@@ -4,7 +4,7 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/**/*.{js,ts,jsx,tsx,mdx}"
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     colors: {
@@ -34,6 +34,7 @@ module.exports = {
       boxShadow: {
         boxShadow_1: "0px 5px 0px rgba(1, 14, 30, 0.9)",
         boxShadow_2: "0px 4px 0px #191A23",
+        boxShadow_3: "0px 5px 2px 0px #000000",
       },
 
       fontSize: {

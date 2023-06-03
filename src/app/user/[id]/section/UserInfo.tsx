@@ -18,16 +18,16 @@ const UserInfo = React.forwardRef<
     <div
       ref={forwardRef}
       className={cn(
-        "w-full bg-primary py-4 px-5 rounded-[20px] flex flex-col gap-4 justify-center items-center",
+        "w-full bg-primary py-4 px-5 rounded-[20px] flex flex-col gap-4 justify-center items-center shadow-boxShadow_3 border-[1px] border-black",
         className
       )}
       {...props}
     >
       <React.Suspense>
-        <PersonIcon className="text-stroke text-[80px] bg-[#D9D9D9] rounded-[50%] p-2" />
+        <PersonIcon className="text-stroke scale-[200%] mt-4 bg-[#D9D9D9] p-[2px] rounded-[50%]" fontSize="large"/>
       </React.Suspense>
 
-      <div className="flex flex-col gap-1 justify-center items-center">
+      <div className="flex flex-col gap-1 justify-center mt-4 items-center">
         <div className="font-headline text-headline_2 font-bold text-white">
           User Name
         </div>
