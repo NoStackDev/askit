@@ -1,13 +1,13 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Responses from "@/components/Responses";
-import Topbar from "@/components/Topbar";
 import { responsesConfig } from "@/config.ts/responses";
 import React from "react";
 
+const Navbar = React.lazy(() => import("@/components/Navbar"));
+const Topbar = React.lazy(() => import("@/components/Topbar"));
 const UserInfo = React.lazy(() => import("./section/UserInfo"));
-const AllResponses = React.lazy(() => import("./section/AllResponses"));
+const Responses = React.lazy(() => import("@/components/Responses"));
+const FlagIcon = React.lazy(() => import("@mui/icons-material/Flag"));
 
 type Props = {};
 
@@ -16,7 +16,9 @@ const Page = (props: Props) => {
 
   return (
     <div className="">
-      <Navbar showSidebar={showSidebar} />
+      <React.Suspense>
+        <Navbar showSidebar={showSidebar} />
+      </React.Suspense>
 
       <div className="relative bg-background px-5 md:py-10 md:px-[100px] mb-20">
         <Topbar className="">Seller Details</Topbar>
@@ -27,7 +29,17 @@ const Page = (props: Props) => {
           </React.Suspense>
 
           <React.Suspense>
-            <Responses title="All Response" responses={responsesConfig} className="mt-[90px]"/>
+            <Responses
+              title="All Response"
+              responses={responsesConfig.slice(0, 4)}
+              className="mt-[90px]"
+              otherText="Report User"
+              otherIcon={
+                <React.Suspense>
+                  <FlagIcon className="text-stroke"/>
+                </React.Suspense>
+              }
+            />
           </React.Suspense>
         </div>
       </div>

@@ -18,7 +18,7 @@ const UserInfo = React.forwardRef<
     <div
       ref={forwardRef}
       className={cn(
-        "w-full bg-primary py-4 px-5 rounded-[20px] flex flex-col items-center shadow-boxShadow_3 border-[1px] border-black max-w-[348px]",
+        "w-full bg-primary py-4 px-5 rounded-[20px] flex flex-col items-center shadow-boxShadow_3 border-[1px] border-black max-w-[348px] h-fit",
         className
       )}
       {...props}
@@ -62,7 +62,7 @@ const UserInfo = React.forwardRef<
         </div>
       </div>
 
-      <div className="w-full flex flex-col items-center justify-center gap-4">
+      <div className="w-full flex flex-col items-center justify-center gap-4 mt-14">
         <button className="relative w-full bg-white rounded p-3 flex">
           <React.Suspense>
             <ContactMailIcon className="absolute top-1/2 -translate-y-1/2 left-3 text-black" />

@@ -35,7 +35,7 @@ export default function RequestsPage() {
             </div>
             <Responses
               title="Responses (4)"
-              icon={
+              titleIcon={
                 <React.Suspense
                   fallback={
                     <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>

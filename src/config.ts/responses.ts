@@ -1,5 +1,5 @@
 type Responses = {
-  id: number;
+  userId: number;
   username: string;
   avatar: null | string;
   image?: boolean;
@@ -12,7 +12,7 @@ type Responses = {
 
 export const responsesConfig: Responses[] = [
   {
-    id: 0,
+    userId: 0,
     username: "Username",
     avatar: null,
     image: true,
@@ -24,7 +24,7 @@ export const responsesConfig: Responses[] = [
     whatsappLink: "/",
   },
   {
-    id: 1,
+    userId: 1,
     username: "Username",
     avatar: null,
     image: false,
@@ -36,7 +36,7 @@ export const responsesConfig: Responses[] = [
     whatsappLink: "/",
   },
   {
-    id: 2,
+    userId: 2,
     username: "Username",
     avatar: null,
     image: true,
@@ -48,7 +48,7 @@ export const responsesConfig: Responses[] = [
     whatsappLink: "/",
   },
   {
-    id: 3,
+    userId: 3,
     username: "Username",
     avatar: null,
     image: true,
@@ -60,7 +60,7 @@ export const responsesConfig: Responses[] = [
     whatsappLink: "/",
   },
   {
-    id: 4,
+    userId: 4,
     username: "Username",
     avatar: null,
     image: false,
@@ -72,7 +72,7 @@ export const responsesConfig: Responses[] = [
     whatsappLink: "/",
   },
   {
-    id: 5,
+    userId: 5,
     username: "Username",
     avatar: null,
     image: false,

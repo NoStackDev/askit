@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const LocationOnIcon = React.lazy(
@@ -11,6 +12,7 @@ const NorthEastIcon = React.lazy(() => import("@mui/icons-material/NorthEast"));
 const ResponseCard = React.forwardRef<
   React.ElementRef<"div">,
   React.HTMLAttributes<HTMLDivElement> & {
+    userId: number;
     username: string;
     avatar: null | string;
     image?: boolean;
@@ -25,7 +27,7 @@ const ResponseCard = React.forwardRef<
     {
       children,
       className,
-      id,
+      userId,
       username,
       avatar,
       image,
@@ -90,12 +92,16 @@ const ResponseCard = React.forwardRef<
                 <div className="mt-[26px] text-stroke animate-pulse h-6 w-6 rounded-full"></div>
               }
             >
-              <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center" />
+              <Link href={`/user/${userId}/`}>
+                <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer" />
+              </Link>
             </React.Suspense>
 
-            <div className="font-headline font-bold text-white">
-              {username ? username : "Username"}
-            </div>
+            <Link href={`/user/${userId}/`}>
+              <div className="font-headline font-bold text-white hover:cursor-pointer">
+                {username ? username : "Username"}
+              </div>
+            </Link>
           </div>
 
           <div className="flex gap-1 items-center hover:cursor-pointer">
