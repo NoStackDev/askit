@@ -26,7 +26,7 @@ module.exports = {
       },
 
       gridTemplateColumns: {
-        "r-cards": "repeat(auto-fit, minmax(300px, 1fr))",
+        "r-cards": "repeat(auto-fit, minmax(344px, 1fr))",
       },
 
       backgroundImage: {

@@ -1,5 +1,5 @@
 type Request = {
-  id: number;
+  requestId: number;
   image?: boolean;
   description: string;
   moreDetail: null | string;
@@ -11,7 +11,7 @@ type Request = {
 
 export const requestsConfig: Request[] = [
   {
-    id: 0,
+    requestId: 0,
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
@@ -23,7 +23,7 @@ export const requestsConfig: Request[] = [
     bookmarked: false,
   },
   {
-    id: 1,
+    requestId: 1,
     image: false,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",
@@ -34,7 +34,7 @@ export const requestsConfig: Request[] = [
     bookmarked: false,
   },
   {
-    id: 2,
+    requestId: 2,
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
@@ -45,7 +45,7 @@ export const requestsConfig: Request[] = [
     bookmarked: false,
   },
   {
-    id: 3,
+    requestId: 3,
     image: false,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",
@@ -56,7 +56,7 @@ export const requestsConfig: Request[] = [
     bookmarked: false,
   },
   {
-    id: 4,
+    requestId: 4,
     image: false,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",
@@ -68,7 +68,7 @@ export const requestsConfig: Request[] = [
     bookmarked: false,
   },
   {
-    id: 5,
+    requestId: 5,
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
@@ -80,7 +80,7 @@ export const requestsConfig: Request[] = [
     bookmarked: false,
   },
   {
-    id: 6,
+    requestId: 6,
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
@@ -91,7 +91,7 @@ export const requestsConfig: Request[] = [
     bookmarked: false,
   },
   {
-    id: 7,
+    requestId: 7,
     image: false,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",
@@ -102,7 +102,7 @@ export const requestsConfig: Request[] = [
     bookmarked: false,
   },
   {
-    id: 8,
+    requestId: 8,
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
@@ -113,7 +113,7 @@ export const requestsConfig: Request[] = [
     bookmarked: false,
   },
   {
-    id: 9,
+    requestId: 9,
     image: true,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius.",
@@ -124,7 +124,7 @@ export const requestsConfig: Request[] = [
     bookmarked: false,
   },
   {
-    id: 10,
+    requestId: 10,
     image: false,
     description:
       "Lorem ipsum dolor sit amet consectetur. In malesuada fringilla molestie dis sapien posuere porttitor. Varius vitae mauris felis sem turpis turpis eu sed.",

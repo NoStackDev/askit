@@ -2,13 +2,15 @@
 
 import DealsCard from "@/components/DealsCard";
 import Navbar from "@/components/Navbar";
+import PageNumbers from "@/components/PageNumbers";
+import Requests from "@/components/Requests";
 import RequestsFilter from "@/components/RequestsFilter";
 import Searchbox from "@/components/Searchbox";
 import Sidebar from "@/components/Sidebar";
 import Button from "@/components/ui/Button";
+import { requestsConfig } from "@/config.ts/requests";
 import useOnClickOutside from "@/hooks/useOnclickOutside";
 import { cn } from "@/lib/utils";
-import Requests from "@/section/Requests";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -84,7 +86,17 @@ export default function Home() {
             </div>
           </div>
 
-          <Requests className="mt-4 md:mt-8" />
+          <Requests requests={requestsConfig} className="mt-4 md:mt-8" />
+
+          <div className="w-full flex flex-col items-center justify-center">
+            <Button variant="outlined" className="mt-6 md:mt-14 w-[255px]">
+              Next Page
+            </Button>
+          </div>
+
+          <div>
+            <PageNumbers totalPages={10} currentPage={1} className="mt-6" />
+          </div>
         </div>
       </div>
 
