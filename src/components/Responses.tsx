@@ -66,7 +66,7 @@ const Responses = React.forwardRef<
           ) : null}
         </div>
 
-        <div className="mt-6 flex flex-col md:flex-row md:flex-wrap items-center gap-6 md:items-start">
+        <div className="mt-6 flex flex-col md:grid md:grid-cols-r-cards w-full gap-6">
           {responses.map((response) => {
             return <ResponseCard key={response.userId} {...response} />;
           })}

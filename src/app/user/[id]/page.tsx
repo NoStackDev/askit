@@ -23,7 +23,7 @@ const Page = (props: Props) => {
       <div className="relative bg-background px-5 md:py-10 md:px-[100px] mb-20">
         <Topbar className="">Seller Details</Topbar>
 
-        <div className="md:grid md:grid-cols-[32fr_68fr] gap-6">
+        <div className="flex flex-col md:grid md:grid-cols-[348px_1fr] gap-6">
           <React.Suspense>
             <UserInfo className="mt-10" />
           </React.Suspense>

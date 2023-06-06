@@ -21,7 +21,7 @@ export default function RequestsPage() {
       <Navbar showSidebar={showSidebar} className="sticky top-0" />
 
       <div className="relative bg-background md:py-14 md:px-[100px] mb-20">
-        <div className="md:grid md:grid-cols-[67%_33%] md:gap-5">
+        <div className="flex flex-col md:grid md:grid-cols-[1fr_348px] md:gap-5">
           <div>
             <Topbar>Fashion</Topbar>
             <RequestImgDetail />

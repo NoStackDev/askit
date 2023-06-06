@@ -43,7 +43,7 @@ const ResponseCard = React.forwardRef<
     return (
       <div
         ref={ref}
-        className={cn("p-4 bg-black rounded-[20px] w-[344px]", className)}
+        className={cn("p-4 bg-black rounded-[20px]", className)}
         {...props}
       >
         <div className="flex gap-3 items-start">

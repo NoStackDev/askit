@@ -25,6 +25,10 @@ module.exports = {
         inter: ["var(--font-inter)"],
       },
 
+      gridTemplateColumns: {
+        "r-cards": "repeat(auto-fit, minmax(344px, 1fr))",
+      },
+
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
