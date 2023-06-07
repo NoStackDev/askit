@@ -12,8 +12,10 @@ const WhatsApp = React.lazy(() => import("@mui/icons-material/WhatsApp"));
 
 const UserInfo = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div">
->(({ className, ...props }, forwardRef) => {
+  React.ComponentPropsWithoutRef<"div"> & {
+    variant?: "profile";
+  }
+>(({ className, variant, ...props }, forwardRef) => {
   return (
     <div
       ref={forwardRef}
@@ -24,7 +26,10 @@ const UserInfo = React.forwardRef<
       {...props}
     >
       <React.Suspense>
-        <PersonIcon className="text-stroke scale-[200%] bg-[#D9D9D9] p-[2px] rounded-[50%] mt-4" fontSize="large"/>
+        <PersonIcon
+          className="text-stroke scale-[200%] bg-[#D9D9D9] p-[2px] rounded-[50%] mt-4"
+          fontSize="large"
+        />
       </React.Suspense>
 
       <div className="flex flex-col gap-1 justify-center mt-6 items-center">
@@ -34,7 +39,7 @@ const UserInfo = React.forwardRef<
 
         <div className="flex gap-1 text-white font-body text-title_3 font-medium">
           <React.Suspense>
-            <CallIcon className=""/>
+            <CallIcon className="" />
           </React.Suspense>
 
           <div className="font-body text-title_3 font-bold">08054423423</div>
@@ -63,17 +68,21 @@ const UserInfo = React.forwardRef<
       </div>
 
       <div className="w-full flex flex-col items-center justify-center gap-4 mt-14">
-        <button className="relative w-full bg-white rounded p-3 flex">
-          <React.Suspense>
-            <ContactMailIcon className="absolute top-1/2 -translate-y-1/2 left-3 text-black" />
-          </React.Suspense>
-          <div className="w-full text-center font-headline font-bold text-headline_3">
-            Send me an email
-          </div>
-        </button>
+        {variant === "profile" ? null : (
+          <button className="relative w-full bg-white rounded p-3 flex">
+            <React.Suspense>
+              <ContactMailIcon className="absolute top-1/2 -translate-y-1/2 left-3 text-black" />
+            </React.Suspense>
+            <div className="w-full text-center font-headline font-bold text-headline_3">
+              Send me an email
+            </div>
+          </button>
+        )}
 
         <div className="font-body text-title_3 font-medium text-center text-white">
-          or check me on social media
+          {variant === "profile"
+            ? "My social media links"
+            : "or check me on social media"}
         </div>
 
         <div className="flex gap-6">

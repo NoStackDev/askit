@@ -19,62 +19,25 @@ const Responses = React.forwardRef<
       price: number;
       whatsappLink: string;
     }[];
-    title?: string;
-    titleIcon?: React.ReactNode;
-    otherText?: string;
-    otherIcon?: React.ReactNode;
+    variant?: "user";
   }
->(
-  (
-    {
-      className,
-      children,
-      title,
-      titleIcon,
-      otherText,
-      otherIcon,
-      responses,
-      ...props
-    },
-    ref
-  ) => {
-    return (
-      <div ref={ref} className={cn("", className)}>
-        <div className="flex justify-between items-center">
-          {titleIcon || title ? (
-            <div className="bg-secondary w-fit flex gap-[10px] p-2 items-center">
-              {titleIcon ? titleIcon : null}
-
-              {title ? (
-                <div className="font-headline text-white text-headline_2 font-bold">
-                  {title}
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-
-          {otherIcon || otherText ? (
-            <div className="w-fit flex gap-[10px] p-2 items-center hover:cursor-pointer">
-              {otherIcon ? otherIcon : null}
-
-              {otherText ? (
-                <div className="font-body text-black/80 text-title_3 font-medium">
-                  {otherText}
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-
-        <div className="mt-6 flex flex-col md:grid md:grid-cols-r-cards w-full gap-6">
-          {responses.map((response) => {
-            return <ResponseCard key={response.userId} {...response} />;
-          })}
-        </div>
+>(({ className, children, responses, variant, ...props }, ref) => {
+  return (
+    <div ref={ref} className={cn("", className)}>
+      <div className="mt-6 flex flex-col md:grid md:grid-cols-r-cards w-full gap-6">
+        {responses.map((response) => {
+          return (
+            <ResponseCard
+              key={response.userId}
+              {...response}
+              variant={variant}
+            />
+          );
+        })}
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 Responses.displayName = "Responses";
 

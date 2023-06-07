@@ -33,20 +33,26 @@ export default function RequestsPage() {
                 Respond to Request
               </Button>
             </div>
-            <Responses
-              title="Responses (4)"
-              titleIcon={
-                <React.Suspense
-                  fallback={
-                    <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
-                  }
-                >
-                  <CommentsIcon className="text-white" />
-                </React.Suspense>
-              }
-              responses={responsesConfig}
-              className="mt-8 md:mt-14 mx-[20px] md:mx-0"
-            />
+
+            <div className="flex flex-col items-center justify-center h-fit w-fit mt-8 md:mt-14 mx-[20px] md:mx-0">
+              <div className="flex justify-between items-start w-full">
+                <div className="bg-secondary w-fit flex gap-[10px] p-2 items-center">
+                  <React.Suspense
+                    fallback={
+                      <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+                    }
+                  >
+                    <CommentsIcon className="text-white" />
+                  </React.Suspense>
+
+                  <div className="font-headline text-white text-headline_2 font-bold">
+                    Responses (4)
+                  </div>
+                </div>
+              </div>
+
+              <Responses responses={responsesConfig} />
+            </div>
           </div>
 
           <div className="hidden md:block absolute md:relative before:content-[''] before:w-screen before:h-screen before:bg-[red]">

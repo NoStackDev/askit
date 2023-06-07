@@ -8,6 +8,7 @@ const LocationOnIcon = React.lazy(
 );
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
 const NorthEastIcon = React.lazy(() => import("@mui/icons-material/NorthEast"));
+const DeleteIcon = React.lazy(() => import("@mui/icons-material/Delete"));
 
 const ResponseCard = React.forwardRef<
   React.ElementRef<"div">,
@@ -21,6 +22,7 @@ const ResponseCard = React.forwardRef<
     location: string;
     price: number;
     whatsappLink: string;
+    variant?: "user";
   }
 >(
   (
@@ -36,6 +38,7 @@ const ResponseCard = React.forwardRef<
       location,
       price,
       whatsappLink,
+      variant,
       ...props
     },
     ref
@@ -43,7 +46,11 @@ const ResponseCard = React.forwardRef<
     return (
       <div
         ref={ref}
-        className={cn("p-4 bg-black rounded-[20px]", className)}
+        className={cn(
+          "p-4 bg-black rounded-[20px]",
+          variant === "user" && "bg-[#191A23]",
+          className
+        )}
         {...props}
       >
         <div className="flex gap-3 items-start">
@@ -85,34 +92,44 @@ const ResponseCard = React.forwardRef<
           </div>
         </div>
 
-        <div className="flex items-end h-fit justify-between">
-          <div className="flex items-end h-fit gap-2">
-            <React.Suspense
-              fallback={
-                <div className="mt-[26px] text-stroke animate-pulse h-6 w-6 rounded-full"></div>
-              }
-            >
+        {variant === "user" ? null : (
+          <div className="flex items-end h-fit justify-between">
+            <div className="flex items-end h-fit gap-2">
+              <React.Suspense
+                fallback={
+                  <div className="mt-[26px] text-stroke animate-pulse h-6 w-6 rounded-full"></div>
+                }
+              >
+                <Link href={`/user/${userId}/`}>
+                  <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer" />
+                </Link>
+              </React.Suspense>
+
               <Link href={`/user/${userId}/`}>
-                <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer" />
+                <div className="font-headline font-bold text-white hover:cursor-pointer">
+                  {username ? username : "Username"}
+                </div>
               </Link>
-            </React.Suspense>
-
-            <Link href={`/user/${userId}/`}>
-              <div className="font-headline font-bold text-white hover:cursor-pointer">
-                {username ? username : "Username"}
-              </div>
-            </Link>
-          </div>
-
-          <div className="flex gap-1 items-center hover:cursor-pointer">
-            <div className="text-primary font-headline font-bold text-sm">
-              WhatsApp
             </div>
+
+            <div className="flex gap-1 items-center hover:cursor-pointer">
+              <div className="text-primary font-headline font-bold text-sm">
+                WhatsApp
+              </div>
+              <React.Suspense>
+                <NorthEastIcon className="text-primary" />
+              </React.Suspense>
+            </div>
+          </div>
+        )}
+
+        {variant === "user" ? (
+          <div>
             <React.Suspense>
-              <NorthEastIcon className="text-primary" />
+              <DeleteIcon />
             </React.Suspense>
           </div>
-        </div>
+        ) : null}
       </div>
     );
   }
