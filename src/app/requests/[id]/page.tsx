@@ -6,7 +6,6 @@ import Responses from "../../../components/Responses";
 import Button from "@/components/ui/Button";
 import RequestResponseForm from "@/components/RequestResponseForm";
 import React from "react";
-import Navbar from "@/components/Navbar1";
 import { responsesConfig } from "@/config.ts/responses";
 
 const CommentsIcon = React.lazy(() => import("@mui/icons-material/Quickreply"));

@@ -2,10 +2,8 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Space_Grotesk, Space_Mono } from "next/font/google";
-import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-// import Navbar from "@/components/Navbar1";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
