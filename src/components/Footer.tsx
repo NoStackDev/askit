@@ -17,7 +17,7 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
       <footer
         ref={ref}
         className={cn(
-          "bg-black rounded-tl-[20px] rounded-tr-[20px] md:mx-[100px] px-[66px] py-6 md:scroll-py-10 flex flex-col items-center text-white",
+          "bg-black rounded-tl-[20px] rounded-tr-[20px] md:mx-[100px] px-10 py-6 md:pt-10 flex flex-col items-center text-white",
           className
         )}
         {...props}
@@ -36,30 +36,30 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
           <div className="flex flex-col md:flex-row gap-4 md:gap-14 mt-7 md:mt-0 items-center">
             <Link
               href="/"
-              className="text-white font-body font-medium text-base underline underline-offset-2 h-fit w-fit"
+              className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
             >
               About us
             </Link>
 
             <Link
-              href="/"
-              className="text-white font-body font-medium text-base underline underline-offset-2 h-fit w-fit"
+              href="/FAQ"
+              className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
             >
-              Enterprise
+              FAQ
             </Link>
 
             <Link
-              href="/"
-              className="text-white font-body font-medium text-base underline underline-offset-2 h-fit w-fit"
+              href="/request"
+              className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
             >
-              Agent
+              Place a Request
             </Link>
 
             <Link
-              href="/"
-              className="text-white font-body font-medium text-base underline underline-offset-2 h-fit w-fit"
+              href="/safety"
+              className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
             >
-              Promotion
+              Safety Hints
             </Link>
           </div>
 
@@ -96,17 +96,17 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col items-center md:w-full gap-4 border-b-[1px] border-white border-opacity-30 pb-5">
-          <div className="text-headline_3 font-headline font-bold bg-[#48466D] md:self-start">
+        <div className="mt-8 flex flex-col items-center md:w-full pb-4 gap-4 border-b-[1px] border-white border-opacity-30">
+          <div className="text-[16px] font-headline font-bold bg-[#48466D] md:self-start">
             Contact us
           </div>
 
-          <div className="flex flex-col md:flex-row md:w-full gap-4 md:gap-14 items-center md:items-start">
+          <div className="flex flex-col md:flex-row md:w-full gap-4 md:gap-0 md:justify-between items-center md:items-start">
             <div className="flex flex-col items-center md:items-start gap-1">
               <span className="text-title_3 font-body font-medium opacity-60">
                 Address
               </span>
-              <span className="w-[266px] text-body_1 font-body text-center md:text-justify">
+              <span className="text-body_3 font-body text-center md:text-justify">
                 No.5 Vincent Opara street, off G-estate, Asaba, Delta State,
                 Nigeria
               </span>
@@ -116,7 +116,7 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
               <span className="text-title_3 font-body font-medium opacity-60">
                 Email
               </span>
-              <span className="w-[266px] text-body_1 font-body text-center md:text-justify">
+              <span className="text-body_3 font-body text-center md:text-justify">
                 Admin.askit@gmail.com
               </span>
             </div>
@@ -125,22 +125,24 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
               <span className="text-title_3 font-body font-medium opacity-60">
                 Phone
               </span>
-              <span className="w-[266px] text-body_1 font-body text-center md:text-justify">
-                +234 803 4565 915
-              </span>
-              <span className="w-[266px] text-body_1 font-body text-center md:text-justify">
-                +234 803 4565 915
-              </span>
+              <div className="flex flex-col md:flex-row gap-4">
+                <span className="text-body_3 font-body text-center md:text-justify">
+                  +234 803 4565 915
+                </span>
+                <span className="text-body_3 font-body text-center md:text-justify">
+                  +234 803 4565 915
+                </span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-4 mb-6 md:mb-14 flex flex-col md:flex-row items-center md:items-start w-[261px] md:w-full gap-2 md:gap-10">
-          <span className="text-body_1 font-body">
+        <div className="mt-4 flex flex-col md:flex-row items-center md:items-start w-[261px] md:w-full gap-2 md:gap-10">
+          <span className="text-body_3 font-body">
             © 2023 Askit. All Rights Reserved.
           </span>
-          <span className="font-body text-sm underline underline-offset-2 hover:cursor-pointer">
-            Privacy Policy
+          <span className="font-body text-special underline underline-offset-2 hover:cursor-pointer">
+            Terms & Privacy Policy
           </span>
         </div>
       </footer>
