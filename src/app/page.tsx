@@ -1,12 +1,10 @@
 "use client";
 
 import DealsCard from "@/components/DealsCard";
-import Navbar from "@/components/Navbar1";
 import PageNumbers from "@/components/PageNumbers";
 import Requests from "@/components/Requests";
 import RequestsFilter from "@/components/RequestsFilter";
 import Searchbox from "@/components/Searchbox";
-import Sidebar from "@/components/Sidebar";
 import Button from "@/components/ui/Button";
 import { requestsConfig } from "@/config.ts/requests";
 import useOnClickOutside from "@/hooks/useOnclickOutside";
