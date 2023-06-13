@@ -1,6 +1,7 @@
-'use client'
+"use client";
 
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
 
@@ -23,10 +24,13 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
       >
         <div className="flex flex-col md:flex-row md:justify-between w-full items-center">
           <Link href="/" className="max-w-fit flex gap-2 items-center">
-            <div className="w-6 h-6 bg-primary"></div>
-            <span className="font-headline text-headline_2 font-bold">
-              AskIt
-            </span>
+            <Image
+              src="/images/pictures/logo.png"
+              width={115}
+              height={32}
+              alt="logo"
+              className=""
+            />
           </Link>
 
           <div className="flex flex-col md:flex-row gap-4 md:gap-14 mt-7 md:mt-0 items-center">

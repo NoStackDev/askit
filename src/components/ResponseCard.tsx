@@ -126,8 +126,9 @@ const ResponseCard = React.forwardRef<
         {variant === "user" ? (
           <div>
             <React.Suspense>
-              <DeleteIcon />
+              <DeleteIcon className="text-white" />
             </React.Suspense>
+            &#edit_square
           </div>
         ) : null}
       </div>

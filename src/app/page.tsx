@@ -1,7 +1,7 @@
 "use client";
 
 import DealsCard from "@/components/DealsCard";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar1";
 import PageNumbers from "@/components/PageNumbers";
 import Requests from "@/components/Requests";
 import RequestsFilter from "@/components/RequestsFilter";
@@ -30,30 +30,7 @@ export default function Home() {
 
   return (
     <main className="relative">
-      <div
-        className={cn(
-          "fixed top-0 h-0 w-screen bg-black/5 backdrop-blur-sm z-20 overflow-hidden transition-all duration-[600ms] ease-in-out md:!hidden",
-          showSidebar && "h-screen"
-        )}
-      ></div>
-
-      <Navbar
-        showSidebar={showSidebar}
-        handleSidebar={handleSidebar}
-        className="sticky top-0"
-      />
-
-      <div className="relative flex md:gap-[92px] md:px-[100px] md:mb-10">
-        <div
-          className={cn(
-            "fixed -translate-y-20 md:translate-y-0 md:relative -left-full md:left-0 md:mt-14 z-30 md:z-0 transition-all duration-300 ease-in-out",
-            showSidebar && "left-0"
-          )}
-          ref={openSidebarRef}
-        >
-          <Sidebar />
-        </div>
-
+      <div className="relative flex md:gap-[92px] md:mb-10">
         <div className="mx-5 my-6 mt-[56px] w-full z-10">
           <Searchbox className="md:hidden" />
 

@@ -1,8 +1,11 @@
 import Footer from "@/components/Footer";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { Space_Grotesk } from "next/font/google";
-import { Space_Mono } from "next/font/google";
+import { Space_Grotesk, Space_Mono } from "next/font/google";
+import Head from "next/head";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+// import Navbar from "@/components/Navbar1";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -21,6 +24,8 @@ const space_grotest = Space_Grotesk({
 export const metadata = {
   title: "AskIt",
   description: "Post or purchase products and services anonymously",
+  StyleSheet:
+    "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0",
 };
 
 export default function RootLayout({
@@ -31,9 +36,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} min-h-screen bg-background`}
+        className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} min-h-screen`}
       >
-        {children}
+        <Navbar />
+        <div className="bg-background md:px-[100px] md:flex">
+          <Sidebar />
+          {children}
+        </div>
         <Footer />
       </body>
     </html>

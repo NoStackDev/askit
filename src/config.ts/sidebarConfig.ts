@@ -48,13 +48,13 @@ export const sidebarConfig: sidebarItem[] = [
   {
     id: "myRequests",
     title: "My Requests",
-    href: "/myrequests",
+    href: "/myRequests",
     children: null,
   },
   {
     id: "saved",
     title: "Saved",
-    href: "/saved",
+    href: "/savedRequests",
     children: null,
   },
   {

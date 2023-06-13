@@ -7,31 +7,54 @@ import { usePathname } from "next/navigation";
 import { sidebarConfig } from "@/config.ts/sidebarConfig";
 import { sidebarItem } from "@/types";
 
-const ChevronRight = React.lazy(() => import('@mui/icons-material/ChevronRight'))
+const ChevronRight = React.lazy(
+  () => import("@mui/icons-material/ChevronRight")
+);
+
+const renderInPage = [
+  "",
+  "profile",
+  "savedRequests",
+  "myRequests",
+  "notification",
+];
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const Sidebar = React.forwardRef<HTMLDivElement, Props>(
   ({ children, className, ...props }, ref) => {
     const path = usePathname();
+    const pathUrl = path.split("/")[1];
+    let renderSidebar: string | undefined | boolean = renderInPage.find(
+      (urlSplit) => urlSplit === pathUrl
+    );
+    renderSidebar = renderSidebar === "" ? true : Boolean(renderSidebar);
 
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "rounded-[20px] px-5 py-10 bg-black text-white mb-10 min-w-[255px]",
-          className
-        )}
-        {...props}
-      >
-        <ol className="font-body text-title_1 font-medium flex flex-col gap-5">
-          {sidebarConfig.map((sidebarEle) => {
-            return (
-              <SidebarItem item={sidebarEle} path={path} key={sidebarEle.id} />
-            );
-          })}
-        </ol>
-      </div>
+      <>
+        {renderSidebar ? (
+          <div
+            ref={ref}
+            className={cn(
+              "rounded-[20px] px-5 py-10 bg-[#2E2775] text-white mb-10 min-w-[255px] h-fit md:mt-14",
+              className
+            )}
+            {...props}
+          >
+            <ol className="font-body text-title_1 font-medium flex flex-col gap-5">
+              {sidebarConfig.map((sidebarEle) => {
+                return (
+                  <SidebarItem
+                    item={sidebarEle}
+                    path={path}
+                    key={sidebarEle.id}
+                  />
+                );
+              })}
+            </ol>
+          </div>
+        ) : null}
+      </>
     );
   }
 );
