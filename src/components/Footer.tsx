@@ -23,7 +23,7 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
           <footer
             ref={ref}
             className={cn(
-              "bg-black rounded-tl-[20px] rounded-tr-[20px] md:mx-[100px] px-10 py-6 md:pt-10 flex flex-col items-center text-white",
+              "bg-black rounded-tl-[20px] rounded-tr-[20px] md:mx-[100px] px-8 py-6 md:pt-10 flex flex-col items-center text-white",
               className
             )}
             {...props}
@@ -39,9 +39,9 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
                 />
               </Link>
 
-              <div className="flex flex-col md:flex-row gap-4 md:gap-14 mt-7 md:mt-0 items-center">
+              <div className="flex gap-3 md:gap-14 mt-7 md:mt-0 items-center">
                 <Link
-                  href="/"
+                  href="/about"
                   className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
                 >
                   About us

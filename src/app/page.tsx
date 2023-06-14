@@ -74,17 +74,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      <Link href="/request/" className="md:hidden h-fit w-fit">
-        <Button
-          className={cn(
-            "md:hidden fixed bottom-10 right-5 z-20",
-            showSidebar && "hidden"
-          )}
-        >
-          Place a Request
-        </Button>
-      </Link>
     </main>
   );
 }

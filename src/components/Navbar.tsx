@@ -28,7 +28,7 @@ export default function Navbar({}: Props) {
   return (
     <nav
       className={cn(
-        "p-4 md:px-[100px] sticky flex justify-between md:grid grid-cols-3 bg-white items-center z-30"
+        "p-4 md:px-[100px] sticky top-0 flex justify-between md:grid grid-cols-3 bg-white items-center z-30"
       )}
     >
       <Link href="/" className="max-w-fit flex gap-2 items-center">

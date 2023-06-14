@@ -36,7 +36,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
           <div
             ref={ref}
             className={cn(
-              "rounded-[20px] px-5 py-10 bg-[#2E2775] text-white mb-10 min-w-[255px] h-fit md:mt-14 md:ml-[100px]",
+              "hidden md:block rounded-[20px] px-5 py-10 bg-[#2E2775] text-white mb-10 min-w-[255px] h-fit md:mt-14 md:ml-[100px]",
               className
             )}
             {...props}
