@@ -3,10 +3,7 @@
 import React from "react";
 import * as FormPrimitive from "@radix-ui/react-form";
 import FileDragDrop from "./FileDragDrop";
-import VisibilityRadioGroup from "./ui/RequestVisibilityRadioGroup";
 import Button from "./ui/Button";
-import FormCategory from "./ui/FormCategory";
-import Menubar from "./ui/Menubar";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -15,8 +12,6 @@ const RequestForm = React.forwardRef<
   const [images, setImages] = React.useState<{ name: string; url: string }[]>(
     []
   );
-
-  console.log("images: ", images);
 
   return (
     <FormPrimitive.Root className="py-10 flex flex-col items-center bg-white">

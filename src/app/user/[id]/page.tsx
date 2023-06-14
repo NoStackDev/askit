@@ -14,7 +14,7 @@ const Page = (props: Props) => {
   const [showSidebar, setShowSidebar] = React.useState(false);
 
   return (
-    <div className="relative bg-background px-5 md:px-0 md:py-10 mb-20">
+    <div className="md:mx-[100px] relative bg-background px-5 md:py-10 mb-20">
       <React.Suspense>
         <Topbar className="">Seller Details</Topbar>
       </React.Suspense>

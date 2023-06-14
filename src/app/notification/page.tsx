@@ -24,7 +24,7 @@ type NotificationItemProps = {
 
 function NotificationItem({ title, read }: NotificationItemProps) {
   return (
-    <div className="w-full p-4 border border-stroke bg-faded rounded-[14px] shadow-boxShadow_5 flex justify-start gap-4">
+    <div className="w-full p-4 border border-stroke bg-faded rounded-[14px] md:mr-[100px] shadow-boxShadow_5 flex justify-start gap-4">
       <div
         className={cn(
           "h-6 w-6",

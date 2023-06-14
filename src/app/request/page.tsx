@@ -8,7 +8,7 @@ type Props = {};
 
 export default function RequestPage({}: Props) {
   return (
-    <div className="bg-background">
+    <div className="bg-background md:mr-[100px]">
       <div className="relative bg-background md:py-10 md:px-[284px] mb-20">
         {/* <Topbar className="hidden md:flex">Place a Request</Topbar> */}
         <Topbar className="">Place a Request</Topbar>

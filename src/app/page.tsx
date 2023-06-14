@@ -27,7 +27,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative">
+    <main className="relative md:mr-[100px]">
       <div className="relative flex md:gap-[92px] md:mb-10">
         <div className="mx-5 my-6 mt-[56px] w-full z-10">
           <Searchbox className="md:hidden" />

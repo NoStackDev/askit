@@ -34,10 +34,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} min-h-screen`}
+        className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} min-h-screen overflow-hidden`}
       >
         <Navbar />
-        <div className="bg-background md:px-[100px] md:flex">
+        <div className="bg-background md:flex">
           <Sidebar />
           {children}
         </div>

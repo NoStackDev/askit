@@ -16,14 +16,19 @@ const NotificationsIcon = React.lazy(
 
 type Props = {};
 
+const onlyRenderLogo = ["login"];
+
 export default function Navbar({}: Props) {
   const path = usePathname();
   const pathUrl = path.split("/")[1];
+  let renderOnlyLogo = Boolean(
+    onlyRenderLogo.find((urlSplit) => urlSplit === pathUrl)
+  );
 
   return (
     <nav
       className={cn(
-        "p-4 md:px-[100px] flex justify-between md:grid grid-cols-3 bg-white items-center z-30"
+        "p-4 md:px-[100px] sticky flex justify-between md:grid grid-cols-3 bg-white items-center z-30"
       )}
     >
       <Link href="/" className="max-w-fit flex gap-2 items-center">
@@ -35,71 +40,75 @@ export default function Navbar({}: Props) {
         />
       </Link>
 
-      <Searchbox className="hidden md:block w-full row-start-2 col-span-3 md:row-start-1 md:col-start-2 md:col-span-1" />
+      {renderOnlyLogo ? null : (
+        <>
+          <Searchbox className="hidden md:block w-full row-start-2 col-span-3 md:row-start-1 md:col-start-2 md:col-span-1" />
 
-      <div className="flex items-center gap-6 justify-end">
-        <Link href="/notification" className="inline-flex rounded">
-          <React.Suspense
-            fallback={
-              <div className="h-10 w-10 bg-background rounded animate-pulse"></div>
-            }
-          >
-            <div
-              className={cn(
-                "h-10 w-10 bg-background rounded flex items-center justify-center",
-                pathUrl === "notification" && "border border-secondary"
-              )}
+          <div className="flex items-center gap-6 justify-end">
+            <Link href="/notification" className="inline-flex rounded">
+              <React.Suspense
+                fallback={
+                  <div className="h-10 w-10 bg-background rounded animate-pulse"></div>
+                }
+              >
+                <div
+                  className={cn(
+                    "h-10 w-10 bg-background rounded flex items-center justify-center",
+                    pathUrl === "notification" && "border border-secondary"
+                  )}
+                >
+                  <NotificationsIcon
+                    className={cn(
+                      "text-stroke",
+                      pathUrl === "notification" && "text-secondary"
+                    )}
+                  />
+                </div>
+              </React.Suspense>
+            </Link>
+
+            <Link href="/profile" className="inline-flex rounded">
+              <React.Suspense
+                fallback={
+                  <div className="h-10 w-10 bg-background rounded animate-pulse"></div>
+                }
+              >
+                <div
+                  className={cn(
+                    "h-10 w-10 bg-background rounded flex items-center justify-center",
+                    pathUrl === "profile" && "border border-secondary"
+                  )}
+                >
+                  <PersonIcon
+                    className={cn(
+                      "text-stroke",
+                      pathUrl === "profile" && "text-secondary"
+                    )}
+                  />
+                </div>
+              </React.Suspense>
+            </Link>
+
+            <React.Suspense
+              fallback={
+                <div className="h-10 w-10 bg-background rounded animate-pulse"></div>
+              }
             >
-              <NotificationsIcon
+              <div
                 className={cn(
-                  "text-stroke",
-                  pathUrl === "notification" && "text-secondary"
+                  "md:hidden h-10 w-10 bg-background rounded flex items-center justify-center"
                 )}
-              />
-            </div>
-          </React.Suspense>
-        </Link>
+              >
+                <HamburgerMenu className="text-stroke" />
+              </div>
+            </React.Suspense>
 
-        <Link href="/profile" className="inline-flex rounded">
-          <React.Suspense
-            fallback={
-              <div className="h-10 w-10 bg-background rounded animate-pulse"></div>
-            }
-          >
-            <div
-              className={cn(
-                "h-10 w-10 bg-background rounded flex items-center justify-center",
-                pathUrl === "profile" && "border border-secondary"
-              )}
-            >
-              <PersonIcon
-                className={cn(
-                  "text-stroke",
-                  pathUrl === "profile" && "text-secondary"
-                )}
-              />
-            </div>
-          </React.Suspense>
-        </Link>
-
-        <React.Suspense
-          fallback={
-            <div className="h-10 w-10 bg-background rounded animate-pulse"></div>
-          }
-        >
-          <div
-            className={cn(
-              "md:hidden h-10 w-10 bg-background rounded flex items-center justify-center"
-            )}
-          >
-            <HamburgerMenu className="text-stroke" />
+            <Link href="/request/" className="w-fit h-fit hidden md:block">
+              <Button className="">Place a Request</Button>
+            </Link>
           </div>
-        </React.Suspense>
-
-        <Link href="/request/" className="w-fit h-fit hidden md:block">
-          <Button className="">Place a Request</Button>
-        </Link>
-      </div>
+        </>
+      )}
     </nav>
   );
 }

@@ -12,7 +12,7 @@ type Props = {};
 const Page = (props: Props) => {
 
   return (
-    <div className="relative bg-background md:mt-14 md:mb-10 md:ml-[112px]">
+    <div className="relative bg-background md:mt-14 md:mb-10 md:ml-[112px] md:mr-[100px]">
       <div className="flex items-center justify-between w-full mx-[20px] md:mx-0">
         <div className="bg-secondary w-fit flex gap-[10px] p-2 items-center font-headline text-white text-headline_2 font-bold">
           Profile
