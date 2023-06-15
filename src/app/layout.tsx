@@ -37,19 +37,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} min-h-screen`}
+        className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} min-h-screen bg-background`}
       >
         <Navbar />
-        <Link href="/request/" className="md:hidden h-fit w-fit">
-          <Button className={cn("md:hidden fixed bottom-10 right-5 z-20")}>
-            Place a Request
-          </Button>
-        </Link>
         <div className="bg-background md:flex">
           <Sidebar />
-          <div className="">{children}</div>
+          <div className="w-full">{children}</div>
         </div>
-        <Footer />
+        <Footer className="" />
       </body>
     </html>
   );

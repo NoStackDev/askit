@@ -20,7 +20,7 @@ const UserInfo = React.forwardRef<
     <div
       ref={forwardRef}
       className={cn(
-        "w-full bg-primary py-4 px-5 rounded-[20px] flex flex-col items-center shadow-boxShadow_3 border-[1px] border-black max-w-[348px] h-fit",
+        "w-full bg-primary py-4 px-5 rounded-[20px] flex flex-col items-center shadow-boxShadow_3 border-[1px] border-black md:max-w-[348px] h-fit",
         className
       )}
       {...props}
@@ -59,8 +59,8 @@ const UserInfo = React.forwardRef<
       </div>
 
       <div className="mt-10 flex flex-col gap-2 text-white">
-        <div className="font-headline font-bold text-title_3">ABOUT ME</div>
-        <div className="font-body text-title_1 font-medium">
+        <div className="font-headline font-bold text-title_3 w-full text-center">WHAT I DO</div>
+        <div className="font-body text-title_1 font-medium text-center">
           Lorem ipsum dolor sit amet consectetur. In malesuada fringilla
           molestie dis sapien posuere porttitor. Varius vitae mauris felis sem
           turpis turpis eu sed.
@@ -69,11 +69,11 @@ const UserInfo = React.forwardRef<
 
       <div className="w-full flex flex-col items-center justify-center gap-4 mt-14">
         {variant === "profile" ? null : (
-          <button className="relative w-full bg-white rounded p-3 flex">
+          <button className="relative w-full bg-white rounded p-3 h-10 flex items-center">
             <React.Suspense>
               <ContactMailIcon className="absolute top-1/2 -translate-y-1/2 left-3 text-black" />
             </React.Suspense>
-            <div className="w-full text-center font-headline font-bold text-headline_3">
+            <div className=" absolute top-1/2 -translate-y-[45%] left-1/2 -translate-x-1/2 w-full text-center font-headline font-bold text-headline_3">
               Send me an email
             </div>
           </button>

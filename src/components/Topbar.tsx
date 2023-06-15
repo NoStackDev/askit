@@ -35,7 +35,7 @@ const Topbar = React.forwardRef<
 
       <div
         className={cn(
-          "font-headline text-headline_2 md:text-headline_2 justify-self-center font-bold text-white"
+          "font-headline text-headline_2 justify-self-center font-bold text-white"
         )}
       >
         {children}

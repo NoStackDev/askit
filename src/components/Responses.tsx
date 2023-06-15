@@ -23,8 +23,8 @@ const Responses = React.forwardRef<
   }
 >(({ className, children, responses, variant, ...props }, ref) => {
   return (
-    <div ref={ref} className={cn("", className)}>
-      <div className="mt-6 flex flex-col md:grid md:grid-cols-r-cards w-full gap-6">
+    <div ref={ref} className={cn("w-full", className)}>
+      <div className="flex flex-col md:grid md:grid-cols-r-cards w-full gap-6">
         {responses.map((response) => {
           return (
             <ResponseCard

@@ -12,7 +12,7 @@ const PageNumbers = React.forwardRef<
   return (
     <div
       ref={forwardRef}
-      className={cn("flex items-center justify-center gap-4", className)}
+      className={cn("flex items-center justify-center gap-6", className)}
       {...prop}
     >
       <div

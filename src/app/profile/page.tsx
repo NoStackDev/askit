@@ -10,10 +10,9 @@ const EditIcon = React.lazy(() => import("@mui/icons-material/Edit"));
 type Props = {};
 
 const Page = (props: Props) => {
-
   return (
-    <div className="relative bg-background md:mt-14 md:mb-10 md:ml-[112px] md:mr-[100px]">
-      <div className="flex items-center justify-between w-full mx-[20px] md:mx-0">
+    <main className="relative bg-background px-[20px] md:px-0 pb-20 md:pb-0 md:mt-14 md:mb-10 md:ml-[112px] md:mr-[100px]">
+      <div className="flex items-center justify-between w-full mt-10 md:mt-0 md:mx-0">
         <div className="bg-secondary w-fit flex gap-[10px] p-2 items-center font-headline text-white text-headline_2 font-bold">
           Profile
         </div>
@@ -41,15 +40,14 @@ const Page = (props: Props) => {
 
           <React.Suspense>
             <Responses
-              title="ALL Response"
               responses={responsesConfig.slice(0, 4)}
-              className="grid grid-cols-r-cards"
+              className="mt-6"
               variant="user"
             />
           </React.Suspense>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

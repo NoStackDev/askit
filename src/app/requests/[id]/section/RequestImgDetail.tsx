@@ -26,7 +26,7 @@ const RequestImgDetail = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "bg-[#ffffff] py-2 px-[20px] flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-[20px]",
+        "bg-[#ffffff] pb-2 px-[20px] md:pl-0 md:pr-[20px] flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-[20px]",
         className
       )}
       {...props}
@@ -40,7 +40,7 @@ const RequestImgDetail = React.forwardRef<
       />
 
       <div>
-        <div>
+        <div className="mt-4">
           <div className="font-body text-title_1 font-medium text-left">
             Lorem ipsum dolor sit amet consectetur. In malesuada fringilla
             molestie dis sapien posuere porttitor. Varius vitae mauris felis sem
@@ -48,6 +48,15 @@ const RequestImgDetail = React.forwardRef<
           </div>
 
           <div className="mt-[19px] md:mt-3 flex items-center gap-4">
+            <div className="flex gap-1 items-center">
+              <div className="font-body text-special text-[#000000] font-light h-full">
+                Location needed:
+              </div>
+              <div className="font-body text-special text-[#000000] font-medium">
+                Port Harcourt
+              </div>
+            </div>
+
             <div>
               <React.Suspense
                 fallback={
@@ -55,19 +64,12 @@ const RequestImgDetail = React.forwardRef<
                 }
               >
                 <div className="flex items-center gap-1">
-                  <WatchLaterIcon className="text-[#ADABAB]" />
-                  <span className="text-[#000000]/60">22 Apr</span>
+                  <WatchLaterIcon className="text-[#ADABAB]" fontSize="small" />
+                  <span className="text-[#000000]/60 font-body text-special">
+                    22 Apr
+                  </span>
                 </div>
               </React.Suspense>
-            </div>
-
-            <div className="flex gap-1 items-center">
-              <div className="font-body text-[12px] text-[#000000]/60 font-light h-full">
-                Location needed:
-              </div>
-              <div className="font-body text-title_3 text-[#000000] font-medium">
-                Port Harcourt
-              </div>
             </div>
           </div>
 
@@ -82,7 +84,7 @@ const RequestImgDetail = React.forwardRef<
             </div>
           </div>
 
-          <div className="mt-7 md:mt-11 flex items-center justify-between md:justify-start md:gap-10">
+          <div className="mt-7 md:mt-11 flex items-center justify-between md:gap-10">
             <div className="flex items-center gap-1">
               <React.Suspense
                 fallback={
@@ -96,46 +98,48 @@ const RequestImgDetail = React.forwardRef<
               </div>
             </div>
 
-            <div className="flex items-center gap-1 hover:cursor-pointer">
-              <React.Suspense
-                fallback={
-                  <div className="w-[18px] h-4 bg-stroke/80 animate-pulse"></div>
-                }
-              >
-                <FlagIcon className="text-black" />
-              </React.Suspense>
-              <div className="text-title_3 font-body font-medium text-black">
-                Report
+            <div className="flex gap-3 md:gap-10 items-center">
+              <div className="flex items-center gap-1 hover:cursor-pointer">
+                <React.Suspense
+                  fallback={
+                    <div className="w-[18px] h-4 bg-stroke/80 animate-pulse"></div>
+                  }
+                >
+                  <FlagIcon className="text-black" />
+                </React.Suspense>
+                <div className="text-title_3 font-body font-medium text-black">
+                  Report
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center gap-1 hover:cursor-pointer">
-              <React.Suspense
-                fallback={
-                  <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
-                }
-              >
-                {bookmarked ? (
-                  <BookmarkIcon className="text-[#000000]" />
-                ) : (
-                  <BookmarkBorderIcon className="text-[#000000]" />
-                )}
-              </React.Suspense>
-              <div className="text-title_3 font-body font-medium text-black">
-                Save
+              <div className="flex items-center gap-1 hover:cursor-pointer">
+                <React.Suspense
+                  fallback={
+                    <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+                  }
+                >
+                  {bookmarked ? (
+                    <BookmarkIcon className="text-[#000000]" />
+                  ) : (
+                    <BookmarkBorderIcon className="text-[#000000]" />
+                  )}
+                </React.Suspense>
+                <div className="text-title_3 font-body font-medium text-black">
+                  Save
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center gap-1 hover:cursor-pointer">
-              <React.Suspense
-                fallback={
-                  <div className="w-[18px] h-5 bg-stroke/80 animate-pulse"></div>
-                }
-              >
-                <ShareIcon className="text-primary" />
-              </React.Suspense>
-              <div className="text-title_3 font-body font-medium text-primary">
-                Share
+              <div className="flex items-center gap-1 hover:cursor-pointer">
+                <React.Suspense
+                  fallback={
+                    <div className="w-[18px] h-5 bg-stroke/80 animate-pulse"></div>
+                  }
+                >
+                  <ShareIcon className="text-black" />
+                </React.Suspense>
+                <div className="text-title_3 font-body font-medium text-black">
+                  Share
+                </div>
               </div>
             </div>
           </div>

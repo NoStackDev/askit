@@ -47,7 +47,7 @@ const ResponseCard = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "p-4 bg-black rounded-[20px]",
+          "p-4 bg-secondary rounded-[20px] h-fit",
           variant === "user" && "bg-[#191A23]",
           className
         )}
@@ -88,7 +88,7 @@ const ResponseCard = React.forwardRef<
           </div>
 
           <div className="text-title_3 font-body font-medium text-white">
-            N{price.toString()}
+            N{price.toLocaleString()}
           </div>
         </div>
 
@@ -106,14 +106,14 @@ const ResponseCard = React.forwardRef<
               </React.Suspense>
 
               <Link href={`/user/${userId}/`}>
-                <div className="font-headline font-bold text-white hover:cursor-pointer">
+                <div className="font-headline font-bold text-body_2 text-white hover:cursor-pointer">
                   {username ? username : "Username"}
                 </div>
               </Link>
             </div>
 
             <div className="flex gap-1 items-center hover:cursor-pointer">
-              <div className="text-primary font-headline font-bold text-sm">
+              <div className="text-primary font-headline text-body_2 font-bold text-sm">
                 WhatsApp
               </div>
               <React.Suspense>

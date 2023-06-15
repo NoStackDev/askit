@@ -9,6 +9,8 @@ const buttonVariants = cva("inline-flex items-center justify-center", {
         "p-3 bg-primary rounded-[14px] font-body font-medium text-title_2 md:text-title_1 text-white",
       outlined:
         "px-[55px] py-[10px] rounded-lg border-[1px] border-primary text-title_3 font-body font-medium text-primary w-fit hover:bg-primary hover:text-white",
+      outlined2:
+        "w-full rounded-lg border-[1px] border-primary text-title_3 font-body font-medium text-primary w-fit hover:bg-primary hover:text-white",
     },
   },
   defaultVariants: {

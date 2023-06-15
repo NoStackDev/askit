@@ -27,17 +27,14 @@ const FileDragDrop = React.forwardRef<
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const selectFiles = () => {
-    console.log("clicked to select files");
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
   const onFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("file selected");
     event.preventDefault();
     const files = event.target.files;
-    console.log("file selected: ", files);
     if (!files || files?.length === 0) return;
 
     // for (let i = 0; i < files.length; i++) {
@@ -56,14 +53,12 @@ const FileDragDrop = React.forwardRef<
   const deleteImage = (event: MouseEvent) => {
     event.stopPropagation();
     setImages([]);
-    console.log("deleted image");
   };
 
   const onDrop = (event: DragEvent) => {
     event.preventDefault();
     setIsDragging(false);
     const files = event.dataTransfer.files;
-    console.log("sssssssss: ", files);
 
     // for (let i = 0; i < files.length; i++) {
     //   if (files[i].type.split("/")[0] !== "image") continue;

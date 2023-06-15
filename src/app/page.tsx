@@ -27,27 +27,32 @@ export default function Home() {
   };
 
   return (
-    <main className="relative md:mr-[100px]">
+    <main className="relative md:mr-[100px] md:ml-[60px]">
       <div className="relative flex md:gap-[92px] md:mb-10">
-        <div className="mx-5 my-6 mt-[56px] w-full z-10">
+        <div className="mx-5 my-6 mt-[24px] md:mt-[56px] w-full z-10">
           <Searchbox className="md:hidden" />
 
-          <DealsCard className="md:hidden mt-5">
-            <Image
-              src="/images/pictures/deals.png"
-              width={352}
-              height={113}
-              alt="deals"
-            />
-          </DealsCard>
+          <div className="flex gap-6 md:grid md:grid-cols-[75%_25%]">
+            <DealsCard className="mt-5 md:mt-0 w-full">
+              <Image
+                src="/images/pictures/deals.png"
+                width={540}
+                height={174}
+                alt="deals"
+                className="w-full h-auto max-h-[250px]"
+              />
+            </DealsCard>
 
-          <div className="hidden md:grid grid-cols-[77%_23%] gap-[30px]">
-            <div className="bg-[#D1D9DE] rounded-[20px] h-[174px] flex justify-center items-center font-headline text-headline_1 font-bold text-white">
-              Latests Requests
-            </div>
-
-            <div className="font-inter text-[24px] text-[#000000] flex justify-center items-center text-center bg-[#48466D]">
-              Make a Request
+            <div className="hidden md:flex md:flex-col w-full border stroke-secondary rounded-xl bg-white items-center px-3 justify-between">
+              <div className="mt-4 font-headline font-bold text-headline_3 text-secondary text-center">
+                Don’t Search Aimlessly
+              </div>
+              <div className="font-body font-light text-special text-black">
+                for whatever you want!
+              </div>
+              <Link href="/request" className="w-full mb-[14px]">
+                <Button variant="outlined2" className="w-full py-[5px]">Request for it</Button>
+              </Link>
             </div>
           </div>
 
@@ -64,7 +69,7 @@ export default function Home() {
           <Requests requests={requestsConfig} className="mt-4 md:mt-8" />
 
           <div className="w-full flex flex-col items-center justify-center">
-            <Button variant="outlined" className="mt-6 md:mt-14 w-[255px]">
+            <Button variant="outlined" className="mt-12 md:mt-14 w-[255px]">
               Next Page
             </Button>
           </div>
@@ -74,6 +79,12 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <Link href="/request/" className="md:hidden h-fit w-fit">
+        <Button className={cn("md:hidden fixed bottom-10 right-5 z-20")}>
+          Place a Request
+        </Button>
+      </Link>
     </main>
   );
 }

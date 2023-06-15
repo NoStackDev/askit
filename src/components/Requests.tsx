@@ -6,8 +6,8 @@ import Link from "next/link";
 import React, { HTMLAttributes } from "react";
 
 const Requests = React.forwardRef<
-  React.ElementRef<"section">,
-  React.ComponentPropsWithoutRef<"section"> & {
+  React.ElementRef<"div">,
+  React.ComponentPropsWithoutRef<"div"> & {
     requests: {
       requestId: number;
       image?: boolean;
@@ -21,12 +21,12 @@ const Requests = React.forwardRef<
   }
 >(({ children, className, requests, ...props }, ref) => {
   return (
-    <section
-      ref={ref}
-      className={cn("flex flex-col items-center", className)}
-      {...props}
-    >
-      <div className="flex flex-col gap-6 md:grid md:grid-cols-r-cards md:gap-x-5 gap-y-6">
+      <div
+        ref={ref}
+        className="flex flex-col gap-6 md:grid md:grid-cols-r-cards md:gap-x-5 gap-y-6"
+        {...props}
+        {...props}
+      >
         {requests.map((request) => {
           return (
             <Link
@@ -45,7 +45,6 @@ const Requests = React.forwardRef<
           );
         })}
       </div>
-    </section>
   );
 });
 

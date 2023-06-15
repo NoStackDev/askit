@@ -14,7 +14,7 @@ const Page = (props: Props) => {
   const [showSidebar, setShowSidebar] = React.useState(false);
 
   return (
-    <div className="md:mx-[100px] relative bg-background px-5 md:py-10 mb-20">
+    <main className="md:mx-[100px] relative bg-background px-5 md:py-10 mb-20">
       <React.Suspense>
         <Topbar className="">Seller Details</Topbar>
       </React.Suspense>
@@ -24,9 +24,9 @@ const Page = (props: Props) => {
           <UserInfo className="mt-10" />
         </React.Suspense>
 
-        <div className="flex flex-col items-center justify-center h-fit w-fit mt-8 md:mt-14 mx-[20px] md:mx-0">
+        <div className="flex flex-col items-center justify-center h-fit w-full mt-8 md:mt-14">
           <div className="flex justify-between items-start w-full">
-            <div className="bg-secondary w-fit flex gap-[10px] p-2 items-center font-headline text-white text-headline_2 font-bold">
+            <div className="bg-secondary w-fit flex gap-[10px] p-2 items-center font-headline text-white text-headline_3 md:text-headline_2 font-bold">
               All Response
             </div>
 
@@ -43,13 +43,13 @@ const Page = (props: Props) => {
 
           <React.Suspense>
             <Responses
-              title="ALL Response"
               responses={responsesConfig.slice(0, 4)}
+              className="mt-6"
             />
           </React.Suspense>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -42,7 +42,7 @@ const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
       <div
         ref={ref}
         className={cn(
-          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 p-4 hover:cursor-pointer hover:border-black hover:scale-[1.01] transition-transform duration-100",
+          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 p-4 hover:cursor-pointer hover:border-black hover:scale-[1.01] transition-transform duration-100 h-fit",
           className
         )}
         {...props}
@@ -63,38 +63,42 @@ const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
         </div>
 
         <div className="flex justify-between pt-4">
-          <React.Suspense
-            fallback={
-              <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
-            }
-          >
-            <div className="flex items-center gap-1">
-              <CommentsIcon className="text-primary" />
-              <span>16</span>
-            </div>
-          </React.Suspense>
+          <div className="flex gap-3">
+            <React.Suspense
+              fallback={
+                <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+              }
+            >
+              <div className="flex items-center gap-1">
+                <CommentsIcon className="text-secondary" fontSize="small" />
+                <span className="text-secondary font-body font-medium text-title_3">
+                  16
+                </span>
+              </div>
+            </React.Suspense>
 
-          <React.Suspense
-            fallback={
-              <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
-            }
-          >
-            <div className="flex items-center gap-1">
-              <WatchLaterIcon className="text-[#ADABAB]" />
-              <span className="text-[#000000]/60">22 Apr</span>
-            </div>
-          </React.Suspense>
+            <React.Suspense
+              fallback={
+                <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+              }
+            >
+              <div className="flex items-center gap-1">
+                <WatchLaterIcon className="text-[#ADABAB]" fontSize="small"/>
+                <span className="text-[#000000]/60 font-body text-special">22 Apr</span>
+              </div>
+            </React.Suspense>
 
-          <React.Suspense
-            fallback={
-              <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
-            }
-          >
-            <div className="flex items-center gap-1">
-              <LocationOnIcon className="text-[#ADABAB]" />
-              <span className="text-[#000000]/60">Port Harcourt</span>
-            </div>
-          </React.Suspense>
+            <React.Suspense
+              fallback={
+                <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+              }
+            >
+              <div className="flex items-center gap-1">
+                <LocationOnIcon className="text-[#ADABAB]" fontSize="small"/>
+                <span className="text-[#000000]/60 font-body text-special">Port Harcourt</span>
+              </div>
+            </React.Suspense>
+          </div>
 
           <React.Suspense
             fallback={
@@ -102,9 +106,9 @@ const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
             }
           >
             {bookmarked ? (
-              <BookmarkIcon className="text-[#000000]" />
+              <BookmarkIcon className="text-primary" />
             ) : (
-              <BookmarkBorderIcon className="text-[#000000]" />
+              <BookmarkBorderIcon className="text-primary" />
             )}
           </React.Suspense>
         </div>
