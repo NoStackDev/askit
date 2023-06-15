@@ -4,9 +4,7 @@ import { Inter } from "next/font/google";
 import { Space_Grotesk, Space_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import Button from "@/components/ui/Button";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -23,7 +21,7 @@ const space_grotest = Space_Grotesk({
 });
 
 export const metadata = {
-  title: "AskIt",
+  title: "AskCenta",
   description: "Post or purchase products and services anonymously",
   StyleSheet:
     "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0",

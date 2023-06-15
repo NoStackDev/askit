@@ -21,30 +21,29 @@ const Requests = React.forwardRef<
   }
 >(({ children, className, requests, ...props }, ref) => {
   return (
-      <div
-        ref={ref}
-        className="flex flex-col gap-6 md:grid md:grid-cols-r-cards md:gap-x-5 gap-y-6"
-        {...props}
-        {...props}
-      >
-        {requests.map((request) => {
-          return (
-            <Link
-              href={`/requests/${request.requestId}`}
-              key={request.requestId}
-            >
-              <RequestCard
-                image={request.image}
-                description={request.description}
-                commentCount={request.commentCount}
-                date={request.date}
-                location={request.location}
-                bookmarked={request.bookmarked}
-              />
-            </Link>
-          );
-        })}
-      </div>
+    <div
+      ref={ref}
+      className={cn(
+        "flex flex-col gap-6 md:grid md:grid-cols-r-cards md:gap-x-5 gap-y-6",
+        className
+      )}
+      {...props}
+    >
+      {requests.map((request) => {
+        return (
+          <Link href={`/requests/${request.requestId}`} key={request.requestId}>
+            <RequestCard
+              image={request.image}
+              description={request.description}
+              commentCount={request.commentCount}
+              date={request.date}
+              location={request.location}
+              bookmarked={request.bookmarked}
+            />
+          </Link>
+        );
+      })}
+    </div>
   );
 });
 
