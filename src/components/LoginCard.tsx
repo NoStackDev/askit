@@ -26,7 +26,7 @@ const LoginCard = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "bg-[#F3F3F3] pt-10 pb-6 px-4 z-20 h-fit rounded-[20px] shadow-boxShadow_6 border-[4px] border-black w-[342px] flex flex-col items-center",
+        "bg-[#F3F3F3] pt-4 pb-6 px-4 z-20 h-fit rounded-[20px] shadow-boxShadow_6 border-[4px] border-black w-[342px] flex flex-col items-center",
         className
       )}
       {...props}
@@ -42,9 +42,9 @@ const LoginCard = React.forwardRef<
       ) : null}
 
       {renderLogin ? (
-        <LoginForm className="mt-10" />
+        <LoginForm className="mt-4" />
       ) : (
-        <SignUpForm className="mt-14" />
+        <SignUpForm className="mt-4" />
       )}
 
       <div className="mt-8">
@@ -92,7 +92,7 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
   return (
     <FormPrimitive.Root className={cn("flex flex-col gap-6 w-full", className)}>
       <FormPrimitive.Field name="name">
-        <div className="flex items-baseline justify-between">
+        <div className="flex items-baseline justify-end h-3">
           <FormPrimitive.Message
             match={"valueMissing"}
             className="font-body text-body_3 text-black/80"
@@ -101,26 +101,27 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
           </FormPrimitive.Message>
         </div>
 
-        <FormPrimitive.Control asChild className="w-full">
-          <div className="h-fit w-fit flex rounded border-[2px] border-stroke">
-            <React.Suspense>
-              <PersonIcon
-                className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
-                fontSize="large"
-              />
-            </React.Suspense>
+        <div className="h-fit w-full flex rounded border-[2px] border-stroke">
+          <React.Suspense>
+            <PersonIcon
+              className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
+              fontSize="large"
+            />
+          </React.Suspense>
+
+          <FormPrimitive.Control asChild className="w-full">
             <input
               type="text"
               placeholder="Your Names"
               className="pl-3 py-[6px] w-full font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
             />
-          </div>
-        </FormPrimitive.Control>
+          </FormPrimitive.Control>
+        </div>
       </FormPrimitive.Field>
 
       <FormPrimitive.Field name="email">
-        <div className="flex items-baseline justify-between">
+        <div className="flex items-baseline justify-end h-3 mb-1">
           <FormPrimitive.Message
             match={"valueMissing"}
             className="font-body text-body_3 text-black/80"
@@ -129,26 +130,27 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
           </FormPrimitive.Message>
         </div>
 
-        <FormPrimitive.Control asChild className="w-full">
-          <div className="h-fit w-fit flex rounded border-[2px] border-stroke">
-            <React.Suspense>
-              <MailIcon
-                className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
-                fontSize="large"
-              />
-            </React.Suspense>
+        <div className="h-fit w-full flex rounded border-[2px] border-stroke">
+          <React.Suspense>
+            <MailIcon
+              className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
+              fontSize="large"
+            />
+          </React.Suspense>
+
+          <FormPrimitive.Control asChild className="w-full">
             <input
               type="text"
               placeholder="Email"
               className="pl-3 py-[6px] w-full font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
             />
-          </div>
-        </FormPrimitive.Control>
+          </FormPrimitive.Control>
+        </div>
       </FormPrimitive.Field>
 
       <FormPrimitive.Field name="Password">
-        <div className="flex items-baseline justify-between">
+        <div className="flex items-baseline justify-end h-3 mb-1">
           <FormPrimitive.Message
             match={"valueMissing"}
             className="font-body text-body_3 text-black/80"
@@ -157,22 +159,23 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
           </FormPrimitive.Message>
         </div>
 
-        <FormPrimitive.Control asChild className="w-full">
-          <div className="h-fit w-fit flex rounded border-[2px] border-stroke">
-            <React.Suspense>
-              <LockIcon
-                className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
-                fontSize="large"
-              />
-            </React.Suspense>
+        <div className="h-fit w-full flex rounded border-[2px] border-stroke">
+          <React.Suspense>
+            <LockIcon
+              className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
+              fontSize="large"
+            />
+          </React.Suspense>
+
+          <FormPrimitive.Control asChild className="w-full">
             <input
               type="text"
               placeholder="Create Password"
               className="pl-3 w-full py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
             />
-          </div>
-        </FormPrimitive.Control>
+          </FormPrimitive.Control>
+        </div>
       </FormPrimitive.Field>
 
       <div className="w-full h-fit flex items-center justify-center">
@@ -188,7 +191,7 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
   return (
     <FormPrimitive.Root className={cn("flex flex-col gap-6 w-full", className)}>
       <FormPrimitive.Field name="email">
-        <div className="flex items-baseline justify-between">
+        <div className="flex items-baseline justify-end h-3 mb-1">
           <FormPrimitive.Message
             match={"valueMissing"}
             className="font-body text-body_3 text-black/80"
@@ -197,26 +200,27 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
           </FormPrimitive.Message>
         </div>
 
-        <FormPrimitive.Control asChild className="w-full">
-          <div className="h-fit w-fit rounded border-[2px] border-stroke flex">
-            <React.Suspense>
-              <MailIcon
-                className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
-                fontSize="large"
-              />
-            </React.Suspense>
+        <div className="h-fit w-full rounded border-[2px] border-stroke flex">
+          <React.Suspense>
+            <MailIcon
+              className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
+              fontSize="large"
+            />
+          </React.Suspense>
+
+          <FormPrimitive.Control asChild className="w-full">
             <input
               type="text"
               placeholder="Email"
               className="pl-3 py-[6px] w-full font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
             />
-          </div>
-        </FormPrimitive.Control>
+          </FormPrimitive.Control>
+        </div>
       </FormPrimitive.Field>
 
       <FormPrimitive.Field name="Password">
-        <div className="flex items-baseline justify-between">
+        <div className="flex items-baseline justify-end h-3 mb-1">
           <FormPrimitive.Message
             match={"valueMissing"}
             className="font-body text-body_3 text-black/80"
@@ -225,22 +229,23 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
           </FormPrimitive.Message>
         </div>
 
-        <FormPrimitive.Control asChild className="w-full">
-          <div className="h-fit w-fit flex rounded border-[2px] border-stroke">
-            <React.Suspense>
-              <LockIcon
-                className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
-                fontSize="large"
-              />
-            </React.Suspense>
+        <div className="h-fit w-full flex rounded border-[2px] border-stroke">
+          <React.Suspense>
+            <LockIcon
+              className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
+              fontSize="large"
+            />
+          </React.Suspense>
+
+          <FormPrimitive.Control asChild className="w-full">
             <input
               type="text"
               placeholder="Create Password"
               className="pl-3 py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60 w-full"
               required
             />
-          </div>
-        </FormPrimitive.Control>
+          </FormPrimitive.Control>
+        </div>
       </FormPrimitive.Field>
 
       <div className="w-full h-fit flex items-center justify-center">
