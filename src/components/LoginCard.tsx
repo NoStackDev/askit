@@ -104,7 +104,10 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
         <FormPrimitive.Control asChild className="w-full">
           <div className="h-fit w-fit rounded border-[2px] border-stroke">
             <React.Suspense>
-              <PersonIcon className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]" />
+              <PersonIcon
+                className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
+                fontSize="large"
+              />
             </React.Suspense>
             <input
               type="text"
@@ -129,7 +132,10 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
         <FormPrimitive.Control asChild className="w-full">
           <div className="h-fit w-fit rounded border-[2px] border-stroke">
             <React.Suspense>
-              <MailIcon className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]" />
+              <MailIcon
+                className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
+                fontSize="large"
+              />
             </React.Suspense>
             <input
               type="text"
@@ -154,7 +160,10 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
         <FormPrimitive.Control asChild className="w-full">
           <div className="h-fit w-fit rounded border-[2px] border-stroke">
             <React.Suspense>
-              <LockIcon className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]" />
+              <LockIcon
+                className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
+                fontSize="large"
+              />
             </React.Suspense>
             <input
               type="text"
@@ -180,7 +189,6 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
     <FormPrimitive.Root className={cn("flex flex-col gap-6 w-full", className)}>
       <FormPrimitive.Field name="email">
         <div className="flex items-baseline justify-between">
-
           <FormPrimitive.Message
             match={"valueMissing"}
             className="font-body text-body_3 text-black/80"
@@ -192,7 +200,10 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
         <FormPrimitive.Control asChild className="w-full">
           <div className="h-fit w-fit rounded border-[2px] border-stroke">
             <React.Suspense>
-              <MailIcon className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]" />
+              <MailIcon
+                className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
+                fontSize="large"
+              />
             </React.Suspense>
             <input
               type="text"
@@ -217,7 +228,10 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
         <FormPrimitive.Control asChild className="w-full">
           <div className="h-fit w-fit rounded border-[2px] border-stroke">
             <React.Suspense>
-              <LockIcon className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]" fontSize="large" />
+              <LockIcon
+                className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
+                fontSize="large"
+              />
             </React.Suspense>
             <input
               type="text"
