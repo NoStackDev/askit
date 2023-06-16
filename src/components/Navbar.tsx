@@ -16,7 +16,7 @@ const NotificationsIcon = React.lazy(
 
 type Props = {};
 
-const onlyRenderLogo = ["login"];
+const onlyRenderLogo = ["login", "signup"];
 
 export default function Navbar({}: Props) {
   const path = usePathname();

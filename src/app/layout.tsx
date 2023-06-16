@@ -35,11 +35,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} min-h-screen bg-background`}
+        className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} h-screen bg-background`}
       >
         <Navbar />
-        <div className="bg-background md:flex">
-          <Sidebar />
+        <div className="bg-background md:flex w-full">
+          <Sidebar className="md:sticky md:-top-44" />
           <div className="w-full">{children}</div>
         </div>
         <Footer className="" />

@@ -25,6 +25,10 @@ module.exports = {
         inter: ["var(--font-inter)"],
       },
 
+      height: {
+        "main-height": "calc(100vh - 64px)",
+      },
+
       gridTemplateColumns: {
         "r-cards": "repeat(auto-fill, minmax(300px, 1fr))",
       },

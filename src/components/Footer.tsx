@@ -10,12 +10,18 @@ const LinkedInIcon = React.lazy(() => import("@mui/icons-material/LinkedIn"));
 const FacebookIcon = React.lazy(() => import("@mui/icons-material/Facebook"));
 const TwitterIcon = React.lazy(() => import("@mui/icons-material/Twitter"));
 
+const renderInPage = ["login", "signup"];
+
 interface Props extends HTMLAttributes<HTMLElement> {}
 
 const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
   ({ className, children, ...props }, ref) => {
     const path = usePathname();
-    const renderFooter = path.split("/")[1] === "login";
+    const pathUrl = path.split("/")[1];
+    let renderFooter: string | undefined | boolean = renderInPage.find(
+      (urlSplit) => urlSplit === pathUrl
+    );
+    renderFooter = Boolean(renderFooter);
 
     return (
       <>

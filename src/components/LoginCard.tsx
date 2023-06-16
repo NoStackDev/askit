@@ -6,6 +6,7 @@ import React from "react";
 import * as FormPrimitive from "@radix-ui/react-form";
 import Button from "./ui/Button";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
 const MailIcon = React.lazy(() => import("@mui/icons-material/Mail"));
@@ -46,10 +47,6 @@ const LoginCard = React.forwardRef<
         <SignUpForm className="mt-14" />
       )}
 
-      <Button className="mt-8 w-full">
-        {renderLogin ? "Login" : "Sign Up"}
-      </Button>
-
       <div className="mt-8">
         {renderLogin ? (
           <>
@@ -57,7 +54,9 @@ const LoginCard = React.forwardRef<
               Don’t have an account?
             </span>{" "}
             <span className="font-body text-title_2 font-medium text-[#1F4AE6]">
-              Signup
+              <Link href="/signup" className="w-fit h-fit">
+                Signup
+              </Link>
             </span>
           </>
         ) : (
@@ -66,7 +65,7 @@ const LoginCard = React.forwardRef<
               Already have an account?
             </span>{" "}
             <span className="font-body text-title_2 font-medium text-[#1F4AE6]">
-              Login
+              <Link href="/login">Login</Link>
             </span>
           </>
         )}
@@ -166,6 +165,12 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
           </div>
         </FormPrimitive.Control>
       </FormPrimitive.Field>
+
+      <div className="w-full h-fit flex items-center justify-center">
+        <FormPrimitive.Submit asChild className="">
+          <Button className="w-full mt-8">Sign Up</Button>
+        </FormPrimitive.Submit>
+      </div>
     </FormPrimitive.Root>
   );
 }
@@ -175,6 +180,7 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
     <FormPrimitive.Root className={cn("flex flex-col gap-6 w-full", className)}>
       <FormPrimitive.Field name="email">
         <div className="flex items-baseline justify-between">
+          
           <FormPrimitive.Message
             match={"valueMissing"}
             className="font-body text-body_3 text-black/80"
@@ -222,6 +228,12 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
           </div>
         </FormPrimitive.Control>
       </FormPrimitive.Field>
+
+      <div className="w-full h-fit flex items-center justify-center">
+        <FormPrimitive.Submit asChild className="">
+          <Button className="w-full mt-8">Login</Button>
+        </FormPrimitive.Submit>
+      </div>
     </FormPrimitive.Root>
   );
 }

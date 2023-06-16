@@ -22,8 +22,6 @@ const RequestResponseForm = React.forwardRef<
     []
   );
 
-  console.log("images: ", images);
-
   return (
     <FormPrimitive.Root className="py-8 flex flex-col items-center bg-white">
       <div className="font-headline text-headline_3 font-bold text-black px-5 pb-2 border-b-[1px] border-grey/20 w-full text-center">
@@ -140,7 +138,9 @@ const RequestResponseForm = React.forwardRef<
         </FormPrimitive.Submit>
       </div>
 
-      <div className="font-body text-body_3 text-[#000000] mt-3 px-5">Only post a response that aligns with this request</div>
+      <div className="font-body text-body_3 text-[#000000] mt-3 px-5">
+        Only post a response that aligns with this request
+      </div>
     </FormPrimitive.Root>
   );
 });
