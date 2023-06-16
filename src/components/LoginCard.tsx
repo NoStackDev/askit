@@ -102,7 +102,7 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
         </div>
 
         <FormPrimitive.Control asChild className="w-full">
-          <div className="h-fit w-fit rounded border-[2px] border-stroke">
+          <div className="h-fit w-fit flex rounded border-[2px] border-stroke">
             <React.Suspense>
               <PersonIcon
                 className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
@@ -112,7 +112,7 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
             <input
               type="text"
               placeholder="Your Names"
-              className="px-3 py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
+              className="pl-3 py-[6px] w-full font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
             />
           </div>
@@ -130,7 +130,7 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
         </div>
 
         <FormPrimitive.Control asChild className="w-full">
-          <div className="h-fit w-fit rounded border-[2px] border-stroke">
+          <div className="h-fit w-fit flex rounded border-[2px] border-stroke">
             <React.Suspense>
               <MailIcon
                 className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
@@ -140,7 +140,7 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
             <input
               type="text"
               placeholder="Email"
-              className="px-3 py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
+              className="pl-3 py-[6px] w-full font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
             />
           </div>
@@ -158,7 +158,7 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
         </div>
 
         <FormPrimitive.Control asChild className="w-full">
-          <div className="h-fit w-fit rounded border-[2px] border-stroke">
+          <div className="h-fit w-fit flex rounded border-[2px] border-stroke">
             <React.Suspense>
               <LockIcon
                 className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
@@ -168,7 +168,7 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
             <input
               type="text"
               placeholder="Create Password"
-              className="px-3 py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
+              className="pl-3 w-full py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
             />
           </div>
@@ -198,7 +198,7 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
         </div>
 
         <FormPrimitive.Control asChild className="w-full">
-          <div className="h-fit w-fit rounded border-[2px] border-stroke">
+          <div className="h-fit w-fit rounded border-[2px] border-stroke flex">
             <React.Suspense>
               <MailIcon
                 className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
@@ -208,7 +208,7 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
             <input
               type="text"
               placeholder="Email"
-              className="px-3 py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
+              className="pl-3 py-[6px] w-full font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
             />
           </div>
@@ -226,7 +226,7 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
         </div>
 
         <FormPrimitive.Control asChild className="w-full">
-          <div className="h-fit w-fit rounded border-[2px] border-stroke">
+          <div className="h-fit w-fit flex rounded border-[2px] border-stroke">
             <React.Suspense>
               <LockIcon
                 className="border-r-[2px] border-stroke rounded w-10 h-10 p-[6px]"
@@ -236,7 +236,7 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
             <input
               type="text"
               placeholder="Create Password"
-              className="px-3 py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
+              className="pl-3 py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60 w-full"
               required
             />
           </div>
