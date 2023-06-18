@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import * as FormPrimitive from "@radix-ui/react-form";
 import FileDragDrop from "./FileDragDrop";
 import VisibilityRadioGroup from "./ui/RequestVisibilityRadioGroup";
@@ -18,9 +18,21 @@ const RequestResponseForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof FormPrimitive.Root>
 >(({ className, ...props }, ref) => {
+  const [commentInput, setCommentInput] = useState("");
   const [images, setImages] = React.useState<{ name: string; url: string }[]>(
     []
   );
+
+  // const submitForm = () => {
+  //   fetch('http://localhost:8000/api/responses',
+  //   {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({''})
+  //   })
+  // }
 
   return (
     <FormPrimitive.Root className="py-8 flex flex-col items-center bg-white">
@@ -50,6 +62,7 @@ const RequestResponseForm = React.forwardRef<
             placeholder="Here is what you are looking for..."
             className="px-3 py-4 rounded-lg border-[1px] border-stroke placeholder:font-body placeholder:text-body_1 min-h-[146px] bg-faded"
             required
+            onChange={(e) => setCommentInput(e.target.value)}
           />
         </FormPrimitive.Control>
       </FormPrimitive.Field>
