@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { MouseEvent } from "react";
 
 import * as FormPrimitive from "@radix-ui/react-form";
 import Button from "./ui/Button";
@@ -23,7 +23,7 @@ const LoginCard = React.forwardRef<
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const onSignUpClick = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSignUpClick = async (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     const userData = registerUser(name, email, password);
     // const user = await userData;
