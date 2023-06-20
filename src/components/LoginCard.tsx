@@ -64,7 +64,7 @@ const LoginCard = React.forwardRef<
           setName={setName}
           setEmail={setEmail}
           setPassword={setPassword}
-          onSignUpClick={onSignUpClick}
+          onSubmitSignup={onSignUpClick}
           className="mt-8"
         />
       )}
@@ -115,17 +115,17 @@ function SignUpForm({
   setName,
   setEmail,
   setPassword,
-  onSignUpClick,
+  onSubmitSignup,
 }: React.HtmlHTMLAttributes<HTMLDivElement> & {
   setName: React.Dispatch<React.SetStateAction<string>>;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-  onSignUpClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onSubmitSignup: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
   return (
     <FormPrimitive.Root
       className={cn("flex flex-col gap-6 w-full", className)}
-      onSubmit={(e) => onSignUpClick(e)}
+      onSubmit={(e) => onSubmitSignup(e)}
     >
       <FormPrimitive.Field name="name">
         <div className="flex items-baseline justify-end h-3">
