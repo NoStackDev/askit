@@ -7,6 +7,7 @@ import * as FormPrimitive from "@radix-ui/react-form";
 import Button from "./ui/Button";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { registerUser } from "@/app/lib/user";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
 const MailIcon = React.lazy(() => import("@mui/icons-material/Mail"));
@@ -18,6 +19,17 @@ const LoginCard = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div">
 >(({ className, ...props }, ref) => {
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const onSignUpClick = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const userData = registerUser(name, email, password);
+    // const user = await userData;
+    // console.log(userl)
+  };
+
   const path = usePathname();
   const pathUrl = path.split("/")[1];
   let renderLogin = Boolean(pathUrl === "login");
@@ -42,9 +54,19 @@ const LoginCard = React.forwardRef<
       ) : null}
 
       {renderLogin ? (
-        <LoginForm className="mt-4" />
+        <LoginForm
+          setEmail={setEmail}
+          setPassword={setPassword}
+          className="mt-8"
+        />
       ) : (
-        <SignUpForm className="mt-4" />
+        <SignUpForm
+          setName={setName}
+          setEmail={setEmail}
+          setPassword={setPassword}
+          onSignUpClick={onSignUpClick}
+          className="mt-8"
+        />
       )}
 
       <div className="mt-8">
@@ -88,9 +110,23 @@ LoginCard.displayName = "LoginCard";
 
 export default LoginCard;
 
-function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
+function SignUpForm({
+  className,
+  setName,
+  setEmail,
+  setPassword,
+  onSignUpClick,
+}: React.HtmlHTMLAttributes<HTMLDivElement> & {
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  onSignUpClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}) {
   return (
-    <FormPrimitive.Root className={cn("flex flex-col gap-6 w-full", className)}>
+    <FormPrimitive.Root
+      className={cn("flex flex-col gap-6 w-full", className)}
+      onSubmit={(e) => onSignUpClick(e)}
+    >
       <FormPrimitive.Field name="name">
         <div className="flex items-baseline justify-end h-3">
           <FormPrimitive.Message
@@ -115,6 +151,7 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
               placeholder="Your Names"
               className="pl-3 py-[6px] w-full font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
+              onChange={(e) => setName(e.target.value)}
             />
           </FormPrimitive.Control>
         </div>
@@ -144,6 +181,7 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
               placeholder="Email"
               className="pl-3 py-[6px] w-full font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
+              onChange={(e) => setEmail(e.target.value)}
             />
           </FormPrimitive.Control>
         </div>
@@ -173,6 +211,7 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
               placeholder="Create Password"
               className="pl-3 w-full py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
+              onChange={(e) => setPassword(e.target.value)}
             />
           </FormPrimitive.Control>
         </div>
@@ -187,7 +226,14 @@ function SignUpForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
   );
 }
 
-function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
+function LoginForm({
+  className,
+  setEmail,
+  setPassword,
+}: React.HtmlHTMLAttributes<HTMLDivElement> & {
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+}) {
   return (
     <FormPrimitive.Root className={cn("flex flex-col gap-6 w-full", className)}>
       <FormPrimitive.Field name="email">
@@ -214,6 +260,7 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
               placeholder="Email"
               className="pl-3 py-[6px] w-full font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
+              onChange={(e) => setEmail(e.target.value)}
             />
           </FormPrimitive.Control>
         </div>
@@ -240,9 +287,10 @@ function LoginForm({ className }: React.HtmlHTMLAttributes<HTMLDivElement>) {
           <FormPrimitive.Control asChild className="w-full">
             <input
               type="text"
-              placeholder="Create Password"
+              placeholder="Password"
               className="pl-3 py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60 w-full"
               required
+              onChange={(e) => setPassword(e.target.value)}
             />
           </FormPrimitive.Control>
         </div>

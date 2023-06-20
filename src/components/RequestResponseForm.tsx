@@ -23,16 +23,17 @@ const RequestResponseForm = React.forwardRef<
     []
   );
 
-  // const submitForm = () => {
-  //   fetch('http://localhost:8000/api/responses',
-  //   {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify({''})
-  //   })
-  // }
+  const submitForm = () => {
+    // console.log('sssssssssssssss')
+    // fetch('http://localhost:8000/api/responses',
+    // {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({''})
+    // })
+  }
 
   return (
     <FormPrimitive.Root className="py-8 flex flex-col items-center bg-white">
@@ -145,7 +146,7 @@ const RequestResponseForm = React.forwardRef<
 
       <div className="px-4 w-full mt-6 flex items-center justify-center">
         <FormPrimitive.Submit asChild className="">
-          <Button className="w-full max-w-[315px] py-[6px]">
+          <Button className="w-full max-w-[315px] py-[6px]" onClick={submitForm}>
             Send Response
           </Button>
         </FormPrimitive.Submit>
