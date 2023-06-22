@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import React, { DragEvent, MouseEvent } from "react";
 
 const ImageIcon = React.lazy(() => import("@mui/icons-material/Image"));

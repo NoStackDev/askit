@@ -10,6 +10,9 @@ const nextConfig = {
       },
     ],
   },
+  env: {
+    API: "https://2bcd-102-89-47-148.ngrok-free.app/api",
+  },
 };
 
 module.exports = nextConfig;

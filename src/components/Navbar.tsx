@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import Button from "./ui/Button";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -16,7 +16,7 @@ const NotificationsIcon = React.lazy(
 
 type Props = {};
 
-const onlyRenderLogo = ["login", "signup"];
+const onlyRenderLogo = ["login", "signup", "onboard"];
 
 export default function Navbar({}: Props) {
   const path = usePathname();
@@ -39,6 +39,12 @@ export default function Navbar({}: Props) {
           alt="logo"
         />
       </Link>
+
+      {pathUrl === "onboard" ? (
+        <div className="font-headline text-headline_3 md:text-headline_2 font-bold text-[#168F0B]">
+          Sign up Successful!
+        </div>
+      ) : null}
 
       {renderOnlyLogo ? null : (
         <>

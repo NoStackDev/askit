@@ -1,6 +1,6 @@
 import React from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 
 const VisibilityRadioGroup = React.forwardRef<
   React.ElementRef<"div">,

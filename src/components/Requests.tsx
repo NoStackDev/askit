@@ -1,7 +1,7 @@
 import RequestCard from "@/components/RequestCard";
 import Button from "@/components/ui/Button";
 import { requestsConfig } from "@/config.ts/requests";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
 

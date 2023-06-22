@@ -1,11 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
 import { usePathname } from "next/navigation";
 import { sidebarConfig } from "@/config.ts/sidebarConfig";
 import { sidebarItem } from "@/types";
+import { getCategories } from "@/app/lib/category";
 
 const ChevronRight = React.lazy(
   () => import("@mui/icons-material/ChevronRight")
@@ -17,18 +18,28 @@ const renderInPage = [
   "savedRequests",
   "myRequests",
   "notification",
+  "settings"
 ];
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const Sidebar = React.forwardRef<HTMLDivElement, Props>(
   ({ children, className, ...props }, ref) => {
+    const [categories, setCategories] = React.useState<any[]>();
+
     const path = usePathname();
     const pathUrl = path.split("/")[1];
     let renderSidebar: string | undefined | boolean = renderInPage.find(
       (urlSplit) => urlSplit === pathUrl
     );
     renderSidebar = renderSidebar === "" ? true : Boolean(renderSidebar);
+
+    // React.useEffect(() => {
+    //   (async () => {
+    //     const requestFeed = await getCategories();
+    //     console.log(requestFeed);
+    //   })();
+    // }, []);
 
     return (
       <>

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -45,7 +45,7 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
                 />
               </Link>
 
-              <div className="flex gap-3 md:gap-14 mt-7 md:mt-0 items-center">
+              <div className="flex justify-between gap-[11px] md:gap-14 mt-7 md:mt-0 items-center">
                 <Link
                   href="/about"
                   className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"

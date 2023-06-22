@@ -16,13 +16,87 @@ export const sidebarConfig: sidebarItem[] = [
         id: "products",
         title: "Products",
         href: "/products",
-        children: null,
+        children: [
+          {
+            id: "fashion",
+            title: "Fashion",
+            href: "/",
+            children: null,
+          },
+          {
+            id: "home&office",
+            title: "Home & Office",
+            href: "/",
+            children: null,
+          },
+          {
+            id: "industrial",
+            title: "Industrial",
+            href: "/",
+            children: null,
+          },
+          {
+            id: "automobile",
+            title: "Automobile",
+            href: "/",
+            children: null,
+          },
+          {
+            id: "electronics",
+            title: "Electronics",
+            href: "/",
+            children: null,
+          },
+          {
+            id: "books",
+            title: "Books",
+            href: "/",
+            children: null,
+          },
+          {
+            id: "kids&BabiesProduct",
+            title: "Kids & Babies Product",
+            href: "/",
+            children: null,
+          },
+          {
+            id: "phone&Computers",
+            title: "Phone & Computers",
+            href: "/",
+            children: null,
+          },
+          {
+            id: "medical",
+            title: "Medical",
+            href: "/",
+            children: null,
+          },
+          {
+            id: "health&BeautyProducts",
+            title: "Health & Beauty Products",
+            href: "/",
+            children: null,
+          },
+          {
+            id: "agro",
+            title: "Agro",
+            href: "/",
+            children: null,
+          },
+        ],
       },
       {
         id: "services",
         title: "Services",
         href: "/services",
-        children: null,
+        children: [
+          {
+            id: "ICT",
+            title: "ICT",
+            href: "/",
+            children: null,
+          },
+        ],
       },
       {
         id: "accomodation",
@@ -64,9 +138,9 @@ export const sidebarConfig: sidebarItem[] = [
     children: null,
   },
   {
-    id: "help",
-    title: "Help",
-    href: "/help",
+    id: "settings",
+    title: "Settings",
+    href: "/settings",
     children: null,
   },
 ];

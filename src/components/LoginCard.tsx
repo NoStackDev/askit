@@ -1,13 +1,13 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import React, { FormEvent, MouseEvent } from "react";
 
 import * as FormPrimitive from "@radix-ui/react-form";
 import Button from "./ui/Button";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { registerUser } from "@/app/lib/user";
+import { loginUser, registerUser } from "@/app/lib/user";
+import { cn } from "@/app/lib/utils";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
 const MailIcon = React.lazy(() => import("@mui/icons-material/Mail"));
@@ -26,8 +26,15 @@ const LoginCard = React.forwardRef<
   const onSignUpClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userData = registerUser(name, email, password);
-    // const user = await userData;
-    // console.log(userl)
+    const user = await userData;
+    console.log(user);
+  };
+
+  const onLoginClick = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const userData = loginUser(email, password);
+    const user = await userData;
+    console.log(user);
   };
 
   const path = usePathname();
@@ -57,6 +64,7 @@ const LoginCard = React.forwardRef<
         <LoginForm
           setEmail={setEmail}
           setPassword={setPassword}
+          onSubmitLogin={onLoginClick}
           className="mt-8"
         />
       ) : (
@@ -230,12 +238,17 @@ function LoginForm({
   className,
   setEmail,
   setPassword,
+  onSubmitLogin,
 }: React.HtmlHTMLAttributes<HTMLDivElement> & {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
+  onSubmitLogin: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
   return (
-    <FormPrimitive.Root className={cn("flex flex-col gap-6 w-full", className)}>
+    <FormPrimitive.Root
+      className={cn("flex flex-col gap-6 w-full", className)}
+      onSubmit={(e) => onSubmitLogin(e)}
+    >
       <FormPrimitive.Field name="email">
         <div className="flex items-baseline justify-end h-3 mb-1">
           <FormPrimitive.Message

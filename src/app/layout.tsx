@@ -5,7 +5,6 @@ import { Space_Grotesk, Space_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 
-
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const space_mono = Space_Mono({
@@ -35,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} h-screen bg-background`}
+        className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} bg-background`}
       >
         <Navbar />
         <div className="bg-background md:flex w-full">

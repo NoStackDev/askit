@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import React from "react";
 
 const ResponseCard = React.lazy(() => import("@/components/ResponseCard"));

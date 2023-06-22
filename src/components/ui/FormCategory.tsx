@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import * as MenubarPrimitive from "@radix-ui/react-menubar";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import React from "react";

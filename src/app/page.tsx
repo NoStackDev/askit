@@ -8,14 +8,23 @@ import Searchbox from "@/components/Searchbox";
 import Button from "@/components/ui/Button";
 import { requestsConfig } from "@/config.ts/requests";
 import useOnClickOutside from "@/hooks/useOnclickOutside";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { getRequests } from "./lib/request";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
   const openSidebarRef = useRef<HTMLDivElement>(null);
+  const [feedRes, setFeedRes] = useState<any>();
+
+  useEffect(() => {
+    (async () => {
+      const requestFeed = await getRequests();
+      setFeedRes(requestFeed);
+    })();
+  }, []);
 
   useOnClickOutside(openSidebarRef, setShowSidebar);
 
@@ -51,7 +60,9 @@ export default function Home() {
                 for whatever you want!
               </div>
               <Link href="/request" className="w-full mb-[14px]">
-                <Button variant="outlined2" className="w-full py-[5px]">Request for it</Button>
+                <Button variant="outlined2" className="w-full py-[5px]">
+                  Request for it
+                </Button>
               </Link>
             </div>
           </div>
