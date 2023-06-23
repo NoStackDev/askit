@@ -47,14 +47,14 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
 
               <div className="flex justify-between gap-[11px] md:gap-14 mt-7 md:mt-0 items-center">
                 <Link
-                  href="/about"
+                  href="/aboutUs"
                   className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
                 >
                   About us
                 </Link>
 
                 <Link
-                  href="/FAQ"
+                  href="/faqs"
                   className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
                 >
                   FAQ
@@ -68,7 +68,7 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
                 </Link>
 
                 <Link
-                  href="/safety"
+                  href="/safetyhints"
                   className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
                 >
                   Safety Hints
@@ -153,9 +153,11 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
               <span className="text-body_3 font-body">
                 © 2023 Askit. All Rights Reserved.
               </span>
-              <span className="font-body text-special underline underline-offset-2 hover:cursor-pointer">
-                Terms & Privacy Policy
-              </span>
+              <Link href="/terms&privacy">
+                <span className="font-body text-special underline underline-offset-2 hover:cursor-pointer">
+                  Terms & Privacy Policy
+                </span>
+              </Link>
             </div>
           </footer>
         ) : null}
