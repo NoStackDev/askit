@@ -28,7 +28,7 @@ export const faqsConfig: FAQ[] = [
   {
     header: "How do I create an account on Askcenta?",
     content: [
-      `To create an account on Askcenta, simply navigate to our website and click on the &ldqou;Sign Up&rdqout; button. Provide the required information, such as your name, email address, and a secure password. Once you've completed the registration process, you'll receive a confirmation email to verify your account. Follow the instructions in the email, and you'll be ready to start using Askcenta.`,
+      `To create an account on Askcenta, simply navigate to our website and click on the "Sign Up" button. Provide the required information, such as your name, email address, and a secure password. Once you've completed the registration process, you'll receive a confirmation email to verify your account. Follow the instructions in the email, and you'll be ready to start using Askcenta.`,
     ],
   },
 
@@ -76,11 +76,11 @@ export const faqsConfig: FAQ[] = [
 
       `Navigate to the request: Browse through the requests available on the platform until you find one that you'd like to respond to. You can filter or search for specific categories or keywords to narrow down the results.`,
 
-      `Craft your response: Once you've selected a request, take the time to carefully craft your response. Provide helpful information, details about your expertise, or an offer that addresses the requester's needs and your business location. Be clear, concise, and professional in your response. You can also set up the visibility of the response to be either &lsqou;public&rsqou or &lsqou;private&rsqou.`,
+      `Craft your response: Once you've selected a request, take the time to carefully craft your response. Provide helpful information, details about your expertise, or an offer that addresses the requester's needs and your business location. Be clear, concise, and professional in your response. You can also set up the visibility of the response to be either 'public' or 'private'.`,
 
       `Input a communication link: You will be required to input your Whatsapp ID which is your Whatsapp phone number via which the requester or anyone who finds your response appealing can contact you for further engagement.`,
 
-      `Submit your response: Once you're satisfied with your response, click on &lsqou;Send Response&rsqou;. This will ensure that your response is visible to the user who posted the request and any other interested users.`,
+      `Submit your response: Once you're satisfied with your response, click on 'Send Response'. This will ensure that your response is visible to the user who posted the request and any other interested users.`,
 
       `Engage in further communication: If the requester finds your response appealing and wishes to engage with you further, they may choose your response and initiate a negotiation process. This negotiation typically takes place outside of the Askcenta platform, using other messaging platforms or communication channels.`,
 
@@ -91,7 +91,7 @@ export const faqsConfig: FAQ[] = [
   {
     header: "My Privacy on request and response",
     content: [
-      `Your identity will not be reviewed on any request you made, only your request will be displayed to the public but your identity remains anonymous. Responses can be set to be either &lsqou;Public&rsqou which implies everyone can see it or set as &lsqou;Private&rsqou; which can only be viewed by the user with the request.`,
+      `Your identity will not be reviewed on any request you made, only your request will be displayed to the public but your identity remains anonymous. Responses can be set to be either 'Public' which implies everyone can see it or set as 'Private' which can only be viewed by the user with the request.`,
     ],
   },
 
