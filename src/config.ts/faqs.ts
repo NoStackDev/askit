@@ -1,6 +1,8 @@
+import React from "react";
+
 type FAQ = {
   header: string;
-  content: string[];
+  content: React.ReactNode[];
 };
 
 export const faqsConfig: FAQ[] = [
