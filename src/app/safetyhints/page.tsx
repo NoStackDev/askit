@@ -90,7 +90,7 @@ const SafetyHintsPage = (props: Props) => {
         <div className="flex flex-col gap-6">
           <p className="font-body text-body_1 text-black">
             If you encounter any inappropriate, fraudulent, or suspicious
-            activity on the platform, report it immediately to the platform's
+            activity on the platform, report it immediately to the platform&apos;s
             support team. This helps maintain a safe and reliable community for
             all users.
           </p>
@@ -148,7 +148,7 @@ const SafetyHintsPage = (props: Props) => {
       </div>
 
       <div className="mt-8 font-body text-title_3 font-medium w-full">
-        Remember, these safety hints serve as general guidelines, and it's
+        Remember, these safety hints serve as general guidelines, and it&apos;s
         important for users to exercise their own judgment and take personal
         responsibility for their actions and interactions on the platform.
       </div>

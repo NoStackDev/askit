@@ -17,7 +17,7 @@ const AboutUsPage = (props: Props) => {
 
         <div className="flex flex-col gap-6">
           <p className="font-body text-body_1 text-black">
-            At AskCenta, we've created a unique platform that connects a vibrant
+            At AskCenta, we&apos;ve created a unique platform that connects a vibrant
             community of users, enabling them to request and find a wide range
             of products, services, jobs, and accommodations. Our mission is to
             facilitate meaningful interactions and empower individuals by
@@ -30,7 +30,7 @@ const AboutUsPage = (props: Props) => {
             can unlock endless possibilities. We provide a platform where users
             can confidently ask for what they need, and fellow community
             members, equipped with their valuable products and services, step
-            forward to provide helpful responses. Whether you're seeking a
+            forward to provide helpful responses. Whether you&apos;re seeking a
             specialized service, searching for a rare product, looking for job
             opportunities, or hunting for the perfect accommodation, AskCenta is
             your go-to platform.
@@ -41,7 +41,7 @@ const AboutUsPage = (props: Props) => {
       {/* Here's how AskCenta works: */}
       <div className="mt-6 flex flex-col items-start gap-4 w-full">
         <div className="font-headline text-headline_3 font-bold text-[#2E2775]">
-          Here's how AskCenta works:
+          Here&apos;s how AskCenta works:
         </div>
 
         <div className="flex flex-col gap-6">
@@ -81,8 +81,8 @@ const AboutUsPage = (props: Props) => {
         <div className="flex flex-col gap-6">
           <p className="font-body text-body_1 text-black">
             Request for Quote: Our platform caters to a diverse array of needs,
-            whether it's finding a specialized service, unique products, job
-            opportunities, or accommodation solutions. No matter what you're
+            whether it&apos;s finding a specialized service, unique products, job
+            opportunities, or accommodation solutions. No matter what you&apos;re
             looking for, AskCenta is here to help you connect with the right
             people with competitive offers.
           </p>

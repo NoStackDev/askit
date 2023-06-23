@@ -12,10 +12,11 @@ const TermsAndPrivacyPage = (props: Props) => {
       <div className="mt-10 md:mt-20 w-full">
         <p>Last updated: June 4, 2023</p>
         <p className="mt-6">
-          AskCenter ("us," "we," or "our") operates the AskCenter platform (the
-          "Platform"). This page informs you of our policies regarding the
-          collection, use, and disclosure of personal data when you use our
-          Platform and the choices you have associated with that data.
+          AskCenter (&ldqou;us,&rdqou; &ldqou;we,&rdqou; or &ldqou;our&rdqou;)
+          operates the AskCenter platform (the &ldqou;Platform&rdqou;). This
+          page informs you of our policies regarding the collection, use, and
+          disclosure of personal data when you use our Platform and the choices
+          you have associated with that data.
         </p>
         <p className="mt-6">
           We use your data to provide and improve the Platform. By using the
@@ -38,9 +39,10 @@ const TermsAndPrivacyPage = (props: Props) => {
             <p className="mt-4">
               While using our Platform, we may ask you to provide us with
               certain personally identifiable information that can be used to
-              contact or identify you ("Personal Data"). Personally identifiable
-              information may include, but is not limited to: your email
-              address, names, phone number, Social media contact link and image.
+              contact or identify you (&ldqou;Personal Data&rdqou;). Personally
+              identifiable information may include, but is not limited to: your
+              email address, names, phone number, Social media contact link and
+              image.
             </p>
           </div>
 
@@ -50,12 +52,12 @@ const TermsAndPrivacyPage = (props: Props) => {
             <p className="mt-4">
               We may also collect information that your browser sends whenever
               you visit our Platform or when you access the Platform by or
-              through a mobile device ("Usage Data"). This Usage Data may
-              include information such as your computer's Internet Protocol
-              address (e.g., IP address), browser type, browser version, the
-              pages of our Platform that you visit, the time and date of your
-              visit, the time spent on those pages, unique device identifiers,
-              and other diagnostic data.
+              through a mobile device (&ldqou;Usage Data&rdqou;). This Usage
+              Data may include information such as your computer&apos;s Internet
+              Protocol address (e.g., IP address), browser type, browser
+              version, the pages of our Platform that you visit, the time and
+              date of your visit, the time spent on those pages, unique device
+              identifiers, and other diagnostic data.
             </p>
           </div>
 
@@ -159,11 +161,11 @@ const TermsAndPrivacyPage = (props: Props) => {
         <p className="mt-6">
           These Terms of Use (the “Terms”) constitute a binding and enforceable
           legal contract between Askcenta, its affiliated companies (together,
-          the “Administrator”, “we”, “us”) and you. Please read these Terms
-          carefully.Your access and use of the Askcenta website and mobile
-          applications, as well as any service, content, and data available via
-          them (together, the “Service” or the “Platform”) are governed by these
-          Terms.
+          the &ldqou;Administrator&rdqou;, &ldqou;we&rdqou;, &ldqou;us&rdqou;)
+          and you. Please read these Terms carefully.Your access and use of the
+          Askcenta website and mobile applications, as well as any service,
+          content, and data available via them (together, the &ldqou;Service&rdqou; or the
+          “Platform”) are governed by these Terms.
         </p>
         <p>
           If you do not agree with any part of these Terms, or if you are not
@@ -176,8 +178,8 @@ const TermsAndPrivacyPage = (props: Props) => {
         <p className="text-title_2 font-medium">DISCLAIMER</p>
         <ol className="list-decimal pl-4 mt-6">
           <li className="mt-2">
-            ALL SERVICES RENDERED BY THE ADMINISTRATOR ARE RENDERED “AS IS”, “AS
-            AVAILABLE” AND “WITH ALL FAULTS”, AND THE ADMINISTRATOR DISCLAIMS
+            ALL SERVICES RENDERED BY THE ADMINISTRATOR ARE RENDERED &ldqou;AS IS&rdqou;, &ldqou;AS
+            AVAILABLE&rdqou; AND &ldqou;WITH ALL FAULTS&rdqou;, AND THE ADMINISTRATOR DISCLAIMS
             ALL WARRANTIES, EXPRESSED OR IMPLIED, INCLUDING WITHOUT LIMITATION
             ANY GUARANTEES REGARDING CONDITION, QUALITY, LIFE DURATION,
             PERFORMANCE, ACCURACY, RELIABILITY, COMMERCIAL VALUE AND SUITABILITY
@@ -192,7 +194,7 @@ const TermsAndPrivacyPage = (props: Props) => {
             HOURS. YOU ARE SOLELY RESPONSIBLE FOR CONDUCTING DUE DILIGENCE OF
             ANY INDIVIDUAL OR ORGANIZATION REQUESTING A MEETING TO CONDUCT A JOB
             INTERVIEW OR TO COMPLETE A TRANSACTION. ADMINISTRATOR DISCLAIMS ANY
-            RESPONSIBILITY FOR USER’S INTERACTION WITH ANY INDIVIDUAL OR
+            RESPONSIBILITY FOR USER&apos;S INTERACTION WITH ANY INDIVIDUAL OR
             ORGANIZATION.
           </li>
 
@@ -207,7 +209,7 @@ const TermsAndPrivacyPage = (props: Props) => {
             THAT MANUFACTURING, IMPORT, EXPORT, OFFER, DISPLAYING, PURCHASE,
             SALE, ADVERTISING AND/OR USE OF PRODUCTS OR SERVICES, WHICH ARE
             OFFERED OR DISPLAYED ON THE PLATFORM DO NOT INFRINGE ANY THIRD
-            PARTIES’ RIGHTS. THEREFORE, ADMINISTRATOR EXPRESSLY DISCLAIMS ANY
+            PARTIES&rsqou; RIGHTS. THEREFORE, ADMINISTRATOR EXPRESSLY DISCLAIMS ANY
             LIABILITY IN CONNECTION TO MATERIALS AND INFORMATION POSTED BY USERS
             ON THE PLATFORM.
           </li>
@@ -227,7 +229,7 @@ const TermsAndPrivacyPage = (props: Props) => {
         <ol className="list-decimal mt-6 pl-4 w-full">
           <li className="mt-4">
             The Platform is an online service that allows users to create and
-            publish requests while other users respond with an offer  and to
+            publish requests while other users respond with an offer and to
             communicate with other users using the contact details provided in
             the user.
           </li>
@@ -236,12 +238,13 @@ const TermsAndPrivacyPage = (props: Props) => {
             The Administrator itself is not an importer, manufacturer,
             distributor, or seller of any item, as well as not a provider of any
             service posted by users on the Platform. In addition, the
-            Administrator is neither a marketer nor a person acting on user's
-            behalf with respect to the marketing of any goods or services posted
-            on the Platform. The actual sale and purchase contracts or services
-            contracts are entered into directly between the users, and the
-            Administrator itself is not a party to such transactions. The
-            Administrator provides users with an opportunity to communicate.
+            Administrator is neither a marketer nor a person acting on
+            user&apos;s behalf with respect to the marketing of any goods or
+            services posted on the Platform. The actual sale and purchase
+            contracts or services contracts are entered into directly between
+            the users, and the Administrator itself is not a party to such
+            transactions. The Administrator provides users with an opportunity
+            to communicate.
           </li>
 
           <li className="mt-4">
@@ -272,13 +275,13 @@ const TermsAndPrivacyPage = (props: Props) => {
           <li className="mt-4">
             The Administrator retains the right to implement any changes to the
             Service (whether to free or paid features) at any time, with or
-            without notice. You acknowledge that a variety of Administrator’s
-            actions may impair or prevent you from accessing the Service at
-            certain times and/or in the same way, for limited periods or
-            permanently, and agree that the Administrator has no responsibility
-            or liability as a result of any such actions or results, including,
-            without limitation, for the deletion of, or failure to make
-            available to you, any content or services.
+            without notice. You acknowledge that a variety of
+            Administrator&apos;s actions may impair or prevent you from
+            accessing the Service at certain times and/or in the same way, for
+            limited periods or permanently, and agree that the Administrator has
+            no responsibility or liability as a result of any such actions or
+            results, including, without limitation, for the deletion of, or
+            failure to make available to you, any content or services.
           </li>
 
           <li className="mt-4">
@@ -297,8 +300,8 @@ const TermsAndPrivacyPage = (props: Props) => {
 
           <li className="mt-4">
             The Service may contain links to third-party websites or resources
-            and advertisements for third parties (collectively, "Third Party
-            Ads"). Such Third-Party Ads are not under the control of the
+            and advertisements for third parties (collectively, &ldqou;Third Party
+            Ads&rdqou;). Such Third-Party Ads are not under the control of the
             Administrator and the Administrator is not responsible for any
             Third-Party Ads. The Administrator provides these Third-Party Ads
             only as a convenience and does not review, approve, monitor,
@@ -308,13 +311,13 @@ const TermsAndPrivacyPage = (props: Props) => {
             wholly accurate. You acknowledge sole responsibility for and assume
             all risk arising from your use of any such online properties. When
             you link to third party online properties, the applicable service
-            provider's terms and policies, including privacy and data gathering
-            practices, govern. You should make whatever investigation you feel
-            necessary or appropriate before proceeding with any transaction with
-            any third party. Your transactions and other dealings with
-            Third-Party Ads that are found on or through the Service, including
-            payment and delivery of related goods or services, are solely
-            between you and such third party.
+            provider&apos;s terms and policies, including privacy and data
+            gathering practices, govern. You should make whatever investigation
+            you feel necessary or appropriate before proceeding with any
+            transaction with any third party. Your transactions and other
+            dealings with Third-Party Ads that are found on or through the
+            Service, including payment and delivery of related goods or
+            services, are solely between you and such third party.
           </li>
 
           <li className="mt-4">
@@ -335,7 +338,7 @@ const TermsAndPrivacyPage = (props: Props) => {
           subsidiaries, affiliates, related companies, its suppliers, licensors
           and partners, and the officers, directors, employees, agents, and
           representatives of each of them harmless from any claim or demand,
-          including costs and attorneys’ fees, made by any third party due to or
+          including costs and attorneys&rsqou; fees, made by any third party due to or
           arising out of: (i) your use of the Platform; (ii) your User Content;
           (iii) your violation of any representation, warranty, covenant, or
           obligation stipulated in these Terms; (iv) your violation of any
@@ -363,11 +366,11 @@ const TermsAndPrivacyPage = (props: Props) => {
       </div>
 
       <div className="mt-10 w-full">
-        <p>Changes to This  Policy</p>
+        <p>Changes to This Policy</p>
         <p>
           We may update our Privacy Policy and Terms of Usage from time to time.
           We will notify you of any changes by posting the new Privacy Policy on
-          this page and updating the "Last updated" date at the top of this
+          this page and updating the &ldqou;Last updated&rdqou; date at the top of this
           Privacy Policy.
         </p>
       </div>
