@@ -21,14 +21,14 @@ export const faqsConfig: FAQ[] = [
   {
     header: "What can I request on Askcenta?",
     content: [
-      `You can request a wide variety of items, services, accommodations, jobs, relationships, or even assistance in finding missing items. Whether you&apos;re looking for a specific product, a place to stay, a service provider, a job opportunity, a romantic connection, or help in locating a lost item, Askcenta is the place to make your request. to be able to place a request you will have to create an account with Askcenta.`,
+      `You can request a wide variety of items, services, accommodations, jobs, relationships, or even assistance in finding missing items. Whether you're looking for a specific product, a place to stay, a service provider, a job opportunity, a romantic connection, or help in locating a lost item, Askcenta is the place to make your request. to be able to place a request you will have to create an account with Askcenta.`,
     ],
   },
 
   {
     header: "How do I create an account on Askcenta?",
     content: [
-      `To create an account on Askcenta, simply navigate to our website and click on the &ldqou;Sign Up&rdqout; button. Provide the required information, such as your name, email address, and a secure password. Once you&apos;ve completed the registration process, you&apos;ll receive a confirmation email to verify your account. Follow the instructions in the email, and you&apos;ll be ready to start using Askcenta.`,
+      `To create an account on Askcenta, simply navigate to our website and click on the &ldqou;Sign Up&rdqout; button. Provide the required information, such as your name, email address, and a secure password. Once you've completed the registration process, you'll receive a confirmation email to verify your account. Follow the instructions in the email, and you'll be ready to start using Askcenta.`,
     ],
   },
 
@@ -51,7 +51,7 @@ export const faqsConfig: FAQ[] = [
 
       `Please note that this list is not exhaustive, and Askcenta reserves the right to prohibit any request that violates our terms of service, community guidelines, or applicable laws and regulations. We encourage all users to familiarize themselves with our policies to ensure a safe and respectful environment for everyone.`,
 
-      `If you have any specific questions regarding the permissibility of certain types of requests, please feel free to provide more details, and I&apos;ll be happy to assist you further in framing the answer.`,
+      `If you have any specific questions regarding the permissibility of certain types of requests, please feel free to provide more details, and I'll be happy to assist you further in framing the answer.`,
     ],
   },
 
@@ -74,17 +74,17 @@ export const faqsConfig: FAQ[] = [
     content: [
       `To respond to a request on Askcenta, follow these steps:`,
 
-      `Navigate to the request: Browse through the requests available on the platform until you find one that you&apos;d like to respond to. You can filter or search for specific categories or keywords to narrow down the results.`,
+      `Navigate to the request: Browse through the requests available on the platform until you find one that you'd like to respond to. You can filter or search for specific categories or keywords to narrow down the results.`,
 
-      `Craft your response: Once you&apos;ve selected a request, take the time to carefully craft your response. Provide helpful information, details about your expertise, or an offer that addresses the requester&apos;s needs and your business location. Be clear, concise, and professional in your response. You can also set up the visibility of the response to be either &lsqou;public&rsqou or &lsqou;private&rsqou.`,
+      `Craft your response: Once you've selected a request, take the time to carefully craft your response. Provide helpful information, details about your expertise, or an offer that addresses the requester's needs and your business location. Be clear, concise, and professional in your response. You can also set up the visibility of the response to be either &lsqou;public&rsqou or &lsqou;private&rsqou.`,
 
       `Input a communication link: You will be required to input your Whatsapp ID which is your Whatsapp phone number via which the requester or anyone who finds your response appealing can contact you for further engagement.`,
 
-      `Submit your response: Once you&apos;re satisfied with your response, click on &lsqou;Send Response&rsqou;. This will ensure that your response is visible to the user who posted the request and any other interested users.`,
+      `Submit your response: Once you're satisfied with your response, click on &lsqou;Send Response&rsqou;. This will ensure that your response is visible to the user who posted the request and any other interested users.`,
 
       `Engage in further communication: If the requester finds your response appealing and wishes to engage with you further, they may choose your response and initiate a negotiation process. This negotiation typically takes place outside of the Askcenta platform, using other messaging platforms or communication channels.`,
 
-      `Remember, providing timely and meaningful responses can increase your chances of being selected and building connections within the Askcenta community. It&apos;s important to be respectful, professional, and responsive throughout the interaction to foster positive engagement.`,
+      `Remember, providing timely and meaningful responses can increase your chances of being selected and building connections within the Askcenta community. It's important to be respectful, professional, and responsive throughout the interaction to foster positive engagement.`,
     ],
   },
 
@@ -106,7 +106,7 @@ export const faqsConfig: FAQ[] = [
     header:
       "Is there a limit to the number of requests or responses I can make?",
     content: [
-      `Askcenta does not impose a strict limit on the number of requests or responses you can make. However, we encourage users to make requests and responses that are relevant, meaningful, and in line with the platform&apos;s purpose. Excessive or spam-like behavior may be subject to moderation.`,
+      `Askcenta does not impose a strict limit on the number of requests or responses you can make. However, we encourage users to make requests and responses that are relevant, meaningful, and in line with the platform's purpose. Excessive or spam-like behavior may be subject to moderation.`,
     ],
   },
 
