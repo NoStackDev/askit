@@ -1,9 +1,12 @@
 export default async function getCategories() {
-  const res = await fetch(`${process.env.API}/categories`, {
+  const res = await fetch(`${process.env.API}/categoryGroups`, {
     method: "OPTIONS",
+    headers: {
+      Authorization: `Bearer ${"30|sUz5kt0MrN0RF1uL5uR9TUSNKENkKLZjvqo68xwu"}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
   });
-
-  if (!res.ok) throw new Error("Failed to get requests");
 
   return res.json();
 }

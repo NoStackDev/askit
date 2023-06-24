@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { loginUser, registerUser } from "@/app/lib/user";
 import { cn } from "@/app/lib/utils";
+import getUser from "@/app/lib/user/getUser";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
 const MailIcon = React.lazy(() => import("@mui/icons-material/Mail"));
@@ -32,9 +33,17 @@ const LoginCard = React.forwardRef<
 
   const onLoginClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userData = loginUser(email, password);
-    const user = await userData;
-    console.log(user);
+    try {
+      const loginRes = loginUser(email, password);
+      const loginData = await loginRes;
+
+      if (loginData.token) {
+        const userData = await getUser(loginData.token);
+        console.log(userData);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const path = usePathname();

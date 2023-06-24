@@ -13,16 +13,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { getRequests } from "./lib/request";
+import { profile } from "console";
+import { getPreferences, updateUser } from "./lib/user";
+import { getLocations } from "./lib/location";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
   const openSidebarRef = useRef<HTMLDivElement>(null);
-  const [feedRes, setFeedRes] = useState<any>();
+  const [feedRes, setFeedRes] = useState<any>({ data: [] });
 
   useEffect(() => {
     (async () => {
-      const requestFeed = await getRequests();
-      setFeedRes(requestFeed);
+      // try {
+      //   const preferences = await getPreferences();
+      //   console.log(preferences);
+      // } catch (err) {
+      //   console.log(err);
+      // }
     })();
   }, []);
 
@@ -77,16 +84,50 @@ export default function Home() {
             </div>
           </div>
 
-          <Requests requests={requestsConfig} className="mt-4 md:mt-8" />
-
-          <div className="w-full flex flex-col items-center justify-center">
-            <Button variant="outlined" className="mt-12 md:mt-14 w-[255px]">
-              Next Page
-            </Button>
-          </div>
-
           <div>
-            <PageNumbers totalPages={10} currentPage={1} className="mt-6" />
+            {feedRes && feedRes.data.length > 0 ? (
+              <>
+                <Requests requests={requestsConfig} className="mt-4 md:mt-8" />
+
+                <div className="w-full flex flex-col items-center justify-center">
+                  <Button
+                    variant="outlined"
+                    className="mt-12 md:mt-14 w-[255px]"
+                  >
+                    Next Page
+                  </Button>
+                </div>
+
+                <div>
+                  <PageNumbers
+                    totalPages={10}
+                    currentPage={1}
+                    className="mt-6"
+                  />
+                </div>
+              </>
+            ) : (
+              <div className="flex flex-col justify-center items-center mt-10">
+                <Image
+                  src="/images/pictures/requestEmpty.png"
+                  height={150}
+                  width={177.16}
+                  alt="there are no requests"
+                />
+
+                <p className="mt-8 font-headline text-headline_3 font-bold text-black">
+                  Oops... Nothing Here
+                </p>
+                <p className="mt-4 font-body text-body_2 text-[#000000]/60 max-w-[328px] text-center">
+                  No request has been placed on this category
+                </p>
+                <Link href={"/"} className="mt-12 h-fit w-fit">
+                  <Button className="font-body text-title_3 font-medium px-8 py-2 text-white">
+                    Go Back
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

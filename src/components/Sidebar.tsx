@@ -18,7 +18,7 @@ const renderInPage = [
   "savedRequests",
   "myRequests",
   "notification",
-  "settings"
+  "settings",
 ];
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
@@ -36,8 +36,14 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
 
     // React.useEffect(() => {
     //   (async () => {
-    //     const requestFeed = await getCategories();
-    //     console.log(requestFeed);
+    //     try {
+    //       const requestFeed = await getCategories(
+    //         "Bearer 29|Aiw1waEEFG5XGYOa14386uVttXPdv6M1OlytPqAc"
+    //       );
+    //       setCategories(requestFeed);
+    //     } catch (err) {
+    //       console.log(err);
+    //     }
     //   })();
     // }, []);
 
