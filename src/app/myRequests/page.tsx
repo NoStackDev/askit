@@ -10,7 +10,7 @@ import React from "react";
 
 type Props = {};
 
-export default function page({}: Props) {
+export default function MyRequestPage({}: Props) {
   const [myRequests, setMyRequests] = React.useState<any>();
 
   return (

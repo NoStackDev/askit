@@ -9,7 +9,7 @@ const EditIcon = React.lazy(() => import("@mui/icons-material/Edit"));
 
 type Props = {};
 
-const Page = (props: Props) => {
+const ProfilePage = (props: Props) => {
   return (
     <main className="relative bg-background px-[20px] md:px-0 pb-20 md:pb-0 md:mt-14 md:mb-10 md:ml-[112px] md:mr-[100px]">
       <div className="flex items-center justify-between w-full mt-10 md:mt-0 md:mx-0">
@@ -51,4 +51,4 @@ const Page = (props: Props) => {
   );
 };
 
-export default Page;
+export default ProfilePage;

@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 
 type Props = {};
 
-const ProfileSetupPage = (props: Props) => {
+const OnboardPage = (props: Props) => {
   return (
     <main className="mt-4 md:mt-10 md:mx-[100px] bg-white md:bg-background flex justify-center items-center mb-10 md:mb-20">
       <div className="max-w-[700px] bg-white">
@@ -155,4 +155,4 @@ const ProfileSetupPage = (props: Props) => {
   );
 };
 
-export default ProfileSetupPage;
+export default OnboardPage;

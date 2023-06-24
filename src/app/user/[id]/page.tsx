@@ -10,7 +10,7 @@ const FlagIcon = React.lazy(() => import("@mui/icons-material/Flag"));
 
 type Props = {};
 
-const Page = (props: Props) => {
+const UserPage = (props: Props) => {
   const [showSidebar, setShowSidebar] = React.useState(false);
 
   return (
@@ -53,4 +53,4 @@ const Page = (props: Props) => {
   );
 };
 
-export default Page;
+export default UserPage;
