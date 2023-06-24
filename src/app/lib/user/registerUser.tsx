@@ -1,6 +1,3 @@
-import axios from "axios";
-
-axios.defaults.withCredentials = true;
 export default async function registerUser(
   name: string,
   email: string,

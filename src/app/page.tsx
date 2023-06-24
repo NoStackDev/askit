@@ -13,9 +13,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { getRequests } from "./lib/request";
-import { profile } from "console";
 import { getPreferences, updateUser } from "./lib/user";
 import { getLocations } from "./lib/location";
+import updateUserPreference from "./lib/user/updateUserPreference";
+import logoutUser from "./lib/user/logoutUser";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -25,7 +26,7 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       // try {
-      //   const preferences = await getPreferences();
+      //   const preferences = await logoutUser();
       //   console.log(preferences);
       // } catch (err) {
       //   console.log(err);
