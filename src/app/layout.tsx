@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { Space_Grotesk, Space_Mono } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import { GlobalContextProvider } from "./context/Store";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -36,12 +37,14 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} bg-background`}
       >
-        <Navbar />
-        <div className="bg-background md:flex w-full">
-          <Sidebar className="md:sticky md:-top-44" />
-          <div className="w-full">{children}</div>
-        </div>
-        <Footer className="" />
+        <GlobalContextProvider>
+          <Navbar />
+          <div className="bg-background md:flex w-full">
+            <Sidebar className="md:sticky md:-top-44" />
+            <div className="w-full">{children}</div>
+          </div>
+          <Footer className="" />
+        </GlobalContextProvider>
       </body>
     </html>
   );
