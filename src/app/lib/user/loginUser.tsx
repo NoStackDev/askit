@@ -1,8 +1,4 @@
-import { useGlobalContext } from "@/app/context/Store";
-
 export default async function loginUser(email: string, password: string) {
-  const { token, setToken } = useGlobalContext();
-  console.log(token);
   const res = await fetch(`${process.env.API}/login`, {
     method: "POST",
     headers: {
