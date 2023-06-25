@@ -48,7 +48,13 @@ const GlobalContext = createContext<TokenType & UserContext>({
   setUser: () => {},
 });
 
-export const GlobalContextProvider = ({ children }) => {
+type GlobalContextProviderType = {
+  children: React.ReactNode;
+};
+
+export const GlobalContextProvider = ({
+  children,
+}: GlobalContextProviderType) => {
   const [token, setToken] = useState("");
   const [user, setUser] = useState<UserType>({
     about: "",
