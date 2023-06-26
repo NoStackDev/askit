@@ -14,7 +14,7 @@ const RequestForm = React.forwardRef<
   );
 
   return (
-    <FormPrimitive.Root className="py-10 flex flex-col items-center bg-white">
+    <FormPrimitive.Root className="py-10 flex flex-col items-center bg-white max-h-[80vh] overflow-y-auto">
       <FormPrimitive.Field
         name="request"
         className="px-5 md:px-[92px] flex flex-col gap-1 w-full"

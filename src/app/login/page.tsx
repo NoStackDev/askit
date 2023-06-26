@@ -1,10 +1,20 @@
+"use client";
+
 import LoginCard from "@/components/LoginCard";
 import Image from "next/image";
 import React from "react";
+import { useGlobalContext } from "../context/Store";
+import { redirect } from "next/navigation";
 
 type Props = {};
 
 export default function LoginPage({}: Props) {
+  const { user } = useGlobalContext();
+
+  if (user) {
+    redirect("/");
+  }
+
   return (
     <main className="bg-white relative z-10 flex items-center justify-center md:px-[100px] h-main-height overflow-y-hidden">
       <Image

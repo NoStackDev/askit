@@ -9,12 +9,11 @@ import Link from "next/link";
 import { loginUser, registerUser } from "@/app/lib/user";
 import { cn } from "@/app/lib/utils";
 import getUser from "@/app/lib/user/getUser";
+import { useGlobalContext } from "@/app/context/Store";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
 const MailIcon = React.lazy(() => import("@mui/icons-material/Mail"));
 const LockIcon = React.lazy(() => import("@mui/icons-material/Lock"));
-
-type Props = {};
 
 const LoginCard = React.forwardRef<
   React.ElementRef<"div">,
@@ -24,22 +23,24 @@ const LoginCard = React.forwardRef<
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const { setToken, setUser } = useGlobalContext();
+
   const onSignUpClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const userData = registerUser(name, email, password);
     const user = await userData;
-    console.log(user);
   };
 
   const onLoginClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const loginRes = loginUser(email, password);
+      const loginRes = loginUser({ email, password });
       const loginData = await loginRes;
 
       if (loginData.token) {
+        setToken(loginData.token);
         const userData = await getUser(loginData.token);
-        console.log(userData);
+        setUser(userData.data);
       }
     } catch (err) {
       console.log(err);

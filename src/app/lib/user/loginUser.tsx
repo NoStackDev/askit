@@ -1,4 +1,9 @@
-export default async function loginUser(email: string, password: string) {
+interface LoginI {
+  email: string;
+  password: string;
+}
+
+export default async function loginUser({ email, password }: LoginI) {
   const res = await fetch(`${process.env.API}/login`, {
     method: "POST",
     headers: {
@@ -6,8 +11,6 @@ export default async function loginUser(email: string, password: string) {
     },
     body: JSON.stringify({ email: email, password: password }),
   });
-
-  if (!res.ok) throw new Error(`Failed to log in user \n error: ${res.body}`);
 
   return res.json();
 }

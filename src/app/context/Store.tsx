@@ -8,7 +8,10 @@ import React, {
   useState,
 } from "react";
 
-type TokenType = { token: string; setToken: Dispatch<SetStateAction<string>> };
+type TokenType = {
+  token: string | null;
+  setToken: Dispatch<SetStateAction<string | null>>;
+};
 
 type UserType = {
   about: string;
@@ -25,26 +28,14 @@ type UserType = {
 };
 
 interface UserContext {
-  user: UserType;
-  setUser: Dispatch<SetStateAction<UserType>>;
+  user: UserType | null;
+  setUser: Dispatch<SetStateAction<UserType | null>>;
 }
 
 const GlobalContext = createContext<TokenType & UserContext>({
-  token: "33|wtDWtHIAxcveMZ8kVE1GFIzpARSDmP6A7tNd5bvE",
+  token: null,
   setToken: () => "",
-  user: {
-    about: "",
-    business_addr: "",
-    email: "",
-    facebook_link: "",
-    id: 1,
-    image_url: "",
-    instagram_link: "",
-    location: "",
-    name: "",
-    role: "",
-    whatsapp_num: "",
-  },
+  user: null,
   setUser: () => {},
 });
 
@@ -55,20 +46,8 @@ type GlobalContextProviderType = {
 export const GlobalContextProvider = ({
   children,
 }: GlobalContextProviderType) => {
-  const [token, setToken] = useState("");
-  const [user, setUser] = useState<UserType>({
-    about: "",
-    business_addr: "",
-    email: "",
-    facebook_link: "",
-    id: 1,
-    image_url: "",
-    instagram_link: "",
-    location: "",
-    name: "",
-    role: "",
-    whatsapp_num: "",
-  });
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
 
   return (
     <GlobalContext.Provider value={{ token, setToken, user, setUser }}>

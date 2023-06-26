@@ -12,25 +12,54 @@ import { cn } from "@/app/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { getRequests } from "./lib/request";
+import {
+  deleteRequest,
+  getRequestDetail,
+  getRequests,
+  getUserRequests,
+  postRequest,
+  updateRequest,
+} from "./lib/request";
 import { getPreferences, updateUser } from "./lib/user";
 import { getLocations } from "./lib/location";
 import updateUserPreference from "./lib/user/updateUserPreference";
 import logoutUser from "./lib/user/logoutUser";
+import Dialog from "@/components/ui/DialogPrimitive";
+import RequestForm from "@/components/RequestForm";
+import { useGlobalContext } from "./context/Store";
+import { redirect } from "next/navigation";
+import { postResponse, updateResponse } from "./lib/repsonse";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
   const openSidebarRef = useRef<HTMLDivElement>(null);
   const [feedRes, setFeedRes] = useState<any>({ data: [] });
 
+  const { token, user } = useGlobalContext();
+
+  if (!token || !user) {
+    redirect("/login");
+  }
+
   useEffect(() => {
     (async () => {
-      // try {
-      //   const preferences = await logoutUser();
-      //   console.log(preferences);
-      // } catch (err) {
-      //   console.log(err);
-      // }
+      try {
+        const preferences = await updateResponse(token, {
+          responseId: 1,
+          title: "Here it is",
+          req_id: 10,
+          user_id: 10,
+          category_group_id: 6,
+          location_id: 1,
+          description: "black black black sheep",
+          whatsapp_num: "2349876543210",
+          price: 38888,
+          visibility: "public",
+        });
+        console.log(preferences);
+      } catch (err) {
+        console.log(err);
+      }
     })();
   }, []);
 
@@ -133,11 +162,17 @@ export default function Home() {
         </div>
       </div>
 
-      <Link href="/request/" className="md:hidden h-fit w-fit">
-        <Button className={cn("md:hidden fixed bottom-10 right-5 z-20")}>
-          Place a Request
-        </Button>
-      </Link>
+      {/* <Link href="/request/" className="md:hidden h-fit w-fit"> */}
+      <Dialog
+        dialogTrigger={
+          <Button className={cn("md:hidden fixed bottom-10 right-5 z-20")}>
+            Place a Request
+          </Button>
+        }
+        dialogContent={<RequestForm className="max-h-[80vh]" />}
+      />
+
+      {/* </Link> */}
     </main>
   );
 }

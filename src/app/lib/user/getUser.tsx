@@ -1,5 +1,4 @@
 export default async function getUser(token: string) {
-  console.log(`Bearer ${token}`);
   const res = await fetch(`${process.env.API}/user`, {
     method: "OPTIONS",
     headers: {
