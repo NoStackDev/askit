@@ -37,7 +37,6 @@ export default async function updateResponse(
       Accept: "application/json",
     },
     body: JSON.stringify({
-      responseId,
       title,
       user_id,
       req_id,

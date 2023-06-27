@@ -28,7 +28,8 @@ import Dialog from "@/components/ui/DialogPrimitive";
 import RequestForm from "@/components/RequestForm";
 import { useGlobalContext } from "./context/Store";
 import { redirect } from "next/navigation";
-import { postResponse, updateResponse } from "./lib/repsonse";
+import { deleteResponse, postResponse, updateResponse } from "./lib/repsonse";
+import { addToBookmark, deleteBookmark, getBookmarks } from "./lib/bookmark";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -37,26 +38,15 @@ export default function Home() {
 
   const { token, user } = useGlobalContext();
 
-  if (!token || !user) {
-    redirect("/login");
-  }
+  // if (!token || !user) {
+  //   redirect("/login");
+  // }
 
   useEffect(() => {
     (async () => {
       try {
-        const preferences = await updateResponse(token, {
-          responseId: 1,
-          title: "Here it is",
-          req_id: 10,
-          user_id: 10,
-          category_group_id: 6,
-          location_id: 1,
-          description: "black black black sheep",
-          whatsapp_num: "2349876543210",
-          price: 38888,
-          visibility: "public",
-        });
-        console.log(preferences);
+        // const preferences = await getRequests();
+        // console.log(preferences);
       } catch (err) {
         console.log(err);
       }

@@ -1,5 +1,5 @@
-const deleteResponse = async (token: string, requestId: number) => {
-  const res = await fetch(`${process.env.API}/responses/${requestId}`, {
+const deleteResponse = async (token: string, responseId: number) => {
+  const res = await fetch(`${process.env.API}/responses/${responseId}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

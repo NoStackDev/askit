@@ -4,6 +4,8 @@ import React from "react";
 import * as FormPrimitive from "@radix-ui/react-form";
 import FileDragDrop from "./FileDragDrop";
 import Button from "./ui/Button";
+import Topbar1 from "./Topbar1";
+import Image from "next/image";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -14,7 +16,29 @@ const RequestForm = React.forwardRef<
   );
 
   return (
-    <FormPrimitive.Root className="py-10 flex flex-col items-center bg-white max-h-[80vh] overflow-y-auto">
+    <FormPrimitive.Root className="flex flex-col items-center bg-white max-h-[80vh] overflow-y-auto rounded-[20px]">
+      <Topbar1
+        leftComponent={
+          <div className="text-white text-left font-body text-title_2 font-medium">
+            1 of 3
+          </div>
+        }
+        middleComponent={
+          <div className="text-white text-center font-headline text-headline_3 font-bold">
+            Place a Request
+          </div>
+        }
+        rightComponent={
+          <Image
+            src="/images/icons/closeIcon.png"
+            width={32}
+            height={32}
+            alt="close"
+            className="w-6 h-6 md:w-8 md:h-8 justify-self-end"
+          />
+        }
+        className="px-5 md:px-[92px] py-4"
+      />
       <FormPrimitive.Field
         name="request"
         className="px-5 md:px-[92px] flex flex-col gap-1 w-full"

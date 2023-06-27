@@ -1,3 +1,4 @@
+'use client'
 
 import Button from "@/components/ui/Button";
 import Link from "next/link";
@@ -7,7 +8,7 @@ type Props = {};
 
 export default function Custom404({}: Props) {
   return (
-    <main className="flex flex-col justify-center items-center h-screen">
+    <main className="flex flex-col justify-center items-center h-screen bg-[red] md:bg-[blue]">
       <div className="flex  gap-8 justify-center items-center">
         <div className="font-headline text-[44px] text-secondary font-bold">
           404
