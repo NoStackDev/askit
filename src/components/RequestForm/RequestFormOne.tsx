@@ -1,3 +1,4 @@
+import React, { HTMLAttributes } from "react";
 import {
   Select,
   SelectContent,
@@ -9,6 +10,7 @@ import {
 } from "../ui/Select";
 
 import * as FormPrimitive from "@radix-ui/react-form";
+import { cn } from "@/app/lib/utils";
 
 interface FormOneI {
   title: string;
@@ -18,9 +20,12 @@ interface FormOneI {
   cityId: number;
 }
 
-const RequestFormOne = () => {
+const RequestFormOne = React.forwardRef<
+  React.ElementRef<"div">,
+  HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, fowardref) => {
   return (
-    <div>
+    <div className={cn("h-full", className)} ref={fowardref} {...props}>
       <h2 className="px-3 md:px-6 mt-8 font-headline text-headline_2 font-bold text-[#000000] text-left">
         Tell us What You’re Looking For and Where!
       </h2>
@@ -208,6 +213,8 @@ const RequestFormOne = () => {
       </div>
     </div>
   );
-};
+});
+
+RequestFormOne.displayName = "RequestFormOne";
 
 export default RequestFormOne;

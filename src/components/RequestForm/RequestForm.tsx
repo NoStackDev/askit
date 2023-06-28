@@ -18,7 +18,7 @@ const RequestForm = React.forwardRef<
 
   const [formStep, setFormStep] = React.useState(0);
 
-  const forms = [<RequestFormOne key={0} />];
+  const forms = [<RequestFormOne key={0} className="mt-10"/>];
 
   const renderForm = () => {
     return forms[formStep];
@@ -32,7 +32,7 @@ const RequestForm = React.forwardRef<
   };
 
   return (
-    <FormPrimitive.Root className="pb-10 flex flex-col items-center bg-white max-h-[80vh] overflow-y-auto rounded-[20px]">
+    <FormPrimitive.Root className="relative pb-10 flex flex-col items-center bg-white max-h-[80vh] overflow-y-auto rounded-[20px]">
       <Topbar1
         leftComponent={
           <div className="text-white text-left font-body text-title_2 font-medium">
@@ -54,7 +54,7 @@ const RequestForm = React.forwardRef<
             onClick={onClickCloseBtn}
           />
         }
-        className="px-5 md:px-[92px] py-4"
+        className="px-5 md:px-[92px] py-4 fixed rounded-tl-[20px] rounded-tr-[20px]"
       />
       {forms[formStep]}
 
