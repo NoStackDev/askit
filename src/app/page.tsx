@@ -25,11 +25,11 @@ import { getLocations } from "./lib/location";
 import updateUserPreference from "./lib/user/updateUserPreference";
 import logoutUser from "./lib/user/logoutUser";
 import Dialog from "@/components/ui/DialogPrimitive";
-import RequestForm from "@/components/RequestForm";
 import { useGlobalContext } from "./context/Store";
 import { redirect } from "next/navigation";
 import { deleteResponse, postResponse, updateResponse } from "./lib/repsonse";
 import { addToBookmark, deleteBookmark, getBookmarks } from "./lib/bookmark";
+import RequestForm from "@/components/RequestForm";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -155,7 +155,10 @@ export default function Home() {
       {/* <Link href="/request/" className="md:hidden h-fit w-fit"> */}
       <Dialog
         dialogTrigger={
-          <Button className={cn("md:hidden fixed bottom-10 right-5 z-20")}>
+          <Button
+            className={cn("md:hidden fixed bottom-10 right-5 z-20")}
+            id="requestFormTrigger"
+          >
             Place a Request
           </Button>
         }

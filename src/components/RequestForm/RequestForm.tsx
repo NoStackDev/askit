@@ -2,10 +2,11 @@
 
 import React from "react";
 import * as FormPrimitive from "@radix-ui/react-form";
-import FileDragDrop from "./FileDragDrop";
-import Button from "./ui/Button";
-import Topbar1 from "./Topbar1";
+import FileDragDrop from "../FileDragDrop";
+import Button from "../ui/Button";
+import Topbar1 from "../Topbar1";
 import Image from "next/image";
+import RequestFormOne from "./RequestFormOne";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -15,12 +16,27 @@ const RequestForm = React.forwardRef<
     []
   );
 
+  const [formStep, setFormStep] = React.useState(0);
+
+  const forms = [<RequestFormOne />];
+
+  const renderForm = () => {
+    return forms[formStep];
+  };
+
+  const onClickCloseBtn = () => {
+    const requestFormTrigger = document.getElementById("requestFormTrigger");
+    if (requestFormTrigger) {
+      requestFormTrigger.click();
+    }
+  };
+
   return (
-    <FormPrimitive.Root className="flex flex-col items-center bg-white max-h-[80vh] overflow-y-auto rounded-[20px]">
+    <FormPrimitive.Root className="pb-10 flex flex-col items-center bg-white max-h-[80vh] overflow-y-auto rounded-[20px]">
       <Topbar1
         leftComponent={
           <div className="text-white text-left font-body text-title_2 font-medium">
-            1 of 3
+            {`${formStep + 1} of ${forms.length}`}
           </div>
         }
         middleComponent={
@@ -35,35 +51,19 @@ const RequestForm = React.forwardRef<
             height={32}
             alt="close"
             className="w-6 h-6 md:w-8 md:h-8 justify-self-end"
+            onClick={onClickCloseBtn}
           />
         }
         className="px-5 md:px-[92px] py-4"
       />
-      <FormPrimitive.Field
-        name="request"
-        className="px-5 md:px-[92px] flex flex-col gap-1 w-full"
-      >
-        <div className="flex items-baseline justify-between">
-          <FormPrimitive.Label className="font-body text-title_3 font-medium text-primary">
-            Your Request
-          </FormPrimitive.Label>
+      {forms[formStep]}
 
-          <FormPrimitive.Message
-            match={"valueMissing"}
-            className="font-body text-body_3 text-black/80"
-          >
-            comment required
-          </FormPrimitive.Message>
-        </div>
-
-        <FormPrimitive.Control asChild>
-          <textarea
-            placeholder="I am looking for..."
-            className="px-3 py-4 rounded-lg border-[1px] border-stroke placeholder:font-body placeholder:text-body_1 min-h-20 bg-faded placeholder:text-[#000000]/60"
-            required
-          />
-        </FormPrimitive.Control>
-      </FormPrimitive.Field>
+      <div className="w-full px-5 md:px-0">
+        <Button className="mt-8 w-full md:w-fit px-0 md:px-20 py-2">
+          Next
+        </Button>
+      </div>
+      {/* 
 
       <FormPrimitive.Field
         name="images"
@@ -118,7 +118,7 @@ const RequestForm = React.forwardRef<
       <div className="font-body text-special font-light text-black mt-6 px-5 md:px-[92px] text-center">
         Your post will be displayed for the general public while your identity
         is hidden but you can see responses by people with relevant information
-      </div>
+      </div> */}
     </FormPrimitive.Root>
   );
 });
