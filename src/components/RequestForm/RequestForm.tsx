@@ -18,7 +18,7 @@ const RequestForm = React.forwardRef<
 
   const [formStep, setFormStep] = React.useState(0);
 
-  const forms = [<RequestFormOne />];
+  const forms = [<RequestFormOne key={0} />];
 
   const renderForm = () => {
     return forms[formStep];
