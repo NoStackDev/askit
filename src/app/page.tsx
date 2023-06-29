@@ -35,7 +35,6 @@ export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
   const openSidebarRef = useRef<HTMLDivElement>(null);
   const [feedRes, setFeedRes] = useState<any>({ data: [] });
-  const dialogCloseRef = useRef<HTMLDivElement>(null);
 
   const { token, user } = useGlobalContext();
 

@@ -10,7 +10,7 @@ import RequestFormOne from "./RequestFormOne";
 import RequestFormTwo from "./RequestFormTwo";
 import { cn } from "@/app/lib/utils";
 import RequestFormThree from "./RequestFormThree";
-import Dialog, { Close } from "../ui/DialogPrimitive";
+import { Close } from "../ui/DialogPrimitive";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
