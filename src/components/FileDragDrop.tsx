@@ -87,7 +87,7 @@ const FileDragDrop = React.forwardRef<
   return (
     <div
       className={cn(
-        "relative w-[100px] h-[100px] rounded-lg border-[1px] border-stroke bg-faded hover:cursor-pointer flex items-center justify-center",
+        "relative rounded-lg border-[1px] border-stroke bg-faded hover:cursor-pointer flex items-center justify-center",
         className
       )}
       onClick={selectFiles}
@@ -120,7 +120,7 @@ const FileDragDrop = React.forwardRef<
         })
       ) : (
         <React.Suspense>
-          <ImageIcon className="text-[#000000]/60 w-[28px] h-[28px]" />
+          <ImageIcon className="text-[#000000]/60 w-1/2 h-1/2" />
         </React.Suspense>
       )}
 

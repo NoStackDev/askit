@@ -7,6 +7,10 @@ import Button from "../ui/Button";
 import Topbar1 from "../Topbar1";
 import Image from "next/image";
 import RequestFormOne from "./RequestFormOne";
+import RequestFormTwo from "./RequestFormTwo";
+import { cn } from "@/app/lib/utils";
+import RequestFormThree from "./RequestFormThree";
+import Dialog, { Close } from "../ui/DialogPrimitive";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -18,21 +22,30 @@ const RequestForm = React.forwardRef<
 
   const [formStep, setFormStep] = React.useState(0);
 
-  const forms = [<RequestFormOne key={0} className="mt-10"/>];
+  const forms = [
+    <RequestFormOne key={0} className="mt-10 px-3 md:px-6 md:overflow-auto" />,
+    <RequestFormTwo
+      key={1}
+      className="mt-10 px-3 md:px-6 md:overflow-hidden"
+      images={images}
+      setImages={setImages}
+    />,
+    <RequestFormThree
+      key={2}
+      className="mt-10 px-3 md:px-6 w-full md:overflow-auto"
+    />,
+  ];
 
-  const renderForm = () => {
-    return forms[formStep];
+  const onClickNextBtn = () => {
+    setFormStep(formStep + 1);
   };
 
-  const onClickCloseBtn = () => {
-    const requestFormTrigger = document.getElementById("requestFormTrigger");
-    if (requestFormTrigger) {
-      requestFormTrigger.click();
-    }
+  const onClickBackBtn = () => {
+    setFormStep(formStep - 1);
   };
 
   return (
-    <FormPrimitive.Root className="relative pb-10 flex flex-col items-center bg-white max-h-[80vh] overflow-y-auto rounded-[20px]">
+    <FormPrimitive.Root className="relative pb-10 flex flex-col items-center bg-white max-h-[85vh] overflow-auto rounded-[20px]">
       <Topbar1
         leftComponent={
           <div className="text-white text-left font-body text-title_2 font-medium">
@@ -45,80 +58,65 @@ const RequestForm = React.forwardRef<
           </div>
         }
         rightComponent={
-          <Image
-            src="/images/icons/closeIcon.png"
-            width={32}
-            height={32}
-            alt="close"
-            className="w-6 h-6 md:w-8 md:h-8 justify-self-end"
-            onClick={onClickCloseBtn}
-          />
+          <Close asChild>
+            <Image
+              src="/images/icons/closeIcon.png"
+              width={32}
+              height={32}
+              alt="close"
+              className="w-6 h-6 md:w-8 md:h-8 justify-self-end cursor-pointer"
+            />
+          </Close>
         }
-        className="px-5 md:px-[92px] py-4 fixed rounded-tl-[20px] rounded-tr-[20px]"
+        className="px-5 py-4 fixed rounded-tl-[20px] rounded-tr-[20px]"
       />
       {forms[formStep]}
 
-      <div className="w-full px-5 md:px-0">
-        <Button className="mt-8 w-full md:w-fit px-0 md:px-20 py-2">
-          Next
-        </Button>
-      </div>
-      {/* 
-
-      <FormPrimitive.Field
-        name="images"
-        className="px-5 md:px-[92px] mt-6 flex flex-col items-center gap-2 w-full"
+      <div
+        className={cn(
+          "mt-8 w-full px-3 md:px-6 flex justify-between items-center",
+          formStep === 0 && "justify-center",
+          formStep === 1 && "mt-20"
+        )}
       >
-        <FormPrimitive.Control asChild>
-          <FileDragDrop images={images} setImages={setImages} />
-        </FormPrimitive.Control>
+        {formStep > 0 ? (
+          <div
+            className={cn(
+              "flex gap-1 items-center px-5 py-2 border rounded-xl border-[#000000] hover:cursor-pointer"
+            )}
+            onClick={onClickBackBtn}
+          >
+            <Image
+              src="/images/icons/arrowRequestForm.png"
+              height={24}
+              width={24}
+              alt="back"
+            />
 
-        <div className="flex items-baseline justify-between">
-          <FormPrimitive.Label className="font-body text-title_3 font-medium">
-            <span className="font-body text-title_3 font-medium text-[#000000]">
-              Add Image
-            </span>{" "}
-            <span className="font-body text-body_2 font-light text-[#000000]">
-              (optional)
-            </span>
-          </FormPrimitive.Label>
-        </div>
-      </FormPrimitive.Field>
+            <span>Back</span>
+          </div>
+        ) : null}
 
-      <FormPrimitive.Field
-        name="request"
-        className="px-5 md:px-[92px] mt-6 flex flex-col gap-1 w-full"
-      >
-        <div className="flex items-baseline justify-between">
-          <FormPrimitive.Label className="font-body text-title_3 font-medium text-black">
-            Detailed Description{" "}
-            <span className="font-body text-label text-[#000000]/60">
-              (optional)
-            </span>
-          </FormPrimitive.Label>
-        </div>
-
-        <FormPrimitive.Control asChild>
-          <textarea
-            placeholder="It should be..."
-            className="px-3 py-4 rounded-lg border-[1px] border-[#B7B9BC] placeholder:font-body placeholder:text-body_1 min-h-[118px] bg-white placeholder:text-[#000000]/60"
-            required
-          />
-        </FormPrimitive.Control>
-      </FormPrimitive.Field>
-
-      <div className="px-4 w-full mt-8 md:mt-16 flex items-center justify-center">
-        <FormPrimitive.Submit asChild className="">
-          <Button className="w-full max-w-[315px] py-[6px]">
+        {formStep + 1 === forms.length ? (
+          <div
+            className={cn(
+              "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer"
+            )}
+          >
             Post Request
-          </Button>
-        </FormPrimitive.Submit>
+          </div>
+        ) : (
+          <div
+            className={cn(
+              "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer md:max-w-[204px]",
+              formStep < 1 && "w-full"
+            )}
+            onClick={onClickNextBtn}
+          >
+            Next
+          </div>
+        )}
       </div>
-
-      <div className="font-body text-special font-light text-black mt-6 px-5 md:px-[92px] text-center">
-        Your post will be displayed for the general public while your identity
-        is hidden but you can see responses by people with relevant information
-      </div> */}
     </FormPrimitive.Root>
   );
 });

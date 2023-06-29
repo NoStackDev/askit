@@ -6,6 +6,8 @@ import { cn } from "@/app/lib/utils";
 import Button from "./ui/Button";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import Dialog from "./ui/DialogPrimitive";
+import RequestForm from "./RequestForm";
 
 const Searchbox = React.lazy(() => import("./Searchbox"));
 const HamburgerMenu = React.lazy(() => import("@mui/icons-material/Menu"));
@@ -109,9 +111,14 @@ export default function Navbar({}: Props) {
               </div>
             </React.Suspense>
 
-            <Link href="/request/" className="w-fit h-fit hidden md:block">
-              <Button className="">Place a Request</Button>
-            </Link>
+            <Dialog
+              dialogTrigger={
+                <Button className={cn("w-fit h-fit hidden md:block")}>
+                  Place a Request
+                </Button>
+              }
+              dialogContent={<RequestForm className="max-h-[85vh]" />}
+            />
           </div>
         </>
       )}

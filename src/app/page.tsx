@@ -35,6 +35,7 @@ export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
   const openSidebarRef = useRef<HTMLDivElement>(null);
   const [feedRes, setFeedRes] = useState<any>({ data: [] });
+  const dialogCloseRef = useRef<HTMLDivElement>(null);
 
   const { token, user } = useGlobalContext();
 
@@ -152,20 +153,18 @@ export default function Home() {
         </div>
       </div>
 
-      {/* <Link href="/request/" className="md:hidden h-fit w-fit"> */}
       <Dialog
         dialogTrigger={
           <Button
-            className={cn("md:hidden fixed bottom-10 right-5 z-20")}
-            id="requestFormTrigger"
+            className={cn(
+              "md:hidden fixed bottom-10 right-5 z-20 hover:cursor-pointer"
+            )}
           >
             Place a Request
           </Button>
         }
-        dialogContent={<RequestForm className="max-h-[80vh]" />}
+        dialogContent={<RequestForm className="max-h-[85vh]" />}
       />
-
-      {/* </Link> */}
     </main>
   );
 }

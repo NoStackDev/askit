@@ -25,14 +25,14 @@ const RequestFormOne = React.forwardRef<
   HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, fowardref) => {
   return (
-    <div className={cn("h-full", className)} ref={fowardref} {...props}>
-      <h2 className="px-3 md:px-6 mt-8 font-headline text-headline_2 font-bold text-[#000000] text-left">
+    <div className={cn("h-full w-full", className)} ref={fowardref} {...props}>
+      <h2 className="mt-8 font-headline text-headline_2 font-bold text-[#000000] text-left">
         Tell us What You’re Looking For and Where!
       </h2>
 
       <FormPrimitive.Field
         name="request"
-        className="mt-8 px-3 md:px-6 flex flex-col gap-1 w-full"
+        className="mt-8 flex flex-col gap-1 w-full"
       >
         <div className="flex items-baseline justify-between">
           <FormPrimitive.Message
@@ -52,7 +52,7 @@ const RequestFormOne = React.forwardRef<
         </FormPrimitive.Control>
       </FormPrimitive.Field>
 
-      <div className="mt-8 px-3 md:px-6">
+      <div className="mt-8 ">
         <div className="font-body text-title_3 font-medium text-black">
           Choose perfect category
         </div>
@@ -60,7 +60,7 @@ const RequestFormOne = React.forwardRef<
         <div className="mt-4 flex flex-col md:flex-row gap-4 md:gap-5 items-center">
           <FormPrimitive.Field
             name="category"
-            className="px-3 md:px-0 flex flex-col gap-1 w-full"
+            className="flex flex-col gap-1 w-full"
           >
             <div className="flex items-baseline justify-between">
               <FormPrimitive.Message
@@ -96,7 +96,7 @@ const RequestFormOne = React.forwardRef<
 
           <FormPrimitive.Field
             name="sub category"
-            className="px-3 md:px-0 flex flex-col gap-1 w-full"
+            className="flex flex-col gap-1 w-full"
           >
             <div className="flex items-baseline justify-between">
               <FormPrimitive.Message
@@ -132,7 +132,7 @@ const RequestFormOne = React.forwardRef<
         </div>
       </div>
 
-      <div className="mt-8 px-3 md:px-6">
+      <div className="mt-8 ">
         <div className="font-body text-title_3 font-medium text-black">
           Where will you want it?
         </div>
@@ -140,7 +140,7 @@ const RequestFormOne = React.forwardRef<
         <div className="mt-4 flex flex-col md:flex-row gap-4 md:gap-5 items-center">
           <FormPrimitive.Field
             name="state"
-            className="mt-1 px-3 md:px-0 flex flex-col gap-1 w-full"
+            className="mt-1 flex flex-col gap-1 w-full"
           >
             <div className="flex items-baseline justify-between">
               <FormPrimitive.Message
@@ -176,7 +176,7 @@ const RequestFormOne = React.forwardRef<
 
           <FormPrimitive.Field
             name="category"
-            className="px-3 md:px-0 flex flex-col gap-1 w-full"
+            className="flex flex-col gap-1 w-full"
           >
             <div className="flex items-baseline justify-between">
               <FormPrimitive.Message
