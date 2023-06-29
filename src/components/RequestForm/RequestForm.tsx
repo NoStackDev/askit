@@ -58,16 +58,20 @@ const RequestForm = React.forwardRef<
           </div>
         }
         rightComponent={
-          // <Close asChild>
-            <Image
-              src="/images/icons/closeIcon.png"
-              width={32}
-              height={32}
-              alt="close"
-              className="w-6 h-6 md:w-8 md:h-8 justify-self-end cursor-pointer"
-              // onClick={}
-            />
-          // </Close>
+          <Image
+            src="/images/icons/closeIcon.png"
+            width={32}
+            height={32}
+            alt="close"
+            className="w-6 h-6 md:w-8 md:h-8 justify-self-end cursor-pointer"
+            onClick={() => {
+              const dialogCloseTrigger =
+                document.getElementById("dialogCloseTrigger");
+              if (dialogCloseTrigger) {
+                dialogCloseTrigger.click();
+              }
+            }}
+          />
         }
         className="px-5 py-4 fixed rounded-tl-[20px] rounded-tr-[20px]"
       />

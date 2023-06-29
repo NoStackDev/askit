@@ -22,7 +22,7 @@ const Dialog = React.forwardRef<
         <DialogPrimitive.Overlay className="bg-[#000000]/20 fixed inset-0 z-20" />
         <DialogPrimitive.Content className="z-30 fixed top-[53%] left-1/2 h-[80vh] w-screen md:w-5/12 -translate-x-1/2 -translate-y-1/2">
           {dialogContent}
-          <DialogPrimitive.Close>
+          <DialogPrimitive.Close asChild>
             <div id="dialogCloseTrigger"></div>
           </DialogPrimitive.Close>
         </DialogPrimitive.Content>
