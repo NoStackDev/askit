@@ -7,6 +7,7 @@ import Button from "@/components/ui/Button";
 import RequestResponseForm from "@/components/RequestResponseForm";
 import React from "react";
 import { responsesConfig } from "@/config.ts/responses";
+import Dialog from "@/components/ui/DialogPrimitive";
 
 const CommentsIcon = React.lazy(() => import("@mui/icons-material/Quickreply"));
 
@@ -17,7 +18,15 @@ export default function RequestsPage() {
         <Topbar>Fashion</Topbar>
         <RequestImgDetail />
         <div className="flex items-center justify-center h-fit w-full px-[20px]">
-          <Button className="md:hidden mt-8 w-full">Respond to Request</Button>
+          <Dialog
+            dialogTrigger={
+              <Button className="md:hidden mt-8 w-full">
+                Respond to Request
+              </Button>
+            }
+            dialogContent={<RequestResponseForm />}
+            className="h-full overflow-auto top-0 -translate-y-0"
+          />
         </div>
 
         <div className="flex flex-col items-center justify-center h-fit w-fit mt-8 md:mt-14 mx-[20px] md:mx-0">
@@ -32,12 +41,12 @@ export default function RequestsPage() {
               </React.Suspense>
 
               <div className="font-headline text-white text-headline_3 md:text-headline_2 font-bold">
-              Responses (4)
+                Responses (4)
               </div>
             </div>
           </div>
 
-          <Responses responses={responsesConfig} className="mt-6"/>
+          <Responses responses={responsesConfig} className="mt-6" />
         </div>
       </div>
 

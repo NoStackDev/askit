@@ -5,6 +5,7 @@ import * as FormPrimitive from "@radix-ui/react-form";
 import FileDragDrop from "./FileDragDrop";
 import VisibilityRadioGroup from "./ui/RequestVisibilityRadioGroup";
 import Button from "./ui/Button";
+import Image from "next/image";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -15,6 +16,7 @@ const AttachMoneyIcon = React.lazy(
 const WhatsAppIcon = React.lazy(() => import("@mui/icons-material/WhatsApp"));
 const ImageIcon = React.lazy(() => import("@mui/icons-material/Image"));
 const CancelIcon = React.lazy(() => import("@mui/icons-material/Cancel"));
+const CloseIcon = React.lazy(() => import("@mui/icons-material/Close"));
 
 const RequestResponseForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -51,12 +53,29 @@ const RequestResponseForm = React.forwardRef<
   };
 
   return (
-    <FormPrimitive.Root className="py-8 flex flex-col items-center bg-white">
-      <div className="font-headline text-headline_3 font-bold text-black px-5 pb-2 border-b-[1px] border-grey/20 w-full text-center">
-        Respond to This Request
+    <FormPrimitive.Root className="relative py-8 flex flex-col items-center bg-white h-full md:h-fit">
+      <div className="fixed md:relative w-full flex justify-between items-center px-5">
+        <div className="font-headline text-headline_3 font-bold text-black text-left md:pb-2 md:text-center md:border-b-[1px] md:border-grey/20 w-full">
+          Respond to This Request
+        </div>
+
+        <React.Suspense
+          fallback={<div className="md:hidden w-6 h-6 bg-stroke/60 animate-pulse"></div>}
+        >
+          <CloseIcon
+            className="w-6 h-6 md:hidden"
+            onClick={() => {
+              const dialogCloseTrigger =
+                document.getElementById("dialogCloseTrigger");
+              if (dialogCloseTrigger) {
+                dialogCloseTrigger.click();
+              }
+            }}
+          />
+        </React.Suspense>
       </div>
 
-      <div className="px-5">
+      <div className="px-5 mt-10 md:mt-0 overflow-auto">
         <FormPrimitive.Field
           name="comment"
           className="mt-8 flex flex-col gap-1"
@@ -200,7 +219,7 @@ const RequestResponseForm = React.forwardRef<
           </FormPrimitive.Submit>
         </div>
 
-        <div className="font-body text-body_3 text-[#000000] mt-3">
+        <div className="font-body text-body_3 text-[#000000] text-center mt-3">
           Only post a response that aligns with this request
         </div>
       </div>
