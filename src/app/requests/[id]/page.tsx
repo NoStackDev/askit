@@ -24,9 +24,10 @@ export default function RequestsPage() {
                 Respond to Request
               </Button>
             }
-            dialogContent={<RequestResponseForm />}
-            className="h-full overflow-auto top-0 -translate-y-0"
-          />
+            className="-translate-x-1/2 z-30 fixed top-0 left-1/2"
+          >
+            <RequestResponseForm className="w-screen h-screen" />
+          </Dialog>
         </div>
 
         <div className="flex flex-col items-center justify-center h-fit w-fit mt-8 md:mt-14 mx-[20px] md:mx-0">

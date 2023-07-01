@@ -6,6 +6,7 @@ import FileDragDrop from "./FileDragDrop";
 import VisibilityRadioGroup from "./ui/RequestVisibilityRadioGroup";
 import Button from "./ui/Button";
 import Image from "next/image";
+import { cn } from "@/app/lib/utils";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -53,14 +54,21 @@ const RequestResponseForm = React.forwardRef<
   };
 
   return (
-    <FormPrimitive.Root className="relative py-8 flex flex-col items-center bg-white h-full md:h-fit">
+    <FormPrimitive.Root
+      className={cn(
+        "relative py-8 flex flex-col items-center bg-white h-full md:h-fit",
+        className
+      )}
+    >
       <div className="fixed md:relative w-full flex justify-between items-center px-5">
         <div className="font-headline text-headline_3 font-bold text-black text-left md:pb-2 md:text-center md:border-b-[1px] md:border-grey/20 w-full">
           Respond to This Request
         </div>
 
         <React.Suspense
-          fallback={<div className="md:hidden w-6 h-6 bg-stroke/60 animate-pulse"></div>}
+          fallback={
+            <div className="md:hidden w-6 h-6 bg-stroke/60 animate-pulse"></div>
+          }
         >
           <CloseIcon
             className="w-6 h-6 md:hidden"
