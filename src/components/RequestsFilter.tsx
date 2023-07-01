@@ -73,7 +73,9 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
           <div className="bg-white max-h-[500px] w-[80vw] max-w-[360px]">
             <div>
               <div className="px-4 pt-10 pb-4 border-b border-[#000000]/10 flex flex-col gap-8">
-                <h3>Filter Location</h3>
+                <h3 className="font-headline text-headline_3 font-bold">
+                  Filter Location
+                </h3>
                 {stateFilter ? (
                   <div
                     className="flex gap-4 items-center hover:cursor-pointer"
@@ -87,10 +89,14 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                       <ArrowBackIcon className="w-4 h-4" />
                     </React.Suspense>
 
-                    <h4>{stateFilter}</h4>
+                    <h4 className="font-body text-lg font-medium text-[#000000]/60">
+                      {stateFilter}
+                    </h4>
                   </div>
                 ) : (
-                  <h4>States</h4>
+                  <h4 className="font-body text-lg font-medium text-[#000000]/60">
+                    States
+                  </h4>
                 )}
               </div>
               <div className="p-4 flex flex-col gap-4 div max-h-[268px] overflow-auto">
@@ -101,7 +107,7 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                       .map((city) => {
                         return (
                           <div
-                            className="hover:bg-stroke/20 hover:cursor-pointer"
+                            className="hover:bg-stroke/20 hover:cursor-pointer font-body text-title_2 font-medium"
                             key={city.geonameid}
                             onClick={() => {
                               setCityFilter(city.name);
@@ -118,11 +124,19 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                   : states.sort().map((state, index) => {
                       return (
                         <div
-                          className="hover:bg-stroke/20 hover:cursor-pointer"
+                          className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"
                           key={index}
                           onClick={() => setStateFilter(state)}
                         >
                           {state}
+
+                          <React.Suspense
+                            fallback={
+                              <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
+                            }
+                          >
+                            <ChevronRightIcon className="w-5 h-5 text-[#000000]/60" />
+                          </React.Suspense>
                         </div>
                       );
                     })}
