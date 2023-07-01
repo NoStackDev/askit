@@ -70,7 +70,7 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
           }
           className="fixed top-1/2 left-1/2 z-30 -translate-y-1/2 -translate-x-1/2"
         >
-          <div className="bg-white max-h-[500px] w-[50vw] max-w-[360px]">
+          <div className="bg-white max-h-[500px] w-[80vw] max-w-[360px]">
             <div>
               <div className="px-4 pt-10 pb-4 border-b border-[#000000]/10 flex flex-col gap-8">
                 <h3>Filter Location</h3>
