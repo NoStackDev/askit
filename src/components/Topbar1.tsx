@@ -36,7 +36,7 @@ const Topbar1 = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "relative bg-[#070237] w-full bg-[url(../../public/images/pictures/topbarbg1.png)] grid grid-cols-[1fr_3fr_1fr] items-center bg-no-repeat bg-cover",
+          "relative bg-[#070237] w-max bg-[url(../../public/images/pictures/topbarbg1.png)] grid grid-cols-[1fr_3fr_1fr] items-center bg-no-repeat bg-cover",
           pathUrl === "onboard" && "justify-start md:justify-center",
           className
         )}

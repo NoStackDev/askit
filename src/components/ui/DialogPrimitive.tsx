@@ -8,10 +8,10 @@ const Dialog = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Close>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root> & {
     dialogTrigger: React.ReactNode;
-    dialogContent: React.ReactNode;
+    // dialogContent: React.ReactNode;
     className?: string;
   }
->(({ children, className, dialogTrigger, dialogContent }, fowardref) => {
+>(({ children, className, dialogTrigger }, fowardref) => {
   return (
     <DialogPrimitive.Root>
       <DialogPrimitive.Trigger
@@ -24,11 +24,11 @@ const Dialog = React.forwardRef<
         <DialogPrimitive.Overlay className="bg-[#000000]/20 fixed inset-0 z-20" />
         <DialogPrimitive.Content
           className={cn(
-            "z-30 fixed top-[53%] left-1/2 h-[80vh] w-screen md:w-5/12 -translate-x-1/2 -translate-y-1/2",
+            "w-fit h-fit",
             className
           )}
         >
-          {dialogContent}
+          {children}
           <DialogPrimitive.Close asChild>
             <div id="dialogCloseTrigger"></div>
           </DialogPrimitive.Close>

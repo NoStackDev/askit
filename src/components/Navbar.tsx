@@ -117,8 +117,10 @@ export default function Navbar({}: Props) {
                   Place a Request
                 </Button>
               }
-              dialogContent={<RequestForm className="max-h-[85vh]" />}
-            />
+              className="fixed -translate-x-1/2 z-30 top-[86px] left-1/2"
+            >
+              <RequestForm />
+            </Dialog>
           </div>
         </>
       )}

@@ -8,6 +8,12 @@ const nextConfig = {
         port: "",
         pathname: "/w40/**",
       },
+      {
+        protocol: "https",
+        hostname: "flagsapi.com",
+        port: "",
+        pathname: "/**"
+      }
     ],
   },
   env: {

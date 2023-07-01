@@ -3,7 +3,6 @@
 import React from "react";
 import * as FormPrimitive from "@radix-ui/react-form";
 import FileDragDrop from "../FileDragDrop";
-import Button from "../ui/Button";
 import Topbar1 from "../Topbar1";
 import Image from "next/image";
 import RequestFormOne from "./RequestFormOne";
@@ -23,7 +22,7 @@ const RequestForm = React.forwardRef<
   const [formStep, setFormStep] = React.useState(0);
 
   const forms = [
-    <RequestFormOne key={0} className="mt-10 px-3 md:px-6 md:overflow-auto" />,
+    <RequestFormOne key={0} className="mt-10 px-3 md:px-6 overflow-auto" />,
     <RequestFormTwo
       key={1}
       className="mt-10 px-3 md:px-6 md:overflow-hidden"
@@ -45,7 +44,7 @@ const RequestForm = React.forwardRef<
   };
 
   return (
-    <FormPrimitive.Root className="relative pb-10 flex flex-col items-center bg-white max-h-[85vh] overflow-auto rounded-[20px]">
+    <FormPrimitive.Root className="relative pb-10 flex flex-col items-center bg-white h-[85vh] max-h-[800px] rounded-[20px] w-screen max-w-[600px]">
       <Topbar1
         leftComponent={
           <div className="text-white text-left font-body text-title_2 font-medium">
@@ -53,7 +52,7 @@ const RequestForm = React.forwardRef<
           </div>
         }
         middleComponent={
-          <div className="text-white text-center font-headline text-headline_3 font-bold">
+          <div className="text-white text-center font-headline text-headline_3 font-bold w-full self">
             Place a Request
           </div>
         }
@@ -73,7 +72,7 @@ const RequestForm = React.forwardRef<
             }}
           />
         }
-        className="px-5 py-4 fixed rounded-tl-[20px] rounded-tr-[20px]"
+        className="px-5 py-4 fixed rounded-tl-[20px] rounded-tr-[20px] w-screen max-w-[600px]"
       />
       {forms[formStep]}
 

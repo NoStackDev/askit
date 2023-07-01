@@ -162,8 +162,11 @@ export default function Home() {
             Place a Request
           </Button>
         }
-        dialogContent={<RequestForm className="max-h-[85vh]" />}
-      />
+
+        className="-translate-x-1/2 z-30 fixed top-[80px] left-1/2"
+      >
+        <RequestForm className="" />
+      </Dialog>
     </main>
   );
 }
