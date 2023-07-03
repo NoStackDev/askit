@@ -2,7 +2,7 @@
 
 import { cn } from "@/app/lib/utils";
 import Link from "next/link";
-import React, { HTMLAttributes } from "react";
+import React, { HTMLAttributes, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { sidebarConfig, sidebarConfig1 } from "@/config.ts/sidebarConfig";
 import { getCategories } from "@/app/lib/category";
@@ -43,16 +43,24 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
     );
     renderSidebar = renderSidebar === "" ? true : Boolean(renderSidebar);
 
+    useEffect(() => {
+      if (showSidebar) {
+        document.body.style.overflow = "hidden";
+      }
+    }, [showSidebar]);
+
     return (
       <>
         {showSidebar && (
-          <div className="sticky top-0 bg-stroke/60 z-40 md:hidden w-screen h-screen"></div>
+          <div className="fixed top-0 bg-stroke/60 z-40 md:hidden w-screen h-screen"></div>
         )}
 
         <div
           className={cn(
-            "px-5 py-10 bg-[#2E2775] sticky md:relative top-0 w-screen max-w-[300px] z-50 md:z-0 flex flex-col gap-5 h-fit md:rounded-[20px] md:ml-[100px] md:mt-14 md:w-[300px]",
-            // !showSidebar && "-left-full",
+            "px-5 py-10 bg-[#2E2775] flex flex-col gap-5 h-fit md:rounded-[20px] md:ml-[100px] md:mt-14 md:w-[300px]",
+            !showSidebar && "hidden md:flex",
+            showSidebar &&
+              "fixed top-0 w-screen max-w-[300px] z-50 overflow-auto",
             className
           )}
           ref={sidebarRef}
