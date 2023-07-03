@@ -8,6 +8,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Dialog from "./ui/DialogPrimitive";
 import RequestForm from "./RequestForm";
+import { useSidebarContext } from "@/app/context/sidebarContext";
 
 const Searchbox = React.lazy(() => import("./Searchbox"));
 const HamburgerMenu = React.lazy(() => import("@mui/icons-material/Menu"));
@@ -22,6 +23,7 @@ const onlyRenderLogo = ["login", "signup", "onboard"];
 
 export default function Navbar({}: Props) {
   const path = usePathname();
+  const { showSidebar, setShowSidebar } = useSidebarContext();
   const pathUrl = path.split("/")[1];
   let renderOnlyLogo = Boolean(
     onlyRenderLogo.find((urlSplit) => urlSplit === pathUrl)
@@ -107,7 +109,16 @@ export default function Navbar({}: Props) {
                   "md:hidden h-10 w-10 bg-background rounded flex items-center justify-center"
                 )}
               >
-                <HamburgerMenu className="text-stroke" />
+                {!showSidebar && (
+                  <HamburgerMenu
+                    className={cn("text-stroke")}
+                    onClick={() => setShowSidebar(!showSidebar)}
+                  />
+                )}
+
+                <div
+                  className={cn("h-10 w-10", !showSidebar && "hidden")}
+                ></div>
               </div>
             </React.Suspense>
 

@@ -27,12 +27,12 @@ type UserType = {
   whatsapp_num: string;
 };
 
-interface UserContext {
+interface UserContextType {
   user: UserType | null;
   setUser: Dispatch<SetStateAction<UserType | null>>;
 }
 
-const GlobalContext = createContext<TokenType & UserContext>({
+const GlobalContext = createContext<TokenType & UserContextType>({
   token: null,
   setToken: () => "",
   user: null,

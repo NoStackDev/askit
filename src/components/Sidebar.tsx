@@ -4,12 +4,19 @@ import { cn } from "@/app/lib/utils";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
 import { usePathname } from "next/navigation";
-import { sidebarConfig } from "@/config.ts/sidebarConfig";
-import { sidebarItem } from "@/types";
+import { sidebarConfig, sidebarConfig1 } from "@/config.ts/sidebarConfig";
 import { getCategories } from "@/app/lib/category";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/Accordion1";
+import { useSidebarContext } from "@/app/context/sidebarContext";
+import useOnClickOutside from "@/hooks/useOnclickOutside";
 
-const ChevronRight = React.lazy(
-  () => import("@mui/icons-material/ChevronRight")
+const ExpandMoreIcon = React.lazy(
+  () => import("@mui/icons-material/ExpandMore")
 );
 
 const renderInPage = [
@@ -25,7 +32,9 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const Sidebar = React.forwardRef<HTMLDivElement, Props>(
   ({ children, className, ...props }, ref) => {
-    const [categories, setCategories] = React.useState<any[]>();
+    const { showSidebar, setShowSidebar } = useSidebarContext();
+    const sidebarRef = React.useRef<HTMLDivElement>(null);
+    useOnClickOutside(sidebarRef, setShowSidebar);
 
     const path = usePathname();
     const pathUrl = path.split("/")[1];
@@ -34,43 +43,98 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
     );
     renderSidebar = renderSidebar === "" ? true : Boolean(renderSidebar);
 
-    // React.useEffect(() => {
-    //   (async () => {
-    //     try {
-    //       const requestFeed = await getCategories(
-    //         "Bearer 29|Aiw1waEEFG5XGYOa14386uVttXPdv6M1OlytPqAc"
-    //       );
-    //       setCategories(requestFeed);
-    //     } catch (err) {
-    //       console.log(err);
-    //     }
-    //   })();
-    // }, []);
-
     return (
       <>
-        {renderSidebar ? (
-          <div
-            ref={ref}
-            className={cn(
-              "hidden md:block rounded-[20px] px-5 py-10 bg-[#2E2775] text-white mb-10 min-w-[255px] h-fit md:mt-14 md:ml-[100px]",
-              className
-            )}
-            {...props}
-          >
-            <ol className="font-body text-title_1 font-medium flex flex-col gap-5">
-              {sidebarConfig.map((sidebarEle) => {
-                return (
-                  <SidebarItem
-                    item={sidebarEle}
-                    path={path}
-                    key={sidebarEle.id}
-                  />
-                );
-              })}
-            </ol>
-          </div>
-        ) : null}
+        {showSidebar && (
+          <div className="sticky top-0 bg-stroke/60 z-40 md:hidden w-screen h-screen"></div>
+        )}
+
+        <div
+          className={cn(
+            "px-5 py-10 bg-[#2E2775] sticky md:relative top-0 w-screen max-w-[300px] z-50 md:z-0 flex flex-col gap-5 h-fit md:rounded-[20px] md:ml-[100px] md:mt-14 md:w-[300px]",
+            // !showSidebar && "-left-full",
+            className
+          )}
+          ref={sidebarRef}
+        >
+          {sidebarConfig1.map((sidebarItem) => {
+            return (
+              <div
+                className={cn(
+                  "border border-white rounded-lg overflow-clip w-full"
+                )}
+                key={sidebarItem.id}
+              >
+                {sidebarItem.href ? (
+                  <Link
+                    href={sidebarItem.href}
+                    className={cn(
+                      "block w-full px-4 py-2 hover:bg-white hover:cursor-pointer font-body font-medium text-white text-[18px] hover:text-black",
+                      "/" + pathUrl === sidebarItem.href &&
+                        "bg-white text-black"
+                    )}
+                  >
+                    {sidebarItem.title}
+                  </Link>
+                ) : (
+                  <div className="text-white font-body font-medium w-full px-4 mt-4">
+                    {sidebarItem.title}
+                  </div>
+                )}
+
+                {sidebarItem.children && (
+                  <Accordion
+                    type="single"
+                    collapsible
+                    className={cn("flex flex-col gap-3 items-start mt-3")}
+                  >
+                    {sidebarItem.children.map((sidebarItemChild) => {
+                      return (
+                        <AccordionItem
+                          value={sidebarItemChild.id}
+                          key={sidebarItemChild.id}
+                          className="w-full"
+                        >
+                          <AccordionTrigger
+                            icon={
+                              <React.Suspense
+                                fallback={
+                                  <div className="w-4 h-4 bg-stroke/60 animate-pulse"></div>
+                                }
+                              >
+                                <ExpandMoreIcon className="text-white/50 group-hover:text-black/50 ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                              </React.Suspense>
+                            }
+                            headerClassName="w-full"
+                            className="px-4 py-2 group hover:cursor-pointer hover:bg-white w-full flex items-center justify-between"
+                          >
+                            <div className="text-white group-hover:text-black font-body font-medium text-title_3">
+                              {sidebarItemChild.title}
+                            </div>
+                          </AccordionTrigger>
+                          {sidebarItemChild.subChildren?.map(
+                            (sidebarItemChildSubChild) => {
+                              return (
+                                <AccordionContent
+                                  key={sidebarItemChildSubChild.id}
+                                  className="text-title_3"
+                                >
+                                  <div className="hover:cursor-pointer hover:bg-white hover:text-black font-body text-white font-medium w-full py-2 pl-8 first:mt-3">
+                                    {sidebarItemChildSubChild.title}
+                                  </div>
+                                </AccordionContent>
+                              );
+                            }
+                          )}
+                        </AccordionItem>
+                      );
+                    })}
+                  </Accordion>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </>
     );
   }
@@ -79,56 +143,3 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
 Sidebar.displayName = "Sidebar";
 
 export default Sidebar;
-
-interface SidebarItemProps extends HTMLAttributes<HTMLOListElement> {
-  item: sidebarItem;
-  path: string;
-}
-
-const SidebarItem = ({ item, path, children, className }: SidebarItemProps) => {
-  return (
-    <>
-      {item.href && (
-        <li
-          className={cn(
-            "border-[1px] border-white rounded-lg hover:bg-white hover:text-black",
-            path === item.href && "bg-white text-black"
-          )}
-        >
-          <Link
-            href={item.href}
-            className="whitespace-nowrap inline-flex w-full px-4 py-2"
-          >
-            {item.title}
-          </Link>
-        </li>
-      )}
-
-      {item.children && (
-        <li className="border-[1px] border-white rounded-[4px] pb-3">
-          <span className="whitespace-nowrap inline-flex w-full px-4 py-2">
-            {item.title}
-          </span>
-
-          <ol className="flex flex-col gap-[15px] text-title_3">
-            {item.children.map((childEle) => {
-              return (
-                <li key={childEle.id} className="">
-                  <Link
-                    href={childEle.href || "/"}
-                    className="whitespace-nowrap flex w-full pl-10 pr-[22px] py-3 items-center justify-between hover:bg-white hover:text-black"
-                  >
-                    <span>{childEle.title}</span>
-                    <React.Suspense>
-                      <ChevronRight />
-                    </React.Suspense>
-                  </Link>
-                </li>
-              );
-            })}
-          </ol>
-        </li>
-      )}
-    </>
-  );
-};
