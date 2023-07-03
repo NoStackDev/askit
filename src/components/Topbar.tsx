@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthContext } from "@/app/context/authContext";
 import { cn } from "@/app/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,7 +16,7 @@ const Topbar = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const path = usePathname();
   const pathUrl = path.split("/")[1];
-  let renderSkipButton = Boolean(pathUrl === "onboard");
+  const { isOnboarding, dispatch } = useAuthContext();
 
   return (
     <div
@@ -27,7 +28,7 @@ const Topbar = React.forwardRef<
       )}
       {...props}
     >
-      {renderSkipButton ? null : (
+      {isOnboarding ? null : (
         <Link
           href="/"
           className="absolute left-[55px] -translate-x-1/2 top-1/2 -translate-y-1/2 w-fit h-fit flex items-center gap-1"
@@ -49,10 +50,11 @@ const Topbar = React.forwardRef<
         {children}
       </div>
 
-      {renderSkipButton ? (
+      {isOnboarding ? (
         <Link
           href="/"
           className="absolute right-[0px] -translate-x-1/2 top-1/2 -translate-y-1/2 w-fit h-fit flex items-center gap-1"
+          onClick={() => dispatch({ type: "RESET" })}
         >
           <div className="font-body text-title_2 font-medium text-primary bg-white rounded-lg py-1 px-3">
             Skip

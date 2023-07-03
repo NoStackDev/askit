@@ -14,6 +14,7 @@ import {
 } from "./ui/Accordion1";
 import { useSidebarContext } from "@/app/context/sidebarContext";
 import useOnClickOutside from "@/hooks/useOnclickOutside";
+import { useAuthContext } from "@/app/context/authContext";
 
 const ExpandMoreIcon = React.lazy(
   () => import("@mui/icons-material/ExpandMore")
@@ -34,6 +35,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
   ({ children, className, ...props }, ref) => {
     const { showSidebar, setShowSidebar } = useSidebarContext();
     const sidebarRef = React.useRef<HTMLDivElement>(null);
+    const { isOnboarding } = useAuthContext();
     useOnClickOutside(sidebarRef, setShowSidebar);
 
     const path = usePathname();
@@ -65,11 +67,17 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
             "px-5 bg-[#2E2775] h-fit md:rounded-[20px] md:ml-[100px] md:mt-14 md:w-[300px]",
             !showSidebar && "hidden md:flex",
             showSidebar && "fixed top-0 w-screen max-w-[300px] z-50",
+            isOnboarding && "hidden",
             className
           )}
           ref={sidebarRef}
         >
-          <div className="py-10 h-fit max-h-screen overflow-auto no-scrollbar w-full flex flex-col gap-5">
+          <div
+            className={cn(
+              "py-10 h-fit max-h-screen overflow-auto no-scrollbar w-full flex flex-col gap-5",
+              isOnboarding && "hidden"
+            )}
+          >
             {sidebarConfig1.map((sidebarItem) => {
               return (
                 <div

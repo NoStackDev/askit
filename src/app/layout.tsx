@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import { GlobalContextProvider } from "./context/Store";
 import { SidebarContextProvider } from "./context/sidebarContext";
+import { AuthContextProvider } from "./context/authContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -39,14 +40,16 @@ export default function RootLayout({
         className={`${inter.className} ${space_mono.variable} ${space_grotest.variable} bg-background`}
       >
         <GlobalContextProvider>
-          <SidebarContextProvider>
-            <Navbar />
-            <div className="bg-background md:flex w-full md:mb-20">
-              <Sidebar className="" />
-              <div className="w-full">{children}</div>
-            </div>
-            <Footer className="" />
-          </SidebarContextProvider>
+          <AuthContextProvider>
+            <SidebarContextProvider>
+              <Navbar />
+              <div className="bg-background md:flex w-full md:mb-20">
+                <Sidebar className="" />
+                <div className="w-full">{children}</div>
+              </div>
+              <Footer className="" />
+            </SidebarContextProvider>
+          </AuthContextProvider>
         </GlobalContextProvider>
       </body>
     </html>

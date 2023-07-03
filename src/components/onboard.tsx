@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 
 type Props = {};
 
-const OnboardPage = (props: Props) => {
+const Onboard = (props: Props) => {
   return (
     <main className="mt-4 md:mt-10 md:mx-[100px] bg-white md:bg-background flex justify-center items-center mb-10 md:mb-20">
       <div className="max-w-[700px] bg-white">
@@ -92,7 +92,7 @@ const OnboardPage = (props: Props) => {
 
             <div className="mt-2 w-full flex flex-col gap-3">
               <div className="px-3 py-[6px] bg-background flex w-full justify-between border border-[#D9D9D9] rounded-lg">
-                <div className="">
+                <div className="w-full">
                   <div></div>
                   <input
                     type="text"
@@ -111,7 +111,7 @@ const OnboardPage = (props: Props) => {
               </div>
 
               <div className="px-3 py-[6px] bg-background flex w-full justify-between border border-[#D9D9D9] rounded-lg">
-                <div className="">
+                <div className="w-full">
                   <div></div>
                   <input
                     type="text"
@@ -155,4 +155,4 @@ const OnboardPage = (props: Props) => {
   );
 };
 
-export default OnboardPage;
+export default Onboard;

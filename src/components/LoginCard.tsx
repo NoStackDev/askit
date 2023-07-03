@@ -4,12 +4,14 @@ import React, { FormEvent, MouseEvent } from "react";
 
 import * as FormPrimitive from "@radix-ui/react-form";
 import Button from "./ui/Button";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import Link from "next/link";
 import { loginUser, registerUser } from "@/app/lib/user";
 import { cn } from "@/app/lib/utils";
 import getUser from "@/app/lib/user/getUser";
 import { useGlobalContext } from "@/app/context/Store";
+import { useAuthContext } from "@/app/context/authContext";
+import Onboard from "./onboard";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
 const MailIcon = React.lazy(() => import("@mui/icons-material/Mail"));
@@ -24,25 +26,38 @@ const LoginCard = React.forwardRef<
   const [password, setPassword] = React.useState("");
 
   const { setToken, setUser } = useGlobalContext();
+  const { isLoading, isSuccess, isError, isOnboarding, dispatch } =
+    useAuthContext();
 
   const onSignUpClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const userData = registerUser(name, email, password);
-    const user = await userData;
+
+    try {
+      const userData = registerUser({ name, email, password }, dispatch);
+      const user = await userData;
+
+      dispatch({ type: "REGISTRATION_SUCCESSFUL" });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const onLoginClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const loginRes = loginUser({ email, password });
+      const loginRes = loginUser({ email, password }, dispatch);
       const loginData = await loginRes;
 
       if (loginData.token) {
         setToken(loginData.token);
         const userData = await getUser(loginData.token);
         setUser(userData.data);
+        dispatch({ type: "LOGIN_SUCCESSFUL" });
+        dispatch({ type: "RESET" });
+        redirect("/");
       }
     } catch (err) {
+      dispatch({ type: "FAILURE" });
       console.log(err);
     }
   };
@@ -225,7 +240,7 @@ function SignUpForm({
 
           <FormPrimitive.Control asChild className="w-full">
             <input
-              type="text"
+              type="password"
               placeholder="Create Password"
               className="pl-3 w-full py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60"
               required
@@ -309,7 +324,7 @@ function LoginForm({
 
           <FormPrimitive.Control asChild className="w-full">
             <input
-              type="text"
+              type="password"
               placeholder="Password"
               className="pl-3 py-[6px] font-body font-medium text-title_2 placeholder:font-body placeholder:font-medium placeholder:text-title_2 bg-faded placeholder:text-[#000000]/60 w-full"
               required
