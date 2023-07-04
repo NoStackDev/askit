@@ -1,5 +1,4 @@
 import React from "react";
-import * as FormPrimitive from "@radix-ui/react-form";
 import Topbar from "@/components/Topbar";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
@@ -25,6 +24,7 @@ import {
   SelectValue,
 } from "./ui/Select";
 import { cn } from "@/app/lib/utils";
+import { useAuthContext } from "@/app/context/authContext";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -35,9 +35,13 @@ type Props = {};
 const Onboard = (props: Props) => {
   const [state, setState] = React.useState<string | null>(null);
   const [city, setCity] = React.useState<string | null>(null);
+  const [whatIDo, setWhatIDo] = React.useState<string>("");
+  const [businessAddr, setBusinessAddr] = React.useState<string>("");
   const [facebookLink, setFacebookLink] = React.useState<string>("");
   const [instagramLink, setInstagramLink] = React.useState<string>("");
   const [whatsppNum, setWhatsappNum] = React.useState<string>("");
+
+  const { dispatch } = useAuthContext();
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 
@@ -47,6 +51,10 @@ const Onboard = (props: Props) => {
     if (profilePicRef.current) {
       profilePicRef.current.click();
     }
+  };
+
+  const onSaveClick = () => {
+    dispatch({ type: "RESET" });
   };
 
   return (
@@ -103,6 +111,7 @@ const Onboard = (props: Props) => {
               rows={5}
               placeholder="Write here..."
               className="font-body text-body_1 placeholder:font-body placeholder:text-body_1 placeholder:opacity-60 border border-[#B7B9BC] rounded-lg py-4 px-3"
+              onChange={(e) => setWhatIDo(e.target.value)}
             />
           </div>
 
@@ -148,6 +157,7 @@ const Onboard = (props: Props) => {
                 rows={4}
                 placeholder="Enter address..."
                 className="w-full font-body text-body_1 placeholder:font-body placeholder:text-body_1 placeholder:opacity-60 border border-[#B7B9BC] rounded-lg py-4 px-3"
+                onChange={(e) => setBusinessAddr(e.target.value)}
               />
             </div>
           </div>
@@ -212,7 +222,10 @@ const Onboard = (props: Props) => {
             </div>
           </div>
 
-          <Button className="mt-8 w-full max-w-[225px] rounded-[14px] py-2">
+          <Button
+            className="mt-8 w-full max-w-[225px] rounded-[14px] py-2"
+            onClick={onSaveClick}
+          >
             Save and continue
           </Button>
 
@@ -324,6 +337,8 @@ const LocationSelector = React.forwardRef<
   }
 );
 
+Menubar.displayName = "Menubar";
+
 interface LocationSelectI {
   location: string | null;
   setLocation: React.Dispatch<React.SetStateAction<string | null>>;
@@ -415,3 +430,5 @@ const LocationSelect = React.forwardRef<
     );
   }
 );
+
+LocationSelect.displayName = "LocationSelect";
