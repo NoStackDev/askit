@@ -36,7 +36,7 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
       <div
         ref={ref}
         className={twMerge(
-          "rounded px-2 py-1 flex items-center justify-between  bg-[#E9EEFE] min-w-[290px]",
+          "rounded px-2 py-1 flex items-center justify-between min-w-[290px] bg-white",
           className
         )}
       >
