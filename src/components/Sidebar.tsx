@@ -58,7 +58,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
 
     return (
       <>
-        {isOnboarding ? null : (
+        {isOnboarding || !renderSidebar ? null : (
           <>
             {showSidebar && (
               <div className="fixed top-0 bg-stroke/60 z-40 md:hidden w-screen h-screen"></div>
