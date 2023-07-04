@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import Dialog from "./ui/DialogPrimitive";
 import RequestForm from "./RequestForm";
 import { useSidebarContext } from "@/app/context/sidebarContext";
+import { useAuthContext } from "@/app/context/authContext";
 
 const Searchbox = React.lazy(() => import("./Searchbox"));
 const HamburgerMenu = React.lazy(() => import("@mui/icons-material/Menu"));
@@ -24,6 +25,8 @@ const onlyRenderLogo = ["login", "signup", "onboard"];
 export default function Navbar({}: Props) {
   const path = usePathname();
   const { showSidebar, setShowSidebar } = useSidebarContext();
+  const { isOnboarding } = useAuthContext();
+
   const pathUrl = path.split("/")[1];
   let renderOnlyLogo = Boolean(
     onlyRenderLogo.find((urlSplit) => urlSplit === pathUrl)
@@ -44,11 +47,11 @@ export default function Navbar({}: Props) {
         />
       </Link>
 
-      {pathUrl === "onboard" ? (
+      {isOnboarding && (
         <div className="font-headline text-headline_3 md:text-headline_2 font-bold text-[#168F0B]">
           Sign up Successful!
         </div>
-      ) : null}
+      )}
 
       {renderOnlyLogo ? null : (
         <>
