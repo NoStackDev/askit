@@ -337,7 +337,7 @@ const LocationSelector = React.forwardRef<
   }
 );
 
-Menubar.displayName = "Menubar";
+LocationSelector.displayName = "LocationSelector";
 
 interface LocationSelectI {
   location: string | null;
