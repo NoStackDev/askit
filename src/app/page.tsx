@@ -1,5 +1,4 @@
 "use client";
-
 import DealsCard from "@/components/DealsCard";
 import PageNumbers from "@/components/PageNumbers";
 import Requests from "@/components/Requests";
@@ -129,7 +128,7 @@ export default function Home() {
           </div>
 
           <div>
-            {feeds && feeds.length > 0 ? (
+            {feeds.data && feeds.data.length > 0 ? (
               <>
                 <Requests requests={feeds.data} className="mt-4 md:mt-8" />
 
