@@ -28,7 +28,7 @@ const ProfilePage = (props: Props) => {
         console.log(err);
       }
     })();
-  }, []);
+  }, [token]);
 
   return (
     <main className="relative bg-background px-[20px] md:px-0 pb-20 md:pb-0 md:mt-14 md:mb-10 md:ml-[112px] md:mr-[100px]">

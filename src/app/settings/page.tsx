@@ -4,16 +4,7 @@ import Button from "@/components/ui/Button";
 import Image from "next/image";
 import React from "react";
 import { City } from "../types";
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger,
-} from "@/components/ui/Menubar";
+
 import {
   Select,
   SelectContent,
@@ -114,16 +105,6 @@ const SettingsPage = (props: Props) => {
           </div>
 
           <div className="mt-4 w-full flex flex-col md:flex-row gap-4">
-            {/* <select
-              name="state"
-              id="state_select_id"
-              className="w-full py-2 px-2"
-            >
-              <option value="Rivers">Rivers</option>
-              <option value="Lagos">Lagos</option>
-              <option value="Abuja">Abuja</option>
-            </select> */}
-
             <LocationSelect
               locationType="STATE"
               locations={states}
@@ -132,12 +113,6 @@ const SettingsPage = (props: Props) => {
             />
 
             <div className="w-full flex gap-6">
-              {/* <select name="city" id="city_select_id" className="w-full">
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-              </select> */}
-
               <LocationSelect
                 locationType="CITY"
                 locations={state ? statesConfig[state] : null}
@@ -155,7 +130,7 @@ const SettingsPage = (props: Props) => {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-3 mt-4 h-[30px]">
+          {/* <div className="flex flex-wrap gap-3 mt-4 h-[30px]">
             {selectedCities.map((city, index) => {
               return (
                 <div
@@ -178,7 +153,7 @@ const SettingsPage = (props: Props) => {
                 </div>
               );
             })}
-          </div>
+          </div> */}
         </div>
 
         <div className="md:hidden w-full mt-6 border-t border-[#000000]/10"></div>
@@ -350,88 +325,6 @@ const SettingsPage = (props: Props) => {
 };
 
 export default SettingsPage;
-
-interface LocationSelectorI {
-  city: string | null;
-  setState: React.Dispatch<React.SetStateAction<string | null>>;
-  setCity: React.Dispatch<React.SetStateAction<string | null>>;
-  statesConfig: Record<string, City[]>;
-}
-
-const LocationSelector = React.forwardRef<
-  React.ElementRef<typeof Menubar>,
-  React.ComponentPropsWithoutRef<typeof Menubar> & LocationSelectorI
->(
-  (
-    { className, children, statesConfig, city, setState, setCity, ...props },
-    fowardref
-  ) => {
-    const states = Object.keys(statesConfig);
-
-    return (
-      <Menubar className={className} ref={fowardref} {...props}>
-        <MenubarMenu>
-          <MenubarTrigger className="flex items-center justify-between w-full px-4 py-3 border border-grey rounded">
-            <div className="flex items-center gap-4">
-              <span className="font-body text-body_1 text-black/60">
-                {city || "Select"}
-              </span>
-            </div>
-
-            <React.Suspense
-              fallback={
-                <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-              }
-            >
-              <KeyboardArrowDownIcon className="text-[#828080]" />
-            </React.Suspense>
-          </MenubarTrigger>
-
-          <MenubarContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-30 max-h-[50vh] overflow-auto">
-            {states.sort().map((state, index) => {
-              return (
-                <MenubarSub key={index}>
-                  <MenubarSubTrigger className="max-w-[200px] group font-body text-special leading-none rounded flex items-center justify-between h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none">
-                    {state}
-                    <React.Suspense
-                      fallback={
-                        <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
-                      }
-                    >
-                      {/* <ChevronRightIcon className="w-5 h-5 text-[#000000]/80" /> */}
-                    </React.Suspense>
-                  </MenubarSubTrigger>
-
-                  <MenubarSubContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-40 ax-h-[50vh] overflow-auto">
-                    {statesConfig[state]
-                      .sort()
-                      .reverse()
-                      .map((city) => {
-                        return (
-                          <MenubarItem
-                            key={city.geonameid}
-                            className="px-1 font-body text-special hover:cursor-default hover:bg-stroke/60 relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none"
-                            onClick={() => {
-                              setState(state);
-                              setCity(city.name);
-                            }}
-                          >
-                            {city.name}
-                          </MenubarItem>
-                        );
-                      })}
-                  </MenubarSubContent>
-                </MenubarSub>
-              );
-            })}
-          </MenubarContent>
-        </MenubarMenu>
-      </Menubar>
-    );
-  }
-);
-
-LocationSelector.displayName = "LocationSelector";
 
 interface LocationSelectI {
   location: string | null;
