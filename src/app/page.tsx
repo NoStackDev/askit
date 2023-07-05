@@ -144,8 +144,8 @@ export default function Home() {
 
                 <div>
                   <PageNumbers
-                    {feeds.links}
-                    {feeds.meta}
+                    {...feeds.links}
+                    {...feeds.meta}
                     className="mt-6"
                   />
                 </div>
