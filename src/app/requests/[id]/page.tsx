@@ -40,17 +40,17 @@ export default function RequestsPage() {
   return (
     <main className="flex flex-col md:grid md:grid-cols-[1fr_348px] md:mx-[100px] md:gap-5 bg-background md:py-14 mb-20">
       <div>
-        <Topbar>{request?.request.category}</Topbar>
+        <Topbar>{request?.category}</Topbar>
         {request && (
           <RequestImgDetail
-            bookmark={request.request.bookmark}
-            image_url={request.request.image_url}
-            category={request.request.category}
-            description={request.request.description}
-            location={request.request.location}
-            title={request.request.title}
-            user={request.request.title}
-            created_at={request.request.created_at}
+            bookmark={request.bookmark}
+            image_url={request.image_url}
+            category={request.category}
+            description={request.description}
+            location={request.location}
+            title={request.title}
+            user={request.title}
+            created_at={request.created_at}
             requestId={requestId}
           />
         )}
