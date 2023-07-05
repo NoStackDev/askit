@@ -1,24 +1,4 @@
-type RequestType = {
-  title: string;
-  user_id: number;
-  category_group_id: number;
-  location_id: number;
-  description: string;
-  image?: File;
-};
-
-export default async function postRequest(
-  token: string,
-  {
-    title,
-    user_id,
-    category_group_id,
-    location_id,
-    description,
-    image,
-  }: RequestType
-) {
-  console.log(`Bearer ${token}`);
+export default async function postRequest(token: string, formData: FormData) {
   const res = await fetch(`${process.env.API}/requests`, {
     method: "POST",
     headers: {
@@ -26,14 +6,7 @@ export default async function postRequest(
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({
-      title,
-      user_id,
-      category_group_id,
-      location_id,
-      description,
-      image,
-    }),
+    body: formData,
   });
 
   return res.json();

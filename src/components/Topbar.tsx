@@ -3,7 +3,7 @@
 import { useAuthContext } from "@/app/context/authContext";
 import { cn } from "@/app/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect } from "next/navigation";
 import React from "react";
 
 const ArrowCircleLeftIcon = React.lazy(
@@ -14,16 +14,19 @@ const Topbar = React.forwardRef<
   React.ElementRef<"div">,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
-  const path = usePathname();
-  const pathUrl = path.split("/")[1];
   const { isOnboarding, dispatch } = useAuthContext();
+
+  const onClickSkip = () => {
+    dispatch({ type: "RESET" });
+    redirect("/");
+  };
 
   return (
     <div
       ref={ref}
       className={cn(
         "relative bg-[#070237] w-full bg-[url(../../public/images/pictures/topbarbg1.png)] flex items-center justify-center px-[22px] py-[18px] bg-no-repeat bg-cover",
-        pathUrl === "onboard" && "justify-start md:justify-center",
+        isOnboarding && "justify-start md:justify-center",
         className
       )}
       {...props}
@@ -56,7 +59,10 @@ const Topbar = React.forwardRef<
           className="absolute right-[0px] -translate-x-1/2 top-1/2 -translate-y-1/2 w-fit h-fit flex items-center gap-1"
           onClick={() => dispatch({ type: "RESET" })}
         >
-          <div className="font-body text-title_2 font-medium text-primary bg-white rounded-lg py-1 px-3">
+          <div
+            className="font-body text-title_2 font-medium text-primary bg-white rounded-lg py-1 px-3"
+            onClick={onClickSkip}
+          >
             Skip
           </div>
         </Link>

@@ -35,6 +35,7 @@ const LoginCard = React.forwardRef<
     try {
       const userData = registerUser({ name, email, password }, dispatch);
       const user = await userData;
+      setUser(user);
 
       dispatch({ type: "REGISTRATION_SUCCESSFUL" });
     } catch (err) {

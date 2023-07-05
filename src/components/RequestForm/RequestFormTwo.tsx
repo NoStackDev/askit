@@ -18,12 +18,13 @@ interface FormTwoI {
   setImages: React.Dispatch<
     React.SetStateAction<{ name: string; url: string }[]>
   >;
+  setImageFile: React.Dispatch<React.SetStateAction<FileList | undefined>>;
 }
 
 const RequestFormTwo = React.forwardRef<
   React.ElementRef<"div">,
   HTMLAttributes<HTMLDivElement> & FormTwoI
->(({ className, images, setImages, ...props }, fowardref) => {
+>(({ className, images, setImages, setImageFile, ...props }, fowardref) => {
   return (
     <div className={cn("h-full w-full", className)} ref={fowardref} {...props}>
       <h2 className="mt-8 font-headline text-headline_2 font-bold text-[#000000] text-left">
@@ -32,13 +33,19 @@ const RequestFormTwo = React.forwardRef<
 
       <FormPrimitive.Field
         name="request"
-        className="mt-10 md:px-6 flex justify-center items-center gap-1 w-full"
+        className="md:px-6 flex flex-col justify-center items-center gap-4 h-full w-full"
       >
         <FileDragDrop
           images={images}
           setImages={setImages}
-          className="h-[210px] w-[210px]"
+          setImageFile={setImageFile}
+          className="h-1/2 w-1/2"
         />
+
+        <div className="font-body font-medium text-title_3 text-[#000000]">
+          Add clarity with an image{" "}
+          <span className="font-body font-light text-body_2">(optional)</span>
+        </div>
       </FormPrimitive.Field>
     </div>
   );

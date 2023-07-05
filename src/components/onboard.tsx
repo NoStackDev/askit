@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Topbar from "@/components/Topbar";
 import Image from "next/image";
@@ -25,6 +27,10 @@ import {
 } from "./ui/Select";
 import { cn } from "@/app/lib/utils";
 import { useAuthContext } from "@/app/context/authContext";
+import { redirect } from "next/navigation";
+import { updateUser } from "@/app/lib/user";
+import { useGlobalContext } from "@/app/context/Store";
+import getUser from "@/app/lib/user/getUser";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -35,12 +41,18 @@ type Props = {};
 const Onboard = (props: Props) => {
   const [state, setState] = React.useState<string | null>(null);
   const [city, setCity] = React.useState<string | null>(null);
-  const [whatIDo, setWhatIDo] = React.useState<string>("");
+  const [about, setAbout] = React.useState<string>("");
   const [businessAddr, setBusinessAddr] = React.useState<string>("");
   const [facebookLink, setFacebookLink] = React.useState<string>("");
   const [instagramLink, setInstagramLink] = React.useState<string>("");
   const [whatsppNum, setWhatsappNum] = React.useState<string>("");
+  const [imageUrl, setImageUrl] = React.useState<string>("");
+  const [imageBase64, setImageBase64] = React.useState<
+    string | ArrayBuffer | null
+  >(null);
+  const [imageFile, setImageFile] = React.useState<FileList>();
 
+  const { token, setUser } = useGlobalContext();
   const { dispatch } = useAuthContext();
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
@@ -53,8 +65,42 @@ const Onboard = (props: Props) => {
     }
   };
 
-  const onSaveClick = () => {
-    dispatch({ type: "RESET" });
+  const onProfilePicInputChange = () => {
+    if (profilePicRef.current) {
+      if (profilePicRef.current.files) {
+        setImageUrl(URL.createObjectURL(profilePicRef.current.files[0]));
+        const reader = new FileReader();
+        reader.readAsDataURL(profilePicRef.current.files[0]);
+        reader.onload = () => {
+          setImageBase64(reader.result);
+        };
+        setImageFile(profilePicRef.current.files);
+      }
+    }
+  };
+
+  const onSaveClick = async () => {
+    try {
+      const data = new FormData();
+      data.append("about", about);
+      data.append("business_addr", businessAddr);
+      data.append("facebook_link", facebookLink);
+      data.append("whatsapp_num", whatsppNum);
+      data.append("instagram_link", instagram_link);
+      if (imageFile) {
+        data.append("profile_img", imageFile);
+      }
+
+      const res = await updateUser(data, token || "");
+      const user = await getUser(token || "");
+      setUser(user || null);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      console.log("ldsjslfwewjflsnf");
+      dispatch({ type: "RESET" });
+      redirect("/");
+    }
   };
 
   return (
@@ -77,21 +123,40 @@ const Onboard = (props: Props) => {
               Profile Picture
             </div>
 
-            <div className="border rounded-full border-stroke p-5">
-              <Image
-                src="/images/icons/person.png"
-                height={40}
-                width={40}
-                alt="profile pic"
-                className="hover:cursor-pointer"
-                onClick={onProfilePicClick}
-              />
+            <div
+              className={cn(
+                "border rounded-full border-stroke p-5",
+                imageBase64 && "p-0"
+              )}
+            >
+              {imageBase64 ? (
+                <Image
+                  src={imageUrl}
+                  height={82}
+                  width={82}
+                  alt="profile pic"
+                  className="hover:cursor-pointer rounded-full"
+                  onClick={onProfilePicClick}
+                />
+              ) : (
+                <Image
+                  src="/images/icons/person.png"
+                  height={40}
+                  width={40}
+                  alt="profile pic"
+                  className="hover:cursor-pointer rounded-full"
+                  onClick={onProfilePicClick}
+                />
+              )}
+
               <input
                 type="file"
                 name="profilcPic"
                 id="profilePic"
                 className="opacity-0 w-0 h-0 fixed bottom-0"
                 ref={profilePicRef}
+                onChange={onProfilePicInputChange}
+                accept="image/png, image/jpeg, image/jpg"
               />
             </div>
 
@@ -111,7 +176,7 @@ const Onboard = (props: Props) => {
               rows={5}
               placeholder="Write here..."
               className="font-body text-body_1 placeholder:font-body placeholder:text-body_1 placeholder:opacity-60 border border-[#B7B9BC] rounded-lg py-4 px-3"
-              onChange={(e) => setWhatIDo(e.target.value)}
+              onChange={(e) => setAbout(e.target.value)}
             />
           </div>
 

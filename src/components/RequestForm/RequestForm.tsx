@@ -10,6 +10,9 @@ import RequestFormTwo from "./RequestFormTwo";
 import { cn } from "@/app/lib/utils";
 import RequestFormThree from "./RequestFormThree";
 import { Close } from "../ui/DialogPrimitive";
+import { useGlobalContext } from "@/app/context/Store";
+import { postRequest } from "@/app/lib/request";
+import { useFeedsContext } from "@/app/context/feedsContext";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -18,20 +21,31 @@ const RequestForm = React.forwardRef<
   const [images, setImages] = React.useState<{ name: string; url: string }[]>(
     []
   );
+  const [imageFile, setImageFile] = React.useState<FileList>();
+  const [title, setTitle] = React.useState("");
+  const [description, setDescription] = React.useState("");
 
   const [formStep, setFormStep] = React.useState(0);
+  const { user, token } = useGlobalContext();
+  const { dispatch } = useFeedsContext();
 
   const forms = [
-    <RequestFormOne key={0} className="mt-10 px-3 md:px-6 overflow-auto" />,
+    <RequestFormOne
+      key={0}
+      className="mt-10 px-3 md:px-6 overflow-auto"
+      setTitle={setTitle}
+    />,
     <RequestFormTwo
       key={1}
       className="mt-10 px-3 md:px-6 md:overflow-hidden"
       images={images}
       setImages={setImages}
+      setImageFile={setImageFile}
     />,
     <RequestFormThree
       key={2}
       className="mt-10 px-3 md:px-6 w-full md:overflow-auto"
+      setDescription={setDescription}
     />,
   ];
 
@@ -43,6 +57,31 @@ const RequestForm = React.forwardRef<
     setFormStep(formStep - 1);
   };
 
+  const onPostRequestClick = async () => {
+    try {
+      dispatch({ type: "FETCHING" });
+
+      const data = new FormData();
+      data.append("title", title);
+      if (user) {
+        data.append("user_id", user.id.toString());
+      }
+      if (imageFile) {
+        data.append("image", imageFile[0]);
+      }
+      data.append("description", description);
+
+      const res = await postRequest(token || "", data);
+
+      dispatch({ type: "SUCCESS", payload: res });
+
+      dispatch({ type: "RESET" });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log(imageFile);
   return (
     <FormPrimitive.Root className="relative pb-10 flex flex-col items-center bg-white h-[85vh] max-h-[800px] rounded-[20px] w-screen max-w-[600px]">
       <Topbar1
@@ -106,6 +145,7 @@ const RequestForm = React.forwardRef<
             className={cn(
               "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer"
             )}
+            onClick={onPostRequestClick}
           >
             Post Request
           </div>

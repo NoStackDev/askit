@@ -13,17 +13,17 @@ import * as FormPrimitive from "@radix-ui/react-form";
 import { cn } from "@/app/lib/utils";
 
 interface FormOneI {
-  title: string;
-  categoryId: number;
-  subCategoryId: number;
-  stateId: number;
-  cityId: number;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+  // categoryId: number;
+  // subCategoryId: number;
+  // stateId: number;
+  // cityId: number;
 }
 
 const RequestFormOne = React.forwardRef<
   React.ElementRef<"div">,
-  HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, fowardref) => {
+  HTMLAttributes<HTMLDivElement> & FormOneI
+>(({ className, setTitle, ...props }, fowardref) => {
   return (
     <div className={cn("h-full w-full", className)} ref={fowardref} {...props}>
       <h2 className="mt-8 font-headline text-headline_2 font-bold text-[#000000] text-left">
@@ -48,6 +48,7 @@ const RequestFormOne = React.forwardRef<
             placeholder="I am looking for..."
             className="p-6 rounded-lg border-[1px] border-stroke placeholder:font-body placeholder:text-body_1 min-h-20 bg-faded placeholder:text-[#000000]/60"
             required
+            onChange={(e) => setTitle(e.target.value)}
           />
         </FormPrimitive.Control>
       </FormPrimitive.Field>

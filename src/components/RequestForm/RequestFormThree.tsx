@@ -12,18 +12,14 @@ import {
 import * as FormPrimitive from "@radix-ui/react-form";
 import { cn } from "@/app/lib/utils";
 
-interface FormOneI {
-  title: string;
-  categoryId: number;
-  subCategoryId: number;
-  stateId: number;
-  cityId: number;
+interface FormThreeI {
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const RequestFormThree = React.forwardRef<
   React.ElementRef<"div">,
-  HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, fowardref) => {
+  HTMLAttributes<HTMLDivElement> & FormThreeI
+>(({ className, setDescription, ...props }, fowardref) => {
   return (
     <div className={cn("h-full", className)} ref={fowardref} {...props}>
       <h2 className="mt-8 font-headline text-headline_2 font-bold text-[#000000] text-left">
@@ -49,6 +45,7 @@ const RequestFormThree = React.forwardRef<
             rows={8}
             className="p-6 rounded-lg border-[1px] border-stroke placeholder:font-body placeholder:text-body_1 min-h-20 bg-faded placeholder:text-[#000000]/60"
             required
+            onChange={(e) => setDescription(e.target.value)}
           />
         </FormPrimitive.Control>
       </FormPrimitive.Field>

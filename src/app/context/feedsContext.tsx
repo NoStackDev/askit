@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { FeedsResponse } from "../types";
+import { FeedsResponse, RequestType } from "../types";
 
 type ActionI = {
   type: "FETCHING" | "SUCCESS" | "FAILED" | "RESET" | null;
-  payload?: FeedsResponse;
+  payload?: { success: boolean; data: RequestType };
 };
 
 const FeedsReducer = (state: FeedsResponse, action: ActionI) => {
@@ -16,7 +16,7 @@ const FeedsReducer = (state: FeedsResponse, action: ActionI) => {
       return state;
 
     case "SUCCESS":
-      if (payload) return payload;
+      if (payload) return { ...state, data: [...state.data, payload.data] };
 
     case "FAILED":
       return state;
