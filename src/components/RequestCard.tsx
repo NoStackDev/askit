@@ -57,7 +57,7 @@ const RequestCard = React.forwardRef<
             />
           )}
           <div className="text-title_1 font-body font-medium text-[#010E1E] text-ellipsis overflow-hidden h-[144px]">
-            {description}
+            {title}
           </div>
         </div>
 
