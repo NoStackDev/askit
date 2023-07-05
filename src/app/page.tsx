@@ -35,6 +35,7 @@ import { useFeedsContext } from "./context/feedsContext";
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
   const openSidebarRef = useRef<HTMLDivElement>(null);
+  const [feeds, setFeeds] = useState<any>([])
 
   const { token, user } = useGlobalContext();
   const {
@@ -52,7 +53,7 @@ export default function Home() {
     (async () => {
       try {
         const feedsResponse = await getRequests(dispatch);
-        console.log(feedsResponse)
+        setFeeds(feedsResponse)
         if (feedsResponse.status === 200) {
         dispatch({type: "SUCCESS", payload: feedsResponse})
         }
@@ -128,9 +129,9 @@ export default function Home() {
           </div>
 
           <div>
-            {feedData && feedData.length > 0 ? (
+            {feeds && feeds.length > 0 ? (
               <>
-                <Requests requests={feedData} className="mt-4 md:mt-8" />
+                <Requests requests={feeds} className="mt-4 md:mt-8" />
 
                 <div className="w-full flex flex-col items-center justify-center">
                   <Button
