@@ -1,5 +1,6 @@
 "use client";
 
+import { ResponseType } from "@/app/types";
 import { responsesConfig } from "@/config.ts/responses";
 import React from "react";
 
@@ -12,6 +13,7 @@ type Props = {};
 
 const UserPage = (props: Props) => {
   const [showSidebar, setShowSidebar] = React.useState(false);
+  const [responses, setResponses] = React.useState<ResponseType[]>([]);
 
   return (
     <main className="md:mx-[100px] relative bg-background px-5 md:py-10 mb-20">
@@ -42,10 +44,7 @@ const UserPage = (props: Props) => {
           </div>
 
           <React.Suspense>
-            <Responses
-              responses={responsesConfig.slice(0, 4)}
-              className="mt-6"
-            />
+            <Responses responses={responses} className="mt-6" />
           </React.Suspense>
         </div>
       </div>
