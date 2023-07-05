@@ -39,6 +39,7 @@ const LoginCard = React.forwardRef<
       dispatch({ type: "REGISTRATION_SUCCESSFUL" });
     } catch (err) {
       console.log(err);
+      dispatch({ type: "FAILURE" });
     }
   };
 
@@ -155,6 +156,9 @@ function SignUpForm({
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   onSubmitSignup: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
+  const { isLoading, isSuccess, isError, isOnboarding, dispatch } =
+    useAuthContext();
+
   return (
     <FormPrimitive.Root
       className={cn("flex flex-col gap-6 w-full", className)}
@@ -250,10 +254,22 @@ function SignUpForm({
         </div>
       </FormPrimitive.Field>
 
-      <div className="w-full h-fit flex items-center justify-center">
+      <div className="w-full h-fit flex flex-col items-center justify-center">
         <FormPrimitive.Submit asChild className="">
-          <Button className="w-full mt-8">Sign Up</Button>
+          {isLoading ? (
+            <Button className="w-full mt-8" disabled>
+              Signing Up
+            </Button>
+          ) : (
+            <Button className="w-full mt-8">Sign Up</Button>
+          )}
         </FormPrimitive.Submit>
+
+        {isError && (
+          <div className="mt-2 text-[red]/80 opacity-80 text-xs font-body">
+            error: Sign up failed
+          </div>
+        )}
       </div>
     </FormPrimitive.Root>
   );
@@ -269,6 +285,9 @@ function LoginForm({
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   onSubmitLogin: (e: React.FormEvent<HTMLFormElement>) => void;
 }) {
+  const { isLoading, isSuccess, isError, isOnboarding, dispatch } =
+    useAuthContext();
+
   return (
     <FormPrimitive.Root
       className={cn("flex flex-col gap-6 w-full", className)}
@@ -334,10 +353,22 @@ function LoginForm({
         </div>
       </FormPrimitive.Field>
 
-      <div className="w-full h-fit flex items-center justify-center">
+      <div className="w-full h-fit flex flex-col items-center justify-center">
         <FormPrimitive.Submit asChild className="">
-          <Button className="w-full mt-8">Login</Button>
+          {isLoading ? (
+            <Button className="w-full mt-8" disabled>
+              Logging in
+            </Button>
+          ) : (
+            <Button className="w-full mt-8">Login</Button>
+          )}
         </FormPrimitive.Submit>
+
+        {isError && (
+          <div className="mt-2 text-[red]/80 opacity-80 text-xs font-body">
+            error: login failed
+          </div>
+        )}
       </div>
     </FormPrimitive.Root>
   );

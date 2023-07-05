@@ -26,7 +26,5 @@ export default async function registerUser(
     body: JSON.stringify({ name: name, email: email, password: password }),
   });
 
-  if (!res.ok) throw new Error("Failed to register user");
-
   return res.json();
 }
