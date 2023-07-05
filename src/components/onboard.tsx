@@ -86,10 +86,10 @@ const Onboard = (props: Props) => {
       data.append("business_addr", businessAddr);
       data.append("facebook_link", facebookLink);
       data.append("whatsapp_num", whatsppNum);
-      data.append("instagram_link", instagram_link);
-      if (imageFile) {
-        data.append("profile_img", imageFile);
-      }
+      data.append("instagram_link", instagramLink);
+      // if (imageFile) {
+      //   data.append("profile_img", imageFile);
+      // }
 
       const res = await updateUser(data, token || "");
       const user = await getUser(token || "");
