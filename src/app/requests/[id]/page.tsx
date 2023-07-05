@@ -21,6 +21,7 @@ export default function RequestsPage() {
   const [isLoading, setIsLoading] = React.useState(true);
   const pathUrl = usePathname();
   const { token } = useGlobalContext();
+  const [request, setRequest] = React.useState<any>()
 
   const requestId = pathUrl.split("/")[2];
 
@@ -28,8 +29,8 @@ export default function RequestsPage() {
     (async () => {
       try {
         let _token = token ? token : "";
-        const request = await getRequestDetail(_token, Number(requestId));
-        setReqeustData(request);
+        const requestRes = await getRequestDetail(_token, Number(requestId));
+        setRequest(requestRes)
       } catch (err) {
         console.log(err);
       }
@@ -39,17 +40,17 @@ export default function RequestsPage() {
   return (
     <main className="flex flex-col md:grid md:grid-cols-[1fr_348px] md:mx-[100px] md:gap-5 bg-background md:py-14 mb-20">
       <div>
-        <Topbar>{requestData?.request.category}</Topbar>
-        {requestData && (
+        <Topbar>{request?.request.category}</Topbar>
+        {request && (
           <RequestImgDetail
-            bookmark={requestData.request.bookmark}
-            image_url={requestData.request.image_url}
-            category={requestData.request.category}
-            description={requestData.request.description}
-            location={requestData.request.location}
-            title={requestData.request.title}
-            user={requestData.request.title}
-            created_at={requestData.request.created_at}
+            bookmark={request.request.bookmark}
+            image_url={request.request.image_url}
+            category={request.request.category}
+            description={request.request.description}
+            location={request.request.location}
+            title={request.request.title}
+            user={request.request.title}
+            created_at={request.request.created_at}
             requestId={requestId}
           />
         )}
