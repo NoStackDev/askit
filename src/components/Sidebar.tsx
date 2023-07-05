@@ -74,7 +74,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
             >
               <div
                 className={cn(
-                  "py-10 h-fit max-h-screen overflow-auto no-scrollbar w-full flex flex-col gap-5"
+                  "py-10 h-fit max-h-screen md:max-h-[2000px] overflow-auto no-scrollbar w-full flex flex-col gap-5"
                 )}
               >
                 {sidebarConfig1.map((sidebarItem) => {
