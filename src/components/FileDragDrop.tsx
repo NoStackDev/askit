@@ -59,7 +59,7 @@ const FileDragDrop = React.forwardRef<
     const deleteImage = (event: MouseEvent) => {
       event.stopPropagation();
       setImages([]);
-      setImageFile([]);
+      // setImageFile([]);
     };
 
     const onDrop = (event: DragEvent) => {
