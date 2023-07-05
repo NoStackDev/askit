@@ -53,7 +53,7 @@ export default function Home() {
     (async () => {
       try {
         const feedsResponse = await getRequests(dispatch);
-        setFeeds(feedsResponse.data)
+        setFeeds(feedsResponse)
         if (feedsResponse.status === 200) {
         dispatch({type: "SUCCESS", payload: feedsResponse})
         }
@@ -131,7 +131,7 @@ export default function Home() {
           <div>
             {feeds && feeds.length > 0 ? (
               <>
-                <Requests requests={feeds} className="mt-4 md:mt-8" />
+                <Requests requests={feeds.data} className="mt-4 md:mt-8" />
 
                 <div className="w-full flex flex-col items-center justify-center">
                   <Button
@@ -144,8 +144,8 @@ export default function Home() {
 
                 <div>
                   <PageNumbers
-                    {...feedsLinks}
-                    {...feedsMeta}
+                    {feeds.links}
+                    {feeds.meta}
                     className="mt-6"
                   />
                 </div>
