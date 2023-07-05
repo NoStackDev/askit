@@ -84,8 +84,8 @@ export default function RequestsPage() {
             </div>
           </div>
 
-          {requestData && (
-            <Responses responses={requestData.responses} className="mt-6" />
+          {request && (
+            <Responses responses={request.responses} className="mt-6" />
           )}
         </div>
       </div>
