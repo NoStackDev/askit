@@ -34,7 +34,7 @@ export default function RequestsPage() {
         console.log(err);
       }
     })();
-  }, [token]);
+  }, [token, requestId]);
 
   return (
     <main className="flex flex-col md:grid md:grid-cols-[1fr_348px] md:mx-[100px] md:gap-5 bg-background md:py-14 mb-20">

@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/app/lib/utils";
 import { FeedsLinks, FeedsMeta } from "@/app/types";
 import clsx from "clsx";
@@ -28,7 +30,7 @@ const PageNumbers = React.forwardRef<
       for (let _ = 1; _ <= lastPageMeta; _++) {
         pagesArr.push(_);
       }
-    }, [lastPageMeta]);
+    }, [lastPageMeta, pagesArr]);
 
     return (
       <div
@@ -43,6 +45,7 @@ const PageNumbers = React.forwardRef<
                 "px-2 py-[2px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer bg-white text-[#000000]",
                 currentPageMeta === pageNumber && "bg-secondary text-white"
               )}
+              key={pageNumber}
             >
               {pageNumber}
             </div>

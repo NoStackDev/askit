@@ -130,7 +130,7 @@ const SettingsPage = (props: Props) => {
             </div>
           </div>
 
-          {/* <div className="flex flex-wrap gap-3 mt-4 h-[30px]">
+          <div className="flex flex-wrap gap-3 mt-4">
             {selectedCities.map((city, index) => {
               return (
                 <div
@@ -153,7 +153,7 @@ const SettingsPage = (props: Props) => {
                 </div>
               );
             })}
-          </div> */}
+          </div>
         </div>
 
         <div className="md:hidden w-full mt-6 border-t border-[#000000]/10"></div>
