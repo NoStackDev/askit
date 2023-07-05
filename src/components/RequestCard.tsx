@@ -25,6 +25,7 @@ const RequestCard = React.forwardRef<
     {
       children,
       className,
+      title,
       image_url,
       description,
       created_at,
