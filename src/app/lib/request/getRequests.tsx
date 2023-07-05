@@ -1,8 +1,8 @@
-import { FeedsResponse } from "@/app/types";
+import { FeedsResponse, RequestResponseType } from "@/app/types";
 
 type ActionI = {
   type: "FETCHING" | "SUCCESS" | "FAILED" | null;
-  payload?: FeedsResponse;
+  payload?: RequestResponseType;
 };
 
 export default async function getRequests(dispatch: React.Dispatch<ActionI>) {

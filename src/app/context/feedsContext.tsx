@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { FeedsResponse, RequestType } from "../types";
+import { FeedsResponse, RequestResponseType, RequestType } from "../types";
 
 type ActionI = {
   type: "FETCHING" | "SUCCESS" | "FAILED" | "RESET" | null;
-  payload?: { success: boolean; data: RequestType };
+  payload?: RequestResponseType;
 };
 
 const FeedsReducer = (state: FeedsResponse, action: ActionI) => {
@@ -37,7 +37,7 @@ const FeedsReducer = (state: FeedsResponse, action: ActionI) => {
           links: [],
           path: "",
           per_page: 12,
-          to: null,
+          to: 10,
           total: 0,
         },
       };
@@ -68,7 +68,7 @@ const FeedsContext = React.createContext<FeedsResponse & DispatchI>({
     links: [],
     path: "",
     per_page: 12,
-    to: null,
+    to: 10,
     total: 0,
   },
   dispatch: () => {},
@@ -96,7 +96,7 @@ export const FeedsContextProvider = ({ children }: FeedsContextProviderI) => {
       links: [],
       path: "",
       per_page: 12,
-      to: null,
+      to: 10,
       total: 0,
     },
   });

@@ -32,6 +32,11 @@ export type RequestType = {
   user: string;
 };
 
+export type RequestResponseType = {
+  success: boolean;
+  data: RequestType;
+};
+
 export type FeedsLinks = {
   first: string | null;
   last: string | null;
@@ -43,13 +48,10 @@ export type FeedsMeta = {
   current_page: number;
   from: null | number;
   last_page: number;
-  links: Record<
-    string,
-    { url: null | string; label: string; active: boolean }
-  >[];
+  links: { url: null | string; label: string; active: boolean }[];
   path: string;
   per_page: number;
-  to: null | string;
+  to: number;
   total: number;
 };
 

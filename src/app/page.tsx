@@ -51,12 +51,10 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       try {
-        // const feedsResponse = await getRequests(dispatch);
-        // if (feedsResponse.status === 200) {
-        // dispatch({type: "SUCCESS", payload: feedsResponse})
-        // }
-        // const preferences = await getRequests();
-        // console.log(preferences);
+        const feedsResponse = await getRequests(dispatch);
+        if (feedsResponse.status === 200) {
+        dispatch({type: "SUCCESS", payload: feedsResponse})
+        }
       } catch (err) {
         console.log(err);
       }

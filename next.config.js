@@ -12,12 +12,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "flagsapi.com",
         port: "",
-        pathname: "/**"
-      }
+        pathname: "/**",
+      },
     ],
   },
   env: {
-    // API: "https://b045-197-210-29-64.ngrok-free.app/api",
+    API: "https://7892-102-89-33-101.ngrok-free.app/api",
   },
 };
 
