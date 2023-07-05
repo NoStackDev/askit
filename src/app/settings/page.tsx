@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/Select";
 import { statesConfig } from "@/config.ts/cities";
 import { cn } from "../lib/utils";
+import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -28,8 +29,14 @@ const SettingsPage = (props: Props) => {
   const [state, setState] = React.useState<string | null>(null);
   const [city, setCity] = React.useState<string | null>(null);
   const [selectedCities, setSelectedCities] = React.useState<string[]>([]);
+  const [category, setCategory] = React.useState<string | null>(null);
+  const [categoryType, setCategoryType] = React.useState<string | null>(null);
+  const [selectedCategoryTypes, setSelectedCategoryTypes] = React.useState<
+    string[]
+  >([]);
 
   const states = Object.keys(statesConfig);
+  const sidebarItem = sidebarConfig1;
 
   const onClickCityAdd = () => {
     if (city) {
@@ -43,6 +50,33 @@ const SettingsPage = (props: Props) => {
   const onClickdeleteCityTag = (e: string) => {
     setSelectedCities(selectedCities.filter((x) => x != e));
   };
+
+  const onClickCategoryTypeAdd = () => {
+    if (categoryType) {
+      if (selectedCategoryTypes.find((x) => x === categoryType)) {
+        return;
+      }
+      setSelectedCategoryTypes([...selectedCategoryTypes, categoryType]);
+    }
+  };
+
+  const onClickdeleteCategoryTag = (e: string) => {
+    setSelectedCategoryTypes(selectedCategoryTypes.filter((x) => x != e));
+  };
+
+  const categories =
+    sidebarConfig1
+      .filter((item) => item.children)
+      .map((item) => item.children)[0]
+      ?.map((item) => item.title) || null;
+
+  const categoryTypes =
+    (category
+      ? sidebarConfig1
+          .filter((item) => item.children)[0]
+          .children?.filter((item) => item.title === category)[0]
+          .subChildren?.map((item) => item.title)
+      : null) || null;
 
   return (
     <main className="mt-10 md:mt-14 md:ml-16 md:mr-[100px] mb-10 md:mb-20">
@@ -105,19 +139,19 @@ const SettingsPage = (props: Props) => {
           </div>
 
           <div className="mt-4 w-full flex flex-col md:flex-row gap-4">
-            <LocationSelect
-              locationType="STATE"
-              locations={states}
-              location={state}
-              setLocation={setState}
+            <OptionSelect
+              selectType="STATE"
+              options={states}
+              selectedOption={state}
+              setOption={setState}
             />
 
             <div className="w-full flex gap-6">
-              <LocationSelect
-                locationType="CITY"
-                locations={state ? statesConfig[state] : null}
-                location={city}
-                setLocation={setCity}
+              <OptionSelect
+                selectType="CITY"
+                options={state ? statesConfig[state] : null}
+                selectedOption={city}
+                setOption={setCity}
               />
 
               <Button
@@ -166,36 +200,54 @@ const SettingsPage = (props: Props) => {
           </div>
 
           <div className="mt-4 w-full flex flex-col md:flex-row gap-4">
-            <select
-              name="category"
-              id="category_select_id"
-              className="w-full py-2 px-2"
-            >
-              <option value="Products">Products</option>
-              <option value="Services">Services</option>
-              <option value="Accomodation">Accomodation</option>
-            </select>
+            <OptionSelect
+              selectType="CATEGORY"
+              options={categories}
+              selectedOption={category}
+              setOption={setCategory}
+            />
 
             <div className="w-full flex gap-6">
-              <select name="type" id="types_select_id" className="w-full">
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-              </select>
+              <OptionSelect
+                selectType="TYPE"
+                options={categoryTypes}
+                selectedOption={categoryType}
+                setOption={setCategoryType}
+              />
 
-              <Button variant="outlined2" className="py-[10px] px-6">
+              <Button
+                variant="outlined2"
+                className="py-[10px] px-6"
+                onClick={onClickCategoryTypeAdd}
+              >
                 Add
               </Button>
             </div>
           </div>
 
-          <div className="flex flex-wrap mt-4">
-            <div className="bg-background rounded-2xl px-3 py-1 flex gap-1 w-fit">
-              <span className="font-body text-secondary text-body_2">
-                Fashion
-              </span>
-              <span className="font-body text-[#000000] text-body_2">x</span>
-            </div>
+          <div className="flex flex-wrap gap-3 mt-4">
+            {selectedCategoryTypes.map((categoryItem, index) => {
+              return (
+                <div
+                  key={`categoryItem${index}`}
+                  className="flex items-center gap-[10px] font-body text-body_2 text-black/70 rounded-2xl px-3 p-[6px] bg-faded"
+                >
+                  {categoryItem}
+
+                  <React.Suspense
+                    fallback={
+                      <div className="w-3 h-3 bg-stroke/60 animate-pulse"></div>
+                    }
+                  >
+                    <CloseIcon
+                      className="w-3 h-3 hover:cursor-pointer"
+                      fontSize="small"
+                      onClick={() => onClickdeleteCategoryTag(categoryItem)}
+                    />
+                  </React.Suspense>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -326,23 +378,23 @@ const SettingsPage = (props: Props) => {
 
 export default SettingsPage;
 
-interface LocationSelectI {
-  location: string | null;
-  setLocation: React.Dispatch<React.SetStateAction<string | null>>;
-  locations: string[] | City[] | null;
-  locationType: "STATE" | "CITY";
+interface OptionSelectI {
+  selectedOption: string | null;
+  setOption: React.Dispatch<React.SetStateAction<string | null>>;
+  options: string[] | City[] | null;
+  selectType: "STATE" | "CITY" | "CATEGORY" | "TYPE";
 }
 
-const LocationSelect = React.forwardRef<
+const OptionSelect = React.forwardRef<
   React.ElementRef<typeof Select>,
-  React.ComponentPropsWithoutRef<typeof Select> & LocationSelectI
+  React.ComponentPropsWithoutRef<typeof Select> & OptionSelectI
 >(
   (
-    { children, location, setLocation, locations, locationType, ...props },
+    { children, selectedOption, setOption, options, selectType, ...props },
     fowardref
   ) => {
     return (
-      <Select onValueChange={(e) => setLocation(e)}>
+      <Select onValueChange={(e) => setOption(e)}>
         <SelectTrigger
           className={cn(
             "flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
@@ -360,37 +412,44 @@ const LocationSelect = React.forwardRef<
         >
           <div className="flex items-center gap-4">
             <SelectValue
-              placeholder="Select type"
-              className="placeholder:text-body placeholder:text-body_1 placeholder:text-black/60"
+              placeholder={
+                (selectType === "STATE" && "Select State") ||
+                (selectType === "CITY" && "City") ||
+                (selectType === "CATEGORY" && "Category") ||
+                (selectType === "TYPE" && "Type")
+              }
+              className="placeholder:font-body placeholder:text-body placeholder:text-body_1 placeholder:text-black/60 font-body"
             />
           </div>
         </SelectTrigger>
 
         <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
           <SelectGroup>
-            <SelectLabel>
-              {locationType === "STATE" && "Select a State"}
-              {locationType === "CITY" && "Select a City"}
+            <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
+              {selectType === "STATE" && "Select a State"}
+              {selectType === "CITY" && "Select a City"}
+              {selectType === "CATEGORY" && "Category"}
+              {selectType === "TYPE" && "Type"}
             </SelectLabel>
-            {locations?.sort().map((locationItem, index) => {
-              if (typeof locationItem === "string") {
+            {options?.sort().map((optionsItem, index) => {
+              if (typeof optionsItem === "string") {
                 return (
                   <SelectItem
-                    value={locationItem}
+                    value={optionsItem}
                     key={index}
-                    className="hover:cursor-pointer"
+                    className="hover:cursor-pointer font-body text-title_2"
                   >
-                    {locationItem}
+                    {optionsItem}
                   </SelectItem>
                 );
               } else
                 return (
                   <SelectItem
-                    value={locationItem.name}
-                    key={locationItem.geonameid}
-                    className="hover:cursor-pointer"
+                    value={optionsItem.name}
+                    key={optionsItem.geonameid}
+                    className="hover:cursor-pointer font-body text-title_2"
                   >
-                    {locationItem.name}
+                    {optionsItem.name}
                   </SelectItem>
                 );
             })}
@@ -401,4 +460,4 @@ const LocationSelect = React.forwardRef<
   }
 );
 
-LocationSelect.displayName = "LocationSelect";
+OptionSelect.displayName = "OptionSelect";
