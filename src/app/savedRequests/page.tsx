@@ -6,11 +6,12 @@ import { requestsConfig } from "@/config.ts/requests";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { RequestType } from "../types";
 
 type Props = {};
 
 export default function SavedRequestsPage({}: Props) {
-  const [savedRequests, setSavedRequests] = React.useState<any>();
+  const [savedRequests, setSavedRequests] = React.useState<RequestType[]>();
   return (
     <main className="px-[20px] md:px-0 md:ml-[112px] pt-14 flex flex-col gap-6 md:mr-[100px] mb-10 md:mb-0">
       <div className="font-headline text-headline_2 font-bold text-white bg-[#48466D] w-fit h-fit">
@@ -18,9 +19,9 @@ export default function SavedRequestsPage({}: Props) {
       </div>
 
       <div>
-        {savedRequests && savedRequests.data.length > 0 ? (
+        {savedRequests && savedRequests.length > 0 ? (
           <>
-            <Requests requests={requestsConfig.slice(2, 4)} />
+            <Requests requests={savedRequests} />
           </>
         ) : (
           <div className="flex flex-col justify-center items-center mt-10">
