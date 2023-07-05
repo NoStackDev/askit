@@ -30,13 +30,19 @@ import { redirect } from "next/navigation";
 import { deleteResponse, postResponse, updateResponse } from "./lib/repsonse";
 import { addToBookmark, deleteBookmark, getBookmarks } from "./lib/bookmark";
 import RequestForm from "@/components/RequestForm";
+import { useFeedsContext } from "./context/feedsContext";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
   const openSidebarRef = useRef<HTMLDivElement>(null);
-  const [feedRes, setFeedRes] = useState<any>({ data: [] });
 
   const { token, user } = useGlobalContext();
+  const {
+    data: feedData,
+    links: feedsLinks,
+    meta: feedsMeta,
+    dispatch,
+  } = useFeedsContext();
 
   // if (!token || !user) {
   //   redirect("/login");
@@ -45,6 +51,10 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       try {
+        // const feedsResponse = await getRequests(dispatch);
+        // if (feedsResponse.status === 200) {
+        // dispatch({type: "SUCCESS", payload: feedsResponse})
+        // }
         // const preferences = await getRequests();
         // console.log(preferences);
       } catch (err) {
@@ -60,6 +70,20 @@ export default function Home() {
 
     document.body.style.overflow =
       document.body.style.overflow === "hidden" ? "" : "hidden";
+  };
+
+  const onClickNext = async () => {
+    dispatch({ type: "FETCHING" });
+    try {
+      const feedsResponse = await fetch(feedsLinks.next || "/");
+      if (feedsResponse.status === 200) {
+        dispatch({ type: "SUCCESS" });
+        const data = await feedsResponse.json();
+        dispatch({ type: "RESET", payload: data });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -105,9 +129,9 @@ export default function Home() {
           </div>
 
           <div>
-            {feedRes && feedRes.data.length > 0 ? (
+            {feedData && feedData.length > 0 ? (
               <>
-                <Requests requests={requestsConfig} className="mt-4 md:mt-8" />
+                <Requests requests={feedData} className="mt-4 md:mt-8" />
 
                 <div className="w-full flex flex-col items-center justify-center">
                   <Button
@@ -120,8 +144,8 @@ export default function Home() {
 
                 <div>
                   <PageNumbers
-                    totalPages={10}
-                    currentPage={1}
+                    {...feedsLinks}
+                    {...feedsMeta}
                     className="mt-6"
                   />
                 </div>
@@ -162,7 +186,6 @@ export default function Home() {
             Place a Request
           </Button>
         }
-
         className="-translate-x-1/2 z-30 fixed top-[80px] left-1/2"
       >
         <RequestForm className="" />

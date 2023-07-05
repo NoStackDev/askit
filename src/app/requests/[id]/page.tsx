@@ -8,15 +8,51 @@ import RequestResponseForm from "@/components/RequestResponseForm";
 import React from "react";
 import { responsesConfig } from "@/config.ts/responses";
 import Dialog from "@/components/ui/DialogPrimitive";
+import { usePathname } from "next/navigation";
+import { RequestDetailType } from "@/app/types";
+import { getRequestDetail } from "@/app/lib/request";
+import { useGlobalContext } from "@/app/context/Store";
 
 const CommentsIcon = React.lazy(() => import("@mui/icons-material/Quickreply"));
 
 export default function RequestsPage() {
+  const [requestData, setReqeustData] =
+    React.useState<RequestDetailType | null>(null);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const pathUrl = usePathname();
+  const { token } = useGlobalContext();
+
+  const requestId = pathUrl.split("/")[2];
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        let _token = token ? token : "";
+        const request = await getRequestDetail(_token, Number(requestId));
+        setReqeustData(request);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
   return (
     <main className="flex flex-col md:grid md:grid-cols-[1fr_348px] md:mx-[100px] md:gap-5 bg-background md:py-14 mb-20">
       <div>
-        <Topbar>Fashion</Topbar>
-        <RequestImgDetail />
+        <Topbar>{requestData?.request.category}</Topbar>
+        {requestData && (
+          <RequestImgDetail
+            bookmark={requestData.request.bookmark}
+            image_url={requestData.request.image_url}
+            category={requestData.request.category}
+            description={requestData.request.description}
+            location={requestData.request.location}
+            title={requestData.request.title}
+            user={requestData.request.title}
+            created_at={requestData.request.created_at}
+            requestId={requestId}
+          />
+        )}
         <div className="flex items-center justify-center h-fit w-full px-[20px]">
           <Dialog
             dialogTrigger={
@@ -42,12 +78,14 @@ export default function RequestsPage() {
               </React.Suspense>
 
               <div className="font-headline text-white text-headline_3 md:text-headline_2 font-bold">
-                Responses (4)
+                Responses ({requestData ? requestData.responses.length : 0})
               </div>
             </div>
           </div>
 
-          <Responses responses={responsesConfig} className="mt-6" />
+          {requestData && (
+            <Responses responses={requestData.responses} className="mt-6" />
+          )}
         </div>
       </div>
 

@@ -1,4 +1,5 @@
-import { cn } from "@/app/lib/utils";
+import { cn, month } from "@/app/lib/utils";
+import { ResponseType } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -12,37 +13,32 @@ const DeleteIcon = React.lazy(() => import("@mui/icons-material/Delete"));
 
 const ResponseCard = React.forwardRef<
   React.ElementRef<"div">,
-  React.HTMLAttributes<HTMLDivElement> & {
-    userId: number;
-    username: string;
-    avatar: null | string;
-    image?: boolean;
-    response: string;
-    date: Date;
-    location: string;
-    price: number;
-    whatsappLink: string;
-    variant?: "user";
-  }
+  React.HTMLAttributes<HTMLDivElement> &
+    Omit<ResponseType, "id"> & {
+      variant?: "user";
+      responseId: number;
+    }
 >(
   (
     {
       children,
       className,
-      userId,
-      username,
-      avatar,
-      image,
-      response,
-      date,
+      bookmark,
+      category,
+      created_at,
+      description,
+      responseId: number,
+      image_url,
       location,
-      price,
-      whatsappLink,
+      title,
+      user,
       variant,
       ...props
     },
     ref
   ) => {
+    const date = new Date(created_at);
+
     return (
       <div
         ref={ref}
@@ -54,16 +50,17 @@ const ResponseCard = React.forwardRef<
         {...props}
       >
         <div className="flex gap-3 items-start">
-          {/* <Image  /> */}
-          {/* replace with image tag before production */}
-          {image && (
-            <div>
-              <div className="w-[92px] h-[92px] bg-[#D9D9D9]"></div>
-            </div>
+          {image_url && (
+            <Image
+              src={image_url}
+              width={92}
+              height={92}
+              alt={`${user}'s profile pic`}
+            />
           )}
 
           <div className="font-body text-white text-title_3 font-medium">
-            {response}
+            {description}
           </div>
         </div>
 
@@ -82,34 +79,47 @@ const ResponseCard = React.forwardRef<
               </div>
             </React.Suspense>
 
-            <div className="text-grey text-special font-body font-light">
-              2 feb
-            </div>
+            {created_at && (
+              <div className="text-grey text-special font-body font-light">
+                {date.getDay()} {month(date.getMonth())}
+              </div>
+            )}
           </div>
 
           <div className="text-title_3 font-body font-medium text-white">
-            N{price.toLocaleString()}
+            {/* N{price.toLocaleString()} */}
           </div>
         </div>
 
         {variant === "user" ? null : (
-          <div className="flex items-end h-fit justify-between">
+          <div className="mt-4 flex items-end h-fit justify-between">
             <div className="flex items-end h-fit gap-2">
               <React.Suspense
                 fallback={
                   <div className="mt-[26px] text-stroke animate-pulse h-6 w-6 rounded-full"></div>
                 }
               >
-                <Link href={`/user/${userId}/`}>
+                {/* response from api has no user id  */}
+                {/* <Link href={`/user/${userId}/`}> */}
+                {image_url ? (
+                  <Image
+                    src={image_url}
+                    height={20}
+                    width={20}
+                    className="rounded-full"
+                    alt={`${user}'s profile pic`}
+                  />
+                ) : (
                   <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer" />
-                </Link>
+                )}
+                {/* </Link> */}
               </React.Suspense>
 
-              <Link href={`/user/${userId}/`}>
-                <div className="font-headline font-bold text-body_2 text-white hover:cursor-pointer">
-                  {username ? username : "Username"}
-                </div>
-              </Link>
+              {/* <Link href={`/user/${userId}/`}> */}
+              <div className="font-headline font-bold text-body_2 text-white hover:cursor-pointer">
+                {user ? user : "Username"}
+              </div>
+              {/* </Link> */}
             </div>
 
             <div className="flex gap-1 items-center hover:cursor-pointer">
@@ -124,11 +134,17 @@ const ResponseCard = React.forwardRef<
         )}
 
         {variant === "user" ? (
-          <div>
+          <div className="mt-4 flex items-center gap-8">
             <React.Suspense>
-              <DeleteIcon className="text-white" />
+              <DeleteIcon className="text-white hover:cursor-pointer" />
             </React.Suspense>
-            &#edit_square
+            <Image
+              src="/images/icons/editIcon.png"
+              width={24}
+              height={24}
+              alt="edit"
+              className="hover:cursor-pointer"
+            />
           </div>
         ) : null}
       </div>

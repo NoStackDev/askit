@@ -1,53 +1,57 @@
 import { cn } from "@/app/lib/utils";
+import { FeedsLinks, FeedsMeta } from "@/app/types";
 import clsx from "clsx";
 import React from "react";
 
 const PageNumbers = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & {
-    totalPages: number;
-    currentPage: number;
+  React.ComponentPropsWithoutRef<"div"> & FeedsMeta & FeedsLinks
+>(
+  (
+    {
+      className,
+      first: firstPageLink,
+      last: lastPageLink,
+      prev: prevPageLink,
+      next: nextPageLink,
+      current_page: currentPageMeta,
+      from: fromMeta,
+      last_page: lastPageMeta,
+      links: linksMeta,
+      ...prop
+    },
+    forwardRef
+  ) => {
+    const pagesArr: number[] = [];
+
+    React.useEffect(() => {
+      for (let _ = 1; _ <= lastPageMeta; _++) {
+        pagesArr.push(_);
+      }
+    }, [lastPageMeta]);
+
+    return (
+      <div
+        ref={forwardRef}
+        className={cn("flex items-center justify-center gap-6", className)}
+        {...prop}
+      >
+        {pagesArr.map((pageNumber) => {
+          return (
+            <div
+              className={cn(
+                "px-2 py-[2px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer bg-white text-[#000000]",
+                currentPageMeta === pageNumber && "bg-secondary text-white"
+              )}
+            >
+              {pageNumber}
+            </div>
+          );
+        })}
+      </div>
+    );
   }
->(({ className, totalPages, currentPage, ...prop }, forwardRef) => {
-  return (
-    <div
-      ref={forwardRef}
-      className={cn("flex items-center justify-center gap-6", className)}
-      {...prop}
-    >
-      <div
-        className={clsx(
-          "px-2 py-[2px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer",
-          currentPage === 1
-            ? "bg-secondary text-white"
-            : "bg-white text-[#000000]"
-        )}
-      >
-        1
-      </div>
-      <div
-        className={clsx(
-          "px-2 py-[2px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer",
-          currentPage === 2
-            ? "bg-secondary text-white"
-            : "bg-white text-[#000000]"
-        )}
-      >
-        2
-      </div>
-      <div
-        className={clsx(
-          "px-2 py-[2px] border-[1px] border-secondary text-title_3 font-body font-medium hover:cursor-pointer",
-          currentPage === 3
-            ? "bg-secondary text-white"
-            : "bg-white text-[#000000]"
-        )}
-      >
-        3
-      </div>
-    </div>
-  );
-});
+);
 
 PageNumbers.displayName = "Pageumber";
 

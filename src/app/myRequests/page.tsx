@@ -7,11 +7,30 @@ import { requestsConfig } from "@/config.ts/requests";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { RequestType } from "../types";
+import { getUserRequests } from "../lib/request";
+import { useGlobalContext } from "../context/Store";
 
 type Props = {};
 
 export default function MyRequestPage({}: Props) {
-  const [myRequests, setMyRequests] = React.useState<any>();
+  const [myRequests, setMyRequests] = React.useState<RequestType[]>();
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  const { token } = useGlobalContext();
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        if (token) {
+          const res = await getUserRequests(token);
+          setMyRequests(res);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   return (
     <main className="px-[20px] md:px-0 md:ml-[112px] pt-14 flex flex-col gap-6 md:mr-[100px] mb-10 md:mb-0">
@@ -20,19 +39,19 @@ export default function MyRequestPage({}: Props) {
       </div>
 
       <div>
-        {myRequests && myRequests.data.length > 0 ? (
+        {myRequests && myRequests.length > 0 ? (
           <>
-            <Requests requests={requestsConfig.slice(2, 4)} className="mt-6" />
-
+            <Requests requests={myRequests} className="mt-6" />
             <div className="w-full flex flex-col items-center justify-center">
               <Button variant="outlined" className="mt-12 md:mt-14 w-[255px]">
                 Next Page
               </Button>
             </div>
 
-            <div>
-              <PageNumbers totalPages={10} currentPage={1} className="mt-6" />
-            </div>
+            {/* can't fix pages number be api response is unknown */}
+            {/* <div>
+              <PageNumbers  className="mt-6" />
+            </div> */}
           </>
         ) : (
           <div className="flex flex-col justify-center items-center mt-10">

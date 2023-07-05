@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import { GlobalContextProvider } from "./context/Store";
 import { SidebarContextProvider } from "./context/sidebarContext";
 import { AuthContextProvider } from "./context/authContext";
+import { FeedsContextProvider } from "./context/feedsContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -42,12 +43,14 @@ export default function RootLayout({
         <GlobalContextProvider>
           <AuthContextProvider>
             <SidebarContextProvider>
-              <Navbar />
-              <div className="bg-background md:flex w-full md:mb-20">
-                <Sidebar className="" />
-                <div className="w-full">{children}</div>
-              </div>
-              <Footer className="" />
+              <FeedsContextProvider>
+                <Navbar />
+                <div className="bg-background md:flex w-full md:mb-20">
+                  <Sidebar className="" />
+                  <div className="w-full">{children}</div>
+                </div>
+                <Footer className="" />
+              </FeedsContextProvider>
             </SidebarContextProvider>
           </AuthContextProvider>
         </GlobalContextProvider>

@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/app/lib/utils";
+import { ResponseType } from "@/app/types";
 import React from "react";
 
 const ResponseCard = React.lazy(() => import("@/components/ResponseCard"));
@@ -8,17 +9,7 @@ const ResponseCard = React.lazy(() => import("@/components/ResponseCard"));
 const Responses = React.forwardRef<
   React.ElementRef<"div">,
   React.HTMLAttributes<HTMLDivElement> & {
-    responses: {
-      userId: number;
-      username: string;
-      avatar: null | string;
-      image?: boolean;
-      response: string;
-      date: Date;
-      location: string;
-      price: number;
-      whatsappLink: string;
-    }[];
+    responses: ResponseType[];
     variant?: "user";
   }
 >(({ className, children, responses, variant, ...props }, ref) => {
@@ -26,10 +17,12 @@ const Responses = React.forwardRef<
     <div ref={ref} className={cn("w-full", className)}>
       <div className="flex flex-col md:grid md:grid-cols-r-cards w-full gap-6">
         {responses.map((response) => {
+          const { id: responseId, ...others } = response;
           return (
             <ResponseCard
-              key={response.userId}
-              {...response}
+              key={responseId}
+              {...others}
+              responseId={responseId}
               variant={variant}
             />
           );

@@ -1,4 +1,5 @@
-import { cn } from "@/app/lib/utils";
+import { cn, month } from "@/app/lib/utils";
+import { RequestType } from "@/app/types";
 import Image from "next/image";
 import React, { HTMLAttributes } from "react";
 
@@ -14,30 +15,28 @@ const BookmarkBorderIcon = React.lazy(
 );
 const BookmarkIcon = React.lazy(() => import("@mui/icons-material/Bookmark"));
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  image?: boolean;
-  description: string;
-  commentCount: number;
-  date: Date;
-  location: string;
-  bookmarked: boolean;
-}
+interface Props extends HTMLAttributes<HTMLDivElement> {}
 
-const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
+const RequestCard = React.forwardRef<
+  React.ElementRef<"div">,
+  Props & Omit<RequestType, "id"> & {requestId: number}
+>(
   (
     {
       children,
       className,
-      image,
+      image_url,
       description,
-      commentCount,
-      date,
+      created_at,
       location,
-      bookmarked,
+      bookmark,
+      requestId,
       ...props
     },
     ref
   ) => {
+    const date = new Date(created_at);
+
     return (
       <div
         ref={ref}
@@ -48,9 +47,9 @@ const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
         {...props}
       >
         <div className="border-b-[1px] border-[#EDECF0] flex gap-2 pb-3">
-          {image && (
+          {image_url && (
             <Image
-              src="/images/pictures/productImage.png"
+              src={image_url}
               alt="product"
               height={110}
               width={110}
@@ -83,8 +82,10 @@ const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
               }
             >
               <div className="flex items-center gap-1">
-                <WatchLaterIcon className="text-[#ADABAB]" fontSize="small"/>
-                <span className="text-[#000000]/60 font-body text-special">22 Apr</span>
+                <WatchLaterIcon className="text-[#ADABAB]" fontSize="small" />
+                <span className="text-[#000000]/60 font-body text-special">
+                  {date.getDay()} {month(date.getMonth())}
+                </span>
               </div>
             </React.Suspense>
 
@@ -94,8 +95,10 @@ const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
               }
             >
               <div className="flex items-center gap-1">
-                <LocationOnIcon className="text-[#ADABAB]" fontSize="small"/>
-                <span className="text-[#000000]/60 font-body text-special">Port Harcourt</span>
+                <LocationOnIcon className="text-[#ADABAB]" fontSize="small" />
+                <span className="text-[#000000]/60 font-body text-special">
+                  {location}
+                </span>
               </div>
             </React.Suspense>
           </div>
@@ -105,7 +108,7 @@ const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
               <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
             }
           >
-            {bookmarked ? (
+            {bookmark ? (
               <BookmarkIcon className="text-primary" />
             ) : (
               <BookmarkBorderIcon className="text-primary" />
@@ -120,3 +123,4 @@ const RequestCard = React.forwardRef<React.ElementRef<"div">, Props>(
 RequestCard.displayName = "RequestCard";
 
 export default RequestCard;
+

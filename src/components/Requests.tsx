@@ -4,21 +4,11 @@ import { requestsConfig } from "@/config.ts/requests";
 import { cn } from "@/app/lib/utils";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
+import { RequestType } from "@/app/types";
 
 const Requests = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & {
-    requests: {
-      requestId: number;
-      image?: boolean;
-      description: string;
-      moreDetail: null | string;
-      commentCount: number;
-      date: Date;
-      location: string;
-      bookmarked: boolean;
-    }[];
-  }
+  React.ComponentPropsWithoutRef<"div"> & { requests: RequestType[] }
 >(({ children, className, requests, ...props }, ref) => {
   return (
     <div
@@ -30,16 +20,10 @@ const Requests = React.forwardRef<
       {...props}
     >
       {requests.map((request) => {
+        const { id: requestId, ...others } = request;
         return (
-          <Link href={`/requests/${request.requestId}`} key={request.requestId}>
-            <RequestCard
-              image={request.image}
-              description={request.description}
-              commentCount={request.commentCount}
-              date={request.date}
-              location={request.location}
-              bookmarked={request.bookmarked}
-            />
+          <Link href={`/requests/${request.id}`} key={request.id}>
+            <RequestCard {...others} requestId={requestId} />
           </Link>
         );
       })}

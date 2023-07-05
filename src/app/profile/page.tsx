@@ -2,6 +2,9 @@
 
 import { responsesConfig } from "@/config.ts/responses";
 import React from "react";
+import { useGlobalContext } from "../context/Store";
+import { ResponseType } from "../types";
+import { getUserRequests } from "../lib/request";
 
 const UserInfo = React.lazy(() => import("@/components/UserInfo"));
 const Responses = React.lazy(() => import("@/components/Responses"));
@@ -10,6 +13,23 @@ const EditIcon = React.lazy(() => import("@mui/icons-material/Edit"));
 type Props = {};
 
 const ProfilePage = (props: Props) => {
+  const [responses, setResponses] = React.useState<ResponseType[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const { token } = useGlobalContext();
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        if (token) {
+          const res = await getUserRequests(token);
+          setResponses(res);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
   return (
     <main className="relative bg-background px-[20px] md:px-0 pb-20 md:pb-0 md:mt-14 md:mb-10 md:ml-[112px] md:mr-[100px]">
       <div className="flex items-center justify-between w-full mt-10 md:mt-0 md:mx-0">
@@ -39,11 +59,7 @@ const ProfilePage = (props: Props) => {
           </div>
 
           <React.Suspense>
-            <Responses
-              responses={responsesConfig.slice(0, 4)}
-              className="mt-6"
-              variant="user"
-            />
+            <Responses responses={responses} className="mt-6" variant="user" />
           </React.Suspense>
         </div>
       </div>

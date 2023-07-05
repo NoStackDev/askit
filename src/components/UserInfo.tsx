@@ -1,4 +1,8 @@
+"use client";
+
+import { useGlobalContext } from "@/app/context/Store";
 import { cn } from "@/app/lib/utils";
+import Image from "next/image";
 import React from "react";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
@@ -16,6 +20,8 @@ const UserInfo = React.forwardRef<
     variant?: "profile";
   }
 >(({ className, variant, ...props }, forwardRef) => {
+  const { user } = useGlobalContext();
+
   return (
     <div
       ref={forwardRef}
@@ -25,47 +31,60 @@ const UserInfo = React.forwardRef<
       )}
       {...props}
     >
-      <React.Suspense>
-        <PersonIcon
-          className="text-stroke scale-[200%] bg-[#D9D9D9] p-[2px] rounded-[50%] mt-4"
-          fontSize="large"
+      {user?.image_url ? (
+        <Image
+          src={user.image_url}
+          height={80}
+          width={80}
+          alt={`${user.name} profile pic`}
         />
-      </React.Suspense>
+      ) : (
+        <React.Suspense>
+          <PersonIcon
+            className="text-stroke scale-[200%] bg-[#D9D9D9] p-[2px] rounded-[50%] mt-4"
+            fontSize="large"
+          />
+        </React.Suspense>
+      )}
 
       <div className="flex flex-col gap-1 justify-center mt-6 items-center">
         <div className="font-headline text-headline_2 font-bold text-white">
-          User Name
+          {user?.name}
         </div>
 
-        <div className="flex gap-1 text-white font-body text-title_3 font-medium">
-          <React.Suspense>
-            <CallIcon className="" />
-          </React.Suspense>
+        {user?.whatsapp_num && (
+          <div className="flex gap-1 text-white font-body text-title_3 font-medium">
+            <React.Suspense>
+              <CallIcon className="" />
+            </React.Suspense>
 
-          <div className="font-body text-title_3 font-bold">08054423423</div>
-        </div>
+            <div className="font-body text-title_3 font-bold">
+              {user?.whatsapp_num}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-1 mt-4 justify-center items-center">
         <div className="font-body text-special font-light text-white">
-          Business Address
+          {user?.business_addr}
         </div>
 
         <div className="flex gap-1 text-white font-body text-title_3 font-medium">
-          <div className="text-center">
-            No 3 off Maicon street, Asaba, Delta state
-          </div>
+          <div className="text-center">{user?.location}</div>
         </div>
       </div>
 
-      <div className="mt-10 flex flex-col gap-2 text-white">
-        <div className="font-headline font-bold text-title_3 w-full text-center">WHAT I DO</div>
-        <div className="font-body text-title_1 font-medium text-center">
-          Lorem ipsum dolor sit amet consectetur. In malesuada fringilla
-          molestie dis sapien posuere porttitor. Varius vitae mauris felis sem
-          turpis turpis eu sed.
+      {user?.about && (
+        <div className="mt-10 flex flex-col gap-2 text-white">
+          <div className="font-headline font-bold text-title_3 w-full text-center">
+            WHAT I DO
+          </div>
+          <div className="font-body text-title_1 font-medium text-center">
+            {user?.about}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="w-full flex flex-col items-center justify-center gap-4 mt-14">
         {variant === "profile" ? null : (
@@ -86,15 +105,23 @@ const UserInfo = React.forwardRef<
         </div>
 
         <div className="flex gap-6">
-          <React.Suspense>
-            <FacebookIcon />
-          </React.Suspense>
-          <React.Suspense>
-            <InstagramIcon className="bg-black text-primary" />
-          </React.Suspense>
-          <React.Suspense>
-            <WhatsApp className="bg-black text-primary" />
-          </React.Suspense>
+          {user?.facebook_link && (
+            <React.Suspense>
+              <FacebookIcon />
+            </React.Suspense>
+          )}
+
+          {user?.instagram_link && (
+            <React.Suspense>
+              <InstagramIcon className="bg-black text-primary" />
+            </React.Suspense>
+          )}
+
+          {user?.whatsapp_num && (
+            <React.Suspense>
+              <WhatsApp className="bg-black text-primary" />
+            </React.Suspense>
+          )}
         </div>
       </div>
     </div>
