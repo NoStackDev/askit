@@ -364,12 +364,12 @@ const SettingsPage = (props: Props) => {
           Others
         </div>
 
-        <div className="font-body font-medium text-title_2 mt-4 text-[#000000]">
+        <div className="font-body font-medium text-title_2 mt-4 text-[#000000] hover:cursor-pointer">
           Delete Account
         </div>
 
-        <div className="w-full flex items-center justify-between">
-          <div className="font-body font-medium text-title_2 mt-4 text-[#000000]">
+        <div className="w-full flex items-center justify-between mt-4">
+          <div className="font-body font-medium text-title_2 text-[#000000]">
             Email Notification on Preferred Feeds
           </div>
           <Toggle.Root
@@ -390,7 +390,7 @@ const SettingsPage = (props: Props) => {
           </Toggle.Root>
         </div>
 
-        <div className="font-body font-medium text-title_2 mt-4 text-[#000000]">
+        <div className="font-body font-medium text-title_2 mt-4 text-[#000000] hover:cursor-pointer">
           Write Us Feedback
         </div>
       </div>
