@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button";
 import Image from "next/image";
 import React from "react";
 import { City } from "../types";
+import * as Toggle from "@radix-ui/react-toggle";
 
 import {
   Select,
@@ -22,6 +23,8 @@ const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
 );
 const CloseIcon = React.lazy(() => import("@mui/icons-material/Close"));
+const ToggleOffIcon = React.lazy(() => import("@mui/icons-material/ToggleOff"));
+const ToggleOnIcon = React.lazy(() => import("@mui/icons-material/ToggleOn"));
 
 type Props = {};
 
@@ -34,6 +37,7 @@ const SettingsPage = (props: Props) => {
   const [selectedCategoryTypes, setSelectedCategoryTypes] = React.useState<
     string[]
   >([]);
+  const [notification, setNotification] = React.useState(false);
 
   const states = Object.keys(statesConfig);
   const sidebarItem = sidebarConfig1;
@@ -364,8 +368,26 @@ const SettingsPage = (props: Props) => {
           Delete Account
         </div>
 
-        <div className="font-body font-medium text-title_2 mt-4 text-[#000000]">
-          Email Notification on Preferred Feeds
+        <div className="w-full flex items-center justify-between">
+          <div className="font-body font-medium text-title_2 mt-4 text-[#000000]">
+            Email Notification on Preferred Feeds
+          </div>
+          <Toggle.Root
+            aria-label="Toggle italic"
+            className="hover:cursor-pointer"
+          >
+            <React.Suspense
+              fallback={
+                <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
+              }
+            >
+              {notification ? (
+                <ToggleOnIcon onClick={() => setNotification(!notification)} />
+              ) : (
+                <ToggleOffIcon onClick={() => setNotification(!notification)} />
+              )}
+            </React.Suspense>
+          </Toggle.Root>
         </div>
 
         <div className="font-body font-medium text-title_2 mt-4 text-[#000000]">
