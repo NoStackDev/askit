@@ -52,6 +52,7 @@ export default function Home() {
     (async () => {
       try {
         const feedsResponse = await getRequests(dispatch);
+        console.log(feedsResponse)
         if (feedsResponse.status === 200) {
         dispatch({type: "SUCCESS", payload: feedsResponse})
         }
