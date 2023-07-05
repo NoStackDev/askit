@@ -35,6 +35,10 @@ const FeedsReducer = (state: FeedsResponse, action: ActionI) => {
           from: null,
           last_page: 0,
           links: [],
+          path: "",
+          per_page: 12,
+          to: null,
+          total: 0,
         },
       };
     case null:
@@ -62,6 +66,10 @@ const FeedsContext = React.createContext<FeedsResponse & DispatchI>({
     from: null,
     last_page: 0,
     links: [],
+    path: "",
+    per_page: 12,
+    to: null,
+    total: 0,
   },
   dispatch: () => {},
 });
@@ -86,6 +94,10 @@ export const FeedsContextProvider = ({ children }: FeedsContextProviderI) => {
       from: null,
       last_page: 0,
       links: [],
+      path: "",
+      per_page: 12,
+      to: null,
+      total: 0,
     },
   });
 
