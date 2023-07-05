@@ -5,7 +5,7 @@ import { FeedsResponse, RequestResponseType, RequestType } from "../types";
 
 type ActionI = {
   type: "FETCHING" | "SUCCESS" | "FAILED" | "RESET" | null;
-  payload?: FeedsResponse;
+  payload?: RequestResponseType;
 };
 
 const FeedsReducer = (state: FeedsResponse, action: ActionI) => {
