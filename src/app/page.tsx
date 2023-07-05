@@ -53,7 +53,7 @@ export default function Home() {
     (async () => {
       try {
         const feedsResponse = await getRequests(dispatch);
-        setFeeds(feedsResponse)
+        setFeeds(feedsResponse.data)
         if (feedsResponse.status === 200) {
         dispatch({type: "SUCCESS", payload: feedsResponse})
         }
