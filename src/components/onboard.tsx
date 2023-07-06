@@ -28,7 +28,7 @@ import {
 import { cn } from "@/app/lib/utils";
 import { useAuthContext } from "@/app/context/authContext";
 import { redirect } from "next/navigation";
-import { updateUser } from "@/app/lib/user";
+import { loginUser, updateUser } from "@/app/lib/user";
 import { useGlobalContext } from "@/app/context/Store";
 import getUser from "@/app/lib/user/getUser";
 
@@ -52,7 +52,7 @@ const Onboard = (props: Props) => {
   >(null);
   const [imageFile, setImageFile] = React.useState<FileList>();
 
-  const { token, setUser } = useGlobalContext();
+  const { setToken, user: authUser, setUser: setAuthUser } = useGlobalContext();
   const { dispatch } = useAuthContext();
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
@@ -91,13 +91,25 @@ const Onboard = (props: Props) => {
         data.append("profile_img", imageFile[0]);
       }
 
-      const res = await updateUser(data, token || "");
-      const user = await getUser(token || "");
-      setUser(user || null);
+      if (authUser && authUser.authEmail && authUser.authPassword) {
+        const loginData = await loginUser(
+          { email: authUser.authEmail, password: authUser.authPassword },
+          dispatch
+        );
+
+        if (loginData.token) {
+          setToken(loginData.token);
+          const updatedUser = await updateUser(data, loginData.token);
+
+          if (updatedUser) {
+            setAuthUser(null);
+            dispatch({ type: "REGISTRATION_SUCCESSFUL" });
+          }
+        }
+      }
     } catch (err) {
       console.log(err);
     } finally {
-      console.log("ldsjslfwewjflsnf");
       dispatch({ type: "RESET" });
       redirect("/");
     }

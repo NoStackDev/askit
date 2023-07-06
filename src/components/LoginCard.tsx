@@ -33,12 +33,11 @@ const LoginCard = React.forwardRef<
     e.preventDefault();
 
     try {
-      const userData = registerUser({ name, email, password }, dispatch);
-      const user = await userData;
-      setUser(user);
-      window.localStorage.setItem('user', JSON.stringify(userData))
-
-      dispatch({ type: "REGISTRATION_SUCCESSFUL" });
+      const userData = await registerUser({ name, email, password }, dispatch);
+      if (userData) {
+        setUser({ authEmail: email, authPassword: password });
+        dispatch({ type: "REGISTRATION_SUCCESSFUL" });
+      }
     } catch (err) {
       console.log(err);
       dispatch({ type: "FAILURE" });
@@ -53,9 +52,6 @@ const LoginCard = React.forwardRef<
 
       if (loginData.token) {
         setToken(loginData.token);
-        const userData = await getUser(loginData.token);
-        setUser(userData.data);
-        window.localStorage.setItem('user', JSON.stringify(userData))
         dispatch({ type: "LOGIN_SUCCESSFUL" });
         dispatch({ type: "RESET" });
         redirect("/");
