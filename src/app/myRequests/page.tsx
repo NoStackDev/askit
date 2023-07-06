@@ -17,9 +17,10 @@ export default function MyRequestPage({}: Props) {
   const [myRequests, setMyRequests] = React.useState<RequestType[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const { token } = useGlobalContext();
-
   React.useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    const userDetails = window.localStorage.getItem("userDetails");
+
     (async () => {
       try {
         if (token) {
