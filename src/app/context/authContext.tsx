@@ -5,6 +5,7 @@ import React from "react";
 interface ActionI {
   type:
     | "LOGIN_START"
+    | "UPDATING"
     | "LOGIN_SUCCESSFUL"
     | "REGISTRATION_SUCCESSFUL"
     | "FAILURE"
@@ -18,6 +19,13 @@ const AuthReducer = (state: AuthContextI, action: ActionI) => {
         isLoading: true,
         isSuccess: false,
         isOnboarding: false,
+        isError: false,
+      };
+    case "UPDATING":
+      return {
+        isLoading: true,
+        isSuccess: false,
+        isOnboarding: true,
         isError: false,
       };
     case "LOGIN_SUCCESSFUL":

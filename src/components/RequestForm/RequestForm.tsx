@@ -26,8 +26,16 @@ const RequestForm = React.forwardRef<
   const [description, setDescription] = React.useState("");
 
   const [formStep, setFormStep] = React.useState(0);
-  const { user, token } = useGlobalContext();
-  const { dispatch } = useFeedsContext();
+  const { feeds, setFeeds } = useFeedsContext();
+
+  const token = window.localStorage.getItem("token");
+  const userDetails = window.localStorage.getItem("userDetails");
+
+  React.useEffect(() => {
+    if (!token || !userDetails) {
+      window.location.replace("/login");
+    }
+  }, []);
 
   const forms = [
     <RequestFormOne
@@ -59,29 +67,33 @@ const RequestForm = React.forwardRef<
 
   const onPostRequestClick = async () => {
     try {
-      dispatch({ type: "FETCHING" });
-
       const data = new FormData();
-      data.append("title", title);
-      if (user) {
-        data.append("user_id", user.id.toString());
+      if (!token || !userDetails) {
+        window.location.replace("/login");
+      } else {
+        console.log(token);
+        console.log(userDetails);
+        console.log("user id: ", JSON.parse(userDetails).data.id);
+        data.append("title", title);
+        data.append("user_id", JSON.parse(userDetails).data.id);
+        if (imageFile) {
+          data.append("image", imageFile[0]);
+        }
+        data.append("description", description);
+
+        const res = await postRequest(token || "", data);
+        if (res.success) {
+          console.log(res);
+          if (feeds) {
+            setFeeds({ ...feeds, data: [res.data, ...feeds.data] });
+          }
+        }
       }
-      if (imageFile) {
-        data.append("image", imageFile[0]);
-      }
-      data.append("description", description);
-
-      const res = await postRequest(token || "", data);
-
-      dispatch({ type: "SUCCESS", payload: res });
-
-      dispatch({ type: "RESET" });
     } catch (err) {
       console.log(err);
     }
   };
 
-  console.log(imageFile);
   return (
     <FormPrimitive.Root className="relative pb-10 flex flex-col items-center bg-white h-[85vh] max-h-[800px] rounded-[20px] w-screen max-w-[600px]">
       <Topbar1

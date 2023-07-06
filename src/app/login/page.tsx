@@ -5,10 +5,12 @@ import Image from "next/image";
 import React from "react";
 import { useGlobalContext } from "../context/Store";
 import { redirect } from "next/navigation";
+import { useAuthContext } from "../context/authContext";
 
 type Props = {};
 
 export default function LoginPage({}: Props) {
+  const { dispatch } = useAuthContext();
   const { user } = useGlobalContext();
 
   if (user) {

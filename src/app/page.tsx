@@ -30,6 +30,7 @@ import { deleteResponse, postResponse, updateResponse } from "./lib/repsonse";
 import { addToBookmark, deleteBookmark, getBookmarks } from "./lib/bookmark";
 import RequestForm from "@/components/RequestForm";
 import { useFeedsContext } from "./context/feedsContext";
+import { useAuthContext } from "./context/authContext";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -37,8 +38,8 @@ export default function Home() {
   const [isError, setIsError] = useState(false);
   const openSidebarRef = useRef<HTMLDivElement>(null);
 
-  const { token, user } = useGlobalContext();
   const { feeds, setFeeds } = useFeedsContext();
+  const { dispatch } = useAuthContext();
 
   // if (!token || !user) {
   //   redirect("/login");

@@ -14,10 +14,6 @@ import { cn } from "@/app/lib/utils";
 
 interface FormOneI {
   setTitle: React.Dispatch<React.SetStateAction<string>>;
-  // categoryId: number;
-  // subCategoryId: number;
-  // stateId: number;
-  // cityId: number;
 }
 
 const RequestFormOne = React.forwardRef<

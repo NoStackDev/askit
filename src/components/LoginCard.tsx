@@ -47,14 +47,24 @@ const LoginCard = React.forwardRef<
   const onLoginClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const loginRes = loginUser({ email, password }, dispatch);
+      dispatch({ type: "LOGIN_START" });
+      const loginRes = loginUser({ email, password });
       const loginData = await loginRes;
 
       if (loginData.token) {
         setToken(loginData.token);
-        dispatch({ type: "LOGIN_SUCCESSFUL" });
-        dispatch({ type: "RESET" });
-        redirect("/");
+        window.localStorage.setItem("token", loginData.token);
+        const userDetails = await getUser(loginData.token);
+
+        if (userDetails) {
+          window.localStorage.setItem(
+            "userDetails",
+            JSON.stringify(userDetails)
+          );
+          dispatch({ type: "LOGIN_SUCCESSFUL" });
+          dispatch({ type: "RESET" });
+          window.location.replace("/");
+        }
       }
     } catch (err) {
       dispatch({ type: "FAILURE" });

@@ -3,20 +3,7 @@ interface LoginI {
   password: string;
 }
 
-interface ActionI {
-  type:
-    | "LOGIN_START"
-    | "LOGIN_SUCCESSFUL"
-    | "REGISTRATION_SUCCESSFUL"
-    | "FAILURE"
-    | "RESET";
-}
-
-export default async function loginUser(
-  { email, password }: LoginI,
-  dispatch: React.Dispatch<ActionI>
-) {
-  dispatch({ type: "LOGIN_START" });
+export default async function loginUser({ email, password }: LoginI) {
   const res = await fetch(`${process.env.API}/login`, {
     method: "POST",
     headers: {

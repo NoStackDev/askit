@@ -53,7 +53,7 @@ const Onboard = (props: Props) => {
   const [imageFile, setImageFile] = React.useState<FileList>();
 
   const { setToken, user: authUser, setUser: setAuthUser } = useGlobalContext();
-  const { dispatch } = useAuthContext();
+  const { isLoading, dispatch } = useAuthContext();
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 
@@ -92,19 +92,22 @@ const Onboard = (props: Props) => {
       }
 
       if (authUser && authUser.authEmail && authUser.authPassword) {
-        const loginData = await loginUser(
-          { email: authUser.authEmail, password: authUser.authPassword },
-          dispatch
-        );
+        dispatch({ type: "UPDATING" });
+        const loginData = await loginUser({
+          email: authUser.authEmail,
+          password: authUser.authPassword,
+        });
 
         if (loginData.token) {
           setToken(loginData.token);
+          window.localStorage.setItem("token", loginData.token);
           const updatedUser = await updateUser(data, loginData.token);
 
           if (updatedUser) {
+            window.localStorage.set("userDetails", JSON.stringify(updatedUser));
             setAuthUser(null);
             dispatch({ type: "RESET" });
-            redirect("/");
+            window.location.replace("/");
           }
         }
       }
@@ -297,12 +300,18 @@ const Onboard = (props: Props) => {
             </div>
           </div>
 
-          <Button
-            className="mt-8 w-full max-w-[225px] rounded-[14px] py-2"
-            onClick={onSaveClick}
-          >
-            Save and continue
-          </Button>
+          {isLoading ? (
+            <Button className="mt-8 w-full max-w-[225px] rounded-[14px] py-2">
+              Saving
+            </Button>
+          ) : (
+            <Button
+              className="mt-8 w-full max-w-[225px] rounded-[14px] py-2"
+              onClick={onSaveClick}
+            >
+              Save and continue
+            </Button>
+          )}
 
           <div className="font-body text-secondary text-body_1 mt-10 md:mt-6">
             © 2023 Askit. All Rights Reserved.

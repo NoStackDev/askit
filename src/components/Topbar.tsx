@@ -1,5 +1,6 @@
 "use client";
 
+import { useGlobalContext } from "@/app/context/Store";
 import { useAuthContext } from "@/app/context/authContext";
 import { cn } from "@/app/lib/utils";
 import Link from "next/link";
@@ -15,10 +16,14 @@ const Topbar = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
   const { isOnboarding, dispatch } = useAuthContext();
+  const { setUser: setAuthUser } = useGlobalContext();
+  const linkRef = React.useRef<HTMLAnchorElement>(null);
 
-  const onClickSkip = () => {
+  const onClickSkip = (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    setAuthUser(null);
     dispatch({ type: "RESET" });
-    redirect("/");
   };
 
   return (
@@ -55,14 +60,12 @@ const Topbar = React.forwardRef<
 
       {isOnboarding ? (
         <Link
-          href="/"
+          href="/login"
           className="absolute right-[0px] -translate-x-1/2 top-1/2 -translate-y-1/2 w-fit h-fit flex items-center gap-1"
-          onClick={() => dispatch({ type: "RESET" })}
+          onClick={(e) => onClickSkip(e)}
+          ref={linkRef}
         >
-          <div
-            className="font-body text-title_2 font-medium text-primary bg-white rounded-lg py-1 px-3"
-            onClick={onClickSkip}
-          >
+          <div className="font-body text-title_2 font-medium text-primary bg-white rounded-lg py-1 px-3">
             Skip
           </div>
         </Link>
