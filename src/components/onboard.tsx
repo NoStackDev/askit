@@ -103,15 +103,13 @@ const Onboard = (props: Props) => {
 
           if (updatedUser) {
             setAuthUser(null);
-            dispatch({ type: "REGISTRATION_SUCCESSFUL" });
+            dispatch({ type: "RESET" });
+            redirect("/");
           }
         }
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      dispatch({ type: "RESET" });
-      redirect("/");
     }
   };
 
