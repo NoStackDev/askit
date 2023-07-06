@@ -1,13 +1,19 @@
 "use client";
 
 import { cn } from "@/app/lib/utils";
-import { FeedsLinks, FeedsMeta } from "@/app/types";
+import { FeedsLinks, FeedsMeta, FeedsResponse } from "@/app/types";
 import clsx from "clsx";
 import React from "react";
 
 const PageNumbers = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & FeedsMeta & FeedsLinks
+  React.ComponentPropsWithoutRef<"div"> &
+    FeedsMeta &
+    FeedsLinks & {
+      setFeeds: React.Dispatch<React.SetStateAction<FeedsResponse | null>>;
+      setIsError: React.Dispatch<React.SetStateAction<boolean>>;
+      setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    }
 >(
   (
     {
@@ -20,17 +26,46 @@ const PageNumbers = React.forwardRef<
       from: fromMeta,
       last_page: lastPageMeta,
       links: linksMeta,
+      setFeeds,
+      setIsLoading,
+      setIsError,
       ...prop
     },
     forwardRef
   ) => {
-    const pagesArr: number[] = [];
-
+    const [pagesArr, setPagesArr] = React.useState<number[]>([]);
     React.useEffect(() => {
+      const _pagesArr: number[] = [];
+
       for (let _ = 1; _ <= lastPageMeta; _++) {
-        pagesArr.push(_);
+        _pagesArr.push(_);
       }
-    }, [lastPageMeta, pagesArr]);
+      setPagesArr(_pagesArr);
+    }, [lastPageMeta]);
+
+    const onClickBtn = async (pageNumber: number) => {
+      const pageLink =
+        firstPageLink?.split(":").join("s:").split("=")[0] + "=" + pageNumber;
+      setIsError(false);
+      setIsLoading(true);
+      const token = window.localStorage.getItem("token");
+      try {
+        const feedsResponse = await fetch(pageLink, {
+          method: "OPTIONS",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (feedsResponse.status === 200) {
+          setIsLoading(false);
+          const data = await feedsResponse.json();
+          setFeeds(data);
+        } else throw new Error("failed to fetch next page");
+      } catch (err) {
+        console.log(err);
+        setIsError(true);
+      }
+    };
 
     return (
       <div
@@ -46,6 +81,7 @@ const PageNumbers = React.forwardRef<
                 currentPageMeta === pageNumber && "bg-secondary text-white"
               )}
               key={pageNumber}
+              onClick={() => onClickBtn(pageNumber)}
             >
               {pageNumber}
             </div>

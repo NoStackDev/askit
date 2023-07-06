@@ -74,11 +74,21 @@ export default function Home() {
   const onClickNext = async () => {
     setIsError(false);
     setIsLoading(true);
+    const token = window.localStorage.getItem("token");
     try {
-      const feedsResponse = await fetch(feeds?.links.next || "/");
+      const feedsResponse = await fetch(
+        feeds?.links.next?.split(":").join("s:") || "",
+        {
+          method: "OPTIONS",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (feedsResponse.status === 200) {
         setIsLoading(false);
         const data = await feedsResponse.json();
+        console.log(data);
         setFeeds(data);
       } else throw new Error("failed to fetch next page");
     } catch (err) {
@@ -135,24 +145,33 @@ export default function Home() {
                 <>
                   <Requests requests={feeds.data} className="mt-4 md:mt-8" />
 
-                  {feeds.meta.last_page > 1 && (
-                    <>
+                  {feeds.meta.last_page > 1 &&
+                    feeds.meta.last_page !== feeds.meta.current_page && (
                       <div className="w-full flex flex-col items-center justify-center">
                         <Button
                           variant="outlined"
                           className="mt-12 md:mt-14 w-[255px]"
+                          onClick={onClickNext}
                         >
                           Next Page
                         </Button>
                       </div>
-                      <div>
-                        <PageNumbers
-                          {...feeds.links}
-                          {...feeds.meta}
-                          className="mt-6"
-                        />
-                      </div>
-                    </>
+                    )}
+                  {feeds.meta.last_page > 1 && (
+                    <div>
+                      <PageNumbers
+                        {...feeds.links}
+                        {...feeds.meta}
+                        setFeeds={setFeeds}
+                        className={cn(
+                          "mt-6",
+                          feeds.meta.last_page === feeds.meta.current_page &&
+                            "mt-12 md:mt-14"
+                        )}
+                        setIsLoading={setIsLoading}
+                        setIsError={setIsError}
+                      />
+                    </div>
                   )}
                 </>
               ) : (
