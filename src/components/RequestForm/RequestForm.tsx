@@ -71,9 +71,6 @@ const RequestForm = React.forwardRef<
       if (!token || !userDetails) {
         window.location.replace("/login");
       } else {
-        console.log(token);
-        console.log(userDetails);
-        console.log("user id: ", JSON.parse(userDetails).data.id);
         data.append("title", title);
         data.append("user_id", JSON.parse(userDetails).data.id);
         if (imageFile) {
@@ -93,6 +90,10 @@ const RequestForm = React.forwardRef<
       console.log(err);
     }
   };
+
+  console.log(token);
+  console.log(userDetails);
+  // console.log("user id: ", JSON.parse(userDetails).data.id || "");
 
   return (
     <FormPrimitive.Root className="relative pb-10 flex flex-col items-center bg-white h-[85vh] max-h-[800px] rounded-[20px] w-screen max-w-[600px]">

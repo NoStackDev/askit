@@ -3,7 +3,7 @@ export default async function postRequest(token: string, formData: FormData) {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
+      // "Content-Type": "multipart/form-data",
       Accept: "application/json",
     },
     body: formData,
