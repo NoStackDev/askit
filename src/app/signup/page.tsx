@@ -9,7 +9,7 @@ import Onboard from "@/components/onboard";
 type Props = {};
 
 export default function SignupPage({}: Props) {
-  const { isOnboarding, dispatch } = useAuthContext();
+  const { isOnboarding } = useAuthContext();
 
   return (
     <>

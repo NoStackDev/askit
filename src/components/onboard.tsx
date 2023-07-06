@@ -87,9 +87,9 @@ const Onboard = (props: Props) => {
       data.append("facebook_link", facebookLink);
       data.append("whatsapp_num", whatsppNum);
       data.append("instagram_link", instagramLink);
-      // if (imageFile) {
-      //   data.append("profile_img", imageFile);
-      // }
+      if (imageFile) {
+        data.append("profile_img", imageFile[0]);
+      }
 
       const res = await updateUser(data, token || "");
       const user = await getUser(token || "");

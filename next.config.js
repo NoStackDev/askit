@@ -16,14 +16,14 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "cd94-102-89-34-201.ngrok-free.app",
+        hostname: "*",
         port: "",
         pathname: "/**",
       },
     ],
   },
   env: {
-    API: "https://cd94-102-89-34-201.ngrok-free.app/api",
+    API: "https://4d96-102-89-34-201.ngrok-free.app/api",
   },
 };
 
