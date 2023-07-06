@@ -81,16 +81,6 @@ const Onboard = (props: Props) => {
 
   const onSaveClick = async () => {
     try {
-      const data = new FormData();
-      data.append("about", about);
-      data.append("business_addr", businessAddr);
-      data.append("facebook_link", facebookLink);
-      data.append("whatsapp_num", whatsppNum);
-      data.append("instagram_link", instagramLink);
-      if (imageFile) {
-        data.append("profile_img", imageFile[0]);
-      }
-
       if (authUser && authUser.authEmail && authUser.authPassword) {
         dispatch({ type: "UPDATING" });
         const loginData = await loginUser({
@@ -101,10 +91,28 @@ const Onboard = (props: Props) => {
         if (loginData.token) {
           setToken(loginData.token);
           window.localStorage.setItem("token", loginData.token);
-          const updatedUser = await updateUser(data, loginData.token);
+          const headers = new Headers();
+          headers.append("Accept", "application/json");
+          headers.append("Authorization", `Bearer ${loginData.token}`);
+
+          const data = new FormData();
+          data.append("about", about);
+          data.append("business_addr", businessAddr);
+          data.append("facebook_link", facebookLink);
+          data.append("whatsapp_num", whatsppNum);
+          data.append("instagram_link", instagramLink);
+          if (imageFile) {
+            data.append("profile_img", imageFile[0], imageFile[0].name);
+          }
+
+          const updatedUser = await updateUser(headers, data);
 
           if (updatedUser) {
-            window.localStorage.set("userDetails", JSON.stringify(updatedUser));
+            console.log(updateUser);
+            window.localStorage.setItem(
+              "userDetails",
+              JSON.stringify(updatedUser)
+            );
             setAuthUser(null);
             dispatch({ type: "RESET" });
             window.location.replace("/");

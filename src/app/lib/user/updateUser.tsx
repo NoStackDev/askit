@@ -1,11 +1,7 @@
-const updateUser = async (data: FormData, token: string) => {
+const updateUser = async (headers: Headers, data: FormData) => {
   const res = await fetch(`${process.env.API}/update`, {
     method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: headers,
     body: data,
   });
 

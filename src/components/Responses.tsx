@@ -15,7 +15,7 @@ const Responses = React.forwardRef<
 >(({ className, children, responses, variant, ...props }, ref) => {
   return (
     <div ref={ref} className={cn("w-full", className)}>
-      <div className="flex flex-col md:flex-row md:flex-wrap gap-6">
+      <div className="flex flex-col gap-6 md:grid md:grid-cols-r-cards md:gap-x-5 gap-y-6">
         {responses.map((response) => {
           const { id: responseId, ...others } = response;
           return (

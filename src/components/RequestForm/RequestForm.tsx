@@ -72,7 +72,6 @@ const RequestForm = React.forwardRef<
       } else {
         const headers = new Headers();
         headers.append("Accept", "application/json");
-        // headers.append("Content-Type", "multipart/form-data");
         headers.append("Authorization", `Bearer ${token}`);
 
         const data = new FormData();

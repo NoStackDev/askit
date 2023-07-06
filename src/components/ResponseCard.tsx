@@ -86,7 +86,7 @@ const ResponseCard = React.forwardRef<
           </div>
 
           <div className="text-title_3 font-body font-medium text-white">
-            N{price.toLocaleString()}
+            {price && <>N{price.toLocaleString()}</>}
           </div>
         </div>
 
@@ -133,7 +133,7 @@ const ResponseCard = React.forwardRef<
         )}
 
         {variant === "user" ? (
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-8 mt-6">
             <React.Suspense>
               <DeleteIcon className="text-white hover:cursor-pointer" />
             </React.Suspense>
