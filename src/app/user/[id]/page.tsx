@@ -13,7 +13,7 @@ type Props = {};
 
 const UserPage = (props: Props) => {
   const [showSidebar, setShowSidebar] = React.useState(false);
-  const [responses, setResponses] = React.useState<ResponseType[]>([]);
+  const [responses, setResponses] = React.useState<RequestDetailResponseType[]>([]);
 
   return (
     <main className="md:mx-[100px] relative bg-background px-5 md:py-10 mb-20">
