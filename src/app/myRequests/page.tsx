@@ -14,7 +14,7 @@ import { useGlobalContext } from "../context/Store";
 type Props = {};
 
 export default function MyRequestPage({}: Props) {
-  const [myRequests, setMyRequests] = React.useState<RequestType[]>();
+  const [myRequests, setMyRequests] = React.useState<RequestType[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
   const { token } = useGlobalContext();
