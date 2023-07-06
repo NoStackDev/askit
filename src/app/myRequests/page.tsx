@@ -31,7 +31,7 @@ export default function MyRequestPage({}: Props) {
         console.log(err);
       }
     })();
-  }, [token]);
+  }, []);
 
   return (
     <main className="px-[20px] md:px-0 md:ml-[112px] pt-14 flex flex-col gap-6 md:mr-[100px] mb-10 md:mb-0">
