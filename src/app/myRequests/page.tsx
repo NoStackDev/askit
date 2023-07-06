@@ -24,7 +24,7 @@ export default function MyRequestPage({}: Props) {
       try {
         if (token) {
           const res = await getUserRequests(token);
-          setMyRequests(res);
+          setMyRequests(res.data);
         }
       } catch (err) {
         console.log(err);
