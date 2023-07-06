@@ -13,26 +13,26 @@ const EditIcon = React.lazy(() => import("@mui/icons-material/Edit"));
 type Props = {};
 
 const ProfilePage = (props: Props) => {
-  const [responses, setResponses] = React.useState<RequestDetailResponseType[] | null>(null);
+  const [responses, setResponses] = React.useState<
+    RequestDetailResponseType[] | null
+  >(null);
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
-
+    console.log(token);
     (async () => {
       try {
         if (token) {
           const res = await getUserRequests(token);
           setResponses(res.data);
           console.log(res);
-          
         }
       } catch (err) {
         console.log(err);
       }
     })();
   }, []);
-
 
   return (
     <main className="relative bg-background px-[20px] md:px-0 pb-20 md:pb-0 md:mt-14 md:mb-10 md:ml-[112px] md:mr-[100px]">
