@@ -73,8 +73,40 @@ export type ResponseType = {
   user: string;
 };
 
+export type PostResponseType = {
+  success: boolean;
+  data: {
+    created_at: string;
+    description: string;
+    id: number;
+    image_url: string;
+    location_id: number;
+    price: string;
+    req_id: number;
+    title: string;
+    updated_at: string;
+    user_id: number;
+    visibility: string;
+    whatsapp_num: string;
+  };
+};
+
 export type RequestDetailType = {
   success: boolean;
   request: RequestType;
-  responses: ResponseType[];
+  responses: RequestDetailResponseType[];
+};
+
+export type RequestDetailResponseType = {
+  created_at: string;
+  description: string;
+  id: number;
+  image_url: string;
+  location: string;
+  price: number;
+  request_url: string;
+  title: string;
+  user: string;
+  visibility: string;
+  whatsapp_num: string;
 };

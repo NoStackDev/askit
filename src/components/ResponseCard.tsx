@@ -1,5 +1,5 @@
 import { cn, month } from "@/app/lib/utils";
-import { ResponseType } from "@/app/types";
+import { RequestDetailResponseType, ResponseType } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -14,24 +14,23 @@ const DeleteIcon = React.lazy(() => import("@mui/icons-material/Delete"));
 const ResponseCard = React.forwardRef<
   React.ElementRef<"div">,
   React.HTMLAttributes<HTMLDivElement> &
-    Omit<ResponseType, "id"> & {
+    Omit<RequestDetailResponseType, "id"> & {
       variant?: "user";
-      responseId: number;
+      responseid: number;
     }
 >(
   (
     {
       children,
       className,
-      bookmark,
-      category,
       created_at,
       description,
-      responseId: number,
+      responseid: number,
       image_url,
       location,
       title,
       user,
+      price,
       variant,
       ...props
     },
@@ -43,7 +42,7 @@ const ResponseCard = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "p-4 bg-secondary rounded-[20px] h-fit",
+          "p-4 bg-secondary rounded-[20px] h-fit min-w-[300px]",
           variant === "user" && "bg-[#191A23]",
           className
         )}
@@ -52,7 +51,7 @@ const ResponseCard = React.forwardRef<
         <div className="flex gap-3 items-start">
           {image_url && (
             <Image
-              src={image_url}
+              src={`https://${image_url}`}
               width={92}
               height={92}
               alt={`${user}'s profile pic`}
@@ -87,12 +86,12 @@ const ResponseCard = React.forwardRef<
           </div>
 
           <div className="text-title_3 font-body font-medium text-white">
-            {/* N{price.toLocaleString()} */}
+            N{price.toLocaleString()}
           </div>
         </div>
 
         {variant === "user" ? null : (
-          <div className="mt-4 flex items-end h-fit justify-between">
+          <div className="flex items-end h-fit justify-between">
             <div className="flex items-end h-fit gap-2">
               <React.Suspense
                 fallback={
@@ -101,9 +100,9 @@ const ResponseCard = React.forwardRef<
               >
                 {/* response from api has no user id  */}
                 {/* <Link href={`/user/${userId}/`}> */}
-                {image_url ? (
+                {false ? (
                   <Image
-                    src={image_url}
+                    src={`https://${image_url}`}
                     height={20}
                     width={20}
                     className="rounded-full"
@@ -134,7 +133,7 @@ const ResponseCard = React.forwardRef<
         )}
 
         {variant === "user" ? (
-          <div className="mt-4 flex items-center gap-8">
+          <div className="flex items-center gap-8">
             <React.Suspense>
               <DeleteIcon className="text-white hover:cursor-pointer" />
             </React.Suspense>

@@ -13,22 +13,24 @@ const EditIcon = React.lazy(() => import("@mui/icons-material/Edit"));
 type Props = {};
 
 const ProfilePage = (props: Props) => {
-  const [responses, setResponses] = React.useState<ResponseType[]>([]);
+  const [responses, setResponses] = React.useState<ResponseType[] | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
-  const { token } = useGlobalContext();
 
   React.useEffect(() => {
+    const token = window.localStorage.getItem("token");
+
     (async () => {
       try {
         if (token) {
           const res = await getUserRequests(token);
-          setResponses(res);
+          setResponses(res.data);
+          console.log(res.data);
         }
       } catch (err) {
         console.log(err);
       }
     })();
-  }, [token]);
+  }, []);
 
   return (
     <main className="relative bg-background px-[20px] md:px-0 pb-20 md:pb-0 md:mt-14 md:mb-10 md:ml-[112px] md:mr-[100px]">
@@ -58,9 +60,15 @@ const ProfilePage = (props: Props) => {
             My Responses
           </div>
 
-          <React.Suspense>
-            <Responses responses={responses} className="mt-6" variant="user" />
-          </React.Suspense>
+          {responses && (
+            <React.Suspense>
+              <Responses
+                responses={responses}
+                className="mt-6"
+                variant="user"
+              />
+            </React.Suspense>
+          )}
         </div>
       </div>
     </main>

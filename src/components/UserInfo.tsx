@@ -2,6 +2,7 @@
 
 import { useGlobalContext } from "@/app/context/Store";
 import { cn } from "@/app/lib/utils";
+import { UserType } from "@/app/types";
 import Image from "next/image";
 import React from "react";
 
@@ -20,7 +21,12 @@ const UserInfo = React.forwardRef<
     variant?: "profile";
   }
 >(({ className, variant, ...props }, forwardRef) => {
-  const { user } = useGlobalContext();
+  const [user, setUser] = React.useState<UserType | null>(null);
+
+  React.useEffect(() => {
+    const userDetails = window.localStorage.getItem("userDetails");
+    if (userDetails) setUser(JSON.parse(userDetails).data);
+  }, []);
 
   return (
     <div
@@ -66,17 +72,18 @@ const UserInfo = React.forwardRef<
       </div>
 
       <div className="flex flex-col gap-1 mt-4 justify-center items-center">
-        <div className="font-body text-special font-light text-white">
-          {user?.business_addr}
-        </div>
-
-        <div className="flex gap-1 text-white font-body text-title_3 font-medium">
-          <div className="text-center">{user?.location}</div>
+        <div className="w-full flex flex-col justify-center items-center gap-1">
+          <div className="font-body text-special font-light text-white">
+            Business Address
+          </div>
+          <div className="font-body text-title_3 font-medium text-white">
+            {user?.business_addr}
+          </div>
         </div>
       </div>
 
       {user?.about && (
-        <div className="mt-10 flex flex-col gap-2 text-white">
+        <div className="mt-6 flex flex-col gap-2 text-white">
           <div className="font-headline font-bold text-title_3 w-full text-center">
             WHAT I DO
           </div>

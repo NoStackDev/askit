@@ -67,33 +67,45 @@ const RequestForm = React.forwardRef<
 
   const onPostRequestClick = async () => {
     try {
-      const data = new FormData();
       if (!token || !userDetails) {
         window.location.replace("/login");
       } else {
+        const headers = new Headers();
+        headers.append("Accept", "application/json");
+        // headers.append("Content-Type", "multipart/form-data");
+        headers.append("Authorization", `Bearer ${token}`);
+
+        const data = new FormData();
         data.append("title", title);
         data.append("user_id", JSON.parse(userDetails).data.id);
         if (imageFile) {
-          data.append("image", imageFile[0]);
+          data.append("image", imageFile[0], imageFile[0].name);
         }
         data.append("description", description);
+        data.append("category_group_id", "6");
+        data.append("location_id", "1");
 
-        const res = await postRequest(token || "", data);
+        const res = await postRequest(token, data, headers);
         if (res.success) {
-          console.log(res);
+          if (feeds && feeds.data.length === feeds.meta.per_page) {
+            feeds.data.length = feeds.meta.per_page - 1;
+            setFeeds({ ...feeds, data: [res.data, ...feeds.data] });
+            return;
+          }
           if (feeds) {
             setFeeds({ ...feeds, data: [res.data, ...feeds.data] });
+            return;
           }
+          setFeeds(res.data);
         }
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      const dialogClose = document.getElementById("dialogCloseTrigger");
+      if (dialogClose) dialogClose.click();
     }
   };
-
-  console.log(token);
-  console.log(userDetails);
-  // console.log("user id: ", JSON.parse(userDetails).data.id || "");
 
   return (
     <FormPrimitive.Root className="relative pb-10 flex flex-col items-center bg-white h-[85vh] max-h-[800px] rounded-[20px] w-screen max-w-[600px]">

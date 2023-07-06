@@ -1,12 +1,12 @@
-export default async function postRequest(token: string, formData: FormData) {
+export default async function postRequest(
+  token: string,
+  data: FormData,
+  headers: Headers
+) {
   const res = await fetch(`${process.env.API}/requests`, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      // "Content-Type": "multipart/form-data",
-      Accept: "application/json",
-    },
-    body: formData,
+    headers: headers,
+    body: data,
   });
 
   return res.json();

@@ -52,7 +52,7 @@ const RequestImgDetail = React.forwardRef<
       >
         {image_url && (
           <Image
-            src={image_url || ""}
+            src={`https://${image_url}`}
             height={255}
             width={255}
             alt="requested product image"

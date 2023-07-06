@@ -4,11 +4,13 @@ import { cn } from "@/app/lib/utils";
 
 const VisibilityRadioGroup = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div">
->(({ className, defaultValue, ...props }, fowardref) => (
+  React.ComponentPropsWithoutRef<"div"> & {
+    setVisibility: React.Dispatch<React.SetStateAction<"private" | "public">>;
+  }
+>(({ className, defaultValue, setVisibility, ...props }, fowardref) => (
   <RadioGroupPrimitive.Root
     className={cn("flex flex-col gap-2 w-full", className)}
-    defaultValue="default"
+    defaultValue="public"
     aria-label="Response visibility"
   >
     <div className="font-body text-title_3 text-[#000000] font-medium">
@@ -19,8 +21,9 @@ const VisibilityRadioGroup = React.forwardRef<
       <div className="flex items-center">
         <RadioGroupPrimitive.Item
           className="bg-white w-3 h-3 rounded-full hover:bg-black/10 focus:shadow-[0_0_0_2px] focus:shadow-black outline-none cursor-default border-[1px] border-black"
-          value="default"
+          value="public"
           id="public"
+          onClick={(e) => setVisibility("public")}
         >
           <RadioGroupPrimitive.Indicator className="flex items-center justify-center w-full h-full relative after:content-[''] after:block after:w-2 after:h-2 after:rounded-[50%] after:bg-black" />
         </RadioGroupPrimitive.Item>
@@ -36,8 +39,9 @@ const VisibilityRadioGroup = React.forwardRef<
       <div className="flex items-center">
         <RadioGroupPrimitive.Item
           className="bg-white w-3 h-3 rounded-full hover:bg-black/10 focus:shadow-[0_0_0_2px] focus:shadow-black outline-none cursor-default  border-[1px] border-black"
-          value="comfortable"
+          value="private"
           id="private"
+          onClick={(e) => setVisibility("public")}
         >
           <RadioGroupPrimitive.Indicator className="flex items-center justify-center w-full h-full relative after:content-[''] after:block after:w-2 after:h-2 after:rounded-[50%] after:bg-black" />
         </RadioGroupPrimitive.Item>

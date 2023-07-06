@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/app/lib/utils";
-import { ResponseType } from "@/app/types";
+import { RequestDetailResponseType, ResponseType } from "@/app/types";
 import React from "react";
 
 const ResponseCard = React.lazy(() => import("@/components/ResponseCard"));
@@ -9,20 +9,20 @@ const ResponseCard = React.lazy(() => import("@/components/ResponseCard"));
 const Responses = React.forwardRef<
   React.ElementRef<"div">,
   React.HTMLAttributes<HTMLDivElement> & {
-    responses: ResponseType[];
+    responses: RequestDetailResponseType[];
     variant?: "user";
   }
 >(({ className, children, responses, variant, ...props }, ref) => {
   return (
     <div ref={ref} className={cn("w-full", className)}>
-      <div className="flex flex-col md:grid md:grid-cols-r-cards w-full gap-6">
+      <div className="flex flex-col md:flex-row md:flex-wrap gap-6">
         {responses.map((response) => {
           const { id: responseId, ...others } = response;
           return (
             <ResponseCard
               key={responseId}
               {...others}
-              responseId={responseId}
+              responseid={responseId}
               variant={variant}
             />
           );

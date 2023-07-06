@@ -20,37 +20,40 @@ export default function RequestsPage() {
     React.useState<RequestDetailType | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const pathUrl = usePathname();
-  const { token } = useGlobalContext();
-  const [request, setRequest] = React.useState<any>()
 
   const requestId = pathUrl.split("/")[2];
 
   React.useEffect(() => {
-    (async () => {
-      try {
-        let _token = token ? token : "";
-        const requestRes = await getRequestDetail(_token, Number(requestId));
-        setRequest(requestRes.request)
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, [token, requestId]);
+    const token = window.localStorage.getItem("token");
+    const userDetails = window.localStorage.getItem("userDetails");
+
+    if (!token || !userDetails) {
+      window.location.replace("/login");
+    } else
+      (async () => {
+        try {
+          const requestRes = await getRequestDetail(token, Number(requestId));
+          setReqeustData(requestRes);
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+  }, [requestId]);
 
   return (
     <main className="flex flex-col md:grid md:grid-cols-[1fr_348px] md:mx-[100px] md:gap-5 bg-background md:py-14 mb-20">
       <div>
-        <Topbar>{request && request.category}</Topbar>
-        {request && (
+        <Topbar>{requestData && requestData.request.category}</Topbar>
+        {requestData && (
           <RequestImgDetail
-            bookmark={request.bookmark}
-            image_url={request.image_url}
-            category={request.category}
-            description={request.description}
-            location={request.location}
-            title={request.title}
-            user={request.title}
-            created_at={request.created_at}
+            bookmark={requestData.request.bookmark}
+            image_url={requestData.request.image_url}
+            category={requestData.request.category}
+            description={requestData.request.description}
+            location={requestData.request.location}
+            title={requestData.request.title}
+            user={requestData.request.user}
+            created_at={requestData.request.created_at}
             requestId={requestId}
           />
         )}
@@ -79,13 +82,17 @@ export default function RequestsPage() {
               </React.Suspense>
 
               <div className="font-headline text-white text-headline_3 md:text-headline_2 font-bold">
-                Responses ({requestData ? requestData.responses.length : 0})
+                Responses (
+                {requestData && requestData.responses.length > 0
+                  ? requestData.responses.length
+                  : 0}
+                )
               </div>
             </div>
           </div>
 
-          {request && (
-            <Responses responses={request.responses} className="mt-6" />
+          {requestData && (
+            <Responses responses={requestData.responses} className="mt-6" />
           )}
         </div>
       </div>
