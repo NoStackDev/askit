@@ -1,6 +1,6 @@
 "use client";
 
-import { ResponseType } from "@/app/types";
+import { RequestDetailResponseType } from "@/app/types";
 import { responsesConfig } from "@/config.ts/responses";
 import React from "react";
 
