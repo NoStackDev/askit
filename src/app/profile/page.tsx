@@ -54,7 +54,7 @@ const ProfilePage = (props: Props) => {
 
       <div className="flex flex-col md:grid md:grid-cols-[348px_1fr] gap-6">
         <React.Suspense>
-          {/* <UserInfo variant="profile" className="mt-10" />; */}
+          <UserInfo variant="profile" className="mt-10" />;
         </React.Suspense>
 
         <div className="col-span-2 mt-14">
