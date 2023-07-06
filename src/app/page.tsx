@@ -79,14 +79,12 @@ export default function Home() {
         setIsLoading(false);
         const data = await feedsResponse.json();
         setFeeds(data);
-      }
+      } else throw new Error("failed to fetch next page");
     } catch (err) {
       console.log(err);
       setIsError(true);
     }
   };
-
-  console.log(feeds);
 
   return (
     <>
