@@ -3,85 +3,13 @@
 import React from "react";
 import { FeedsResponse, RequestResponseType, RequestType } from "../types";
 
-type ActionI = {
-  type: "FETCHING" | "SUCCESS" | "FAILED" | "RESET" | null;
-  payload?: RequestResponseType;
+type FeedsContextType = {
+  feeds: FeedsResponse | null;
+  setFeeds: React.Dispatch<React.SetStateAction<FeedsResponse | null>>;
 };
 
-const FeedsReducer = (state: FeedsResponse, action: ActionI) => {
-  const { type, payload } = action;
-
-  switch (type) {
-    case "FETCHING":
-      return state;
-
-    case "SUCCESS":
-      if (payload) return { ...state, data: [...state.data, payload.data] };
-
-    case "FAILED":
-      return state;
-
-    case "RESET":
-      return {
-        data: [],
-        links: {
-          first: null,
-          last: null,
-          prev: null,
-          next: null,
-        },
-        meta: {
-          current_page: 0,
-          from: null,
-          last_page: 0,
-          links: [],
-          path: "",
-          per_page: 12,
-          to: 10,
-          total: 0,
-        },
-      };
-    case null:
-      return state;
-
-    default:
-      return state;
-  }
-};
-
-interface DispatchI {
-  dispatch: React.Dispatch<ActionI>;
-}
-
-const FeedsContext = React.createContext<FeedsResponse & DispatchI>({
-  data: [],
-  links: {
-    first: null,
-    last: null,
-    prev: null,
-    next: null,
-  },
-  meta: {
-    current_page: 0,
-    from: null,
-    last_page: 0,
-    links: [],
-    path: "",
-    per_page: 12,
-    to: 10,
-    total: 0,
-  },
-  dispatch: () => {},
-});
-
-interface FeedsContextProviderI {
-  children: React.ReactNode;
-}
-
-export const FeedsContextProvider = ({ children }: FeedsContextProviderI) => {
-  const [feeds, dispatch] = React.useReducer<
-    React.Reducer<FeedsResponse, ActionI>
-  >(FeedsReducer, {
+const FeedsContext = React.createContext<FeedsContextType>({
+  feeds: {
     data: [],
     links: {
       first: null,
@@ -99,10 +27,19 @@ export const FeedsContextProvider = ({ children }: FeedsContextProviderI) => {
       to: 10,
       total: 0,
     },
-  });
+  },
+  setFeeds: () => {},
+});
+
+interface FeedsContextProviderI {
+  children: React.ReactNode;
+}
+
+export const FeedsContextProvider = ({ children }: FeedsContextProviderI) => {
+  const [feeds, setFeeds] = React.useState<FeedsResponse | null>(null);
 
   return (
-    <FeedsContext.Provider value={{ ...feeds, dispatch }}>
+    <FeedsContext.Provider value={{ feeds, setFeeds }}>
       {children}
     </FeedsContext.Provider>
   );

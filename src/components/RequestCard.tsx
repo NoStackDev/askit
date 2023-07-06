@@ -19,7 +19,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const RequestCard = React.forwardRef<
   React.ElementRef<"div">,
-  Props & Omit<RequestType, "id"> & {requestId: number}
+  Props & Omit<RequestType, "id"> & { requestId: number }
 >(
   (
     {
@@ -42,27 +42,27 @@ const RequestCard = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 p-4 hover:cursor-pointer hover:border-black hover:scale-[1.01] transition-transform duration-100 h-fit",
+          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 hover:cursor-pointer hover:border-black hover:scale-[1.01] transition-transform duration-100 h-fit",
           className
         )}
         {...props}
       >
-        <div className="border-b-[1px] border-[#EDECF0] flex gap-2 pb-3">
+        <div className="border-b-[1px] border-[#EDECF0] flex gap-2 pb-3 px-2 py-4">
           {image_url && (
             <Image
-              src={image_url}
+              src={image_url && `https://${image_url}`}
               alt="product"
-              height={110}
-              width={110}
-              className="h-[110px] w-[110px]"
+              height={140}
+              width={140}
+              className="h-[140px] w-[140px]"
             />
           )}
-          <div className="text-title_1 font-body font-medium text-[#010E1E] text-ellipsis overflow-hidden h-[144px]">
+          <div className="text-title_2 font-body font-medium text-[#010E1E] text-ellipsis overflow-hidden max-h-[144px]">
             {title}
           </div>
         </div>
 
-        <div className="flex justify-between pt-4">
+        <div className="flex justify-between py-4 px-4">
           <div className="flex gap-3">
             <React.Suspense
               fallback={
@@ -124,4 +124,3 @@ const RequestCard = React.forwardRef<
 RequestCard.displayName = "RequestCard";
 
 export default RequestCard;
-

@@ -1,12 +1,6 @@
 import { FeedsResponse, RequestResponseType } from "@/app/types";
 
-type ActionI = {
-  type: "FETCHING" | "SUCCESS" | "FAILED" | null;
-  payload?: RequestResponseType;
-};
-
-export default async function getRequests(dispatch: React.Dispatch<ActionI>) {
-  dispatch({ type: "FETCHING" });
+export default async function getRequests() {
   const res = await fetch(`${process.env.API}/feeds`, {
     method: "OPTIONS",
     headers: {
