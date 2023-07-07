@@ -9,6 +9,7 @@ import Image from "next/image";
 import { cn } from "@/app/lib/utils";
 import { usePathname } from "next/navigation";
 import { postResponse } from "@/app/lib/repsonse";
+import LoadingSpinner from "./LoadingSpinner";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -75,7 +76,8 @@ const RequestResponseForm = React.forwardRef<
       console.log(err);
     } finally {
       setIsLoading(false);
-      window.location.reload();
+      const dialogClose = document.getElementById("dialogCloseTrigger");
+      if (dialogClose) dialogClose.click();
     }
   };
 
@@ -275,6 +277,7 @@ const RequestResponseForm = React.forwardRef<
         <div className="w-full mt-6 flex items-center justify-center">
           {isLoading ? (
             <Button className="w-full max-w-[315px] py-[6px]" disabled>
+              <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
               Sending Response...
             </Button>
           ) : (

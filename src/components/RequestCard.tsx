@@ -97,12 +97,45 @@ const RequestCard = React.forwardRef<
     };
 
     const onClickDeleteBtn = async (
-      event: React.MouseEvent<HTMLImageElement, MouseEvent>
+      event: React.MouseEvent<HTMLImageElement, MouseEvent>,
+      requestId: number
     ) => {
       event.stopPropagation();
-      console.log(event);
+      let requestIndex: null | number = null;
+      let deletedRequest: RequestType | null = null;
+
       try {
-      } catch {}
+        const token = window.localStorage.getItem("token");
+        const userDetails = window.localStorage.getItem("userDetails");
+        if (token && userDetails) {
+          const newRequests = requests?.filter((request, index) => {
+            if (request.id === Number(requestId)) {
+              requestIndex = index;
+              deletedRequest = request;
+            }
+            return request.id !== Number(requestId);
+          });
+          setRequests(newRequests || null);
+
+          const userId = JSON.parse(userDetails).data.id;
+          const res = await deleteBookmark(token, {
+            user_id: userId as number,
+            req_id: requestId,
+          });
+
+          if (res.success) {
+            return;
+          }
+        } else window.location.href = "/login";
+      } catch (err) {
+        console.log(err);
+        if (requests && requestIndex && deletedRequest)
+          setRequests([
+            ...requests.slice(0, requestIndex),
+            deletedRequest,
+            ...requests.slice(requestIndex),
+          ]);
+      }
     };
 
     return (
@@ -185,7 +218,7 @@ const RequestCard = React.forwardRef<
                 width={16}
                 alt="delete"
                 className="hover:cursor-pointer"
-                onClick={(e) => onClickDeleteBtn(e)}
+                onClick={(e) => onClickDeleteBtn(e, requestId)}
               />
             ) : bookmark ? (
               <BookmarkIcon
