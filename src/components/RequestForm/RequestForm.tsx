@@ -32,7 +32,7 @@ const RequestForm = React.forwardRef<
   const token = window.localStorage.getItem("token");
   const userDetails = window.localStorage.getItem("userDetails");
   const [category, setCategory] = React.useState<string | null>(null);
-  const [categoryType, setCategoryType] = React.useState<string | null>(null);
+  const [categoryType, setCategoryType] = React.useState<number | null>(null);
   const [state, setState] = React.useState<string | null>(null);
   const [city, setCity] = React.useState<number | null>(null);
   const [isPosting, setIsPosting] = React.useState(false);
@@ -43,7 +43,6 @@ const RequestForm = React.forwardRef<
     }
   }, []);
 
-  console.log(city);
   const forms = [
     <RequestFormOne
       key={0}
@@ -97,8 +96,11 @@ const RequestForm = React.forwardRef<
           data.append("image", imageFile[0], imageFile[0].name);
         }
         data.append("description", description);
-        data.append("category_group_id", "6");
-        data.append("location_id", "1");
+        if (categoryType)
+          data.append("category_group_id", categoryType.toString());
+        if (city) {
+          data.append("location_id", city.toString());
+        }
 
         const res = await postRequest(token, data, headers);
         if (res.success) {

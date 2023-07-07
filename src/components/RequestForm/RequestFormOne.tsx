@@ -14,6 +14,7 @@ import { cn } from "@/app/lib/utils";
 import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
 import { statesConfig } from "@/config.ts/cities";
 import { useGlobalContext } from "@/app/context/Store";
+import { useSidebarContext } from "@/app/context/sidebarContext";
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
 );
@@ -22,8 +23,8 @@ interface FormOneI {
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   category: string | null;
   setCategory: React.Dispatch<React.SetStateAction<string | null>>;
-  categoryType: string | null;
-  setCategoryType: React.Dispatch<React.SetStateAction<string | null>>;
+  categoryType: number | null;
+  setCategoryType: React.Dispatch<React.SetStateAction<number | null>>;
   state: string | null;
   setState: React.Dispatch<React.SetStateAction<string | null>>;
   city: number | null;
@@ -51,8 +52,11 @@ const RequestFormOne = React.forwardRef<
     fowardref
   ) => {
     const { cities: stateCities } = useGlobalContext();
+    const { categories } = useSidebarContext();
     const states = stateCities ? Object.keys(stateCities) : null;
     const cities = stateCities && state ? stateCities[state] : null;
+
+    const categoryKeys = categories ? Object.keys(categories) : null;
 
     return (
       <div
@@ -130,17 +134,17 @@ const RequestFormOne = React.forwardRef<
                         Category
                       </SelectLabel>
 
-                      {/* {categories?.sort().map((item, index) => {
+                      {categoryKeys?.map((category, index) => {
                         return (
                           <SelectItem
-                            value={item}
+                            value={category}
                             className="hover:cursor-pointer font-body text-title_2 pl-2"
                             key={index}
                           >
-                            {item}
+                            {category}
                           </SelectItem>
                         );
-                      })} */}
+                      })}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -161,7 +165,7 @@ const RequestFormOne = React.forwardRef<
               </div>
 
               <FormPrimitive.Control asChild>
-                <Select onValueChange={(e) => setCategoryType(e)}>
+                <Select onValueChange={(e) => setCategoryType(Number(e))}>
                   <SelectTrigger
                     className={cn(
                       "flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
@@ -185,18 +189,19 @@ const RequestFormOne = React.forwardRef<
                       <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
                         Type
                       </SelectLabel>
-                      {/* {category &&
-                        categoryTypes?.sort().map((item, index) => {
+                      {category &&
+                        categories &&
+                        categories[category]?.map((item, index) => {
                           return (
                             <SelectItem
-                              value={item}
+                              value={item.id.toString()}
                               className="hover:cursor-pointer font-body text-title_2 pl-2"
                               key={index}
                             >
-                              {item}
+                              {item.name}
                             </SelectItem>
                           );
-                        })} */}
+                        })}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
