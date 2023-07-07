@@ -55,10 +55,11 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
       console.log(eventRef);
       setShowSidebar(false);
     };
+    console.log(renderSidebar);
 
     return (
       <>
-        {isOnboarding || !renderSidebar ? null : (
+        {isOnboarding ? null : (
           <>
             {showSidebar && (
               <div className="fixed top-0 bg-stroke/60 z-40 md:hidden w-screen h-screen"></div>
@@ -68,6 +69,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                 "px-5 bg-[#2E2775] h-fit md:rounded-[20px] md:ml-[100px] md:mt-14 md:w-[300px]",
                 !showSidebar && "hidden md:flex",
                 showSidebar && "fixed top-0 w-screen max-w-[300px] z-50",
+                !renderSidebar && "md:hidden",
                 className
               )}
               ref={sidebarRef}
