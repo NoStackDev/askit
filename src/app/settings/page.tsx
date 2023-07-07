@@ -461,7 +461,7 @@ const OptionSelect = React.forwardRef<
                   <SelectItem
                     value={optionsItem}
                     key={index}
-                    className="hover:cursor-pointer font-body text-title_2"
+                    className="hover:cursor-pointer font-body text-title_2 pl-2"
                   >
                     {optionsItem}
                   </SelectItem>
@@ -471,7 +471,7 @@ const OptionSelect = React.forwardRef<
                   <SelectItem
                     value={optionsItem.name}
                     key={optionsItem.geonameid}
-                    className="hover:cursor-pointer font-body text-title_2"
+                    className="hover:cursor-pointer font-body text-title_2 pl-2"
                   >
                     {optionsItem.name}
                   </SelectItem>

@@ -146,7 +146,7 @@ const RequestFormOne = React.forwardRef<
                         return (
                           <SelectItem
                             value={item}
-                            className="hover:cursor-pointer font-body text-title_2"
+                            className="hover:cursor-pointer font-body text-title_2 pl-2"
                             key={index}
                           >
                             {item}
@@ -202,7 +202,7 @@ const RequestFormOne = React.forwardRef<
                           return (
                             <SelectItem
                               value={item}
-                              className="hover:cursor-pointer font-body text-title_2"
+                              className="hover:cursor-pointer font-body text-title_2 pl-2"
                               key={index}
                             >
                               {item}
@@ -263,7 +263,7 @@ const RequestFormOne = React.forwardRef<
                         return (
                           <SelectItem
                             value={item}
-                            className="hover:cursor-pointer font-body text-title_2"
+                            className="hover:cursor-pointer font-body text-title_2 pl-2"
                             key={index}
                           >
                             {item}
@@ -320,7 +320,7 @@ const RequestFormOne = React.forwardRef<
                             return (
                               <SelectItem
                                 value={item.name}
-                                className="hover:cursor-pointer font-body text-title_2"
+                                className="hover:cursor-pointer font-body text-title_2 pl-2"
                                 key={index}
                               >
                                 {item.name}

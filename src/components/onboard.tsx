@@ -483,14 +483,14 @@ const LocationSelect = React.forwardRef<
 
             <SelectValue
               placeholder="Select type"
-              className="placeholder:text-body placeholder:text-body_1 placeholder:text-black/60"
+              className="placeholder:font-body placeholder:text-body placeholder:text-body_1 placeholder:text-black/60 font-body"
             />
           </div>
         </SelectTrigger>
 
         <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
           <SelectGroup>
-            <SelectLabel>
+            <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3 pl-2">
               {locationType === "STATE" && "Select a State"}
               {locationType === "CITY" && "Select a City"}
             </SelectLabel>
@@ -500,7 +500,7 @@ const LocationSelect = React.forwardRef<
                   <SelectItem
                     value={locationItem}
                     key={index}
-                    className="hover:cursor-pointer"
+                    className="hover:cursor-pointer font-body text-title_2 pl-2"
                   >
                     {locationItem}
                   </SelectItem>
@@ -510,7 +510,7 @@ const LocationSelect = React.forwardRef<
                   <SelectItem
                     value={locationItem.geonameid.toString()}
                     key={locationItem.geonameid}
-                    className="hover:cursor-pointer"
+                    className="hover:cursor-pointer font-body text-title_2 pl-2"
                   >
                     {locationItem.name}
                   </SelectItem>
