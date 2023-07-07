@@ -25,7 +25,12 @@ const Requests = React.forwardRef<
       {requests.map((request) => {
         const { id: requestId, ...others } = request;
         return (
-          <RequestCard {...others} requestId={requestId} variant={variants} />
+          <RequestCard
+            {...others}
+            requestId={requestId}
+            variant={variants}
+            key={requestId}
+          />
         );
       })}
     </div>

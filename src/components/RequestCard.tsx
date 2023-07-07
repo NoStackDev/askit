@@ -1,4 +1,5 @@
-import { addToBookmark } from "@/app/lib/bookmark";
+import { useRequestContext } from "@/app/context/requestContext";
+import { addToBookmark, deleteBookmark } from "@/app/lib/bookmark";
 import { cn, month } from "@/app/lib/utils";
 import { RequestType } from "@/app/types";
 import { url } from "inspector";
@@ -41,10 +42,12 @@ const RequestCard = React.forwardRef<
     ref
   ) => {
     const date = new Date(created_at);
+    const { requests, setRequests } = useRequestContext();
 
-    const onAddToBookmarkClick = async (
+    const onBookmarkClick = async (
       event: React.MouseEvent<SVGSVGElement, MouseEvent>,
-      requestId: number
+      requestId: number,
+      bookmark: boolean
     ) => {
       event.stopPropagation();
 
@@ -52,18 +55,44 @@ const RequestCard = React.forwardRef<
         const token = window.localStorage.getItem("token");
         const userDetails = window.localStorage.getItem("userDetails");
         if (token && userDetails) {
-          const userId = JSON.parse(userDetails).data.id;
-          const res = await addToBookmark(token, {
-            user_id: userId as number,
-            req_id: requestId,
+          const newRequests = requests?.map((request) => {
+            if (request.id === Number(requestId)) {
+              return {
+                ...request,
+                bookmark: !bookmark,
+              };
+            }
+            return request;
           });
+          setRequests(newRequests || null);
+
+          const userId = JSON.parse(userDetails).data.id;
+          const res = !bookmark
+            ? await addToBookmark(token, {
+                user_id: userId as number,
+                req_id: requestId,
+              })
+            : await deleteBookmark(token, {
+                user_id: userId as number,
+                req_id: requestId,
+              });
 
           if (res.success) {
-            window.location.reload();
+            return;
           }
-        }
+        } else window.location.href = "/login";
       } catch (err) {
         console.log(err);
+        const failedRequests = requests?.map((request) => {
+          if (request.id === Number(requestId)) {
+            return {
+              ...request,
+              bookmark: !request.bookmark,
+            };
+          }
+          return request;
+        });
+        setRequests(failedRequests || null);
       }
     };
 
@@ -159,11 +188,14 @@ const RequestCard = React.forwardRef<
                 onClick={(e) => onClickDeleteBtn(e)}
               />
             ) : bookmark ? (
-              <BookmarkIcon className="text-primary hover:cursor-pointer" />
+              <BookmarkIcon
+                className="text-primary hover:cursor-pointer"
+                onClick={(e) => onBookmarkClick(e, requestId, bookmark)}
+              />
             ) : (
               <BookmarkBorderIcon
                 className="text-primary hover:cursor-pointer"
-                onClick={(e) => onAddToBookmarkClick(e, requestId)}
+                onClick={(e) => onBookmarkClick(e, requestId, bookmark)}
               />
             )}
           </React.Suspense>
