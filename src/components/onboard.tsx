@@ -52,12 +52,18 @@ const Onboard = (props: Props) => {
   >(null);
   const [imageFile, setImageFile] = React.useState<FileList>();
 
-  const { setToken, user: authUser, setUser: setAuthUser } = useGlobalContext();
+  const {
+    setToken,
+    user: authUser,
+    setUser: setAuthUser,
+    cities: stateCities,
+  } = useGlobalContext();
   const { isLoading, dispatch } = useAuthContext();
+  const states = stateCities ? Object.keys(stateCities) : null;
+  const cities = stateCities && state ? stateCities[state] : null;
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 
-  const states = Object.keys(statesConfig);
 
   const onProfilePicClick = () => {
     if (profilePicRef.current) {
