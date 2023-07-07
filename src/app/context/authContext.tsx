@@ -93,7 +93,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderI) => {
     isLoading: false,
     isSuccess: false,
     isError: false,
-    isOnboarding: true,
+    isOnboarding: false,
   });
 
   return (
