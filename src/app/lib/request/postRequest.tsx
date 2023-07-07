@@ -10,9 +10,14 @@ export default async function postRequest(
     body: data,
   });
 
-  if (res.status !== 200) {
-    console.log(await res.json());
+  if (res.status === 200) {
+    const json = await res.json();
+    return json;
   }
 
-  return res.json();
+  if (res.status !== 200) {
+    const json = await res.json();
+    console.log(json);
+    return json;
+  }
 }
