@@ -43,7 +43,6 @@ const SettingsPage = (props: Props) => {
 
 
   const states = Object.keys(statesConfig);
-  const sidebarItem = sidebarConfig1;
 
   const onClickCityAdd = () => {
     if (city) {

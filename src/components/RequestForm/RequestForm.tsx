@@ -31,6 +31,10 @@ const RequestForm = React.forwardRef<
 
   const token = window.localStorage.getItem("token");
   const userDetails = window.localStorage.getItem("userDetails");
+  const [category, setCategory] = React.useState<string | null>(null);
+  const [categoryType, setCategoryType] = React.useState<string | null>(null);
+  const [state, setState] = React.useState<string | null>(null);
+  const [city, setCity] = React.useState<string | null>(null);
   const [isPosting, setIsPosting] = React.useState(false);
 
   React.useEffect(() => {
@@ -44,6 +48,14 @@ const RequestForm = React.forwardRef<
       key={0}
       className="mt-10 px-3 md:px-6 overflow-auto"
       setTitle={setTitle}
+      category={category}
+      setCategory={setCategory}
+      categoryType={categoryType}
+      setCategoryType={setCategoryType}
+      state={state}
+      setState={setState}
+      city={city}
+      setCity={setCity}
     />,
     <RequestFormTwo
       key={1}
