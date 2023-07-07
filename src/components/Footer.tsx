@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { HTMLAttributes } from "react";
+import Dialog from "./ui/DialogPrimitive";
+import RequestForm from "./RequestForm/RequestForm";
 
 const LinkedInIcon = React.lazy(() => import("@mui/icons-material/LinkedIn"));
 const FacebookIcon = React.lazy(() => import("@mui/icons-material/Facebook"));
@@ -60,12 +62,16 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
                   FAQ
                 </Link>
 
-                <Link
-                  href="/request"
-                  className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
+                <Dialog
+                  dialogTrigger={
+                    <div className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit hover:cursor-pointer">
+                      Place a Request
+                    </div>
+                  }
+                  className="-translate-x-1/2 z-30 fixed top-[80px] left-1/2"
                 >
-                  Place a Request
-                </Link>
+                  <RequestForm className="" />
+                </Dialog>
 
                 <Link
                   href="/safetyhints"
