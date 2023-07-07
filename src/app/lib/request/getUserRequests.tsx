@@ -8,7 +8,16 @@ const getUserRequests = async (token: string) => {
     },
   });
 
-  return res.json();
+  if (res.status === 200) {
+    const json = await res.json();
+    return json;
+  }
+
+  if (res.status !== 200) {
+    const json = await res.json();
+    console.log(json);
+    return json;
+  }
 };
 
 export default getUserRequests;

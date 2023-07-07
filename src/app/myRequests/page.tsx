@@ -23,7 +23,6 @@ export default function MyRequestPage({}: Props) {
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
     const userDetails = window.localStorage.getItem("userDetails");
-    console.log(token, userDetails && JSON.parse(userDetails));
     (async () => {
       try {
         if (token) {
