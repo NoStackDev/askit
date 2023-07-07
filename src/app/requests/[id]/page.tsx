@@ -70,7 +70,7 @@ export default function RequestsPage() {
           </Dialog>
         </div>
 
-        <div className="flex flex-col items-center justify-center h-fit w-fit mt-8 md:mt-14 mx-[20px] md:mx-0">
+        <div className="flex flex-col items-center justify-center h-fit mt-8 md:mt-14 px-[20px] md:mx-0 w-full">
           <div className="flex justify-between items-start w-full">
             <div className="bg-secondary w-fit flex gap-[10px] p-2 items-center">
               <React.Suspense

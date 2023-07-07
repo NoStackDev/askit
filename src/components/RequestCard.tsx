@@ -36,6 +36,7 @@ const RequestCard = React.forwardRef<
       location,
       bookmark,
       requestId,
+      num_of_responses,
       variant,
       ...props
     },
@@ -174,7 +175,7 @@ const RequestCard = React.forwardRef<
               <div className="flex items-center gap-1">
                 <CommentsIcon className="text-secondary" fontSize="small" />
                 <span className="text-secondary font-body font-medium text-title_3">
-                  16
+                  {num_of_responses}
                 </span>
               </div>
             </React.Suspense>

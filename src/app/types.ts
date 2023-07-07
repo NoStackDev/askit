@@ -30,6 +30,7 @@ export type RequestType = {
   location: string;
   title: string;
   user: string;
+  num_of_responses: number;
 };
 
 export type RequestResponseType = {
