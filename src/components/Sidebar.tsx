@@ -4,7 +4,7 @@ import { cn } from "@/app/lib/utils";
 import Link from "next/link";
 import React, { HTMLAttributes, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { sidebarConfig, sidebarConfig1 } from "@/config.ts/sidebarConfig";
+import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
 import { getCategories } from "@/app/lib/category";
 import {
   Accordion,
@@ -15,16 +15,12 @@ import {
 import { useSidebarContext } from "@/app/context/sidebarContext";
 import useOnClickOutside from "@/hooks/useOnclickOutside";
 import { useAuthContext } from "@/app/context/authContext";
+import { useFeedsContext } from "@/app/context/feedsContext";
+import { getRequests } from "@/app/lib/request";
 
 const ExpandMoreIcon = React.lazy(
   () => import("@mui/icons-material/ExpandMore")
 );
-
-type CategoryType = {
-  id: number;
-  name: string;
-  category: string;
-};
 
 const renderInPage = [
   "",
@@ -39,16 +35,16 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const Sidebar = React.forwardRef<HTMLDivElement, Props>(
   ({ children, className, ...props }, ref) => {
-    const { showSidebar, setShowSidebar } = useSidebarContext();
+    const { showSidebar, setShowSidebar, categories, setCategories } =
+      useSidebarContext();
     const sidebarRef = React.useRef<HTMLDivElement>(null);
     const { isOnboarding } = useAuthContext();
-    const [categories, setCategories] = React.useState<Record<
-      string,
-      CategoryType[]
-    > | null>(null);
+
     const [selectedCategory, setSelectedCategory] = React.useState<
       string | null
     >(null);
+
+    const { currentFeedsUrl, setCurrentFeedsUrl, setFeeds } = useFeedsContext();
     useOnClickOutside(sidebarRef, setShowSidebar);
 
     const path = usePathname();
@@ -77,8 +73,20 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
       }
     }, [showSidebar]);
 
-    const onClickSidebarItem = (eventRef: string) => {
+    const onClickSubCategory = async (subCategoryId: number) => {
       setShowSidebar(false);
+
+      try {
+        currentFeedsUrl?.searchParams.delete("category_group_id");
+        currentFeedsUrl?.searchParams.append(
+          "category_group_id",
+          subCategoryId.toString()
+        );
+        console.log(currentFeedsUrl);
+        // const feedsResponse = await getRequests(currentFeedsUrl);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     const categoryKeys = categories ? Object.keys(categories) : null;
@@ -92,7 +100,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
             )}
             <div
               className={cn(
-                "px-5 bg-[#2E2775] h-fit md:rounded-[20px] md:ml-[100px] md:mt-14 md:w-[300px]",
+                "px-5 bg-[#2E2775] h-screen md:h-fit md:rounded-[20px] md:ml-[100px] md:mt-14 md:w-[300px]",
                 !showSidebar && "hidden md:flex",
                 showSidebar && "fixed top-0 w-screen max-w-[300px] z-50",
                 !renderSidebar && "md:hidden",
@@ -178,7 +186,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                                           <div
                                             className="hover:cursor-pointer hover:bg-white hover:text-black font-body text-white font-medium w-full py-2 pl-8 first:mt-3"
                                             onClick={() =>
-                                              setShowSidebar(false)
+                                              onClickSubCategory(subCategory.id)
                                             }
                                           >
                                             {subCategory.name}

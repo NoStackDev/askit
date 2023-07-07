@@ -6,6 +6,8 @@ import { FeedsResponse, RequestResponseType, RequestType } from "../types";
 type FeedsContextType = {
   feeds: FeedsResponse | null;
   setFeeds: React.Dispatch<React.SetStateAction<FeedsResponse | null>>;
+  currentFeedsUrl: URL | null;
+  setCurrentFeedsUrl: React.Dispatch<React.SetStateAction<URL | null>>;
 };
 
 const FeedsContext = React.createContext<FeedsContextType>({
@@ -29,6 +31,8 @@ const FeedsContext = React.createContext<FeedsContextType>({
     },
   },
   setFeeds: () => {},
+  currentFeedsUrl: null,
+  setCurrentFeedsUrl: () => "",
 });
 
 interface FeedsContextProviderI {
@@ -37,9 +41,14 @@ interface FeedsContextProviderI {
 
 export const FeedsContextProvider = ({ children }: FeedsContextProviderI) => {
   const [feeds, setFeeds] = React.useState<FeedsResponse | null>(null);
+  const [currentFeedsUrl, setCurrentFeedsUrl] = React.useState<URL | null>(
+    null
+  );
 
   return (
-    <FeedsContext.Provider value={{ feeds, setFeeds }}>
+    <FeedsContext.Provider
+      value={{ feeds, setFeeds, currentFeedsUrl, setCurrentFeedsUrl }}
+    >
       {children}
     </FeedsContext.Provider>
   );

@@ -24,7 +24,8 @@ export default function Home() {
   const [isError, setIsError] = useState(false);
   const openSidebarRef = useRef<HTMLDivElement>(null);
 
-  const { feeds, setFeeds } = useFeedsContext();
+  const { feeds, setFeeds, currentFeedsUrl, setCurrentFeedsUrl } =
+    useFeedsContext();
   const { dispatch } = useAuthContext();
   const { setCities, cities } = useGlobalContext();
 
@@ -39,7 +40,7 @@ export default function Home() {
       try {
         setIsError(false);
         setIsLoading(true);
-        const feedsResponse = await getRequests();
+        const feedsResponse = await getRequests(currentFeedsUrl);
         if (feedsResponse) {
           setIsLoading(false);
           setFeeds(feedsResponse);
