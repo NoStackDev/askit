@@ -1,8 +1,8 @@
 import { useRequestContext } from "@/app/context/requestContext";
 import { addToBookmark, deleteBookmark } from "@/app/lib/bookmark";
+import { deleteRequest } from "@/app/lib/request";
 import { cn, month } from "@/app/lib/utils";
 import { RequestType } from "@/app/types";
-import { url } from "inspector";
 import Image from "next/image";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
@@ -104,6 +104,13 @@ const RequestCard = React.forwardRef<
       event.stopPropagation();
       let requestIndex: null | number = null;
       let deletedRequest: RequestType | null = null;
+      const newRequests = requests?.filter((request, index) => {
+        if (request.id === Number(requestId)) {
+          requestIndex = index;
+          deletedRequest = request;
+        }
+        return request.id !== Number(requestId);
+      });
 
       try {
         const token = window.localStorage.getItem("token");
@@ -119,23 +126,18 @@ const RequestCard = React.forwardRef<
           setRequests(newRequests || null);
 
           const userId = JSON.parse(userDetails).data.id;
-          const res = await deleteBookmark(token, {
-            user_id: userId as number,
-            req_id: requestId,
-          });
+          const res = await deleteRequest(token, requestId);
 
           if (res.success) {
             return;
+          } else {
+            if (requests && requestIndex && deletedRequest)
+              setRequests(requests);
           }
         } else window.location.href = "/login";
       } catch (err) {
         console.log(err);
-        if (requests && requestIndex && deletedRequest)
-          setRequests([
-            ...requests.slice(0, requestIndex),
-            deletedRequest,
-            ...requests.slice(requestIndex),
-          ]);
+        if (requests && requestIndex && deletedRequest) setRequests(requests);
       }
     };
 
@@ -215,7 +217,7 @@ const RequestCard = React.forwardRef<
               <Image
                 src="/images/icons/deleteIcon.png"
                 height={18}
-                width={16}
+                width={18}
                 alt="delete"
                 className="hover:cursor-pointer"
                 onClick={(e) => onClickDeleteBtn(e, requestId)}

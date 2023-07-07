@@ -23,13 +23,12 @@ export default function MyRequestPage({}: Props) {
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
     const userDetails = window.localStorage.getItem("userDetails");
-
+    console.log(token, userDetails && JSON.parse(userDetails));
     (async () => {
-      console.log(token);
       try {
         if (token) {
           const res = await getUserRequests(token);
-          setRequests(res.data);
+          setRequests(res.data.reverse());
         }
       } catch (err) {
         console.log(err);
