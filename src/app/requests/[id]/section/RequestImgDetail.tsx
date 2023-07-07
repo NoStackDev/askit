@@ -21,7 +21,7 @@ const ShareIcon = React.lazy(() => import("@mui/icons-material/Share"));
 const RequestImgDetail = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> &
-    Omit<RequestType, "id"> & { requestId: string }
+    Omit<RequestType, "id"> & { requestid: string }
 >(
   (
     {
