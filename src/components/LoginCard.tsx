@@ -63,13 +63,14 @@ const LoginCard = React.forwardRef<
             JSON.stringify(userDetails)
           );
           dispatch({ type: "LOGIN_SUCCESSFUL" });
-          dispatch({ type: "RESET" });
           window.location.replace("/");
         }
       }
     } catch (err) {
       dispatch({ type: "FAILURE" });
       console.log(err);
+    } finally {
+      dispatch({ type: "RESET" });
     }
   };
 
