@@ -52,10 +52,8 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
     }, [showSidebar]);
 
     const onClickSidebarItem = (eventRef: string) => {
-      console.log(eventRef);
       setShowSidebar(false);
     };
-    console.log(renderSidebar);
 
     return (
       <>

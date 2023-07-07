@@ -11,6 +11,9 @@ import {
 
 import * as FormPrimitive from "@radix-ui/react-form";
 import { cn } from "@/app/lib/utils";
+const KeyboardArrowDownIcon = React.lazy(
+  () => import("@mui/icons-material/KeyboardArrowDown")
+);
 
 interface FormOneI {
   setTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -73,14 +76,24 @@ const RequestFormOne = React.forwardRef<
                 <SelectTrigger
                   className="flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
                   aria-label="Category"
-                  icon={<div>x</div>}
+                  icon={
+                    <React.Suspense
+                      fallback={
+                        <div className="h-3 w-[7px] bg-stroke/60"></div>
+                      }
+                    >
+                      <KeyboardArrowDownIcon className="text-[#828080]" />
+                    </React.Suspense>
+                  }
                 >
                   <SelectValue placeholder="Choose" className="" />
                 </SelectTrigger>
 
                 <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
                   <SelectGroup>
-                    <SelectLabel>Category</SelectLabel>
+                    <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
+                      Category
+                    </SelectLabel>
                     <SelectItem value="services">Services</SelectItem>
                     <SelectItem value="products">Products</SelectItem>
                     <SelectItem value="accomodation">Accomodation</SelectItem>
@@ -109,14 +122,24 @@ const RequestFormOne = React.forwardRef<
                 <SelectTrigger
                   className="flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
                   aria-label="Sub Category"
-                  icon={<div>x</div>}
+                  icon={
+                    <React.Suspense
+                      fallback={
+                        <div className="h-3 w-[7px] bg-stroke/60"></div>
+                      }
+                    >
+                      <KeyboardArrowDownIcon className="text-[#828080]" />
+                    </React.Suspense>
+                  }
                 >
                   <SelectValue placeholder="Select type" className="" />
                 </SelectTrigger>
 
                 <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
                   <SelectGroup>
-                    <SelectLabel>Type</SelectLabel>
+                    <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
+                      Type
+                    </SelectLabel>
                     <SelectItem value="services">Services</SelectItem>
                     <SelectItem value="products">Products</SelectItem>
                     <SelectItem value="accomodation">Accomodation</SelectItem>
@@ -153,14 +176,24 @@ const RequestFormOne = React.forwardRef<
                 <SelectTrigger
                   className="flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
                   aria-label="state"
-                  icon={<div>x</div>}
+                  icon={
+                    <React.Suspense
+                      fallback={
+                        <div className="h-3 w-[7px] bg-stroke/60"></div>
+                      }
+                    >
+                      <KeyboardArrowDownIcon className="text-[#828080]" />
+                    </React.Suspense>
+                  }
                 >
                   <SelectValue placeholder="Select state" className="" />
                 </SelectTrigger>
 
                 <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
                   <SelectGroup>
-                    <SelectLabel>State</SelectLabel>
+                    <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
+                      State
+                    </SelectLabel>
                     <SelectItem value="services">Rivers</SelectItem>
                     <SelectItem value="products">Lagos</SelectItem>
                     <SelectItem value="accomodation">Abuja</SelectItem>
@@ -189,14 +222,24 @@ const RequestFormOne = React.forwardRef<
                 <SelectTrigger
                   className="flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
                   aria-label="Category"
-                  icon={<div>x</div>}
+                  icon={
+                    <React.Suspense
+                      fallback={
+                        <div className="h-3 w-[7px] bg-stroke/60"></div>
+                      }
+                    >
+                      <KeyboardArrowDownIcon className="text-[#828080]" />
+                    </React.Suspense>
+                  }
                 >
                   <SelectValue placeholder="Select city" className="" />
                 </SelectTrigger>
 
                 <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
                   <SelectGroup>
-                    <SelectLabel>City</SelectLabel>
+                    <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
+                      City
+                    </SelectLabel>
                     <SelectItem value="Port Harcourt">Port Harcourt</SelectItem>
                     <SelectItem value="Lagos">Lagos</SelectItem>
                     <SelectItem value="Abuja">Abuja</SelectItem>

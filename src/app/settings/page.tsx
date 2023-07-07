@@ -38,6 +38,9 @@ const SettingsPage = (props: Props) => {
     string[]
   >([]);
   const [notification, setNotification] = React.useState(false);
+  const [myRequestVisibility, setMyRequestVisibily] = React.useState<"PUBLIC"|"AGENTS">("PUBLIC")
+  const [myRsponsestVisibility, setMyResponsesVisibily] = React.useState<"PUBLIC"|"PRIVATE">("PUBLIC")
+
 
   const states = Object.keys(statesConfig);
   const sidebarItem = sidebarConfig1;
@@ -153,7 +156,7 @@ const SettingsPage = (props: Props) => {
             <div className="w-full flex gap-6">
               <OptionSelect
                 selectType="CITY"
-                options={state ? statesConfig[state] : null}
+                options={state ? statesConfig[state].reverse() : null}
                 selectedOption={city}
                 setOption={setCity}
               />
