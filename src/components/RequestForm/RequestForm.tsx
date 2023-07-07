@@ -13,6 +13,7 @@ import { Close } from "../ui/DialogPrimitive";
 import { useGlobalContext } from "@/app/context/Store";
 import { postRequest } from "@/app/lib/request";
 import { useFeedsContext } from "@/app/context/feedsContext";
+import LoadingSpinner from "../LoadingSpinner";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -30,6 +31,7 @@ const RequestForm = React.forwardRef<
 
   const token = window.localStorage.getItem("token");
   const userDetails = window.localStorage.getItem("userDetails");
+  const [isPosting, setIsPosting] = React.useState(false);
 
   React.useEffect(() => {
     if (!token || !userDetails) {
@@ -70,6 +72,7 @@ const RequestForm = React.forwardRef<
       if (!token || !userDetails) {
         window.location.replace("/login");
       } else {
+        setIsPosting(true);
         const headers = new Headers();
         headers.append("Accept", "application/json");
         headers.append("Authorization", `Bearer ${token}`);
@@ -101,6 +104,7 @@ const RequestForm = React.forwardRef<
     } catch (err) {
       console.log(err);
     } finally {
+      setIsPosting(false);
       const dialogClose = document.getElementById("dialogCloseTrigger");
       if (dialogClose) dialogClose.click();
     }
@@ -167,10 +171,14 @@ const RequestForm = React.forwardRef<
         {formStep + 1 === forms.length ? (
           <div
             className={cn(
-              "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer"
+              "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer flex items-center",
+              isPosting && "px-8"
             )}
             onClick={onPostRequestClick}
           >
+            {isPosting && (
+              <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
+            )}
             Post Request
           </div>
         ) : (

@@ -12,7 +12,6 @@ const FlagIcon = React.lazy(() => import("@mui/icons-material/Flag"));
 type Props = {};
 
 const UserPage = (props: Props) => {
-  const [showSidebar, setShowSidebar] = React.useState(false);
   const [responses, setResponses] = React.useState<RequestDetailResponseType[]>([]);
 
   return (

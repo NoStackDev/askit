@@ -1,6 +1,9 @@
+import { addToBookmark } from "@/app/lib/bookmark";
 import { cn, month } from "@/app/lib/utils";
 import { RequestType } from "@/app/types";
+import { url } from "inspector";
 import Image from "next/image";
+import Link from "next/link";
 import React, { HTMLAttributes } from "react";
 
 const CommentsIcon = React.lazy(() => import("@mui/icons-material/Quickreply"));
@@ -19,7 +22,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const RequestCard = React.forwardRef<
   React.ElementRef<"div">,
-  Props & Omit<RequestType, "id"> & { requestId: number }
+  Props & Omit<RequestType, "id"> & { requestId: number; variant?: "user" }
 >(
   (
     {
@@ -32,20 +35,57 @@ const RequestCard = React.forwardRef<
       location,
       bookmark,
       requestId,
+      variant,
       ...props
     },
     ref
   ) => {
     const date = new Date(created_at);
 
+    const onAddToBookmarkClick = async (
+      event: React.MouseEvent<SVGSVGElement, MouseEvent>,
+      requestId: number
+    ) => {
+      event.stopPropagation();
+
+      try {
+        const token = window.localStorage.getItem("token");
+        const userDetails = window.localStorage.getItem("userDetails");
+        if (token && userDetails) {
+          const userId = JSON.parse(userDetails).data.id;
+          const res = await addToBookmark(token, {
+            user_id: userId as number,
+            req_id: requestId,
+          });
+
+          if (res.success) {
+            window.location.reload();
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const onClickDeleteBtn = async (
+      event: React.MouseEvent<HTMLImageElement, MouseEvent>
+    ) => {
+      event.stopPropagation();
+      console.log(event);
+      try {
+      } catch {}
+    };
+
     return (
+      // <Link href={`/requests/${requestId}`} key={requestId}>
       <div
         ref={ref}
         className={cn(
-          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 hover:cursor-pointer hover:border-black hover:scale-[1.01] transition-transform duration-100 h-fit",
+          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 hover:border-black hover:scale-[1.01] transition-transform duration-100 h-fit",
           className
         )}
         {...props}
+        onClick={() => (window.location.href = `/requests/${requestId}`)}
       >
         <div className="border-b-[1px] border-[#EDECF0] flex gap-2 pb-3 px-2 py-4">
           {image_url && (
@@ -109,14 +149,27 @@ const RequestCard = React.forwardRef<
               <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
             }
           >
-            {bookmark ? (
-              <BookmarkIcon className="text-primary" />
+            {variant === "user" ? (
+              <Image
+                src="/images/icons/deleteIcon.png"
+                height={18}
+                width={16}
+                alt="delete"
+                className="hover:cursor-pointer"
+                onClick={(e) => onClickDeleteBtn(e)}
+              />
+            ) : bookmark ? (
+              <BookmarkIcon className="text-primary hover:cursor-pointer" />
             ) : (
-              <BookmarkBorderIcon className="text-primary" />
+              <BookmarkBorderIcon
+                className="text-primary hover:cursor-pointer"
+                onClick={(e) => onAddToBookmarkClick(e, requestId)}
+              />
             )}
           </React.Suspense>
         </div>
       </div>
+      // </Link>
     );
   }
 );

@@ -12,6 +12,7 @@ import getUser from "@/app/lib/user/getUser";
 import { useGlobalContext } from "@/app/context/Store";
 import { useAuthContext } from "@/app/context/authContext";
 import Onboard from "./onboard";
+import LoadingSpinner from "./LoadingSpinner";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
 const MailIcon = React.lazy(() => import("@mui/icons-material/Mail"));
@@ -267,6 +268,7 @@ function SignUpForm({
         <FormPrimitive.Submit asChild className="">
           {isLoading ? (
             <Button className="w-full mt-8" disabled>
+              <LoadingSpinner className="w-4 h-4 text-primary fill-white" />{" "}
               Signing Up
             </Button>
           ) : (
@@ -366,6 +368,7 @@ function LoginForm({
         <FormPrimitive.Submit asChild className="">
           {isLoading ? (
             <Button className="w-full mt-8" disabled>
+              <LoadingSpinner className="w-4 h-4 text-primary fill-white" />{" "}
               Logging in
             </Button>
           ) : (

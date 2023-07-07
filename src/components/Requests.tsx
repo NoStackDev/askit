@@ -8,8 +8,11 @@ import { RequestType } from "@/app/types";
 
 const Requests = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & { requests: RequestType[] }
->(({ children, className, requests, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"div"> & {
+    requests: RequestType[];
+    variants?: "user";
+  }
+>(({ children, className, requests, variants, ...props }, ref) => {
   return (
     <div
       ref={ref}
@@ -22,9 +25,7 @@ const Requests = React.forwardRef<
       {requests.map((request) => {
         const { id: requestId, ...others } = request;
         return (
-          <Link href={`/requests/${request.id}`} key={request.id}>
-            <RequestCard {...others} requestId={requestId} />
-          </Link>
+          <RequestCard {...others} requestId={requestId} variant={variants} />
         );
       })}
     </div>

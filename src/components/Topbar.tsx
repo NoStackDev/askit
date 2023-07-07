@@ -40,6 +40,10 @@ const Topbar = React.forwardRef<
         <Link
           href="/"
           className="absolute left-[55px] -translate-x-1/2 top-1/2 -translate-y-1/2 w-fit h-fit flex items-center gap-1"
+          onClick={(e) => {
+            e.preventDefault();
+            window.history.back();
+          }}
         >
           <React.Suspense>
             <ArrowCircleLeftIcon className="text-white" />

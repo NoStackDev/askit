@@ -10,11 +10,14 @@ import React from "react";
 import { RequestType } from "../types";
 import { getUserRequests } from "../lib/request";
 import { useGlobalContext } from "../context/Store";
+import { useRequestContext } from "../context/requestContext";
+import RequestForm from "@/components/RequestForm/RequestForm";
+import Dialog from "@/components/ui/DialogPrimitive";
 
 type Props = {};
 
 export default function MyRequestPage({}: Props) {
-  const [myRequests, setMyRequests] = React.useState<RequestType[]>([]);
+  const { requests, setRequests } = useRequestContext();
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -25,7 +28,7 @@ export default function MyRequestPage({}: Props) {
       try {
         if (token) {
           const res = await getUserRequests(token);
-          setMyRequests(res.data);
+          setRequests(res.data);
         }
       } catch (err) {
         console.log(err);
@@ -40,14 +43,14 @@ export default function MyRequestPage({}: Props) {
       </div>
 
       <div>
-        {myRequests && myRequests.length > 0 ? (
+        {requests && requests.length > 0 ? (
           <>
-            <Requests requests={myRequests} className="mt-6" />
-            <div className="w-full flex flex-col items-center justify-center">
+            <Requests requests={requests} variants="user" className="mt-6" />
+            {/* <div className="w-full flex flex-col items-center justify-center">
               <Button variant="outlined" className="mt-12 md:mt-14 w-[255px]">
                 Next Page
               </Button>
-            </div>
+            </div> */}
 
             {/* can't fix pages number be api response is unknown */}
             {/* <div>
@@ -70,11 +73,16 @@ export default function MyRequestPage({}: Props) {
               Place a request to the community of whatever you are having
               difficulty in finding
             </p>
-            <Link href={"/request"} className="mt-12 h-fit w-fit">
-              <Button className="font-body text-title_3 font-medium px-8 py-2 text-white">
-                Place a Request
-              </Button>
-            </Link>
+            <Dialog
+              dialogTrigger={
+                <Button className="mt-12 font-body text-title_3 font-medium px-8 py-2 text-white">
+                  Place a Request
+                </Button>
+              }
+              className="-translate-x-1/2 z-30 fixed top-[80px] left-1/2"
+            >
+              <RequestForm className="" />
+            </Dialog>
           </div>
         )}
       </div>
