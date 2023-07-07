@@ -15,6 +15,9 @@ import {
 import Image from "next/image";
 import Dialog from "./ui/DialogPrimitive";
 import { statesConfig } from "@/config.ts/cities";
+import { useGlobalContext } from "@/app/context/Store";
+import { useFeedsContext } from "@/app/context/feedsContext";
+import { getRequests } from "@/app/lib/request";
 
 const FilterAltIcon = React.lazy(() => import("@mui/icons-material/FilterAlt"));
 const ChevronRightIcon = React.lazy(
@@ -27,10 +30,24 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
   ({ className, ...props }, ref) => {
     const [country, setCountry] = React.useState("ng");
-    const [stateFilter, setStateFilter] = React.useState<string | null>(null);
-    const [cityFilter, setCityFilter] = React.useState<string | null>(null);
+    const [state, setState] = React.useState<string | null>(null);
+    const [city, setCity] = React.useState<number | null>(null);
+    const [cityName, setCityName] = React.useState<string | null>(null);
+    const { cities: stateCities } = useGlobalContext();
+    const states = stateCities ? Object.keys(stateCities) : null;
 
-    const states = Object.keys(statesConfig);
+    const { currentFeedsUrl, setFeeds } = useFeedsContext();
+
+    const onCityClick = async (cityId: number) => {
+      try {
+        currentFeedsUrl?.searchParams.delete("city_id");
+        currentFeedsUrl?.searchParams.append("city_id", cityId.toString());
+        const feedsResponse = await getRequests(currentFeedsUrl);
+        setFeeds(feedsResponse);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
     return (
       <div
@@ -49,7 +66,7 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
           />
 
           <span className="font-body text-body_2 font-normal max-w-[32ch]">
-            {cityFilter ? cityFilter : "whole country"}
+            {cityName ? cityName : "whole country"}
           </span>
         </div>
 
@@ -76,10 +93,10 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                 <h3 className="font-headline text-headline_3 font-bold">
                   Filter Location
                 </h3>
-                {stateFilter ? (
+                {state ? (
                   <div
                     className="flex gap-4 items-center hover:cursor-pointer"
-                    onClick={() => setStateFilter(null)}
+                    onClick={() => setState(null)}
                   >
                     <React.Suspense
                       fallback={
@@ -90,7 +107,7 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                     </React.Suspense>
 
                     <h4 className="font-body text-lg font-medium text-[#000000]/60">
-                      {stateFilter}
+                      {state}
                     </h4>
                   </div>
                 ) : (
@@ -100,33 +117,32 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                 )}
               </div>
               <div className="p-4 flex flex-col gap-4 div max-h-[268px] overflow-auto">
-                {stateFilter
-                  ? statesConfig[stateFilter]
-                      .sort()
-                      .reverse()
-                      .map((city) => {
-                        return (
-                          <div
-                            className="hover:bg-stroke/20 hover:cursor-pointer font-body text-title_2 font-medium"
-                            key={city.geonameid}
-                            onClick={() => {
-                              setCityFilter(city.name);
-                              setStateFilter(null);
-                              const dialogCloseTrigger =
-                                document.getElementById("dialogCloseTrigger");
-                              dialogCloseTrigger?.click();
-                            }}
-                          >
-                            {city.name}
-                          </div>
-                        );
-                      })
-                  : states.sort().map((state, index) => {
+                {state && stateCities
+                  ? stateCities[state].map((city) => {
+                      return (
+                        <div
+                          className="hover:bg-stroke/20 hover:cursor-pointer font-body text-title_2 font-medium"
+                          key={city.id}
+                          onClick={() => {
+                            setCity(city.id);
+                            setCityName(city.city);
+                            setState(null);
+                            onCityClick(city.id);
+                            const dialogCloseTrigger =
+                              document.getElementById("dialogCloseTrigger");
+                            dialogCloseTrigger?.click();
+                          }}
+                        >
+                          {city.city}
+                        </div>
+                      );
+                    })
+                  : states?.map((state, index) => {
                       return (
                         <div
                           className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"
                           key={index}
-                          onClick={() => setStateFilter(state)}
+                          onClick={() => setState(state)}
                         >
                           {state}
 

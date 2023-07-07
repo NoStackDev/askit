@@ -40,7 +40,7 @@ export default function Home() {
       try {
         setIsError(false);
         setIsLoading(true);
-        const feedsResponse = await getRequests(currentFeedsUrl);
+        const feedsResponse = await getRequests(null, setCurrentFeedsUrl);
         if (feedsResponse) {
           setIsLoading(false);
           setFeeds(feedsResponse);
@@ -83,7 +83,6 @@ export default function Home() {
       if (feedsResponse.status === 200) {
         setIsLoading(false);
         const data = await feedsResponse.json();
-        console.log(data);
         setFeeds(data);
       } else throw new Error("failed to fetch next page");
     } catch (err) {

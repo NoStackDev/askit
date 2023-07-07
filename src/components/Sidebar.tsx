@@ -82,8 +82,8 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
           "category_group_id",
           subCategoryId.toString()
         );
-        console.log(currentFeedsUrl);
-        // const feedsResponse = await getRequests(currentFeedsUrl);
+        const feedsResponse = await getRequests(currentFeedsUrl);
+        setFeeds(feedsResponse);
       } catch (err) {
         console.log(err);
       }
