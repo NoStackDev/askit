@@ -27,6 +27,10 @@ const getCities = async (token: string) => {
     return stateCityObj;
   }
 
+  if (res.status !== 200) {
+    console.log(await res.json());
+  }
+
   return res.json();
 };
 

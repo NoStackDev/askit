@@ -30,6 +30,10 @@ const getCategories = async (token: string) => {
     return categoriesSubCategories;
   }
 
+  if (res.status !== 200) {
+    console.log(await res.json());
+  }
+
   return res.json();
 };
 

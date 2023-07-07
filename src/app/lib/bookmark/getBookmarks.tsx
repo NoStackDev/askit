@@ -8,6 +8,10 @@ const getBookmarks = async (token: string) => {
     },
   });
 
+  if (res.status !== 200) {
+    console.log(await res.json());
+  }
+
   return res.json();
 };
 
