@@ -140,17 +140,16 @@ const RequestCard = React.forwardRef<
     };
 
     return (
-      // <Link href={`/requests/${requestId}`} key={requestId}>
       <div
         ref={ref}
         className={cn(
-          "border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 hover:border-black hover:scale-[1.01] transition-transform duration-100 h-fit",
+          "flex flex-col justify-between border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 hover:border-black hover:scale-[1.01] transition-transform duration-100 h-[230px]",
           className
         )}
         {...props}
         onClick={() => (window.location.href = `/requests/${requestId}`)}
       >
-        <div className="border-b-[1px] border-[#EDECF0] flex gap-2 pb-3 px-2 py-4">
+        <div className="flex gap-2 pb-3 px-2 py-4">
           {image_url && (
             <Image
               src={image_url && `https://${image_url}`}
@@ -165,7 +164,7 @@ const RequestCard = React.forwardRef<
           </div>
         </div>
 
-        <div className="flex justify-between py-4 px-4">
+        <div className="flex justify-between py-4 px-4 border-t-[1px] border-[#EDECF0] mt-2">
           <div className="flex gap-3">
             <React.Suspense
               fallback={
@@ -235,7 +234,6 @@ const RequestCard = React.forwardRef<
           </React.Suspense>
         </div>
       </div>
-      // </Link>
     );
   }
 );
