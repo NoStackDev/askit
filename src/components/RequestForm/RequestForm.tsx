@@ -194,7 +194,8 @@ const RequestForm = React.forwardRef<
             {isPosting && (
               <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
             )}
-            Post Request
+            {!isPosting && "Post Request"}
+            {isPosting && "Posting Request"}
           </div>
         ) : (
           <div
