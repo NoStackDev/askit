@@ -34,7 +34,7 @@ const RequestForm = React.forwardRef<
   const [category, setCategory] = React.useState<string | null>(null);
   const [categoryType, setCategoryType] = React.useState<string | null>(null);
   const [state, setState] = React.useState<string | null>(null);
-  const [city, setCity] = React.useState<string | null>(null);
+  const [city, setCity] = React.useState<number | null>(null);
   const [isPosting, setIsPosting] = React.useState(false);
 
   React.useEffect(() => {
@@ -43,6 +43,7 @@ const RequestForm = React.forwardRef<
     }
   }, []);
 
+  console.log(city);
   const forms = [
     <RequestFormOne
       key={0}

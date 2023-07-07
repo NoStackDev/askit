@@ -25,6 +25,7 @@ export default function MyRequestPage({}: Props) {
     const userDetails = window.localStorage.getItem("userDetails");
 
     (async () => {
+      console.log(token);
       try {
         if (token) {
           const res = await getUserRequests(token);

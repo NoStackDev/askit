@@ -23,11 +23,26 @@ interface UserContextType {
   setUser: Dispatch<SetStateAction<UserAuthType | null>>;
 }
 
-const GlobalContext = createContext<TokenType & UserContextType>({
+interface CityInterface {
+  id: number;
+  city: string;
+  state: string;
+}
+
+interface CitiesInterface {
+  cities: Record<string, CityInterface[]> | null;
+  setCities: Dispatch<SetStateAction<Record<string, CityInterface[]> | null>>;
+}
+
+const GlobalContext = createContext<
+  TokenType & UserContextType & CitiesInterface
+>({
   token: null,
   setToken: () => "",
   user: null,
   setUser: () => {},
+  cities: null,
+  setCities: () => "",
 });
 
 type GlobalContextProviderType = {
@@ -39,9 +54,14 @@ export const GlobalContextProvider = ({
 }: GlobalContextProviderType) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserAuthType | null>(null);
+  const [cities, setCities] = useState<Record<string, CityInterface[]> | null>(
+    null
+  );
 
   return (
-    <GlobalContext.Provider value={{ token, setToken, user, setUser }}>
+    <GlobalContext.Provider
+      value={{ token, setToken, user, setUser, cities, setCities }}
+    >
       {children}
     </GlobalContext.Provider>
   );

@@ -13,6 +13,7 @@ import * as FormPrimitive from "@radix-ui/react-form";
 import { cn } from "@/app/lib/utils";
 import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
 import { statesConfig } from "@/config.ts/cities";
+import { useGlobalContext } from "@/app/context/Store";
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
 );
@@ -25,8 +26,8 @@ interface FormOneI {
   setCategoryType: React.Dispatch<React.SetStateAction<string | null>>;
   state: string | null;
   setState: React.Dispatch<React.SetStateAction<string | null>>;
-  city: string | null;
-  setCity: React.Dispatch<React.SetStateAction<string | null>>;
+  city: number | null;
+  setCity: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const RequestFormOne = React.forwardRef<
@@ -49,23 +50,10 @@ const RequestFormOne = React.forwardRef<
     },
     fowardref
   ) => {
-    const states = Object.keys(statesConfig);
+    const { cities: stateCities } = useGlobalContext();
+    const states = stateCities ? Object.keys(stateCities) : null;
+    const cities = stateCities && state ? stateCities[state] : null;
 
-    const categories =
-      sidebarConfig1
-        .filter((item) => item.children)
-        .map((item) => item.children)[0]
-        ?.map((item) => item.title) || null;
-
-    const categoryTypes =
-      (category
-        ? sidebarConfig1
-            .filter((item) => item.children)[0]
-            .children?.filter((item) => item.title === category)[0]
-            .subChildren?.map((item) => item.title)
-        : null) || null;
-
-    console.log(category);
     return (
       <div
         className={cn("h-full w-full", className)}
@@ -142,7 +130,7 @@ const RequestFormOne = React.forwardRef<
                         Category
                       </SelectLabel>
 
-                      {categories?.sort().map((item, index) => {
+                      {/* {categories?.sort().map((item, index) => {
                         return (
                           <SelectItem
                             value={item}
@@ -152,7 +140,7 @@ const RequestFormOne = React.forwardRef<
                             {item}
                           </SelectItem>
                         );
-                      })}
+                      })} */}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -197,7 +185,7 @@ const RequestFormOne = React.forwardRef<
                       <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
                         Type
                       </SelectLabel>
-                      {category &&
+                      {/* {category &&
                         categoryTypes?.sort().map((item, index) => {
                           return (
                             <SelectItem
@@ -208,7 +196,7 @@ const RequestFormOne = React.forwardRef<
                               {item}
                             </SelectItem>
                           );
-                        })}
+                        })} */}
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -259,7 +247,7 @@ const RequestFormOne = React.forwardRef<
                       <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
                         State
                       </SelectLabel>
-                      {states?.sort().map((item, index) => {
+                      {states?.map((item, index) => {
                         return (
                           <SelectItem
                             value={item}
@@ -290,7 +278,7 @@ const RequestFormOne = React.forwardRef<
               </div>
 
               <FormPrimitive.Control asChild>
-                <Select>
+                <Select onValueChange={(e) => setCity(Number(e))}>
                   <SelectTrigger
                     className="flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
                     aria-label="Category"
@@ -313,20 +301,18 @@ const RequestFormOne = React.forwardRef<
                         City
                       </SelectLabel>
                       {state &&
-                        statesConfig[state]
-                          .reverse()
-                          .sort()
-                          .map((item, index) => {
-                            return (
-                              <SelectItem
-                                value={item.name}
-                                className="hover:cursor-pointer font-body text-title_2 pl-2"
-                                key={index}
-                              >
-                                {item.name}
-                              </SelectItem>
-                            );
-                          })}
+                        cities &&
+                        cities.map((city, index) => {
+                          return (
+                            <SelectItem
+                              value={city.id.toString()}
+                              className="hover:cursor-pointer font-body text-title_2 pl-2"
+                              key={city.id}
+                            >
+                              {city.city}
+                            </SelectItem>
+                          );
+                        })}
                     </SelectGroup>
                   </SelectContent>
                 </Select>

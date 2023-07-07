@@ -20,6 +20,12 @@ const ExpandMoreIcon = React.lazy(
   () => import("@mui/icons-material/ExpandMore")
 );
 
+type CategoryType = {
+  id: number;
+  name: string;
+  category: string;
+};
+
 const renderInPage = [
   "",
   "profile",
@@ -36,6 +42,13 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
     const { showSidebar, setShowSidebar } = useSidebarContext();
     const sidebarRef = React.useRef<HTMLDivElement>(null);
     const { isOnboarding } = useAuthContext();
+    const [categories, setCategories] = React.useState<Record<
+      string,
+      CategoryType[]
+    > | null>(null);
+    const [selectedCategory, setSelectedCategory] = React.useState<
+      string | null
+    >(null);
     useOnClickOutside(sidebarRef, setShowSidebar);
 
     const path = usePathname();
@@ -46,6 +59,19 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
     renderSidebar = renderSidebar === "" ? true : Boolean(renderSidebar);
 
     useEffect(() => {
+      const token = window.localStorage.getItem("token");
+
+      (async () => {
+        try {
+          if (token) {
+            const categoriesRes = await getCategories(token);
+            setCategories(categoriesRes);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+
       if (showSidebar) {
         document.body.style.overflow = "hidden";
       }
@@ -54,6 +80,8 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
     const onClickSidebarItem = (eventRef: string) => {
       setShowSidebar(false);
     };
+
+    const categoryKeys = categories ? Object.keys(categories) : null;
 
     return (
       <>
@@ -106,17 +134,17 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                         </div>
                       )}
 
-                      {sidebarItem.children && (
+                      {sidebarItem.children && categoryKeys && (
                         <Accordion
                           type="single"
                           collapsible
                           className={cn("flex flex-col gap-3 items-start mt-3")}
                         >
-                          {sidebarItem.children.map((sidebarItemChild) => {
+                          {categoryKeys.map((category, index) => {
                             return (
                               <AccordionItem
-                                value={sidebarItemChild.id}
-                                key={sidebarItemChild.id}
+                                value={category}
+                                key={category + index}
                                 className="w-full"
                               >
                                 <AccordionTrigger
@@ -131,28 +159,34 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                                   }
                                   headerClassName="w-full"
                                   className="px-4 py-2 group hover:cursor-pointer hover:bg-white w-full flex items-center justify-between"
+                                  onClick={() => setSelectedCategory(category)}
                                 >
                                   <div className="text-white group-hover:text-black font-body font-medium text-title_3">
-                                    {sidebarItemChild.title}
+                                    {category}
                                   </div>
                                 </AccordionTrigger>
-                                {sidebarItemChild.subChildren?.map(
-                                  (sidebarItemChildSubChild) => {
-                                    return (
-                                      <AccordionContent
-                                        key={sidebarItemChildSubChild.id}
-                                        className="text-title_3"
-                                      >
-                                        <div
-                                          className="hover:cursor-pointer hover:bg-white hover:text-black font-body text-white font-medium w-full py-2 pl-8 first:mt-3"
-                                          onClick={() => setShowSidebar(false)}
+                                {categoryKeys &&
+                                  selectedCategory &&
+                                  categories &&
+                                  categories[selectedCategory].map(
+                                    (subCategory) => {
+                                      return (
+                                        <AccordionContent
+                                          key={subCategory.id}
+                                          className="text-title_3"
                                         >
-                                          {sidebarItemChildSubChild.title}
-                                        </div>
-                                      </AccordionContent>
-                                    );
-                                  }
-                                )}
+                                          <div
+                                            className="hover:cursor-pointer hover:bg-white hover:text-black font-body text-white font-medium w-full py-2 pl-8 first:mt-3"
+                                            onClick={() =>
+                                              setShowSidebar(false)
+                                            }
+                                          >
+                                            {subCategory.name}
+                                          </div>
+                                        </AccordionContent>
+                                      );
+                                    }
+                                  )}
                               </AccordionItem>
                             );
                           })}

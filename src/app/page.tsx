@@ -5,32 +5,18 @@ import Requests from "@/components/Requests";
 import RequestsFilter from "@/components/RequestsFilter";
 import Searchbox from "@/components/Searchbox";
 import Button from "@/components/ui/Button";
-import { requestsConfig } from "@/config.ts/requests";
 import useOnClickOutside from "@/hooks/useOnclickOutside";
 import { cn } from "@/app/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import {
-  deleteRequest,
-  getRequestDetail,
-  getRequests,
-  getUserRequests,
-  postRequest,
-  updateRequest,
-} from "./lib/request";
-import { getPreferences, updateUser } from "./lib/user";
-import { getLocations } from "./lib/location";
-import updateUserPreference from "./lib/user/updateUserPreference";
-import logoutUser from "./lib/user/logoutUser";
+import { getRequests } from "./lib/request";
 import Dialog from "@/components/ui/DialogPrimitive";
 import { useGlobalContext } from "./context/Store";
-import { redirect } from "next/navigation";
-import { deleteResponse, postResponse, updateResponse } from "./lib/repsonse";
-import { addToBookmark, deleteBookmark, getBookmarks } from "./lib/bookmark";
 import RequestForm from "@/components/RequestForm";
 import { useFeedsContext } from "./context/feedsContext";
 import { useAuthContext } from "./context/authContext";
+import { getCities } from "./lib/city";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -40,12 +26,15 @@ export default function Home() {
 
   const { feeds, setFeeds } = useFeedsContext();
   const { dispatch } = useAuthContext();
+  const { setCities, cities } = useGlobalContext();
 
   // if (!token || !user) {
   //   redirect("/login");
   // }
 
   useEffect(() => {
+    const token = window.localStorage.getItem("token");
+
     (async () => {
       try {
         setIsError(false);
@@ -54,6 +43,11 @@ export default function Home() {
         if (feedsResponse) {
           setIsLoading(false);
           setFeeds(feedsResponse);
+        }
+
+        if (token) {
+          const citiesRes = await getCities(token);
+          setCities(citiesRes);
         }
       } catch (err) {
         console.log(err);

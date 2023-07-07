@@ -1,13 +1,4 @@
 import React, { HTMLAttributes } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/Select";
 
 import * as FormPrimitive from "@radix-ui/react-form";
 import { cn } from "@/app/lib/utils";
