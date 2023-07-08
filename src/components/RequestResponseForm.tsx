@@ -255,17 +255,17 @@ const RequestResponseForm = React.forwardRef<
             </FormPrimitive.Message>
 
             <div className="relative h-fit w-full">
-              {/* <FormPrimitive.Control asChild>
-                <input
+              <FormPrimitive.Control asChild>
+                {/* <input
                   type="text"
                   placeholder="Your location"
                   className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
                   required
-                />
-                <SelectLocation setCity={setCity} className="w-full" />
+                /> */}
+                <SelectLocationa setCity={setCity} className="w-full" />
               </FormPrimitive.Control>
-              <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" /> */}
-              <SelectLocation setCity={setCity} />
+              <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+              {/* <SelectLocation setCity={setCity} /> */}
             </div>
           </FormPrimitive.Field>
 
@@ -462,7 +462,7 @@ const SelectLocation = React.forwardRef<
   );
 });
 
-SelectLocation.displayName = "SelectLocation"
+SelectLocation.displayName = "SelectLocation";
 
 const SelectLocationa = React.forwardRef<
   React.ElementRef<typeof Menubar>,
@@ -472,6 +472,23 @@ const SelectLocationa = React.forwardRef<
 >(({ className, children, setCity, ...props }, forwardRef) => {
   const [cityName, setCityName] = React.useState<string | null>(null);
   const { cities: stateCities, setCities } = useGlobalContext();
+
+  // interface CityInterface {
+  //   id: number;
+  //   city: string;
+  //   state: string;
+  // }
+
+  // const stateCities: Record<string, CityInterface[]> = {
+  //   Abuja: [
+  //     {
+  //       id: 1,
+  //       city: "Kubwa",
+  //       state: "Kubwa",
+  //     },
+  //   ],
+  // };
+
   const states = stateCities ? Object.keys(stateCities) : null;
 
   React.useEffect(() => {
