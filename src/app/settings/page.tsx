@@ -45,6 +45,7 @@ const SettingsPage = (props: Props) => {
   const [myRsponsestVisibility, setMyResponsesVisibily] = React.useState<
     "PUBLIC" | "PRIVATE"
   >("PUBLIC");
+  const [loggingOut, setLoggingOut] = React.useState(false);
 
   const states = Object.keys(statesConfig);
 
@@ -75,6 +76,7 @@ const SettingsPage = (props: Props) => {
   };
 
   const onClickSignOut = async () => {
+    setLoggingOut(true);
     try {
       const token = window.localStorage.getItem("token");
 
@@ -82,10 +84,12 @@ const SettingsPage = (props: Props) => {
         const res = await logoutUser(token);
         window.localStorage.removeItem("token");
         window.localStorage.removeItem("userDetails");
+        setLoggingOut(false);
         window.location.href = "/";
       }
     } catch (err) {
       console.log(err);
+      setLoggingOut(false);
     }
   };
 
@@ -121,7 +125,7 @@ const SettingsPage = (props: Props) => {
             alt="logout"
           />
           <div className="text-primary font-body text-title_2 font-medium">
-            Sign out
+            Sign{loggingOut && "ing"} out
           </div>
         </div>
       </div>
