@@ -13,6 +13,8 @@ export default function LoginPage({}: Props) {
   const { dispatch } = useAuthContext();
   const { user } = useGlobalContext();
 
+  dispatch({ type: "RESET" });
+
   if (user) {
     redirect("/");
   }

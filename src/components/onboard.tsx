@@ -150,8 +150,6 @@ const Onboard = (props: Props) => {
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      dispatch({ type: "RESET" });
     }
   };
 

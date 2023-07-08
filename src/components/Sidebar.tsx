@@ -134,7 +134,12 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                             "/" + pathUrl === sidebarItem.href &&
                               "bg-white text-black"
                           )}
-                          onClick={(e) => setShowSidebar(false)}
+                          onClick={(e) => {
+                            setShowSidebar(false);
+                            if (sidebarItem.href) {
+                              window.location.href = sidebarItem.href;
+                            }
+                          }}
                         >
                           {sidebarItem.title}
                         </Link>
