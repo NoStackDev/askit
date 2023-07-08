@@ -56,7 +56,7 @@ const RequestImgDetail = React.forwardRef<
             height={255}
             width={255}
             alt="requested product image"
-            className="w-[235px] h:auto md:w-[255px]"
+            className="max-w-[235px] max-h-[300px] md:max-w-[255px]"
           />
         )}
 
