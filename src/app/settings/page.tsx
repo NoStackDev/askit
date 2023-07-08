@@ -124,9 +124,15 @@ const SettingsPage = (props: Props) => {
             width={24}
             alt="logout"
           />
-          <div className="text-primary font-body text-title_2 font-medium">
-            Sign{loggingOut && "ing"} out
-          </div>
+          {loggingOut ? (
+            <div className="text-primary font-body text-title_2 font-medium">
+              Signing out
+            </div>
+          ) : (
+            <div className="text-primary font-body text-title_2 font-medium">
+              Sign out
+            </div>
+          )}
         </div>
       </div>
 
