@@ -57,6 +57,25 @@ export default function Home() {
     })();
   }, []);
 
+  useEffect(() => {
+    const token = window.localStorage.getItem("token");
+
+    (async () => {
+      try {
+        setIsError(false);
+        setIsLoading(true);
+
+        if (token) {
+          const citiesRes = await getCities(token);
+          setCities(citiesRes);
+        }
+      } catch (err) {
+        console.log(err);
+        setIsError(true);
+      }
+    })();
+  }, []);
+
   useOnClickOutside(openSidebarRef, setShowSidebar);
 
   const handleSidebar = () => {

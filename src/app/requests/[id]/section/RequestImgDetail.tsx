@@ -60,7 +60,7 @@ const RequestImgDetail = React.forwardRef<
           />
         )}
 
-        <div>
+        <div className="h-full">
           <div className="mt-4">
             <div className="font-body text-title_1 font-medium text-left">
               {title}
@@ -95,68 +95,70 @@ const RequestImgDetail = React.forwardRef<
               </div>
             </div>
 
-            <div className="mt-6 md:mt-4 flex flex-col gap-2">
-              <div className="font-body text-title_3 text-secondary font-medium">
-                More details
-              </div>
-              <div className="font-body text-body_1">{description}</div>
-            </div>
-
-            <div className="mt-7 md:mt-11 flex items-center justify-between md:gap-10">
-              <div className="flex items-center gap-1">
-                <React.Suspense
-                  fallback={
-                    <div className="w-[18px] h-3 bg-stroke/80 animate-pulse"></div>
-                  }
-                >
-                  <VisibilityIcon className="text-stroke" />
-                </React.Suspense>
-                <div className="text-special font-body font-light text-[#000000]">
-                  200 views
+            <div className="flex flex-col justify-between">
+              <div className="mt-6 md:mt-4 flex flex-col gap-2">
+                <div className="font-body text-title_3 text-secondary font-medium">
+                  More details
                 </div>
+                <div className="font-body text-body_1">{description}</div>
               </div>
 
-              <div className="flex gap-3 md:gap-10 items-center">
-                <div className="flex items-center gap-1 hover:cursor-pointer">
+              <div className="mt-7 md:mt-11 flex items-center justify-between md:gap-10">
+                <div className="flex items-center gap-1">
                   <React.Suspense
                     fallback={
-                      <div className="w-[18px] h-4 bg-stroke/80 animate-pulse"></div>
+                      <div className="w-[18px] h-3 bg-stroke/80 animate-pulse"></div>
                     }
                   >
-                    <FlagIcon className="text-black" />
+                    <VisibilityIcon className="text-stroke" />
                   </React.Suspense>
-                  <div className="text-title_3 font-body font-medium text-black">
-                    Report
+                  <div className="text-special font-body font-light text-[#000000]">
+                    200 views
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1 hover:cursor-pointer">
-                  <React.Suspense
-                    fallback={
-                      <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
-                    }
-                  >
-                    {bookmark ? (
-                      <BookmarkIcon className="text-[#000000]" />
-                    ) : (
-                      <BookmarkBorderIcon className="text-[#000000]" />
-                    )}
-                  </React.Suspense>
-                  <div className="text-title_3 font-body font-medium text-black">
-                    Save
+                <div className="flex gap-3 md:gap-10 items-center">
+                  <div className="flex items-center gap-1 hover:cursor-pointer">
+                    <React.Suspense
+                      fallback={
+                        <div className="w-[18px] h-4 bg-stroke/80 animate-pulse"></div>
+                      }
+                    >
+                      <FlagIcon className="text-black" />
+                    </React.Suspense>
+                    <div className="text-title_3 font-body font-medium text-black">
+                      Report
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-1 hover:cursor-pointer">
-                  <React.Suspense
-                    fallback={
-                      <div className="w-[18px] h-5 bg-stroke/80 animate-pulse"></div>
-                    }
-                  >
-                    <ShareIcon className="text-black" />
-                  </React.Suspense>
-                  <div className="text-title_3 font-body font-medium text-black">
-                    Share
+                  <div className="flex items-center gap-1 hover:cursor-pointer">
+                    <React.Suspense
+                      fallback={
+                        <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+                      }
+                    >
+                      {bookmark ? (
+                        <BookmarkIcon className="text-[#000000]" />
+                      ) : (
+                        <BookmarkBorderIcon className="text-[#000000]" />
+                      )}
+                    </React.Suspense>
+                    <div className="text-title_3 font-body font-medium text-black">
+                      Save
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-1 hover:cursor-pointer">
+                    <React.Suspense
+                      fallback={
+                        <div className="w-[18px] h-5 bg-stroke/80 animate-pulse"></div>
+                      }
+                    >
+                      <ShareIcon className="text-black" />
+                    </React.Suspense>
+                    <div className="text-title_3 font-body font-medium text-black">
+                      Share
+                    </div>
                   </div>
                 </div>
               </div>

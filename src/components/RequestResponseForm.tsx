@@ -10,6 +10,19 @@ import { cn } from "@/app/lib/utils";
 import { usePathname } from "next/navigation";
 import { postResponse } from "@/app/lib/repsonse";
 import LoadingSpinner from "./LoadingSpinner";
+import { useGlobalContext } from "@/app/context/Store";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from "./ui/Menubar";
+import { getCities } from "@/app/lib/city";
+import { RequestDetailType } from "@/app/types";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -21,15 +34,20 @@ const WhatsAppIcon = React.lazy(() => import("@mui/icons-material/WhatsApp"));
 const ImageIcon = React.lazy(() => import("@mui/icons-material/Image"));
 const CancelIcon = React.lazy(() => import("@mui/icons-material/Cancel"));
 const CloseIcon = React.lazy(() => import("@mui/icons-material/Close"));
+const ChevronRightIcon = React.lazy(
+  () => import("@mui/icons-material/ChevronRight")
+);
 
 const RequestResponseForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof FormPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof FormPrimitive.Root> & {
+    setRequests: React.Dispatch<React.SetStateAction<RequestDetailType | null>>;
+    requestData: RequestDetailType | null;
+  }
+>(({ className, setRequests, requestData, ...props }, ref) => {
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState("");
   const [visibility, setVisibility] = useState<"private" | "public">("public");
-  const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
   const [whatsappNum, setWhatsappNum] = useState("");
   const [image, setImage] = React.useState<{
@@ -38,6 +56,7 @@ const RequestResponseForm = React.forwardRef<
   } | null>(null);
   const [imageFile, setImageFile] = React.useState<FileList>();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [city, setCity] = React.useState<number | null>(null);
   const pathUrl = usePathname();
 
   const requestId = pathUrl.split("/")[2];
@@ -54,7 +73,6 @@ const RequestResponseForm = React.forwardRef<
       } else {
         const headers = new Headers();
         headers.append("Accept", "application/json");
-        // headers.append("Content-Type", "multipart/form-data");
         headers.append("Authorization", `Bearer ${token}`);
 
         const data = new FormData();
@@ -68,9 +86,17 @@ const RequestResponseForm = React.forwardRef<
         data.append("whatsapp_num", whatsappNum);
         data.append("price", price);
         data.append("visibility", visibility);
-        data.append("location_id", "1");
+        if (city) data.append("location_id", city?.toString());
 
         const res = await postResponse(headers, data);
+
+        if (res.successful) {
+          if (requestData)
+            setRequests({
+              ...requestData,
+              responses: [res.data, ...requestData.responses],
+            });
+        }
       }
     } catch (err) {
       console.log(err);
@@ -227,12 +253,13 @@ const RequestResponseForm = React.forwardRef<
 
             <div className="relative h-fit w-full">
               <FormPrimitive.Control asChild>
-                <input
+                {/* <input
                   type="text"
                   placeholder="Your location"
                   className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
                   required
-                />
+                /> */}
+                <SelectLocation setCity={setCity} className="w-full" />
               </FormPrimitive.Control>
               <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
             </div>
@@ -300,3 +327,100 @@ const RequestResponseForm = React.forwardRef<
 RequestResponseForm.displayName = "RequestResponseForm";
 
 export default RequestResponseForm;
+
+const SelectLocation = React.forwardRef<
+  React.ElementRef<typeof Menubar>,
+  React.ComponentPropsWithoutRef<typeof Menubar> & {
+    setCity: React.Dispatch<React.SetStateAction<number | null>>;
+  }
+>(({ className, children, setCity, ...props }, forwardRef) => {
+  const [cityName, setCityName] = React.useState<string | null>(null);
+  const { cities: stateCities, setCities } = useGlobalContext();
+  const states = stateCities ? Object.keys(stateCities) : null;
+
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("token");
+
+    (async () => {
+      try {
+        if (token && !stateCities) {
+          const citiesRes = await getCities(token);
+
+          if (citiesRes.error) {
+            return;
+          }
+          setCities(citiesRes);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
+
+  return (
+    <Menubar ref={forwardRef} className={className} {...props}>
+      <MenubarMenu>
+        <MenubarTrigger className="w-full">
+          <input
+            type="text"
+            placeholder={cityName ? cityName : "Your location"}
+            className={cn(
+              "bg-faded pl-12 py-2 h-full w-full rounded-[4px]",
+              cityName &&
+                "placeholder:font-body placeholder:text-body_1 placeholder:text-[#000000]/60"
+            )}
+            required
+            disabled
+          />
+          {/* <input
+            type="text"
+            placeholder="Your location"
+            className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
+            required
+            disabled
+          /> */}
+        </MenubarTrigger>
+
+        <MenubarContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-30 max-h-[50vh] overflow-auto">
+          {states &&
+            states.map((state, index) => {
+              return (
+                <MenubarSub key={index}>
+                  <MenubarSubTrigger className="max-w-[200px] group font-body text-special leading-none rounded flex items-center justify-between h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none">
+                    {state}
+                    <React.Suspense
+                      fallback={
+                        <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
+                      }
+                    >
+                      <ChevronRightIcon className="w-5 h-5 text-[#000000]/80" />
+                    </React.Suspense>
+                  </MenubarSubTrigger>
+
+                  <MenubarSubContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-40 ax-h-[50vh] overflow-auto">
+                    {stateCities &&
+                      stateCities[state].map((city) => {
+                        return (
+                          <MenubarItem
+                            key={city.id}
+                            className="px-1 font-body text-special hover:cursor-default hover:bg-stroke/60 relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none"
+                            onClick={() => {
+                              setCity(city.id);
+                              setCityName(city.city);
+                            }}
+                          >
+                            {city.city}
+                          </MenubarItem>
+                        );
+                      })}
+                  </MenubarSubContent>
+                </MenubarSub>
+              );
+            })}
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
+  );
+});
+
+SelectLocation.displayName = "SelectLocation";

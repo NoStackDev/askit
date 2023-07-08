@@ -5,5 +5,14 @@ export default async function postResponse(header: Headers, data: FormData) {
     body: data,
   });
 
-  return res.json();
+  if (res.status === 200) {
+    const json = await res.json();
+    return json;
+  }
+
+  if (res.status !== 200) {
+    const json = await res.json();
+    console.log(json);
+    return { error: true, ...json };
+  }
 }

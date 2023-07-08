@@ -67,7 +67,11 @@ export default function RequestsPage() {
             }
             className="-translate-x-1/2 z-30 fixed top-0 left-1/2"
           >
-            <RequestResponseForm className="w-screen h-screen" />
+            <RequestResponseForm
+              setRequests={setReqeustData}
+              requestData={requestData}
+              className="w-screen h-screen"
+            />
           </Dialog>
         </div>
 
@@ -99,7 +103,10 @@ export default function RequestsPage() {
       </div>
 
       <div className="hidden md:block absolute md:relative before:content-[''] before:w-screen before:h-screen before:bg-[red]">
-        <RequestResponseForm />
+        <RequestResponseForm
+          setRequests={setReqeustData}
+          requestData={requestData}
+        />
       </div>
     </main>
   );

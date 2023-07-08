@@ -28,10 +28,10 @@ const getCities = async (token: string) => {
   }
 
   if (res.status !== 200) {
-    console.log(await res.json());
+    const json = await res.json();
+    console.log(json);
+    return { error: true, ...json };
   }
-
-  return res.json();
 };
 
 export default getCities;
