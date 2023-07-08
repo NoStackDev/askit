@@ -23,7 +23,6 @@ import {
 } from "./ui/Menubar";
 import { getCities } from "@/app/lib/city";
 import { RequestDetailType } from "@/app/types";
-import Dialog from "./ui/DialogPrimitive";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -38,7 +37,6 @@ const CloseIcon = React.lazy(() => import("@mui/icons-material/Close"));
 const ChevronRightIcon = React.lazy(
   () => import("@mui/icons-material/ChevronRight")
 );
-const ArrowBackIcon = React.lazy(() => import("@mui/icons-material/ArrowBack"));
 
 const RequestResponseForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -262,10 +260,9 @@ const RequestResponseForm = React.forwardRef<
                   className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
                   required
                 /> */}
-                <SelectLocationa setCity={setCity} className="w-full" />
+                <SelectLocation setCity={setCity} className="w-full" />
               </FormPrimitive.Control>
               <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
-              {/* <SelectLocation setCity={setCity} /> */}
             </div>
           </FormPrimitive.Field>
 
@@ -333,138 +330,6 @@ RequestResponseForm.displayName = "RequestResponseForm";
 export default RequestResponseForm;
 
 const SelectLocation = React.forwardRef<
-  React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & {
-    setCity: React.Dispatch<React.SetStateAction<number | null>>;
-  }
->(({ className, setCity, ...props }, forwardRef) => {
-  const [cityName, setCityName] = React.useState<string | null>(null);
-  const [state, setState] = React.useState<string | null>(null);
-  const { cities: stateCities, setCities } = useGlobalContext();
-  const states = stateCities ? Object.keys(stateCities) : null;
-
-  React.useEffect(() => {
-    const token = window.localStorage.getItem("token");
-
-    (async () => {
-      try {
-        if (token && !stateCities) {
-          const citiesRes = await getCities(token);
-
-          if (citiesRes.error) {
-            return;
-          }
-          setCities(citiesRes);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
-  return (
-    <div>
-      <Dialog
-        dialogTrigger={
-          <div className="flex w-full items-center gap-3 font-body text-body_1 text-[#000000]/60 bg-faded pl-4 py-2 rounded-[4px] hover:cursor-pointer">
-            <React.Suspense
-              fallback={
-                <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-              }
-            >
-              <LocationOnIcon className=" text-[#424040] w-[19.89px] h-[25.11px]" />
-            </React.Suspense>
-            <span
-              className={cn(
-                "font-body text-body_1  text-[#000000]/40",
-                cityName && "text-[#000000]/60"
-              )}
-            >
-              {cityName ? cityName : "Your location"}
-            </span>
-          </div>
-        }
-        className="fixed top-1/2 left-1/2 z-30 -translate-y-1/2 -translate-x-1/2"
-      >
-        <div className="bg-white max-h-[500px] w-[80vw] max-w-[360px]">
-          <div>
-            <div className="px-4 pt-10 pb-4 border-b border-[#000000]/10 flex flex-col gap-8">
-              <h3 className="font-headline text-headline_3 font-bold">
-                Select your location
-              </h3>
-              {state ? (
-                <div
-                  className="flex gap-4 items-center hover:cursor-pointer"
-                  onClick={() => setState(null)}
-                >
-                  <React.Suspense
-                    fallback={
-                      <div className="w-4 h-4 bg-stroke/60 animate-pulse"></div>
-                    }
-                  >
-                    <ArrowBackIcon className="w-4 h-4" />
-                  </React.Suspense>
-
-                  <h4 className="font-body text-lg font-medium text-[#000000]/60">
-                    {state}
-                  </h4>
-                </div>
-              ) : (
-                <h4 className="font-body text-lg font-medium text-[#000000]/60">
-                  States
-                </h4>
-              )}
-            </div>
-            <div className="p-4 flex flex-col gap-4 div max-h-[268px] overflow-auto">
-              {state && stateCities
-                ? stateCities[state].map((city) => {
-                    return (
-                      <div
-                        className="hover:bg-stroke/20 hover:cursor-pointer font-body text-title_2 font-medium"
-                        key={city.id}
-                        onClick={() => {
-                          setCity(city.id);
-                          setCityName(city.city);
-                          setState(null);
-                          const dialogCloseTrigger =
-                            document.getElementById("dialogCloseTrigger");
-                          dialogCloseTrigger?.click();
-                        }}
-                      >
-                        {city.city}
-                      </div>
-                    );
-                  })
-                : states?.map((state, index) => {
-                    return (
-                      <div
-                        className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"
-                        key={index}
-                        onClick={() => setState(state)}
-                      >
-                        {state}
-
-                        <React.Suspense
-                          fallback={
-                            <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
-                          }
-                        >
-                          <ChevronRightIcon className="w-5 h-5 text-[#000000]/60" />
-                        </React.Suspense>
-                      </div>
-                    );
-                  })}
-            </div>
-          </div>
-        </div>
-      </Dialog>
-    </div>
-  );
-});
-
-SelectLocation.displayName = "SelectLocation";
-
-const SelectLocationa = React.forwardRef<
   React.ElementRef<typeof Menubar>,
   React.ComponentPropsWithoutRef<typeof Menubar> & {
     setCity: React.Dispatch<React.SetStateAction<number | null>>;
@@ -472,23 +337,6 @@ const SelectLocationa = React.forwardRef<
 >(({ className, children, setCity, ...props }, forwardRef) => {
   const [cityName, setCityName] = React.useState<string | null>(null);
   const { cities: stateCities, setCities } = useGlobalContext();
-
-  // interface CityInterface {
-  //   id: number;
-  //   city: string;
-  //   state: string;
-  // }
-
-  // const stateCities: Record<string, CityInterface[]> = {
-  //   Abuja: [
-  //     {
-  //       id: 1,
-  //       city: "Kubwa",
-  //       state: "Kubwa",
-  //     },
-  //   ],
-  // };
-
   const states = stateCities ? Object.keys(stateCities) : null;
 
   React.useEffect(() => {

@@ -217,7 +217,7 @@ export default function Home() {
           dialogTrigger={
             <Button
               className={cn(
-                "md:hidden fixed bottom-10 right-5 z-20 hover:cursor-pointerdata-[state='open']:opacity-0"
+                "md:hidden fixed bottom-10 right-5 z-20 hover:cursor-pointer"
               )}
             >
               Place a Request

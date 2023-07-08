@@ -1,5 +1,6 @@
 "use client";
 
+import { responsesConfig } from "@/config.ts/responses";
 import React from "react";
 import { useGlobalContext } from "../context/Store";
 import { RequestDetailResponseType, ResponseType } from "../types";

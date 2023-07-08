@@ -15,6 +15,7 @@ import {
   MenubarTrigger,
 } from "./ui/Menubar";
 import { statesConfig } from "@/config.ts/cities";
+import { City } from "@/app/types";
 import {
   Select,
   SelectContent,
