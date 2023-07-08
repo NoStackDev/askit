@@ -12,6 +12,14 @@ export type UserType = {
   whatsapp_num: string;
 };
 
+export type City = {
+  countryCode: string;
+  country: string;
+  geonameid: number;
+  name: string;
+  subcountry: string;
+};
+
 export type RequestType = {
   bookmark: boolean;
   category: string;
