@@ -40,8 +40,6 @@ export default function RequestsPage() {
       })();
   }, [requestId]);
 
-  console.log(requestData)
-
   return (
     <main className="flex flex-col md:grid md:grid-cols-[1fr_348px] md:mx-[100px] md:gap-5 bg-background md:py-14 mb-20">
       <div>
