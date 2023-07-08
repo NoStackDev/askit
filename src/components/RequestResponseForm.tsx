@@ -23,6 +23,7 @@ import {
 } from "./ui/Menubar";
 import { getCities } from "@/app/lib/city";
 import { RequestDetailType } from "@/app/types";
+import Dialog from "./ui/DialogPrimitive";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -37,6 +38,7 @@ const CloseIcon = React.lazy(() => import("@mui/icons-material/Close"));
 const ChevronRightIcon = React.lazy(
   () => import("@mui/icons-material/ChevronRight")
 );
+const ArrowBackIcon = React.lazy(() => import("@mui/icons-material/ArrowBack"));
 
 const RequestResponseForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -329,13 +331,111 @@ RequestResponseForm.displayName = "RequestResponseForm";
 
 export default RequestResponseForm;
 
+// const SelectLocation = React.forwardRef<
+//   React.ElementRef<typeof Menubar>,
+//   React.ComponentPropsWithoutRef<typeof Menubar> & {
+//     setCity: React.Dispatch<React.SetStateAction<number | null>>;
+//   }
+// >(({ className, children, setCity, ...props }, forwardRef) => {
+//   const [cityName, setCityName] = React.useState<string | null>(null);
+//   const { cities: stateCities, setCities } = useGlobalContext();
+//   const states = stateCities ? Object.keys(stateCities) : null;
+
+//   React.useEffect(() => {
+//     const token = window.localStorage.getItem("token");
+
+//     (async () => {
+//       try {
+//         if (token && !stateCities) {
+//           const citiesRes = await getCities(token);
+
+//           if (citiesRes.error) {
+//             return;
+//           }
+//           setCities(citiesRes);
+//         }
+//       } catch (err) {
+//         console.log(err);
+//       }
+//     })();
+//   }, []);
+
+//   return (
+//     <Menubar ref={forwardRef} className={className} {...props}>
+//       <MenubarMenu>
+//         <MenubarTrigger className="w-full">
+//           <input
+//             type="text"
+//             placeholder={cityName ? cityName : "Your location"}
+//             className={cn(
+//               "bg-faded pl-12 py-2 h-full w-full rounded-[4px]",
+//               cityName &&
+//                 "placeholder:font-body placeholder:text-body_1 placeholder:text-[#000000]/60"
+//             )}
+//             required
+//             disabled
+//           />
+//           {/* <input
+//             type="text"
+//             placeholder="Your location"
+//             className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
+//             required
+//             disabled
+//           /> */}
+//         </MenubarTrigger>
+
+//         <MenubarContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-30 max-h-[50vh] overflow-auto">
+//           {states &&
+//             states.map((state, index) => {
+//               return (
+//                 <MenubarSub key={index}>
+//                   <MenubarSubTrigger className="max-w-[200px] group font-body text-special leading-none rounded flex items-center justify-between h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none">
+//                     {state}
+//                     <React.Suspense
+//                       fallback={
+//                         <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
+//                       }
+//                     >
+//                       <ChevronRightIcon className="w-5 h-5 text-[#000000]/80" />
+//                     </React.Suspense>
+//                   </MenubarSubTrigger>
+
+//                   <MenubarSubContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-40 ax-h-[50vh] overflow-auto">
+//                     {stateCities &&
+//                       stateCities[state].map((city) => {
+//                         return (
+//                           <MenubarItem
+//                             key={city.id}
+//                             className="px-1 font-body text-special hover:cursor-default hover:bg-stroke/60 relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none"
+//                             onClick={() => {
+//                               setCity(city.id);
+//                               setCityName(city.city);
+//                             }}
+//                           >
+//                             {city.city}
+//                           </MenubarItem>
+//                         );
+//                       })}
+//                   </MenubarSubContent>
+//                 </MenubarSub>
+//               );
+//             })}
+//         </MenubarContent>
+//       </MenubarMenu>
+//     </Menubar>
+//   );
+// });
+
+// SelectLocation.displayName = "SelectLocation";
+
 const SelectLocation = React.forwardRef<
-  React.ElementRef<typeof Menubar>,
-  React.ComponentPropsWithoutRef<typeof Menubar> & {
+  React.ElementRef<"div">,
+  React.ComponentPropsWithoutRef<"div"> & {
     setCity: React.Dispatch<React.SetStateAction<number | null>>;
   }
->(({ className, children, setCity, ...props }, forwardRef) => {
+>(({ className, setCity, ...props }, forwardRef) => {
   const [cityName, setCityName] = React.useState<string | null>(null);
+  const [state, setState] = React.useState<string | null>(null);
   const { cities: stateCities, setCities } = useGlobalContext();
   const states = stateCities ? Object.keys(stateCities) : null;
 
@@ -359,68 +459,102 @@ const SelectLocation = React.forwardRef<
   }, []);
 
   return (
-    <Menubar ref={forwardRef} className={className} {...props}>
-      <MenubarMenu>
-        <MenubarTrigger className="w-full">
-          <input
-            type="text"
-            placeholder={cityName ? cityName : "Your location"}
-            className={cn(
-              "bg-faded pl-12 py-2 h-full w-full rounded-[4px]",
-              cityName &&
-                "placeholder:font-body placeholder:text-body_1 placeholder:text-[#000000]/60"
-            )}
-            required
-            disabled
-          />
-          {/* <input
-            type="text"
-            placeholder="Your location"
-            className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
-            required
-            disabled
-          /> */}
-        </MenubarTrigger>
+    <div>
+      <Dialog
+        dialogTrigger={
+          <div className="flex w-full items-center gap-3 font-body text-body_1 text-[#000000]/60 bg-faded pl-4 py-2 rounded-[4px] hover:cursor-pointer">
+            <React.Suspense
+              fallback={
+                <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
+              }
+            >
+              <LocationOnIcon className=" text-[#424040] w-[19.89px] h-[25.11px]" />
+            </React.Suspense>
+            <span
+              className={cn(
+                "font-body text-body_1  text-[#000000]/40",
+                cityName && "text-[#000000]/60"
+              )}
+            >
+              {cityName ? cityName : "Your location"}
+            </span>
+          </div>
+        }
+        className="fixed top-1/2 left-1/2 z-30 -translate-y-1/2 -translate-x-1/2"
+      >
+        <div className="bg-white max-h-[500px] w-[80vw] max-w-[360px]">
+          <div>
+            <div className="px-4 pt-10 pb-4 border-b border-[#000000]/10 flex flex-col gap-8">
+              <h3 className="font-headline text-headline_3 font-bold">
+                Select your location
+              </h3>
+              {state ? (
+                <div
+                  className="flex gap-4 items-center hover:cursor-pointer"
+                  onClick={() => setState(null)}
+                >
+                  <React.Suspense
+                    fallback={
+                      <div className="w-4 h-4 bg-stroke/60 animate-pulse"></div>
+                    }
+                  >
+                    <ArrowBackIcon className="w-4 h-4" />
+                  </React.Suspense>
 
-        <MenubarContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-30 max-h-[50vh] overflow-auto">
-          {states &&
-            states.map((state, index) => {
-              return (
-                <MenubarSub key={index}>
-                  <MenubarSubTrigger className="max-w-[200px] group font-body text-special leading-none rounded flex items-center justify-between h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none">
+                  <h4 className="font-body text-lg font-medium text-[#000000]/60">
                     {state}
-                    <React.Suspense
-                      fallback={
-                        <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
-                      }
-                    >
-                      <ChevronRightIcon className="w-5 h-5 text-[#000000]/80" />
-                    </React.Suspense>
-                  </MenubarSubTrigger>
+                  </h4>
+                </div>
+              ) : (
+                <h4 className="font-body text-lg font-medium text-[#000000]/60">
+                  States
+                </h4>
+              )}
+            </div>
+            <div className="p-4 flex flex-col gap-4 div max-h-[268px] overflow-auto">
+              {state && stateCities
+                ? stateCities[state].map((city) => {
+                    return (
+                      <div
+                        className="hover:bg-stroke/20 hover:cursor-pointer font-body text-title_2 font-medium"
+                        key={city.id}
+                        onClick={() => {
+                          setCity(city.id);
+                          setCityName(city.city);
+                          setState(null);
+                          const dialogCloseTrigger =
+                            document.getElementById("dialogCloseTrigger");
+                          dialogCloseTrigger?.click();
+                        }}
+                      >
+                        {city.city}
+                      </div>
+                    );
+                  })
+                : states?.map((state, index) => {
+                    return (
+                      <div
+                        className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"
+                        key={index}
+                        onClick={() => setState(state)}
+                      >
+                        {state}
 
-                  <MenubarSubContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-40 ax-h-[50vh] overflow-auto">
-                    {stateCities &&
-                      stateCities[state].map((city) => {
-                        return (
-                          <MenubarItem
-                            key={city.id}
-                            className="px-1 font-body text-special hover:cursor-default hover:bg-stroke/60 relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none"
-                            onClick={() => {
-                              setCity(city.id);
-                              setCityName(city.city);
-                            }}
-                          >
-                            {city.city}
-                          </MenubarItem>
-                        );
-                      })}
-                  </MenubarSubContent>
-                </MenubarSub>
-              );
-            })}
-        </MenubarContent>
-      </MenubarMenu>
-    </Menubar>
+                        <React.Suspense
+                          fallback={
+                            <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
+                          }
+                        >
+                          <ChevronRightIcon className="w-5 h-5 text-[#000000]/60" />
+                        </React.Suspense>
+                      </div>
+                    );
+                  })}
+            </div>
+          </div>
+        </div>
+      </Dialog>
+    </div>
   );
 });
 
