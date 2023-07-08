@@ -1,5 +1,6 @@
+import { useFeedsContext } from "@/app/context/feedsContext";
 import { useRequestContext } from "@/app/context/requestContext";
-import { addToBookmark, deleteBookmark } from "@/app/lib/bookmark";
+import { addDeleteBookmark } from "@/app/lib/bookmark";
 import { deleteRequest } from "@/app/lib/request";
 import { cn, month } from "@/app/lib/utils";
 import { RequestType } from "@/app/types";
@@ -43,7 +44,7 @@ const RequestCard = React.forwardRef<
     ref
   ) => {
     const date = new Date(created_at);
-    const { requests, setRequests } = useRequestContext();
+    const { feeds, setFeeds } = useFeedsContext();
 
     const onBookmarkClick = async (
       event: React.MouseEvent<SVGSVGElement, MouseEvent>,
@@ -56,7 +57,7 @@ const RequestCard = React.forwardRef<
         const token = window.localStorage.getItem("token");
         const userDetails = window.localStorage.getItem("userDetails");
         if (token && userDetails) {
-          const newRequests = requests?.map((request) => {
+          const newRequests = feeds?.data.map((request) => {
             if (request.id === Number(requestId)) {
               return {
                 ...request,
@@ -65,26 +66,35 @@ const RequestCard = React.forwardRef<
             }
             return request;
           });
-          setRequests(newRequests || null);
+          if (feeds && newRequests)
+            setFeeds({ ...feeds, data: [...newRequests] });
 
           const userId = JSON.parse(userDetails).data.id;
-          const res = !bookmark
-            ? await addToBookmark(token, {
-                user_id: userId as number,
-                req_id: requestId,
-              })
-            : await deleteBookmark(token, {
-                user_id: userId as number,
-                req_id: requestId,
-              });
+          const res = await addDeleteBookmark(token, {
+            user_id: userId as number,
+            req_id: requestId,
+          });
 
           if (res.success) {
             return;
           }
+
+          if (!res.success) {
+            const failedRequests = feeds?.data.map((request) => {
+              if (request.id === Number(requestId)) {
+                return {
+                  ...request,
+                  bookmark: !request.bookmark,
+                };
+              }
+              return request;
+            });
+            setFeeds(feeds);
+          }
         } else window.location.href = "/login";
       } catch (err) {
         console.log(err);
-        const failedRequests = requests?.map((request) => {
+        const failedRequests = feeds?.data.map((request) => {
           if (request.id === Number(requestId)) {
             return {
               ...request,
@@ -93,7 +103,7 @@ const RequestCard = React.forwardRef<
           }
           return request;
         });
-        setRequests(failedRequests || null);
+        setFeeds(feeds);
       }
     };
 

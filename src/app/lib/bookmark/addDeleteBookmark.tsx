@@ -3,7 +3,7 @@ type BookmarkType = {
   req_id: number;
 };
 
-export default async function addToBookmark(
+export default async function addDeleteBookmark(
   token: string,
   { user_id, req_id }: BookmarkType
 ) {
@@ -20,9 +20,14 @@ export default async function addToBookmark(
     }),
   });
 
-  if (res.status !== 200) {
-    console.log(await res.json());
+  if (res.status === 200) {
+    const json = await res.json();
+    return json;
   }
 
-  return res.json();
+  if (res.status !== 200) {
+    const json = await res.json();
+    console.log(json);
+    return json;
+  }
 }
