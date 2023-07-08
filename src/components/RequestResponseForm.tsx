@@ -462,6 +462,8 @@ const SelectLocation = React.forwardRef<
   );
 });
 
+SelectLocation.displayName = "SelectLocation"
+
 const SelectLocationa = React.forwardRef<
   React.ElementRef<typeof Menubar>,
   React.ComponentPropsWithoutRef<typeof Menubar> & {
