@@ -127,7 +127,11 @@ export default function Navbar({}: Props) {
 
             <Dialog
               dialogTrigger={
-                <Button className={cn("w-fit h-fit hidden md:block")}>
+                <Button
+                  className={cn(
+                    "w-fit h-fit hidden md:block data-[state='open']:opacity-0"
+                  )}
+                >
                   Place a Request
                 </Button>
               }
