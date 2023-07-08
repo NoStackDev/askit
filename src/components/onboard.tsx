@@ -31,6 +31,7 @@ import { redirect } from "next/navigation";
 import { loginUser, updateUser } from "@/app/lib/user";
 import { useGlobalContext } from "@/app/context/Store";
 import getUser from "@/app/lib/user/getUser";
+import { getCities } from "@/app/lib/city";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -57,6 +58,7 @@ const Onboard = (props: Props) => {
     user: authUser,
     setUser: setAuthUser,
     cities: stateCities,
+    setCities: setStateCities,
   } = useGlobalContext();
   const { isLoading, dispatch } = useAuthContext();
   const states = stateCities ? Object.keys(stateCities) : null;
@@ -64,6 +66,28 @@ const Onboard = (props: Props) => {
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 
+  React.useEffect(() => {
+    (async () => {
+      try {
+        if (authUser?.authEmail && authUser.authPassword) {
+          const tokenRes = await loginUser({
+            email: authUser?.authEmail,
+            password: authUser?.authPassword,
+          });
+
+          setToken(tokenRes.token);
+          window.localStorage.setItem("token", tokenRes.token);
+
+          if (tokenRes.token) {
+            const citiesRes = await getCities(tokenRes.token);
+            setStateCities(citiesRes);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   const onProfilePicClick = () => {
     if (profilePicRef.current) {
@@ -120,13 +144,14 @@ const Onboard = (props: Props) => {
               JSON.stringify(updatedUser)
             );
             setAuthUser(null);
-            dispatch({ type: "RESET" });
             window.location.replace("/");
           }
         }
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      dispatch({ type: "RESET" });
     }
   };
 

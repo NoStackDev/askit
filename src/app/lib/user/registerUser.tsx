@@ -26,5 +26,16 @@ export default async function registerUser(
     body: JSON.stringify({ name: name, email: email, password: password }),
   });
 
+  if (res.status === 200) {
+    const json = await res.json();
+    return json;
+  }
+
+  if (res.status !== 200) {
+    const json = await res.json();
+    console.log(json);
+    return { error: true, ...json };
+  }
+
   return res.json();
 }

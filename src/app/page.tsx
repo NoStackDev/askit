@@ -32,6 +32,7 @@ export default function Home() {
   // if (!token || !user) {
   //   redirect("/login");
   // }
+  dispatch({ type: "RESET" });
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -59,21 +60,22 @@ export default function Home() {
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
+    if (!cities) {
+      (async () => {
+        try {
+          setIsError(false);
+          setIsLoading(true);
 
-    (async () => {
-      try {
-        setIsError(false);
-        setIsLoading(true);
-
-        if (token) {
-          const citiesRes = await getCities(token);
-          setCities(citiesRes);
+          if (token) {
+            const citiesRes = await getCities(token);
+            setCities(citiesRes);
+          }
+        } catch (err) {
+          console.log(err);
+          setIsError(true);
         }
-      } catch (err) {
-        console.log(err);
-        setIsError(true);
-      }
-    })();
+      })();
+    }
   }, []);
 
   useOnClickOutside(openSidebarRef, setShowSidebar);

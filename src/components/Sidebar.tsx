@@ -57,16 +57,18 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
     useEffect(() => {
       const token = window.localStorage.getItem("token");
 
-      (async () => {
-        try {
-          if (token) {
-            const categoriesRes = await getCategories(token);
-            setCategories(categoriesRes);
+      if (!categories) {
+        (async () => {
+          try {
+            if (token) {
+              const categoriesRes = await getCategories(token);
+              setCategories(categoriesRes);
+            }
+          } catch (err) {
+            console.log(err);
           }
-        } catch (err) {
-          console.log(err);
-        }
-      })();
+        })();
+      }
 
       if (showSidebar) {
         document.body.style.overflow = "hidden";

@@ -12,5 +12,14 @@ export default async function loginUser({ email, password }: LoginI) {
     body: JSON.stringify({ email: email, password: password }),
   });
 
-  return res.json();
+  if (res.status === 200) {
+    const json = await res.json();
+    return json;
+  }
+
+  if (res.status !== 200) {
+    const json = await res.json();
+    console.log(json);
+    return { error: true, ...json };
+  }
 }
