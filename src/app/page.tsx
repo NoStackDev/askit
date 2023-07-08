@@ -32,7 +32,6 @@ export default function Home() {
   // if (!token || !user) {
   //   redirect("/login");
   // }
-  dispatch({ type: "RESET" });
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");

@@ -144,6 +144,7 @@ const Onboard = (props: Props) => {
               JSON.stringify(updatedUser)
             );
             setAuthUser(null);
+            dispatch({ type: "RESET" });
             window.location.replace("/");
           }
         }

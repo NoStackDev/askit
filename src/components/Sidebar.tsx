@@ -56,6 +56,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
 
     useEffect(() => {
       const token = window.localStorage.getItem("token");
+      console.log(categories);
 
       if (!categories) {
         (async () => {
@@ -73,7 +74,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
       if (showSidebar) {
         document.body.style.overflow = "hidden";
       }
-    }, [showSidebar]);
+    }, []);
 
     const onClickSubCategory = async (subCategoryId: number) => {
       setShowSidebar(false);

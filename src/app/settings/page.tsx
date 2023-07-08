@@ -18,6 +18,7 @@ import {
 import { statesConfig } from "@/config.ts/cities";
 import { cn } from "../lib/utils";
 import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
+import { logoutUser } from "../lib/user";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -38,9 +39,12 @@ const SettingsPage = (props: Props) => {
     string[]
   >([]);
   const [notification, setNotification] = React.useState(false);
-  const [myRequestVisibility, setMyRequestVisibily] = React.useState<"PUBLIC"|"AGENTS">("PUBLIC")
-  const [myRsponsestVisibility, setMyResponsesVisibily] = React.useState<"PUBLIC"|"PRIVATE">("PUBLIC")
-
+  const [myRequestVisibility, setMyRequestVisibily] = React.useState<
+    "PUBLIC" | "AGENTS"
+  >("PUBLIC");
+  const [myRsponsestVisibility, setMyResponsesVisibily] = React.useState<
+    "PUBLIC" | "PRIVATE"
+  >("PUBLIC");
 
   const states = Object.keys(statesConfig);
 
@@ -70,6 +74,21 @@ const SettingsPage = (props: Props) => {
     setSelectedCategoryTypes(selectedCategoryTypes.filter((x) => x != e));
   };
 
+  const onClickSignOut = async () => {
+    try {
+      const token = window.localStorage.getItem("token");
+
+      if (token) {
+        const res = await logoutUser(token);
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("userDetails");
+        window.location.href = "/";
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const categories =
     sidebarConfig1
       .filter((item) => item.children)
@@ -91,14 +110,17 @@ const SettingsPage = (props: Props) => {
           Settings
         </div>
 
-        <div className="flex gap-1">
+        <div
+          className="flex gap-1 hover:cursor-pointer"
+          onClick={onClickSignOut}
+        >
           <Image
             src="/images/icons/logout.png"
             height={24}
             width={24}
             alt="logout"
           />
-          <div className="text-primary font-body text-title_2 font-medium hover:cursor-pointer">
+          <div className="text-primary font-body text-title_2 font-medium">
             Sign out
           </div>
         </div>
