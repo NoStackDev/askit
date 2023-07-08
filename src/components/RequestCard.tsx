@@ -45,6 +45,7 @@ const RequestCard = React.forwardRef<
   ) => {
     const date = new Date(created_at);
     const { feeds, setFeeds } = useFeedsContext();
+    const { requests, setRequests } = useRequestContext();
 
     const onBookmarkClick = async (
       event: React.MouseEvent<SVGSVGElement, MouseEvent>,
