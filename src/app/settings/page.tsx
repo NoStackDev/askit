@@ -3,7 +3,6 @@
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import React from "react";
-import { City } from "../types";
 import * as Toggle from "@radix-ui/react-toggle";
 
 import {
@@ -38,9 +37,12 @@ const SettingsPage = (props: Props) => {
     string[]
   >([]);
   const [notification, setNotification] = React.useState(false);
-  const [myRequestVisibility, setMyRequestVisibily] = React.useState<"PUBLIC"|"AGENTS">("PUBLIC")
-  const [myRsponsestVisibility, setMyResponsesVisibily] = React.useState<"PUBLIC"|"PRIVATE">("PUBLIC")
-
+  const [myRequestVisibility, setMyRequestVisibily] = React.useState<
+    "PUBLIC" | "AGENTS"
+  >("PUBLIC");
+  const [myRsponsestVisibility, setMyResponsesVisibily] = React.useState<
+    "PUBLIC" | "PRIVATE"
+  >("PUBLIC");
 
   const states = Object.keys(statesConfig);
 

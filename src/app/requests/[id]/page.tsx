@@ -6,7 +6,6 @@ import Responses from "../../../components/Responses";
 import Button from "@/components/ui/Button";
 import RequestResponseForm from "@/components/RequestResponseForm";
 import React from "react";
-import { responsesConfig } from "@/config.ts/responses";
 import Dialog from "@/components/ui/DialogPrimitive";
 import { usePathname } from "next/navigation";
 import { RequestDetailType } from "@/app/types";
