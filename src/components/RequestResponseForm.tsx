@@ -90,12 +90,13 @@ const RequestResponseForm = React.forwardRef<
 
         const res = await postResponse(headers, data);
 
-        if (res.successful) {
-          if (requestData)
+        if (res.success) {
+          if (requestData) {
             setRequests({
               ...requestData,
               responses: [res.data, ...requestData.responses],
             });
+          }
         }
       }
     } catch (err) {
