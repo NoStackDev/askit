@@ -19,6 +19,7 @@ import { statesConfig } from "@/config.ts/cities";
 import { cn } from "../lib/utils";
 import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
 import { logoutUser } from "../lib/user";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -115,15 +116,19 @@ const SettingsPage = (props: Props) => {
         </div>
 
         <div
-          className="flex gap-1 hover:cursor-pointer"
+          className="flex items-center gap-1 hover:cursor-pointer"
           onClick={onClickSignOut}
         >
-          <Image
-            src="/images/icons/logout.png"
-            height={24}
-            width={24}
-            alt="logout"
-          />
+          {loggingOut ? (
+            <LoadingSpinner className="fill-primary text-faded h-4 w-4" />
+          ) : (
+            <Image
+              src="/images/icons/logout.png"
+              height={24}
+              width={24}
+              alt="logout"
+            />
+          )}
           {loggingOut ? (
             <div className="text-primary font-body text-title_2 font-medium">
               Signing out
