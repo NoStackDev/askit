@@ -24,6 +24,7 @@ import {
 import { getCities } from "@/app/lib/city";
 import { RequestDetailType } from "@/app/types";
 import Dialog from "./ui/DialogPrimitive";
+import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -256,12 +257,6 @@ const RequestResponseForm = React.forwardRef<
 
             <div className="relative h-fit w-full">
               <FormPrimitive.Control asChild>
-                {/* <input
-                  type="text"
-                  placeholder="Your location"
-                  className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
-                  required
-                /> */}
                 <SelectLocation setCity={setCity} className="w-full" />
               </FormPrimitive.Control>
               <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
@@ -302,6 +297,7 @@ const RequestResponseForm = React.forwardRef<
             setVisibility={setVisibility}
             className="mt-6"
           />
+          {/* <RadioSelect /> */}
         </div>
 
         <div className="w-full mt-6 flex items-center justify-center">
@@ -419,7 +415,7 @@ const SelectLocation = React.forwardRef<
                 ? stateCities[state].map((city) => {
                     return (
                       <div
-                        className="hover:bg-stroke/20 hover:cursor-pointer font-body text-title_2 font-medium"
+                        className="hover:bg-stroke/20 hover:cursor-pointer"
                         key={city.id}
                         onClick={() => {
                           setCity(city.id);
@@ -462,3 +458,31 @@ const SelectLocation = React.forwardRef<
 });
 
 SelectLocation.displayName = "SelectLocation";
+
+const RadioSelect = React.forwardRef<
+  React.ElementRef<typeof RadioGroupPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+>(({ className, ...props }, forwardRef) => {
+  return (
+    <RadioGroupPrimitive.Root
+      className={cn("", className)}
+      {...props}
+      onValueChange={(e) => console.log("dlfjs")}
+    >
+      <div>
+        <RadioGroupPrimitive.Item value="public" id="public">
+          <RadioGroupPrimitive.Indicator />
+        </RadioGroupPrimitive.Item>
+        <label htmlFor="public">Public</label>
+      </div>
+      <div>
+        <RadioGroupPrimitive.Item value="private" id="private">
+          <RadioGroupPrimitive.Indicator />
+        </RadioGroupPrimitive.Item>
+        <label htmlFor="private">Private</label>
+      </div>
+    </RadioGroupPrimitive.Root>
+  );
+});
+
+RadioSelect.displayName = "RadioSelect";
