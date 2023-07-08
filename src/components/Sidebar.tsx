@@ -73,7 +73,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
       if (showSidebar) {
         document.body.style.overflow = "hidden";
       }
-    }, [showSidebar, categories]);
+    }, [showSidebar]);
 
     const onClickSubCategory = async (subCategoryId: number) => {
       setShowSidebar(false);
