@@ -394,7 +394,6 @@ const LocationSelector = React.forwardRef<
       className,
       children,
       stateCities,
-      city,
       cityName,
       setCityName,
       setState,
