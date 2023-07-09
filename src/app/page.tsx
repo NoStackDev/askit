@@ -69,7 +69,7 @@ export default function Home() {
         }
       }
     })();
-  }, []);
+  }, [feeds]);
 
   useEffect(() => {
     if (bookmarkedList && feeds) {
