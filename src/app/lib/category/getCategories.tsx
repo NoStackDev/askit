@@ -4,7 +4,7 @@ type CategoryType = {
   category: string;
 };
 
-const getCategories = async (token: string) => {
+const getCategories = async () => {
   const res = await fetch(`${process.env.API}/categoryGroups`, {
     method: "OPTIONS",
     headers: {

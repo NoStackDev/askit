@@ -55,15 +55,11 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
     renderSidebar = renderSidebar === "" ? true : Boolean(renderSidebar);
 
     useEffect(() => {
-      const token = window.localStorage.getItem("token");
-
       if (!categories) {
         (async () => {
           try {
-            if (token) {
-              const categoriesRes = await getCategories(token);
-              setCategories(categoriesRes);
-            }
+            const categoriesRes = await getCategories();
+            setCategories(categoriesRes);
           } catch (err) {
             console.log(err);
           }
