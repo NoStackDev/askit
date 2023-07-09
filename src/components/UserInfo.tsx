@@ -59,7 +59,7 @@ const UserInfo = React.forwardRef<
         </div>
 
         {user?.whatsapp_num && (
-          <div className="flex gap-1 text-white font-body text-title_3 font-medium">
+          <div className="flex gap-2 text-white font-body text-title_3 font-medium">
             <React.Suspense>
               <CallIcon className="" />
             </React.Suspense>
