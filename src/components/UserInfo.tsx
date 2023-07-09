@@ -118,6 +118,7 @@ const UserInfo = React.forwardRef<
               height={24}
               width={24}
               alt="facebook link"
+              className="hover:cursor-pointer"
             />
           )}
 
@@ -127,6 +128,7 @@ const UserInfo = React.forwardRef<
               height={24}
               width={24}
               alt="instagram link"
+              className="hover:cursor-pointer"
             />
           )}
 
@@ -136,6 +138,7 @@ const UserInfo = React.forwardRef<
               height={24}
               width={24}
               alt="whatsapp link"
+              className="hover:cursor-pointer"
             />
           )}
         </div>
