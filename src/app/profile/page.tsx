@@ -20,13 +20,11 @@ const ProfilePage = (props: Props) => {
 
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
-    console.log(token);
     (async () => {
       try {
         if (token) {
           const res = await getUserRequests(token);
           setResponses(res.data);
-          console.log(res);
         }
       } catch (err) {
         console.log(err);

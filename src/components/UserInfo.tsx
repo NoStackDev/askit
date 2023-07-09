@@ -113,21 +113,30 @@ const UserInfo = React.forwardRef<
 
         <div className="flex gap-6">
           {user?.facebook_link && (
-            <React.Suspense>
-              <FacebookIcon />
-            </React.Suspense>
+            <Image
+              src="/images/icons/facebookProfileIcon.png"
+              height={24}
+              width={24}
+              alt="facebook link"
+            />
           )}
 
           {user?.instagram_link && (
-            <React.Suspense>
-              <InstagramIcon className="bg-black text-primary" />
-            </React.Suspense>
+            <Image
+              src="/images/icons/instagramProfileIcon.png"
+              height={24}
+              width={24}
+              alt="instagram link"
+            />
           )}
 
           {user?.whatsapp_num && (
-            <React.Suspense>
-              <WhatsApp className="bg-black text-primary" />
-            </React.Suspense>
+            <Image
+              src="/images/icons/whatsappProfileIcon.png"
+              height={24}
+              width={24}
+              alt="whatsapp link"
+            />
           )}
         </div>
       </div>
