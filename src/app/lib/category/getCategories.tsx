@@ -31,7 +31,8 @@ const getCategories = async () => {
   }
 
   if (res.status !== 200) {
-    console.log(await res.json());
+    const json = await res.json();
+    return { error: true, ...json };
   }
 
   return res.json();

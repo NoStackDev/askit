@@ -1,3 +1,5 @@
+import { useResponseContext } from "@/app/context/responseContext";
+import { deleteResponse } from "@/app/lib/repsonse";
 import { cn, month } from "@/app/lib/utils";
 import { RequestDetailResponseType, ResponseType } from "@/app/types";
 import Image from "next/image";
@@ -25,7 +27,7 @@ const ResponseCard = React.forwardRef<
       className,
       created_at,
       description,
-      responseid: number,
+      responseid,
       image_url,
       location,
       title,
@@ -36,7 +38,54 @@ const ResponseCard = React.forwardRef<
     },
     ref
   ) => {
+    const { responses, setResponses } = useResponseContext();
     const date = new Date(created_at);
+
+    const onClickDeleteBtn = async (
+      event: React.MouseEvent<SVGSVGElement, MouseEvent>,
+      responseid: number
+    ) => {
+      event.stopPropagation();
+      let responseIndex: null | number = null;
+      let deletedResponse: RequestDetailResponseType | null = null;
+      const newResponse = responses?.filter((request, index) => {
+        if (request.id === Number(responseid)) {
+          responseIndex = index;
+          deletedResponse = request;
+        }
+        return request.id !== Number(responseid);
+      });
+
+      try {
+        const token = window.localStorage.getItem("token");
+        const userDetails = window.localStorage.getItem("userDetails");
+        if (token && userDetails) {
+          const newRequests = responses?.filter((request, index) => {
+            if (request.id === Number(responseid)) {
+              responseIndex = index;
+              deletedResponse = request;
+            }
+            return request.id !== Number(responseid);
+          });
+          setResponses(newRequests || null);
+
+          const userId = JSON.parse(userDetails).data.id;
+          const res = await deleteResponse(token, responseid);
+
+          if (res.success) {
+            return;
+          } else {
+            if (responses && responseIndex && deletedResponse)
+              setResponses(responses);
+            console.log(responses);
+          }
+        } else window.location.href = "/login";
+      } catch (err) {
+        console.log(err);
+        if (responses && responseIndex && deletedResponse)
+          setResponses(responses);
+      }
+    };
 
     return (
       <div
@@ -135,7 +184,10 @@ const ResponseCard = React.forwardRef<
         {variant === "user" ? (
           <div className="flex items-center gap-8 mt-6">
             <React.Suspense>
-              <DeleteIcon className="text-white hover:cursor-pointer" />
+              <DeleteIcon
+                className="text-white hover:cursor-pointer"
+                onClick={(e) => onClickDeleteBtn(e, responseid)}
+              />
             </React.Suspense>
             <Image
               src="/images/icons/editIcon.png"

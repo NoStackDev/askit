@@ -8,10 +8,16 @@ const getUserResponses = async (token: string) => {
     },
   });
 
-  if (res.status !== 200) {
-    console.log(await res.json());
+  if (res.status === 200) {
+    return res.json();
   }
-  
+
+  if (res.status !== 200) {
+    const json = await res.json();
+    console.log(json);
+    return { error: true, ...json };
+  }
+
   return res.json();
 };
 

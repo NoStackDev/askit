@@ -9,6 +9,7 @@ import { SidebarContextProvider } from "./context/sidebarContext";
 import { AuthContextProvider } from "./context/authContext";
 import { FeedsContextProvider } from "./context/feedsContext";
 import { RequestContextProvider } from "./context/requestContext";
+import { ResponseContextProvider } from "./context/responseContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -46,12 +47,14 @@ export default function RootLayout({
             <SidebarContextProvider>
               <FeedsContextProvider>
                 <RequestContextProvider>
-                  <Navbar />
-                  <div className="bg-background md:flex w-full md:mb-20">
-                    <Sidebar className="" />
-                    <div className="w-full">{children}</div>
-                  </div>
-                  <Footer className="" />
+                  <ResponseContextProvider>
+                    <Navbar />
+                    <div className="bg-background md:flex w-full md:mb-20">
+                      <Sidebar className="" />
+                      <div className="w-full">{children}</div>
+                    </div>
+                    <Footer className="" />
+                  </ResponseContextProvider>
                 </RequestContextProvider>
               </FeedsContextProvider>
             </SidebarContextProvider>

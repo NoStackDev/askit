@@ -5,6 +5,8 @@ import React from "react";
 import { useGlobalContext } from "../context/Store";
 import { RequestDetailResponseType, ResponseType } from "../types";
 import { getUserRequests } from "../lib/request";
+import { getUserResponses } from "../lib/repsonse";
+import { useResponseContext } from "../context/responseContext";
 
 const UserInfo = React.lazy(() => import("@/components/UserInfo"));
 const Responses = React.lazy(() => import("@/components/Responses"));
@@ -13,9 +15,7 @@ const EditIcon = React.lazy(() => import("@mui/icons-material/Edit"));
 type Props = {};
 
 const ProfilePage = (props: Props) => {
-  const [responses, setResponses] = React.useState<
-    RequestDetailResponseType[] | null
-  >(null);
+  const { responses, setResponses } = useResponseContext();
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -23,7 +23,7 @@ const ProfilePage = (props: Props) => {
     (async () => {
       try {
         if (token) {
-          const res = await getUserRequests(token);
+          const res = await getUserResponses(token);
           setResponses(res.data);
         }
       } catch (err) {
