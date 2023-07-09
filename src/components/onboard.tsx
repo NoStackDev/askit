@@ -379,7 +379,6 @@ export default Onboard;
 
 interface LocationSelectorI {
   cityName: string | null;
-  city: number | null;
   setCityName: React.Dispatch<React.SetStateAction<string | null>>;
   setState: React.Dispatch<React.SetStateAction<string | null>>;
   setCity: React.Dispatch<React.SetStateAction<number | null>>;
