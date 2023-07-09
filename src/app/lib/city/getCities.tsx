@@ -4,11 +4,11 @@ type CityType = {
   state: string;
 };
 
-const getCities = async (token: string) => {
+const getCities = async () => {
   const res = await fetch(`${process.env.API}/cities`, {
     method: "OPTIONS",
     headers: {
-      Authorization: `Bearer ${token}`,
+      // Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
       Accept: "application/json",
     },

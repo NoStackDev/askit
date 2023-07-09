@@ -22,7 +22,11 @@ import {
   MenubarTrigger,
 } from "./ui/Menubar";
 import { getCities } from "@/app/lib/city";
-import { RequestDetailType } from "@/app/types";
+import {
+  CityInterface,
+  RequestDetailType,
+  StateCitiesInterface,
+} from "@/app/types";
 import Dialog from "./ui/DialogPrimitive";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 
@@ -335,26 +339,28 @@ const SelectLocation = React.forwardRef<
 >(({ className, setCity, ...props }, forwardRef) => {
   const [cityName, setCityName] = React.useState<string | null>(null);
   const [state, setState] = React.useState<string | null>(null);
-  const { cities: stateCities, setCities } = useGlobalContext();
+  const [stateCities, setStateCities] = React.useState<{
+    [id: string]: CityInterface[];
+  } | null>(null);
+
   const states = stateCities ? Object.keys(stateCities) : null;
 
   React.useEffect(() => {
-    const token = window.localStorage.getItem("token");
+    const stateCitiesIntermediate = window.localStorage.getItem("cities");
 
-    (async () => {
-      try {
-        if (token && !stateCities) {
-          const citiesRes = await getCities(token);
-
-          if (citiesRes.error) {
-            return;
-          }
-          setCities(citiesRes);
+    if (!stateCitiesIntermediate) {
+      (async () => {
+        try {
+          const citiesRes = await getCities();
+          window.localStorage.setItem("cities", JSON.stringify(citiesRes));
+          setStateCities(citiesRes);
+        } catch (err) {
+          console.log(err);
         }
-      } catch (err) {
-        console.log(err);
-      }
-    })();
+      })();
+    } else {
+      setStateCities(JSON.parse(stateCitiesIntermediate));
+    }
   }, []);
 
   return (

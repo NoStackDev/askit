@@ -1,14 +1,22 @@
-const getPreferences = async () => {
-  const res = await fetch(`${process.env.API}/user_preferances/10`, {
+const getPreferences = async (token: string, userId: number) => {
+  const res = await fetch(`${process.env.API}/user_preferances/${userId}`, {
     method: "OPTIONS",
     headers: {
-      Authorization: `Bearer ${"31|v2PBowxFZzHajIqxEYQYIYb6VKfu8E8oiJsZjSW1"}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
       Accept: "application/json",
     },
   });
 
-  return res.json();
+  if (res.status === 200) {
+    return res.json();
+  }
+
+  if (res.status !== 200) {
+    const json = await res.json();
+    console.log(json);
+    return { error: true, ...json };
+  }
 };
 
 export default getPreferences;

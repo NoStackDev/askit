@@ -8,7 +8,13 @@ export default async function getUser(token: string) {
     },
   });
 
-  if (!res.ok) throw new Error(`Failed to get user data\n error: ${res.body}`);
+  if (res.status === 200) {
+    return res.json();
+  }
 
-  return res.json();
+  if (res.status !== 200) {
+    const json = await res.json();
+    console.log(json);
+    return { error: true, ...json };
+  }
 }

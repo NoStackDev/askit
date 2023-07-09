@@ -8,7 +8,7 @@ const getCategories = async (token: string) => {
   const res = await fetch(`${process.env.API}/categoryGroups`, {
     method: "OPTIONS",
     headers: {
-      Authorization: `Bearer ${token}`,
+      // Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
       Accept: "application/json",
     },

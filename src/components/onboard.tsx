@@ -15,7 +15,7 @@ import {
   MenubarTrigger,
 } from "./ui/Menubar";
 import { statesConfig } from "@/config.ts/cities";
-import { City } from "@/app/types";
+import { City, CityInterface, StateCitiesInterface } from "@/app/types";
 import {
   Select,
   SelectContent,
@@ -41,7 +41,7 @@ type Props = {};
 
 const Onboard = (props: Props) => {
   const [state, setState] = React.useState<string | null>(null);
-  const [city, setCity] = React.useState<string | null>(null);
+  const [city, setCity] = React.useState<number | null>(null);
   const [about, setAbout] = React.useState<string>("");
   const [businessAddr, setBusinessAddr] = React.useState<string>("");
   const [facebookLink, setFacebookLink] = React.useState<string>("");
@@ -52,17 +52,12 @@ const Onboard = (props: Props) => {
     string | ArrayBuffer | null
   >(null);
   const [imageFile, setImageFile] = React.useState<FileList>();
+  const [stateCities, setStateCities] = React.useState<{
+    [id: string]: CityInterface[];
+  } | null>(null);
 
-  const {
-    setToken,
-    user: authUser,
-    setUser: setAuthUser,
-    cities: stateCities,
-    setCities: setStateCities,
-  } = useGlobalContext();
+  const { setToken, user: authUser, setUser: setAuthUser } = useGlobalContext();
   const { isLoading, dispatch } = useAuthContext();
-  const states = stateCities ? Object.keys(stateCities) : null;
-  const cities = stateCities && state ? stateCities[state] : null;
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 
@@ -77,16 +72,31 @@ const Onboard = (props: Props) => {
 
           setToken(tokenRes.token);
           window.localStorage.setItem("token", tokenRes.token);
-
-          if (tokenRes.token) {
-            const citiesRes = await getCities(tokenRes.token);
-            setStateCities(citiesRes);
-          }
         }
       } catch (err) {
         console.log(err);
       }
     })();
+  }, []);
+
+  const states = stateCities ? Object.keys(stateCities) : null;
+
+  React.useEffect(() => {
+    const stateCitiesIntermediate = window.localStorage.getItem("cities");
+
+    if (!stateCitiesIntermediate) {
+      (async () => {
+        try {
+          const citiesRes = await getCities();
+          window.localStorage.setItem("cities", JSON.stringify(citiesRes));
+          setStateCities(citiesRes);
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    } else {
+      setStateCities(JSON.parse(stateCitiesIntermediate));
+    }
   }, []);
 
   const onProfilePicClick = () => {
@@ -131,6 +141,10 @@ const Onboard = (props: Props) => {
           data.append("facebook_link", facebookLink);
           data.append("whatsapp_num", whatsppNum);
           data.append("instagram_link", instagramLink);
+          if (city) {
+            data.append("location_id", city.toString());
+          }
+
           if (imageFile) {
             data.append("profile_img", imageFile[0], imageFile[0].name);
           }
@@ -144,8 +158,9 @@ const Onboard = (props: Props) => {
               JSON.stringify(updatedUser)
             );
             setAuthUser(null);
-            dispatch({ type: "RESET" });
-            window.location.replace("/");
+            window.location.href = "/";
+          } else {
+            window.location.href = "/";
           }
         }
       }
@@ -237,26 +252,24 @@ const Onboard = (props: Props) => {
                 Your Location
               </div>
 
-              <LocationSelector
+              {/* <LocationSelector
                 city={city}
                 setState={setState}
                 setCity={setCity}
                 statesConfig={statesConfig}
                 className="md:hidden"
-              />
+              /> */}
 
               <div className="hidden md:flex md:flex-col gap-4">
                 <LocationSelect
                   locationType="STATE"
-                  locations={states}
-                  location={state}
+                  states={states}
                   setLocation={setState}
                 />
 
                 <LocationSelect
                   locationType="CITY"
-                  locations={state ? statesConfig[state] : null}
-                  location={city}
+                  cities={state && stateCities ? stateCities[state] : null}
                   setLocation={setCity}
                 />
               </div>
@@ -461,29 +474,58 @@ const LocationSelector = React.forwardRef<
 
 LocationSelector.displayName = "LocationSelector";
 
-interface LocationSelectI {
-  location: string | null;
-  setLocation: React.Dispatch<React.SetStateAction<string | null>>;
-  locations: string[] | City[] | null;
-  locationType: "STATE" | "CITY";
-}
+type LocationSelectI =
+  | {
+      locationType: "STATE";
+      states: string[] | null;
+      setLocation: React.Dispatch<React.SetStateAction<string | null>>;
+    }
+  | {
+      locationType: "CITY";
+      cities: CityInterface[] | null;
+      setLocation: React.Dispatch<React.SetStateAction<number | null>>;
+    };
 
 const LocationSelect = React.forwardRef<
   React.ElementRef<typeof Select>,
   React.ComponentPropsWithoutRef<typeof Select> & LocationSelectI
->(
-  (
-    { children, location, setLocation, locations, locationType, ...props },
-    fowardref
-  ) => {
-    return (
-      <Select onValueChange={(e) => setLocation(e)}>
-        <SelectTrigger
-          className={cn(
-            "flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
-          )}
-          aria-label="Sub Category"
-          icon={
+>(({ children, ...props }, fowardref) => {
+  return (
+    <Select
+      onValueChange={(e) => {
+        if (props.locationType === "STATE") {
+          props.setLocation(e);
+        }
+        if (props.locationType === "CITY") {
+          props.setLocation(Number(e));
+        }
+      }}
+      {...props}
+    >
+      <SelectTrigger
+        className={cn(
+          "flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
+        )}
+        aria-label="Sub Category"
+        icon={
+          <React.Suspense
+            fallback={
+              <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
+            }
+          >
+            <KeyboardArrowDownIcon className="text-[#828080]" />
+          </React.Suspense>
+        }
+      >
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <Image
+              src={"https://flagsapi.com/NG/flat/64.png"}
+              width={24}
+              height={18}
+              alt="Nigerian flag"
+            />
+
             <React.Suspense
               fallback={
                 <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
@@ -491,66 +533,51 @@ const LocationSelect = React.forwardRef<
             >
               <KeyboardArrowDownIcon className="text-[#828080]" />
             </React.Suspense>
-          }
-        >
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <Image
-                src={"https://flagsapi.com/NG/flat/64.png"}
-                width={24}
-                height={18}
-                alt="Nigerian flag"
-              />
-
-              <React.Suspense
-                fallback={
-                  <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-                }
-              >
-                <KeyboardArrowDownIcon className="text-[#828080]" />
-              </React.Suspense>
-            </div>
-
-            <SelectValue
-              placeholder="Select type"
-              className="placeholder:font-body placeholder:text-body placeholder:text-body_1 placeholder:text-black/60 font-body"
-            />
           </div>
-        </SelectTrigger>
 
-        <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
-          <SelectGroup>
-            <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3 pl-2">
-              {locationType === "STATE" && "Select a State"}
-              {locationType === "CITY" && "Select a City"}
-            </SelectLabel>
-            {locations?.sort().map((locationItem, index) => {
-              if (typeof locationItem === "string") {
-                return (
-                  <SelectItem
-                    value={locationItem}
-                    key={index}
-                    className="hover:cursor-pointer font-body text-title_2 pl-2"
-                  >
-                    {locationItem}
-                  </SelectItem>
-                );
-              } else
-                return (
-                  <SelectItem
-                    value={locationItem.geonameid.toString()}
-                    key={locationItem.geonameid}
-                    className="hover:cursor-pointer font-body text-title_2 pl-2"
-                  >
-                    {locationItem.name}
-                  </SelectItem>
-                );
+          <SelectValue
+            placeholder="Select type"
+            className="placeholder:font-body placeholder:text-body placeholder:text-body_1 placeholder:text-black/60 font-body"
+          />
+        </div>
+      </SelectTrigger>
+
+      <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
+        <SelectGroup>
+          <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3 pl-2">
+            {props.locationType === "STATE" && "Select a State"}
+            {props.locationType === "CITY" && "Select a City"}
+          </SelectLabel>
+          {props.locationType === "STATE" &&
+            props.states &&
+            props.states.map((state, index) => {
+              return (
+                <SelectItem
+                  value={state}
+                  key={index}
+                  className="hover:cursor-pointer font-body text-title_2 pl-2"
+                >
+                  {state}
+                </SelectItem>
+              );
             })}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    );
-  }
-);
+          {props.locationType === "CITY" &&
+            props.cities &&
+            props.cities.map((city, index) => {
+              return (
+                <SelectItem
+                  value={city.id.toString()}
+                  key={city.id}
+                  className="hover:cursor-pointer font-body text-title_2 pl-2"
+                >
+                  {city.city}
+                </SelectItem>
+              );
+            })}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+});
 
 LocationSelect.displayName = "LocationSelect";

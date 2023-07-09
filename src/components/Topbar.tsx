@@ -23,7 +23,7 @@ const Topbar = React.forwardRef<
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     setAuthUser(null);
-    dispatch({ type: "RESET" });
+    window.location.href = "/";
   };
 
   return (

@@ -15,6 +15,8 @@ import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
 import { statesConfig } from "@/config.ts/cities";
 import { useGlobalContext } from "@/app/context/Store";
 import { useSidebarContext } from "@/app/context/sidebarContext";
+import { CityInterface, StateCitiesInterface } from "@/app/types";
+import { getCities } from "@/app/lib/city";
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
 );
@@ -51,12 +53,33 @@ const RequestFormOne = React.forwardRef<
     },
     fowardref
   ) => {
-    const { cities: stateCities } = useGlobalContext();
     const { categories } = useSidebarContext();
+
+    const [stateCities, setStateCities] = React.useState<{
+      [id: string]: CityInterface[];
+    } | null>(null);
     const states = stateCities ? Object.keys(stateCities) : null;
     const cities = stateCities && state ? stateCities[state] : null;
 
     const categoryKeys = categories ? Object.keys(categories) : null;
+
+    React.useEffect(() => {
+      const stateCitiesIntermediate = window.localStorage.getItem("cities");
+
+      if (!stateCitiesIntermediate) {
+        (async () => {
+          try {
+            const citiesRes = await getCities();
+            window.localStorage.setItem("cities", JSON.stringify(citiesRes));
+            setStateCities(citiesRes);
+          } catch (err) {
+            console.log(err);
+          }
+        })();
+      } else {
+        setStateCities(JSON.parse(stateCitiesIntermediate));
+      }
+    }, []);
 
     return (
       <div

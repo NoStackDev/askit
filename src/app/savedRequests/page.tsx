@@ -7,11 +7,27 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { RequestType } from "../types";
+import { getBookmarks } from "../lib/bookmark";
 
 type Props = {};
 
 export default function SavedRequestsPage({}: Props) {
   const [savedRequests, setSavedRequests] = React.useState<RequestType[]>();
+
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("token");
+
+    (async () => {
+      if (token) {
+        const bookmarksRes = await getBookmarks(token);
+        if (bookmarksRes.error) {
+          console.log(bookmarksRes);
+        }
+        console.log(bookmarksRes);
+      }
+    })();
+  }, []);
+
   return (
     <main className="px-[20px] md:px-0 md:ml-[112px] pt-14 flex flex-col gap-6 md:mr-[100px] mb-10 md:mb-0">
       <div className="font-headline text-headline_2 font-bold text-white bg-[#48466D] w-fit h-fit">

@@ -27,15 +27,13 @@ export default function Home() {
   const { feeds, setFeeds, currentFeedsUrl, setCurrentFeedsUrl } =
     useFeedsContext();
   const { dispatch } = useAuthContext();
-  const { setCities, cities } = useGlobalContext();
 
   // if (!token || !user) {
   //   redirect("/login");
   // }
 
   useEffect(() => {
-    const token = window.localStorage.getItem("token");
-
+    dispatch({ type: "RESET" });
     (async () => {
       try {
         setIsError(false);
@@ -45,11 +43,6 @@ export default function Home() {
           setIsLoading(false);
           setFeeds(feedsResponse);
         }
-
-        if (token) {
-          const citiesRes = await getCities(token);
-          setCities(citiesRes);
-        }
       } catch (err) {
         console.log(err);
         setIsError(true);
@@ -58,17 +51,16 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const token = window.localStorage.getItem("token");
+    const cities = window.localStorage.getItem("cities");
+
     if (!cities) {
       (async () => {
         try {
           setIsError(false);
           setIsLoading(true);
 
-          if (token) {
-            const citiesRes = await getCities(token);
-            setCities(citiesRes);
-          }
+          const citiesRes = await getCities();
+          window.localStorage.setItem("cities", JSON.stringify(citiesRes));
         } catch (err) {
           console.log(err);
           setIsError(true);

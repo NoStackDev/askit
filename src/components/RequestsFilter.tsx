@@ -18,6 +18,8 @@ import { statesConfig } from "@/config.ts/cities";
 import { useGlobalContext } from "@/app/context/Store";
 import { useFeedsContext } from "@/app/context/feedsContext";
 import { getRequests } from "@/app/lib/request";
+import { getCities } from "@/app/lib/city";
+import { CityInterface, StateCitiesInterface } from "@/app/types";
 
 const FilterAltIcon = React.lazy(() => import("@mui/icons-material/FilterAlt"));
 const ChevronRightIcon = React.lazy(
@@ -33,10 +35,30 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
     const [state, setState] = React.useState<string | null>(null);
     const [city, setCity] = React.useState<number | null>(null);
     const [cityName, setCityName] = React.useState<string | null>(null);
-    const { cities: stateCities } = useGlobalContext();
+    const { currentFeedsUrl, setFeeds } = useFeedsContext();
+    const [stateCities, setStateCities] = React.useState<{
+      [id: string]: CityInterface[];
+    } | null>(null);
+
     const states = stateCities ? Object.keys(stateCities) : null;
 
-    const { currentFeedsUrl, setFeeds } = useFeedsContext();
+    React.useEffect(() => {
+      const stateCitiesIntermediate = window.localStorage.getItem("cities");
+
+      if (!stateCitiesIntermediate) {
+        (async () => {
+          try {
+            const citiesRes = await getCities();
+            window.localStorage.setItem("cities", JSON.stringify(citiesRes));
+            setStateCities(citiesRes);
+          } catch (err) {
+            console.log(err);
+          }
+        })();
+      } else {
+        setStateCities(JSON.parse(stateCitiesIntermediate));
+      }
+    }, []);
 
     const onCityClick = async (cityId: number) => {
       try {
@@ -121,7 +143,7 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                   ? stateCities[state].map((city) => {
                       return (
                         <div
-                          className="hover:bg-stroke/20 hover:cursor-pointer font-body text-title_2 font-medium"
+                          className="hover:bg-stroke/20 hover:cursor-pointer"
                           key={city.id}
                           onClick={() => {
                             setCity(city.id);

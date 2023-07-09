@@ -111,3 +111,13 @@ export type RequestDetailResponseType = {
   visibility: string;
   whatsapp_num: string;
 };
+
+export interface CityInterface {
+  id: number;
+  city: string;
+  state: string;
+}
+
+export interface StateCitiesInterface {
+  [state: string]: CityInterface[];
+}
