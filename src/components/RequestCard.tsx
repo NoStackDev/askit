@@ -24,7 +24,12 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const RequestCard = React.forwardRef<
   React.ElementRef<"div">,
-  Props & Omit<RequestType, "id"> & { requestId: number; variant?: "user" }
+  Props &
+    Omit<RequestType, "id"> & {
+      requestId: number;
+      variant?: "user";
+      requestType?: "BOOKMARK";
+    }
 >(
   (
     {
@@ -39,6 +44,7 @@ const RequestCard = React.forwardRef<
       requestId,
       num_of_responses,
       variant,
+      requestType,
       ...props
     },
     ref
@@ -58,17 +64,28 @@ const RequestCard = React.forwardRef<
         const token = window.localStorage.getItem("token");
         const userDetails = window.localStorage.getItem("userDetails");
         if (token && userDetails) {
-          const newRequests = feeds?.data.map((request) => {
-            if (request.id === Number(requestId)) {
-              return {
-                ...request,
-                bookmark: !bookmark,
-              };
+          if (requestType === "BOOKMARK") {
+            const newRequests = requests?.filter(
+              (request) => request.id !== requestId
+            );
+            if (requests && newRequests) {
+              setRequests(newRequests);
             }
-            return request;
-          });
-          if (feeds && newRequests)
-            setFeeds({ ...feeds, data: [...newRequests] });
+          } else {
+            const newRequests = feeds?.data.map((request) => {
+              if (request.id === Number(requestId)) {
+                return {
+                  ...request,
+                  bookmark: !bookmark,
+                };
+              }
+              return request;
+            });
+
+            if (feeds && newRequests) {
+              setFeeds({ ...feeds, data: [...newRequests] });
+            }
+          }
 
           const userId = JSON.parse(userDetails).data.id;
           const res = await addDeleteBookmark(token, {
@@ -81,15 +98,20 @@ const RequestCard = React.forwardRef<
           }
 
           if (!res.success) {
-            const failedRequests = feeds?.data.map((request) => {
-              if (request.id === Number(requestId)) {
-                return {
-                  ...request,
-                  bookmark: !request.bookmark,
-                };
-              }
-              return request;
-            });
+            // const failedRequests = feeds?.data.map((request) => {
+            //   if (request.id === Number(requestId)) {
+            //     return {
+            //       ...request,
+            //       bookmark: !request.bookmark,
+            //     };
+            //   }
+            //   return request;
+            // });
+
+            if (requestType === "BOOKMARK") {
+              setRequests(requests);
+            }
+          } else {
             setFeeds(feeds);
           }
         } else window.location.href = "/login";

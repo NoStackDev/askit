@@ -11,8 +11,9 @@ const Requests = React.forwardRef<
   React.ComponentPropsWithoutRef<"div"> & {
     requests: RequestType[];
     variants?: "user";
+    requestType?: "BOOKMARK";
   }
->(({ children, className, requests, variants, ...props }, ref) => {
+>(({ children, className, requests, variants, requestType, ...props }, ref) => {
   return (
     <div
       ref={ref}
@@ -30,6 +31,7 @@ const Requests = React.forwardRef<
             requestId={requestId}
             variant={variants}
             key={requestId}
+            requestType={requestType}
           />
         );
       })}

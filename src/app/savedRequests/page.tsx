@@ -8,11 +8,14 @@ import Link from "next/link";
 import React from "react";
 import { RequestType } from "../types";
 import { getBookmarks } from "../lib/bookmark";
+import { useGlobalContext } from "../context/Store";
+import { useRequestContext } from "../context/requestContext";
 
 type Props = {};
 
 export default function SavedRequestsPage({}: Props) {
-  const [savedRequests, setSavedRequests] = React.useState<RequestType[]>();
+  // const [savedRequests, setSavedRequests] = React.useState<RequestType[]>();
+  const { requests, setRequests } = useRequestContext();
 
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -23,7 +26,11 @@ export default function SavedRequestsPage({}: Props) {
         if (bookmarksRes.error) {
           console.log(bookmarksRes);
         }
-        console.log(bookmarksRes);
+        if (bookmarksRes.data) {
+          setRequests(bookmarksRes.data);
+        }
+      } else {
+        window.location.href = "/";
       }
     })();
   }, []);
@@ -35,9 +42,9 @@ export default function SavedRequestsPage({}: Props) {
       </div>
 
       <div>
-        {savedRequests && savedRequests.length > 0 ? (
+        {requests && requests.length > 0 ? (
           <>
-            <Requests requests={savedRequests} />
+            <Requests requests={requests} requestType="BOOKMARK" />
           </>
         ) : (
           <div className="flex flex-col justify-center items-center mt-10">
