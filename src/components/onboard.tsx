@@ -42,6 +42,7 @@ type Props = {};
 const Onboard = (props: Props) => {
   const [state, setState] = React.useState<string | null>(null);
   const [city, setCity] = React.useState<number | null>(null);
+  const [cityName, setCityName] = React.useState<string | null>(null);
   const [about, setAbout] = React.useState<string>("");
   const [businessAddr, setBusinessAddr] = React.useState<string>("");
   const [facebookLink, setFacebookLink] = React.useState<string>("");
@@ -252,13 +253,14 @@ const Onboard = (props: Props) => {
                 Your Location
               </div>
 
-              {/* <LocationSelector
-                city={city}
+              <LocationSelector
+                cityName={cityName}
+                setCityName={setCityName}
                 setState={setState}
                 setCity={setCity}
-                statesConfig={statesConfig}
+                stateCities={stateCities}
                 className="md:hidden"
-              /> */}
+              />
 
               <div className="hidden md:flex md:flex-col gap-4">
                 <LocationSelect
@@ -376,10 +378,12 @@ const Onboard = (props: Props) => {
 export default Onboard;
 
 interface LocationSelectorI {
-  city: string | null;
+  cityName: string | null;
+  city: number | null;
+  setCityName: React.Dispatch<React.SetStateAction<string | null>>;
   setState: React.Dispatch<React.SetStateAction<string | null>>;
-  setCity: React.Dispatch<React.SetStateAction<string | null>>;
-  statesConfig: Record<string, City[]>;
+  setCity: React.Dispatch<React.SetStateAction<number | null>>;
+  stateCities: { [id: string]: CityInterface[] } | null;
 }
 
 const LocationSelector = React.forwardRef<
@@ -387,10 +391,20 @@ const LocationSelector = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof Menubar> & LocationSelectorI
 >(
   (
-    { className, children, statesConfig, city, setState, setCity, ...props },
+    {
+      className,
+      children,
+      stateCities,
+      city,
+      cityName,
+      setCityName,
+      setState,
+      setCity,
+      ...props
+    },
     fowardref
   ) => {
-    const states = Object.keys(statesConfig);
+    const states = stateCities ? Object.keys(stateCities) : null;
 
     return (
       <Menubar className={className} ref={fowardref} {...props}>
@@ -415,7 +429,7 @@ const LocationSelector = React.forwardRef<
               </div>
 
               <span className="font-body text-body_1 text-black/60">
-                {city || "Select"}
+                {cityName || "Select"}
               </span>
             </div>
 
@@ -429,42 +443,42 @@ const LocationSelector = React.forwardRef<
           </MenubarTrigger>
 
           <MenubarContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-30 max-h-[50vh] overflow-auto">
-            {states.sort().map((state, index) => {
-              return (
-                <MenubarSub key={index}>
-                  <MenubarSubTrigger className="max-w-[200px] group font-body text-special leading-none rounded flex items-center justify-between h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none">
-                    {state}
-                    <React.Suspense
-                      fallback={
-                        <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
-                      }
-                    >
-                      {/* <ChevronRightIcon className="w-5 h-5 text-[#000000]/80" /> */}
-                    </React.Suspense>
-                  </MenubarSubTrigger>
+            {states &&
+              states.map((state, index) => {
+                return (
+                  <MenubarSub key={index}>
+                    <MenubarSubTrigger className="max-w-[200px] group font-body text-special leading-none rounded flex items-center justify-between h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none">
+                      {state}
+                      <React.Suspense
+                        fallback={
+                          <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
+                        }
+                      >
+                        {/* <ChevronRightIcon className="w-5 h-5 text-[#000000]/80" /> */}
+                      </React.Suspense>
+                    </MenubarSubTrigger>
 
-                  <MenubarSubContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-40 ax-h-[50vh] overflow-auto">
-                    {statesConfig[state]
-                      .sort()
-                      .reverse()
-                      .map((city) => {
-                        return (
-                          <MenubarItem
-                            key={city.geonameid}
-                            className="px-1 font-body text-special hover:cursor-default hover:bg-stroke/60 relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none"
-                            onClick={() => {
-                              setState(state);
-                              setCity(city.name);
-                            }}
-                          >
-                            {city.name}
-                          </MenubarItem>
-                        );
-                      })}
-                  </MenubarSubContent>
-                </MenubarSub>
-              );
-            })}
+                    <MenubarSubContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-40 ax-h-[50vh] overflow-auto">
+                      {stateCities &&
+                        stateCities[state].map((city) => {
+                          return (
+                            <MenubarItem
+                              key={city.id}
+                              className="px-1 font-body text-special hover:cursor-default hover:bg-stroke/60 relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none"
+                              onClick={() => {
+                                setState(state);
+                                setCity(city.id);
+                                setCityName(city.city);
+                              }}
+                            >
+                              {city.city}
+                            </MenubarItem>
+                          );
+                        })}
+                    </MenubarSubContent>
+                  </MenubarSub>
+                );
+              })}
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
