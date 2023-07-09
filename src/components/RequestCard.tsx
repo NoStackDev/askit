@@ -77,7 +77,6 @@ const RequestCard = React.forwardRef<
           });
 
           if (res.success) {
-            console.log(res)
             return;
           }
 
