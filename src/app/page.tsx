@@ -17,11 +17,16 @@ import RequestForm from "@/components/RequestForm";
 import { useFeedsContext } from "./context/feedsContext";
 import { useAuthContext } from "./context/authContext";
 import { getCities } from "./lib/city";
+import { getBookmarks } from "./lib/bookmark";
+import { RequestType } from "./types";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [bookmarkedList, setBookmarkedList] = useState<number[] | null>(null);
+  const [feedsWithBookmarkedRequests, setFeedsWithBookmarkedRequests] =
+    useState<RequestType[] | null>(null);
   const openSidebarRef = useRef<HTMLDivElement>(null);
 
   const { feeds, setFeeds, currentFeedsUrl, setCurrentFeedsUrl } =
@@ -49,6 +54,37 @@ export default function Home() {
       }
     })();
   }, []);
+
+  useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    (async () => {
+      if (token) {
+        const bookmarksRes: { data: RequestType[] } = await getBookmarks(token);
+        if (!bookmarksRes) {
+          console.log(bookmarksRes);
+        }
+        if (bookmarksRes.data) {
+          const bookmarks = bookmarksRes.data.map((bookmark) => bookmark.id);
+          setBookmarkedList(bookmarks);
+        }
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (bookmarkedList && feeds) {
+      const feedsWithBookmarkedRequestsArr = feeds?.data.map((request) => {
+        if (bookmarkedList.includes(request.id)) {
+          return {
+            ...request,
+            bookmark: true,
+          };
+        }
+        return request;
+      });
+      setFeedsWithBookmarkedRequests(feedsWithBookmarkedRequestsArr);
+    }
+  }, [feeds, bookmarkedList]);
 
   useEffect(() => {
     const cities = window.localStorage.getItem("cities");
@@ -149,7 +185,10 @@ export default function Home() {
             <div>
               {feeds && feeds.data.length > 0 ? (
                 <>
-                  <Requests requests={feeds.data} className="mt-4 md:mt-8" />
+                  <Requests
+                    requests={feedsWithBookmarkedRequests || feeds.data}
+                    className="mt-4 md:mt-8"
+                  />
 
                   {feeds.meta.last_page > 1 &&
                     feeds.meta.last_page !== feeds.meta.current_page && (
