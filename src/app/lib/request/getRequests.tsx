@@ -18,5 +18,11 @@ export default async function getRequests(
     },
   });
 
-  return res.json();
+  if (res.status === 200) {
+    return res.json();
+  } else {
+    const json = await res.json();
+    console.log(json);
+    return { error: true, ...json };
+  }
 }
