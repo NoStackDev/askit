@@ -34,8 +34,13 @@ interface CitiesInterface {
   setCities: Dispatch<SetStateAction<Record<string, CityInterface[]> | null>>;
 }
 
+interface SelectedCategoryFilter {
+  selectedCategoryFilter: string | null;
+  setSelectedCategoryFilter: Dispatch<SetStateAction<string | null>>;
+}
+
 const GlobalContext = createContext<
-  TokenType & UserContextType & CitiesInterface
+  TokenType & UserContextType & CitiesInterface & SelectedCategoryFilter
 >({
   token: null,
   setToken: () => "",
@@ -43,6 +48,8 @@ const GlobalContext = createContext<
   setUser: () => {},
   cities: null,
   setCities: () => "",
+  selectedCategoryFilter: null,
+  setSelectedCategoryFilter: () => {},
 });
 
 type GlobalContextProviderType = {
@@ -57,10 +64,22 @@ export const GlobalContextProvider = ({
   const [cities, setCities] = useState<Record<string, CityInterface[]> | null>(
     null
   );
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<
+    string | null
+  >(null);
 
   return (
     <GlobalContext.Provider
-      value={{ token, setToken, user, setUser, cities, setCities }}
+      value={{
+        token,
+        setToken,
+        user,
+        setUser,
+        cities,
+        setCities,
+        selectedCategoryFilter,
+        setSelectedCategoryFilter,
+      }}
     >
       {children}
     </GlobalContext.Provider>

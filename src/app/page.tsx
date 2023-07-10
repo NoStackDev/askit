@@ -32,6 +32,7 @@ export default function Home() {
   const { feeds, setFeeds, currentFeedsUrl, setCurrentFeedsUrl } =
     useFeedsContext();
   const { dispatch } = useAuthContext();
+  const { selectedCategoryFilter } = useGlobalContext();
 
   // if (!token || !user) {
   //   redirect("/login");
@@ -174,7 +175,7 @@ export default function Home() {
 
             <div className="mt-10 md:mt-14 flex flex-col md:flex-row md:justify-between md:items-center gap-6">
               <div className="bg-[#48466D] w-fit text-white text-headline_3 md:text-headline_2 font-headline">
-                Latest Requests
+                {selectedCategoryFilter || "Latest Requests"}
               </div>
 
               <div className="">

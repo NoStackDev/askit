@@ -18,6 +18,7 @@ import { useAuthContext } from "@/app/context/authContext";
 import { useFeedsContext } from "@/app/context/feedsContext";
 import { getRequests } from "@/app/lib/request";
 import { CategoryType } from "@/app/types";
+import { useGlobalContext } from "@/app/context/Store";
 
 const ExpandMoreIcon = React.lazy(
   () => import("@mui/icons-material/ExpandMore")
@@ -46,6 +47,8 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
     const [selectedCategory, setSelectedCategory] = React.useState<
       string | null
     >(null);
+
+    const { setSelectedCategoryFilter } = useGlobalContext();
 
     const { currentFeedsUrl, setCurrentFeedsUrl, setFeeds } = useFeedsContext();
     useOnClickOutside(sidebarRef, setShowSidebar);
@@ -152,7 +155,12 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                           {sidebarItem.title}
                         </Link>
                       ) : (
-                        <div className="text-white font-body font-medium w-full px-4 mt-4">
+                        <div
+                          className={cn(
+                            "text-white font-body font-medium w-full px-4 py-2",
+                            categoryKeys && "mt-4 py-0"
+                          )}
+                        >
                           {sidebarItem.title}
                         </div>
                       )}
@@ -200,9 +208,14 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                                         >
                                           <div
                                             className="hover:cursor-pointer hover:bg-white hover:text-black font-body text-white font-medium w-full py-2 pl-8 first:mt-3"
-                                            onClick={() =>
-                                              onClickSubCategory(subCategory.id)
-                                            }
+                                            onClick={() => {
+                                              onClickSubCategory(
+                                                subCategory.id
+                                              );
+                                              setSelectedCategoryFilter(
+                                                subCategory.name
+                                              );
+                                            }}
                                           >
                                             {subCategory.name}
                                           </div>
