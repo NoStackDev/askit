@@ -17,6 +17,7 @@ import useOnClickOutside from "@/hooks/useOnclickOutside";
 import { useAuthContext } from "@/app/context/authContext";
 import { useFeedsContext } from "@/app/context/feedsContext";
 import { getRequests } from "@/app/lib/request";
+import { CategoryType } from "@/app/types";
 
 const ExpandMoreIcon = React.lazy(
   () => import("@mui/icons-material/ExpandMore")
@@ -35,8 +36,10 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const Sidebar = React.forwardRef<HTMLDivElement, Props>(
   ({ children, className, ...props }, ref) => {
-    const { showSidebar, setShowSidebar, categories, setCategories } =
-      useSidebarContext();
+    const { showSidebar, setShowSidebar } = useSidebarContext();
+    const [categories, setCategories] = React.useState<{
+      [id: string]: CategoryType[];
+    } | null>(null);
     const sidebarRef = React.useRef<HTMLDivElement>(null);
     const { isOnboarding } = useAuthContext();
 
@@ -55,21 +58,30 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
     renderSidebar = renderSidebar === "" ? true : Boolean(renderSidebar);
 
     useEffect(() => {
-      if (!categories) {
-        (async () => {
-          try {
-            const categoriesRes = await getCategories();
-            setCategories(categoriesRes);
-          } catch (err) {
-            console.log(err);
-          }
-        })();
-      }
-
       if (showSidebar) {
         document.body.style.overflow = "hidden";
       }
     }, [showSidebar]);
+
+    useEffect(() => {
+      const categoriesIntermediate = window.localStorage.getItem("categories");
+      if (!categoriesIntermediate) {
+        (async () => {
+          try {
+            const categoriesRes = await getCategories();
+            setCategories(categoriesRes);
+            window.localStorage.setItem(
+              "categories",
+              JSON.stringify(categoriesRes)
+            );
+          } catch (err) {
+            console.log(err);
+          }
+        })();
+      } else {
+        setCategories(JSON.parse(categoriesIntermediate));
+      }
+    }, []);
 
     const onClickSubCategory = async (subCategoryId: number) => {
       setShowSidebar(false);

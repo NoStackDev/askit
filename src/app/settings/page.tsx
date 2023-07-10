@@ -3,7 +3,7 @@
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import React from "react";
-import { City } from "../types";
+import { CategoryType, City, CityInterface, UserType } from "../types";
 import * as Toggle from "@radix-ui/react-toggle";
 
 import {
@@ -20,6 +20,9 @@ import { cn } from "../lib/utils";
 import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
 import { logoutUser } from "../lib/user";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { getCities } from "../lib/city";
+import { getCategories } from "../lib/category";
+import updateUserPreference from "../lib/user/updateUserPreference";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -32,23 +35,82 @@ type Props = {};
 
 const SettingsPage = (props: Props) => {
   const [state, setState] = React.useState<string | null>(null);
-  const [city, setCity] = React.useState<string | null>(null);
-  const [selectedCities, setSelectedCities] = React.useState<string[]>([]);
+  const [city, setCity] = React.useState<CityInterface | null>(null);
+  const [selectedCities, setSelectedCities] = React.useState<CityInterface[]>(
+    []
+  );
   const [category, setCategory] = React.useState<string | null>(null);
-  const [categoryType, setCategoryType] = React.useState<string | null>(null);
-  const [selectedCategoryTypes, setSelectedCategoryTypes] = React.useState<
-    string[]
+  const [subCategory, setSubCategory] = React.useState<CategoryType | null>(
+    null
+  );
+  const [selectedSubCategories, setSelectedSubCategories] = React.useState<
+    CategoryType[]
   >([]);
   const [notification, setNotification] = React.useState(false);
   const [myRequestVisibility, setMyRequestVisibily] = React.useState<
     "PUBLIC" | "AGENTS"
   >("PUBLIC");
-  const [myRsponsestVisibility, setMyResponsesVisibily] = React.useState<
+  const [myResponsestVisibility, setMyResponsesVisibily] = React.useState<
     "PUBLIC" | "PRIVATE"
   >("PUBLIC");
   const [loggingOut, setLoggingOut] = React.useState(false);
+  const [user, setUser] = React.useState<UserType | null>(null);
 
-  const states = Object.keys(statesConfig);
+  const [stateCities, setStateCities] = React.useState<{
+    [id: string]: CityInterface[];
+  } | null>(null);
+  const [categories, setCategories] = React.useState<{
+    [id: string]: CategoryType[];
+  } | null>(null);
+
+  const [saving, setSaving] = React.useState(false);
+
+  const states = stateCities ? Object.keys(stateCities) : null;
+
+  const categoryKeys = categories ? Object.keys(categories) : null;
+
+  React.useEffect(() => {
+    const stateCitiesIntermediate = window.localStorage.getItem("cities");
+
+    if (!stateCitiesIntermediate) {
+      (async () => {
+        try {
+          const citiesRes = await getCities();
+          window.localStorage.setItem("cities", JSON.stringify(citiesRes));
+          setStateCities(citiesRes);
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    } else {
+      setStateCities(JSON.parse(stateCitiesIntermediate));
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const categoriesIntermediate = window.localStorage.getItem("categories");
+    if (!categoriesIntermediate) {
+      (async () => {
+        try {
+          const categoriesRes = await getCategories();
+          setCategories(categoriesRes);
+          window.localStorage.setItem(
+            "categories",
+            JSON.stringify(categoriesRes)
+          );
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    } else {
+      setCategories(JSON.parse(categoriesIntermediate));
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const userDetails = window.localStorage.getItem("userDetails");
+    if (userDetails) setUser(JSON.parse(userDetails).data);
+  }, []);
 
   const onClickCityAdd = () => {
     if (city) {
@@ -59,21 +121,21 @@ const SettingsPage = (props: Props) => {
     }
   };
 
-  const onClickdeleteCityTag = (e: string) => {
-    setSelectedCities(selectedCities.filter((x) => x != e));
+  const onClickdeleteCityTag = (e: CityInterface) => {
+    setSelectedCities(selectedCities.filter((x) => x.id != e.id));
   };
 
   const onClickCategoryTypeAdd = () => {
-    if (categoryType) {
-      if (selectedCategoryTypes.find((x) => x === categoryType)) {
+    if (subCategory) {
+      if (selectedSubCategories.find((x) => x.id === subCategory.id)) {
         return;
       }
-      setSelectedCategoryTypes([...selectedCategoryTypes, categoryType]);
+      setSelectedSubCategories([...selectedSubCategories, subCategory]);
     }
   };
 
-  const onClickdeleteCategoryTag = (e: string) => {
-    setSelectedCategoryTypes(selectedCategoryTypes.filter((x) => x != e));
+  const onClickdeleteCategoryTag = (e: CategoryType) => {
+    setSelectedSubCategories(selectedSubCategories.filter((x) => x.id != e.id));
   };
 
   const onClickSignOut = async () => {
@@ -94,19 +156,50 @@ const SettingsPage = (props: Props) => {
     }
   };
 
-  const categories =
-    sidebarConfig1
-      .filter((item) => item.children)
-      .map((item) => item.children)[0]
-      ?.map((item) => item.title) || null;
+  const onClickSave = async () => {
+    setSaving(true);
+    try {
+      const token = window.localStorage.getItem("token");
+      const userDetails = window.localStorage.getItem("userDetails");
+      if (!token && userDetails) {
+        window.location.replace("/login");
+      } else {
+        const headers = new Headers();
+        headers.append("Accept", "application/json");
+        headers.append("Authorization", `Bearer ${token}`);
 
-  const categoryTypes =
-    (category
-      ? sidebarConfig1
-          .filter((item) => item.children)[0]
-          .children?.filter((item) => item.title === category)[0]
-          .subChildren?.map((item) => item.title)
-      : null) || null;
+        const data = new FormData();
+        data.append("user_id", JSON.parse(userDetails as string).data.id);
+        data.append(
+          "all_categories",
+          selectedSubCategories.length > 0
+            ? JSON.stringify(true)
+            : JSON.stringify(false)
+        );
+        data.append(
+          "selected_categories",
+          JSON.stringify([...selectedSubCategories.map((x) => x.id)])
+        );
+        data.append(
+          "all_locations",
+          selectedCities.length > 0
+            ? JSON.stringify(true)
+            : JSON.stringify(false)
+        );
+        data.append(
+          "selected_locations",
+          JSON.stringify([...selectedCities.map((x) => x.id)])
+        );
+
+        const res = await updateUserPreference(headers, data);
+        console.log(res);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <main className="mt-10 md:mt-14 md:ml-16 md:mr-[100px] mb-10 md:mb-20">
@@ -147,9 +240,11 @@ const SettingsPage = (props: Props) => {
           Profile
         </div>
 
-        <div className="mt-4 md:mt-2 font-body text-body_1 text-[#000000]/60">
-          Example@email.com
-        </div>
+        {user && (
+          <div className="mt-4 md:mt-2 font-body text-body_1 text-[#000000]/60">
+            {user.email}
+          </div>
+        )}
 
         <div className="flex justify-between items-center w-full mt-7 md:mt-6">
           <div className="font-body text-title_1 font-medium text-[#000000] hover:cursor-pointer">
@@ -184,17 +279,15 @@ const SettingsPage = (props: Props) => {
           <div className="mt-4 w-full flex flex-col md:flex-row gap-4">
             <OptionSelect
               selectType="STATE"
-              options={states}
-              selectedOption={state}
-              setOption={setState}
+              locations={states}
+              setLocation={setState}
             />
 
             <div className="w-full flex gap-6">
               <OptionSelect
                 selectType="CITY"
-                options={state ? statesConfig[state].reverse() : null}
-                selectedOption={city}
-                setOption={setCity}
+                locations={state && stateCities ? stateCities[state] : null}
+                setLocation={setCity}
               />
 
               <Button
@@ -211,10 +304,10 @@ const SettingsPage = (props: Props) => {
             {selectedCities.map((city, index) => {
               return (
                 <div
-                  key={`city${index}`}
+                  key={city.id}
                   className="flex items-center gap-[10px] font-body text-body_2 text-black/70 rounded-2xl px-3 p-[6px] bg-faded"
                 >
-                  {city}
+                  {city.city}
 
                   <React.Suspense
                     fallback={
@@ -245,17 +338,17 @@ const SettingsPage = (props: Props) => {
           <div className="mt-4 w-full flex flex-col md:flex-row gap-4">
             <OptionSelect
               selectType="CATEGORY"
-              options={categories}
-              selectedOption={category}
-              setOption={setCategory}
+              categories={categoryKeys}
+              setCategory={setCategory}
             />
 
             <div className="w-full flex gap-6">
               <OptionSelect
-                selectType="TYPE"
-                options={categoryTypes}
-                selectedOption={categoryType}
-                setOption={setCategoryType}
+                selectType="SUBCATEGORY"
+                subCategories={
+                  categories && category ? categories[category] : null
+                }
+                setSubCategory={setSubCategory}
               />
 
               <Button
@@ -269,13 +362,13 @@ const SettingsPage = (props: Props) => {
           </div>
 
           <div className="flex flex-wrap gap-3 mt-4">
-            {selectedCategoryTypes.map((categoryItem, index) => {
+            {selectedSubCategories.map((subCategoryItem, index) => {
               return (
                 <div
-                  key={`categoryItem${index}`}
+                  key={subCategoryItem.id}
                   className="flex items-center gap-[10px] font-body text-body_2 text-black/70 rounded-2xl px-3 p-[6px] bg-faded"
                 >
-                  {categoryItem}
+                  {subCategoryItem.name}
 
                   <React.Suspense
                     fallback={
@@ -285,7 +378,7 @@ const SettingsPage = (props: Props) => {
                     <CloseIcon
                       className="w-3 h-3 hover:cursor-pointer"
                       fontSize="small"
-                      onClick={() => onClickdeleteCategoryTag(categoryItem)}
+                      onClick={() => onClickdeleteCategoryTag(subCategoryItem)}
                     />
                   </React.Suspense>
                 </div>
@@ -301,9 +394,19 @@ const SettingsPage = (props: Props) => {
             Visibility
           </div>
 
-          <div className="font-body text-title_3 font-medium text-primary hover:cursor-pointer">
-            SAVE CHANGES
-          </div>
+          {saving ? (
+            <div className="font-body text-title_3 font-medium text-primary hover:cursor-pointer flex items-center gap-1">
+              <LoadingSpinner className="h-4 w-4 text-white fill-primary" />
+              SAVING CHANGES
+            </div>
+          ) : (
+            <div
+              className="font-body text-title_3 font-medium text-primary hover:cursor-pointer"
+              onClick={onClickSave}
+            >
+              SAVE CHANGES
+            </div>
+          )}
         </div>
 
         <div className="mt-6 w-full">
@@ -439,86 +542,141 @@ const SettingsPage = (props: Props) => {
 
 export default SettingsPage;
 
-interface OptionSelectI {
-  selectedOption: string | null;
-  setOption: React.Dispatch<React.SetStateAction<string | null>>;
-  options: string[] | City[] | null;
-  selectType: "STATE" | "CITY" | "CATEGORY" | "TYPE";
-}
+type OptionSelectI =
+  | {
+      selectType: "STATE";
+      setLocation: React.Dispatch<React.SetStateAction<string | null>>;
+      locations: string[] | null;
+    }
+  | {
+      selectType: "CITY";
+      setLocation: React.Dispatch<React.SetStateAction<CityInterface | null>>;
+      locations: CityInterface[] | null;
+    }
+  | {
+      selectType: "CATEGORY";
+      setCategory: React.Dispatch<React.SetStateAction<string | null>>;
+      categories: string[] | null;
+    }
+  | {
+      selectType: "SUBCATEGORY";
+      setSubCategory: React.Dispatch<React.SetStateAction<CategoryType | null>>;
+      subCategories: CategoryType[] | null;
+    };
 
 const OptionSelect = React.forwardRef<
   React.ElementRef<typeof Select>,
   React.ComponentPropsWithoutRef<typeof Select> & OptionSelectI
->(
-  (
-    { children, selectedOption, setOption, options, selectType, ...props },
-    fowardref
-  ) => {
-    return (
-      <Select onValueChange={(e) => setOption(e)}>
-        <SelectTrigger
-          className={cn(
-            "flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
-          )}
-          aria-label="Sub Category"
-          icon={
-            <React.Suspense
-              fallback={
-                <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-              }
-            >
-              <KeyboardArrowDownIcon className="text-[#828080]" />
-            </React.Suspense>
-          }
-        >
-          <div className="flex items-center gap-4">
-            <SelectValue
-              placeholder={
-                (selectType === "STATE" && "Select State") ||
-                (selectType === "CITY" && "City") ||
-                (selectType === "CATEGORY" && "Category") ||
-                (selectType === "TYPE" && "Type")
-              }
-              className="placeholder:font-body placeholder:text-body placeholder:text-body_1 placeholder:text-black/60 font-body"
-            />
-          </div>
-        </SelectTrigger>
+>(({ children, ...props }, fowardref) => {
+  return (
+    <Select
+      onValueChange={(e) => {
+        if (props.selectType === "STATE") {
+          props.setLocation(e);
+        }
+        if (props.selectType === "CITY") {
+          props.setLocation(JSON.parse(e));
+        }
+        if (props.selectType === "CATEGORY") {
+          props.setCategory(e);
+        }
+        if (props.selectType === "SUBCATEGORY") {
+          props.setSubCategory(JSON.parse(e));
+        }
+      }}
+    >
+      <SelectTrigger
+        className={cn(
+          "flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
+        )}
+        aria-label="Sub Category"
+        icon={
+          <React.Suspense
+            fallback={
+              <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
+            }
+          >
+            <KeyboardArrowDownIcon className="text-[#828080]" />
+          </React.Suspense>
+        }
+      >
+        <div className="flex items-center gap-4">
+          <SelectValue
+            placeholder={
+              (props.selectType === "STATE" && "Select State") ||
+              (props.selectType === "CITY" && "City") ||
+              (props.selectType === "CATEGORY" && "Category") ||
+              (props.selectType === "SUBCATEGORY" && "Type")
+            }
+            className="placeholder:font-body placeholder:text-body placeholder:text-body_1 placeholder:text-black/60 font-body"
+          />
+        </div>
+      </SelectTrigger>
 
-        <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
-          <SelectGroup>
-            <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
-              {selectType === "STATE" && "Select a State"}
-              {selectType === "CITY" && "Select a City"}
-              {selectType === "CATEGORY" && "Category"}
-              {selectType === "TYPE" && "Type"}
-            </SelectLabel>
-            {options?.sort().map((optionsItem, index) => {
-              if (typeof optionsItem === "string") {
-                return (
-                  <SelectItem
-                    value={optionsItem}
-                    key={index}
-                    className="hover:cursor-pointer font-body text-title_2 pl-2"
-                  >
-                    {optionsItem}
-                  </SelectItem>
-                );
-              } else
-                return (
-                  <SelectItem
-                    value={optionsItem.name}
-                    key={optionsItem.geonameid}
-                    className="hover:cursor-pointer font-body text-title_2 pl-2"
-                  >
-                    {optionsItem.name}
-                  </SelectItem>
-                );
+      <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
+        <SelectGroup>
+          <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
+            {props.selectType === "STATE" && "Select a State"}
+            {props.selectType === "CITY" && "Select a City"}
+            {props.selectType === "CATEGORY" && "Category"}
+            {props.selectType === "SUBCATEGORY" && "Type"}
+          </SelectLabel>
+          {props.selectType === "STATE" &&
+            props.locations &&
+            props.locations.map((location, index) => {
+              return (
+                <SelectItem
+                  value={location}
+                  key={index}
+                  className="hover:cursor-pointer font-body text-title_2 pl-2"
+                >
+                  {location}
+                </SelectItem>
+              );
             })}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    );
-  }
-);
+          {props.selectType === "CATEGORY" &&
+            props.categories &&
+            props.categories.map((category, index) => {
+              return (
+                <SelectItem
+                  value={category}
+                  key={index}
+                  className="hover:cursor-pointer font-body text-title_2 pl-2"
+                >
+                  {category}
+                </SelectItem>
+              );
+            })}
+          {props.selectType === "CITY" &&
+            props.locations &&
+            props.locations.map((city) => {
+              return (
+                <SelectItem
+                  value={JSON.stringify(city)}
+                  key={city.id}
+                  className="hover:cursor-pointer font-body text-title_2 pl-2"
+                >
+                  {city.city}
+                </SelectItem>
+              );
+            })}
+          {props.selectType === "SUBCATEGORY" &&
+            props.subCategories &&
+            props.subCategories.map((subCategories) => {
+              return (
+                <SelectItem
+                  value={JSON.stringify(subCategories)}
+                  key={subCategories.id}
+                  className="hover:cursor-pointer font-body text-title_2 pl-2"
+                >
+                  {subCategories.name}
+                </SelectItem>
+              );
+            })}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+});
 
 OptionSelect.displayName = "OptionSelect";

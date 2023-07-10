@@ -25,7 +25,11 @@ const UserInfo = React.forwardRef<
 
   React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
-    if (userDetails) setUser(JSON.parse(userDetails).data);
+    if (userDetails) {
+      setUser(JSON.parse(userDetails).data);
+    } else {
+      window.location.href = "/login";
+    }
   }, []);
 
   return (

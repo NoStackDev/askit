@@ -8,8 +8,15 @@ const deleteResponse = async (token: string, responseId: number) => {
     },
   });
 
+  if (res.status === 200) {
+    const json = await res.json();
+    return json;
+  }
+
   if (res.status !== 200) {
-    console.log(await res.json());
+    const json = await res.json();
+    console.log(json);
+    return json;
   }
 
   return res.json();

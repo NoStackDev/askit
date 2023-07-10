@@ -15,8 +15,9 @@ import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
 import { statesConfig } from "@/config.ts/cities";
 import { useGlobalContext } from "@/app/context/Store";
 import { useSidebarContext } from "@/app/context/sidebarContext";
-import { CityInterface, StateCitiesInterface } from "@/app/types";
+import { CategoryType, CityInterface, StateCitiesInterface } from "@/app/types";
 import { getCities } from "@/app/lib/city";
+import { getCategories } from "@/app/lib/category";
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
 );
@@ -53,15 +54,14 @@ const RequestFormOne = React.forwardRef<
     },
     fowardref
   ) => {
-    const { categories } = useSidebarContext();
-
     const [stateCities, setStateCities] = React.useState<{
       [id: string]: CityInterface[];
     } | null>(null);
     const states = stateCities ? Object.keys(stateCities) : null;
     const cities = stateCities && state ? stateCities[state] : null;
-
-    const categoryKeys = categories ? Object.keys(categories) : null;
+    const [categories, setCategories] = React.useState<{
+      [id: string]: CategoryType[];
+    } | null>(null);
 
     React.useEffect(() => {
       const stateCitiesIntermediate = window.localStorage.getItem("cities");
@@ -78,6 +78,28 @@ const RequestFormOne = React.forwardRef<
         })();
       } else {
         setStateCities(JSON.parse(stateCitiesIntermediate));
+      }
+    }, []);
+
+    const categoryKeys = categories ? Object.keys(categories) : null;
+
+    React.useEffect(() => {
+      const categoriesIntermediate = window.localStorage.getItem("categories");
+      if (!categoriesIntermediate) {
+        (async () => {
+          try {
+            const categoriesRes = await getCategories();
+            setCategories(categoriesRes);
+            window.localStorage.setItem(
+              "categories",
+              JSON.stringify(categoriesRes)
+            );
+          } catch (err) {
+            console.log(err);
+          }
+        })();
+      } else {
+        setCategories(JSON.parse(categoriesIntermediate));
       }
     }, []);
 

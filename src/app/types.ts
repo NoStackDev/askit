@@ -121,3 +121,9 @@ export interface CityInterface {
 export interface StateCitiesInterface {
   [state: string]: CityInterface[];
 }
+
+export type CategoryType = {
+  id: number;
+  name: string;
+  category: string;
+};

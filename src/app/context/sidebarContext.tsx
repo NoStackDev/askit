@@ -7,12 +7,8 @@ import React, {
   SetStateAction,
   useState,
 } from "react";
+import { CategoryType } from "../types";
 
-type CategoryType = {
-  id: number;
-  name: string;
-  category: string;
-};
 
 type SidebarContextType = {
   showSidebar: boolean;

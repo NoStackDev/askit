@@ -48,24 +48,24 @@ const ResponseCard = React.forwardRef<
       event.stopPropagation();
       let responseIndex: null | number = null;
       let deletedResponse: RequestDetailResponseType | null = null;
-      const newResponse = responses?.filter((request, index) => {
-        if (request.id === Number(responseid)) {
+      const newResponse = responses?.filter((response, index) => {
+        if (response.id === Number(responseid)) {
           responseIndex = index;
-          deletedResponse = request;
+          deletedResponse = response;
         }
-        return request.id !== Number(responseid);
+        return response.id !== Number(responseid);
       });
 
       try {
         const token = window.localStorage.getItem("token");
         const userDetails = window.localStorage.getItem("userDetails");
         if (token && userDetails) {
-          const newRequests = responses?.filter((request, index) => {
-            if (request.id === Number(responseid)) {
+          const newRequests = responses?.filter((response, index) => {
+            if (response.id === Number(responseid)) {
               responseIndex = index;
-              deletedResponse = request;
+              deletedResponse = response;
             }
-            return request.id !== Number(responseid);
+            return response.id !== Number(responseid);
           });
           setResponses(newRequests || null);
 
@@ -73,6 +73,7 @@ const ResponseCard = React.forwardRef<
           const res = await deleteResponse(token, responseid);
 
           if (res.success) {
+            console.log(res);
             return;
           } else {
             if (responses && responseIndex && deletedResponse)
