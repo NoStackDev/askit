@@ -3,7 +3,13 @@
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import React from "react";
-import { CategoryType, City, CityInterface, UserType } from "../types";
+import {
+  CategoryType,
+  City,
+  CityInterface,
+  UserPreferencesType,
+  UserType,
+} from "../types";
 import * as Toggle from "@radix-ui/react-toggle";
 
 import {
@@ -15,10 +21,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/Select";
-import { statesConfig } from "@/config.ts/cities";
 import { cn } from "../lib/utils";
-import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
-import { logoutUser } from "../lib/user";
+import { getPreferences, logoutUser } from "../lib/user";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { getCities } from "../lib/city";
 import { getCategories } from "../lib/category";
@@ -55,6 +59,8 @@ const SettingsPage = (props: Props) => {
   >("PUBLIC");
   const [loggingOut, setLoggingOut] = React.useState(false);
   const [user, setUser] = React.useState<UserType | null>(null);
+  const [preferences, setPreferences] =
+    React.useState<UserPreferencesType | null>(null);
 
   const [stateCities, setStateCities] = React.useState<{
     [id: string]: CityInterface[];
@@ -68,6 +74,23 @@ const SettingsPage = (props: Props) => {
   const states = stateCities ? Object.keys(stateCities) : null;
 
   const categoryKeys = categories ? Object.keys(categories) : null;
+
+  React.useEffect(() => {
+    const userDetails = window.localStorage.getItem("userDetails");
+    const token = window.localStorage.getItem("token");
+    if (userDetails && token) {
+      (async () => {
+        const res = await getPreferences(
+          token,
+          JSON.parse(userDetails).data.id
+        );
+
+        setPreferences(res);
+      })();
+    } else {
+      window.location.href = "/login";
+    }
+  }, []);
 
   React.useEffect(() => {
     const stateCitiesIntermediate = window.localStorage.getItem("cities");
@@ -161,38 +184,18 @@ const SettingsPage = (props: Props) => {
     try {
       const token = window.localStorage.getItem("token");
       const userDetails = window.localStorage.getItem("userDetails");
-      if (!token && userDetails) {
+      if (!token && !userDetails) {
         window.location.replace("/login");
       } else {
-        const headers = new Headers();
-        headers.append("Accept", "application/json");
-        headers.append("Authorization", `Bearer ${token}`);
+        const data = {
+          user_id: JSON.parse(userDetails as string).data.id,
+          all_categories: selectedSubCategories.length > 0 ? false : true,
+          selected_categories: [...selectedSubCategories.map((x) => x.id)],
+          all_locations: selectedCities.length > 0 ? false : true,
+          selected_locations: [...selectedCities.map((x) => x.id)],
+        };
 
-        const data = new FormData();
-        data.append("user_id", JSON.parse(userDetails as string).data.id);
-        data.append(
-          "all_categories",
-          selectedSubCategories.length > 0
-            ? JSON.stringify(true)
-            : JSON.stringify(false)
-        );
-        data.append(
-          "selected_categories",
-          JSON.stringify([...selectedSubCategories.map((x) => x.id)])
-        );
-        data.append(
-          "all_locations",
-          selectedCities.length > 0
-            ? JSON.stringify(true)
-            : JSON.stringify(false)
-        );
-        data.append(
-          "selected_locations",
-          JSON.stringify([...selectedCities.map((x) => x.id)])
-        );
-
-        const res = await updateUserPreference(headers, data);
-        console.log(res);
+        const res = await updateUserPreference(token as string, data);
       }
     } catch (err) {
       console.log(err);
@@ -201,6 +204,7 @@ const SettingsPage = (props: Props) => {
     }
   };
 
+  console.log(preferences);
   return (
     <main className="mt-10 md:mt-14 md:ml-16 md:mr-[100px] mb-10 md:mb-20">
       <div className="w-full flex justify-between items-center px-5 md:px-0">

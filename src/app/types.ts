@@ -127,3 +127,14 @@ export type CategoryType = {
   name: string;
   category: string;
 };
+
+export type UserPreferencesType = {
+  id: number;
+  user_id: number;
+  all_categories: boolean;
+  selected_categories: number[];
+  all_locations: boolean;
+  selected_locations: number[];
+  created_at: string;
+  updated_at: string;
+};
