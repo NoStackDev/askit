@@ -59,8 +59,16 @@ const SettingsPage = (props: Props) => {
   >("PUBLIC");
   const [loggingOut, setLoggingOut] = React.useState(false);
   const [user, setUser] = React.useState<UserType | null>(null);
-  const [preferences, setPreferences] =
-    React.useState<UserPreferencesType | null>(null);
+  const [preferences, setPreferences] = React.useState<UserPreferencesType>({
+    all_categories: false,
+    all_locations: false,
+    created_at: "",
+    id: 0,
+    selected_categories: [],
+    selected_locations: [],
+    updated_at: "",
+    user_id: 0,
+  });
 
   const [stateCities, setStateCities] = React.useState<{
     [id: string]: CityInterface[];
@@ -72,15 +80,33 @@ const SettingsPage = (props: Props) => {
   const [saving, setSaving] = React.useState(false);
 
   const states = stateCities ? Object.keys(stateCities) : null;
+  let citiesValues: CityInterface[] = [];
+
+  if (states && stateCities) {
+    states?.map((statekey) => {
+      stateCities[statekey].forEach((cityValue) => {
+        citiesValues.push(cityValue);
+      });
+    });
+  }
 
   const categoryKeys = categories ? Object.keys(categories) : null;
+  let categoriesValues: CategoryType[] = [];
+
+  if (categoryKeys && categories) {
+    categoryKeys?.map((categorykey) => {
+      categories[categorykey].forEach((categoryValue) => {
+        categoriesValues.push(categoryValue);
+      });
+    });
+  }
 
   React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
     const token = window.localStorage.getItem("token");
     if (userDetails && token) {
       (async () => {
-        const res = await getPreferences(
+        const res: UserPreferencesType = await getPreferences(
           token,
           JSON.parse(userDetails).data.id
         );
@@ -137,27 +163,50 @@ const SettingsPage = (props: Props) => {
 
   const onClickCityAdd = () => {
     if (city) {
-      if (selectedCities.find((x) => x === city)) {
+      if (preferences.selected_locations.find((x) => x === city.id)) {
         return;
       }
+      setPreferences({
+        ...preferences,
+        selected_locations: [...preferences.selected_locations, city.id],
+      });
       setSelectedCities([...selectedCities, city]);
     }
   };
 
   const onClickdeleteCityTag = (e: CityInterface) => {
+    setPreferences({
+      ...preferences,
+      selected_locations: preferences.selected_locations.filter(
+        (x) => x != e.id
+      ),
+    });
     setSelectedCities(selectedCities.filter((x) => x.id != e.id));
   };
 
   const onClickCategoryTypeAdd = () => {
     if (subCategory) {
-      if (selectedSubCategories.find((x) => x.id === subCategory.id)) {
+      if (preferences.selected_categories.find((x) => x === subCategory.id)) {
         return;
       }
+      setPreferences({
+        ...preferences,
+        selected_categories: [
+          ...preferences.selected_categories,
+          subCategory.id,
+        ],
+      });
       setSelectedSubCategories([...selectedSubCategories, subCategory]);
     }
   };
 
   const onClickdeleteCategoryTag = (e: CategoryType) => {
+    setPreferences({
+      ...preferences,
+      selected_categories: preferences.selected_categories.filter(
+        (x) => x != e.id
+      ),
+    });
     setSelectedSubCategories(selectedSubCategories.filter((x) => x.id != e.id));
   };
 
@@ -189,10 +238,12 @@ const SettingsPage = (props: Props) => {
       } else {
         const data = {
           user_id: JSON.parse(userDetails as string).data.id,
-          all_categories: selectedSubCategories.length > 0 ? false : true,
-          selected_categories: [...selectedSubCategories.map((x) => x.id)],
-          all_locations: selectedCities.length > 0 ? false : true,
-          selected_locations: [...selectedCities.map((x) => x.id)],
+          all_categories:
+            preferences.selected_categories.length > 0 ? false : true,
+          selected_categories: [...preferences.selected_categories],
+          all_locations:
+            preferences.selected_locations.length > 0 ? false : true,
+          selected_locations: [...preferences.selected_locations],
         };
 
         const res = await updateUserPreference(token as string, data);
@@ -204,7 +255,6 @@ const SettingsPage = (props: Props) => {
     }
   };
 
-  console.log(preferences);
   return (
     <main className="mt-10 md:mt-14 md:ml-16 md:mr-[100px] mb-10 md:mb-20">
       <div className="w-full flex justify-between items-center px-5 md:px-0">
@@ -305,28 +355,33 @@ const SettingsPage = (props: Props) => {
           </div>
 
           <div className="flex flex-wrap gap-3 mt-4">
-            {selectedCities.map((city, index) => {
-              return (
-                <div
-                  key={city.id}
-                  className="flex items-center gap-[10px] font-body text-body_2 text-black/70 rounded-2xl px-3 p-[6px] bg-faded"
-                >
-                  {city.city}
+            {citiesValues &&
+              citiesValues
+                .filter((city) => {
+                  return preferences.selected_locations.includes(city.id);
+                })
+                .map((city) => {
+                  return (
+                    <div
+                      key={city.id}
+                      className="flex items-center gap-[10px] font-body text-body_2 text-black/70 rounded-2xl px-3 p-[6px] bg-faded"
+                    >
+                      {city.city}
 
-                  <React.Suspense
-                    fallback={
-                      <div className="w-3 h-3 bg-stroke/60 animate-pulse"></div>
-                    }
-                  >
-                    <CloseIcon
-                      className="w-3 h-3 hover:cursor-pointer"
-                      fontSize="small"
-                      onClick={() => onClickdeleteCityTag(city)}
-                    />
-                  </React.Suspense>
-                </div>
-              );
-            })}
+                      <React.Suspense
+                        fallback={
+                          <div className="w-3 h-3 bg-stroke/60 animate-pulse"></div>
+                        }
+                      >
+                        <CloseIcon
+                          className="w-3 h-3 hover:cursor-pointer"
+                          fontSize="small"
+                          onClick={() => onClickdeleteCityTag(city)}
+                        />
+                      </React.Suspense>
+                    </div>
+                  );
+                })}
           </div>
         </div>
 
@@ -366,28 +421,37 @@ const SettingsPage = (props: Props) => {
           </div>
 
           <div className="flex flex-wrap gap-3 mt-4">
-            {selectedSubCategories.map((subCategoryItem, index) => {
-              return (
-                <div
-                  key={subCategoryItem.id}
-                  className="flex items-center gap-[10px] font-body text-body_2 text-black/70 rounded-2xl px-3 p-[6px] bg-faded"
-                >
-                  {subCategoryItem.name}
+            {categoriesValues &&
+              categoriesValues
+                .filter((categoryValue) => {
+                  return preferences.selected_categories.includes(
+                    categoryValue.id
+                  );
+                })
+                .map((subCategoryItem, index) => {
+                  return (
+                    <div
+                      key={subCategoryItem.id}
+                      className="flex items-center gap-[10px] font-body text-body_2 text-black/70 rounded-2xl px-3 p-[6px] bg-faded"
+                    >
+                      {subCategoryItem.name}
 
-                  <React.Suspense
-                    fallback={
-                      <div className="w-3 h-3 bg-stroke/60 animate-pulse"></div>
-                    }
-                  >
-                    <CloseIcon
-                      className="w-3 h-3 hover:cursor-pointer"
-                      fontSize="small"
-                      onClick={() => onClickdeleteCategoryTag(subCategoryItem)}
-                    />
-                  </React.Suspense>
-                </div>
-              );
-            })}
+                      <React.Suspense
+                        fallback={
+                          <div className="w-3 h-3 bg-stroke/60 animate-pulse"></div>
+                        }
+                      >
+                        <CloseIcon
+                          className="w-3 h-3 hover:cursor-pointer"
+                          fontSize="small"
+                          onClick={() =>
+                            onClickdeleteCategoryTag(subCategoryItem)
+                          }
+                        />
+                      </React.Suspense>
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>
