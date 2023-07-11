@@ -23,7 +23,7 @@ const nextConfig = {
     ],
   },
   env: {
-    API: "https://f5c9-102-88-63-126.ngrok-free.app/api",
+    API: "https://c1df-102-88-34-20.ngrok-free.app/api",
   },
 };
 

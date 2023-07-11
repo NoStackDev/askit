@@ -1,3 +1,7 @@
+"use client";
+
+import { useFeedsContext } from "@/app/context/feedsContext";
+import { getRequests, searchRequests } from "@/app/lib/request";
 import { cn } from "@/app/lib/utils";
 import React, { HTMLAttributes } from "react";
 
@@ -7,12 +11,33 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const Searchbox = React.forwardRef<React.ElementRef<"div">, Props>(
   ({ className, ...props }, ref) => {
+    const [searchText, setSearchText] = React.useState("");
+    const { currentFeedsUrl, setCurrentFeedsUrl, setFeeds } = useFeedsContext();
+
+    const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+      try {
+        if (event.target.value.trim() !== "") {
+          const searchRes = await searchRequests(
+            event.target.value.trim(),
+            setCurrentFeedsUrl
+          );
+          console.log(searchRes);
+        } else {
+          const feedsRes = await getRequests(currentFeedsUrl);
+          console.log(feedsRes);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     return (
       <div className={cn("relative h-fit", className)} ref={ref}>
         <input
           type="text"
           placeholder="Search"
           className="py-2 pr-8 pl-3 bg-background w-full border-[1px] border-stroke rounded-[14px] placeholder:font-body placeholder:text-body_1 placeholder:font-normal placeholder:text-stroke font-body text-body_1 text-stroke"
+          onChange={onChange}
         />
 
         <React.Suspense
