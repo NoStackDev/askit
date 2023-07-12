@@ -107,9 +107,11 @@ export type RequestDetailResponseType = {
   price: number;
   request_url: string;
   title: string;
+  user_id: number;
   user: string;
   visibility: string;
   whatsapp_num: string;
+  whatsapp_link: string;
 };
 
 export interface CityInterface {

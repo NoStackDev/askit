@@ -5,6 +5,7 @@ import { RequestDetailResponseType, ResponseType } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import Dialog from "./ui/DialogPrimitive";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -32,8 +33,11 @@ const ResponseCard = React.forwardRef<
       location,
       title,
       user,
+      user_id,
       price,
       variant,
+      whatsapp_num,
+      whatsapp_link,
       ...props
     },
     ref
@@ -171,14 +175,40 @@ const ResponseCard = React.forwardRef<
               {/* </Link> */}
             </div>
 
-            <div className="flex gap-1 items-center hover:cursor-pointer">
-              <div className="text-primary font-headline text-body_2 font-bold text-sm">
-                WhatsApp
+            <Dialog
+              dialogTrigger={
+                <div className="flex gap-1 items-center hover:cursor-pointer">
+                  <div className="text-primary font-headline text-body_2 font-bold text-sm">
+                    WhatsApp
+                  </div>
+                  <React.Suspense>
+                    <NorthEastIcon className="text-primary" />
+                  </React.Suspense>
+                </div>
+              }
+              className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-40"
+            >
+              <div className="bg-white px-3 py-4 font-body w-[200px] rounded-md">
+                <div>You are about to leave this site, continue?</div>
+                <div className="mt-2 flex justify-center gap-10">
+                  <div
+                    className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-primary/60 hover:cursor-pointer"
+                    onClick={() => {
+                      const dialogCloseTrigger =
+                        document.getElementById("dialogCloseTrigger");
+                      dialogCloseTrigger?.click();
+                    }}
+                  >
+                    No
+                  </div>
+                  <Link href={whatsapp_link}>
+                    <div className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-secondary hover:cursor-pointer">
+                      Yes
+                    </div>
+                  </Link>
+                </div>
               </div>
-              <React.Suspense>
-                <NorthEastIcon className="text-primary" />
-              </React.Suspense>
-            </div>
+            </Dialog>
           </div>
         )}
 
