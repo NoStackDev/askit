@@ -21,10 +21,10 @@ const Searchbox = React.forwardRef<React.ElementRef<"div">, Props>(
             event.target.value.trim(),
             setCurrentFeedsUrl
           );
-          console.log(searchRes);
+          setFeeds(searchRes);
         } else {
           const feedsRes = await getRequests(currentFeedsUrl);
-          console.log(feedsRes);
+          setFeeds(feedsRes);
         }
       } catch (err) {
         console.log(err);
