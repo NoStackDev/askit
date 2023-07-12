@@ -4,6 +4,7 @@ import { useFeedsContext } from "@/app/context/feedsContext";
 import { getRequests, searchRequests } from "@/app/lib/request";
 import { cn } from "@/app/lib/utils";
 import React, { HTMLAttributes } from "react";
+import { useDebounce } from "usehooks-ts";
 
 const SearchIcon = React.lazy(() => import("@mui/icons-material/Search"));
 
@@ -13,23 +14,30 @@ const Searchbox = React.forwardRef<React.ElementRef<"div">, Props>(
   ({ className, ...props }, ref) => {
     const [searchText, setSearchText] = React.useState("");
     const { currentFeedsUrl, setCurrentFeedsUrl, setFeeds } = useFeedsContext();
+    const debouncedValue = useDebounce<string>(searchText, 1000);
 
     const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-      try {
-        if (event.target.value.trim() !== "") {
-          const searchRes = await searchRequests(
-            event.target.value.trim(),
-            setCurrentFeedsUrl
-          );
-          setFeeds(searchRes);
-        } else {
-          const feedsRes = await getRequests(currentFeedsUrl);
-          setFeeds(feedsRes);
-        }
-      } catch (err) {
-        console.log(err);
-      }
+      setSearchText(event.target.value.trim());
     };
+
+    React.useEffect(() => {
+      (async () => {
+        try {
+          if (searchText.trim() !== "") {
+            const searchRes = await searchRequests(
+              searchText.trim(),
+              setCurrentFeedsUrl
+            );
+            setFeeds(searchRes);
+          } else {
+            const feedsRes = await getRequests(currentFeedsUrl);
+            setFeeds(feedsRes);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+    }, [debouncedValue]);
 
     return (
       <div className={cn("relative h-fit", className)} ref={ref}>
