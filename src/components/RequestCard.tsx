@@ -98,16 +98,6 @@ const RequestCard = React.forwardRef<
           }
 
           if (!res.success) {
-            // const failedRequests = feeds?.data.map((request) => {
-            //   if (request.id === Number(requestId)) {
-            //     return {
-            //       ...request,
-            //       bookmark: !request.bookmark,
-            //     };
-            //   }
-            //   return request;
-            // });
-
             if (requestType === "BOOKMARK") {
               setRequests(requests);
             }

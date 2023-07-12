@@ -1,5 +1,6 @@
 "use client";
 
+import { addDeleteBookmark } from "@/app/lib/bookmark";
 import { cn, month } from "@/app/lib/utils";
 import { RequestDetailType, RequestType } from "@/app/types";
 import Image from "next/image";
@@ -21,7 +22,7 @@ const ShareIcon = React.lazy(() => import("@mui/icons-material/Share"));
 const RequestImgDetail = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> &
-    Omit<RequestType, "id"> & { requestid: string }
+    Omit<RequestType, "id"> & { requestid: number }
 >(
   (
     {
@@ -35,11 +36,43 @@ const RequestImgDetail = React.forwardRef<
       location,
       title,
       user,
+      requestid,
       ...props
     },
     ref
   ) => {
+    const [bookmarked, setBookmarked] = React.useState(false);
     const date = new Date(created_at);
+
+    React.useEffect(() => {
+      setBookmarked(bookmark);
+    }, []);
+
+    const onBookmarkClick = async () => {
+      const token = window.localStorage.getItem("token");
+      const userDetails = window.localStorage.getItem("userDetails");
+      const prevBookmarked = bookmarked;
+      if (token && userDetails) {
+        try {
+          setBookmarked(!bookmarked);
+          const userId = JSON.parse(userDetails).data.id;
+          const bookemarkedRes = await addDeleteBookmark(token, {
+            user_id: userId as number,
+            req_id: requestid,
+          });
+
+          if (bookemarkedRes.success) {
+            return;
+          } else {
+            setBookmarked(prevBookmarked);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        window.location.href = "/login";
+      }
+    };
 
     return (
       <div
@@ -138,9 +171,15 @@ const RequestImgDetail = React.forwardRef<
                       }
                     >
                       {bookmark ? (
-                        <BookmarkIcon className="text-[#000000]" />
+                        <BookmarkIcon
+                          className="text-primary hover:cursor-pointer"
+                          onClick={onBookmarkClick}
+                        />
                       ) : (
-                        <BookmarkBorderIcon className="text-[#000000]" />
+                        <BookmarkBorderIcon
+                          className="text-primary hover:cursor-pointer"
+                          onClick={onBookmarkClick}
+                        />
                       )}
                     </React.Suspense>
                     <div className="text-title_3 font-body font-medium text-black">
