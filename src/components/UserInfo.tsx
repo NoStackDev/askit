@@ -4,7 +4,9 @@ import { useGlobalContext } from "@/app/context/Store";
 import { cn } from "@/app/lib/utils";
 import { UserType } from "@/app/types";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+import Dialog from "./ui/DialogPrimitive";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
 const CallIcon = React.lazy(() => import("@mui/icons-material/Call"));
@@ -25,10 +27,17 @@ const UserInfo = React.forwardRef<
 
   React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
-    if (userDetails) {
-      setUser(JSON.parse(userDetails).data);
-    } else {
+    if (!userDetails) {
       window.location.href = "/login";
+      return;
+    }
+
+    if (variant === "profile") {
+      setUser(JSON.parse(userDetails).data);
+      return;
+    }
+    if (userDetails) {
+      // const otherUserDetails = await getCl
     }
   }, []);
 
@@ -75,16 +84,18 @@ const UserInfo = React.forwardRef<
         )}
       </div>
 
-      <div className="flex flex-col gap-1 mt-4 justify-center items-center">
-        <div className="w-full flex flex-col justify-center items-center gap-1">
-          <div className="font-body text-special font-light text-white">
-            Business Address
-          </div>
-          <div className="font-body text-title_3 font-medium text-white">
-            {user?.business_addr}
+      {user?.business_addr && (
+        <div className="flex flex-col gap-1 mt-4 justify-center items-center">
+          <div className="w-full flex flex-col justify-center items-center gap-1">
+            <div className="font-body text-special font-light text-white">
+              Business Address
+            </div>
+            <div className="font-body text-title_3 font-medium text-white">
+              {user?.business_addr}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {user?.about && (
         <div className="mt-6 flex flex-col gap-2 text-white">
@@ -99,14 +110,17 @@ const UserInfo = React.forwardRef<
 
       <div className="w-full flex flex-col items-center justify-center gap-4 mt-14">
         {variant === "profile" ? null : (
-          <button className="relative w-full bg-white rounded p-3 h-10 flex items-center">
+          <Link
+            href={`mailto:${user?.email}`}
+            className="relative w-full bg-white rounded p-3 h-10 flex items-center"
+          >
             <React.Suspense>
               <ContactMailIcon className="absolute top-1/2 -translate-y-1/2 left-3 text-black" />
             </React.Suspense>
             <div className=" absolute top-1/2 -translate-y-[45%] left-1/2 -translate-x-1/2 w-full text-center font-headline font-bold text-headline_3">
               Send me an email
             </div>
-          </button>
+          </Link>
         )}
 
         <div className="font-body text-title_3 font-medium text-center text-white">
@@ -117,33 +131,63 @@ const UserInfo = React.forwardRef<
 
         <div className="flex gap-6">
           {user?.facebook_link && (
-            <Image
-              src="/images/icons/facebookProfileIcon.png"
-              height={24}
-              width={24}
-              alt="facebook link"
-              className="hover:cursor-pointer"
-            />
+            <Link href={user.facebook_link}>
+              <Image
+                src="/images/icons/facebookProfileIcon.png"
+                height={24}
+                width={24}
+                alt="facebook link"
+                className="hover:cursor-pointer"
+              />
+            </Link>
           )}
 
           {user?.instagram_link && (
-            <Image
-              src="/images/icons/instagramProfileIcon.png"
-              height={24}
-              width={24}
-              alt="instagram link"
-              className="hover:cursor-pointer"
-            />
+            <Link href={user.instagram_link}>
+              <Image
+                src="/images/icons/instagramProfileIcon.png"
+                height={24}
+                width={24}
+                alt="instagram link"
+                className="hover:cursor-pointer"
+              />
+            </Link>
           )}
 
           {user?.whatsapp_num && (
-            <Image
-              src="/images/icons/whatsappProfileIcon.png"
-              height={24}
-              width={24}
-              alt="whatsapp link"
-              className="hover:cursor-pointer"
-            />
+            <Dialog
+              dialogTrigger={
+                <Image
+                  src="/images/icons/whatsappProfileIcon.png"
+                  height={24}
+                  width={24}
+                  alt="whatsapp link"
+                  className="hover:cursor-pointer"
+                />
+              }
+              className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-40"
+            >
+              <div className="bg-white px-3 py-4 font-body w-[200px] rounded-md">
+                <div>You are about to leave this site, continue?</div>
+                <div className="mt-2 flex justify-center gap-10">
+                  <div
+                    className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-primary/60 hover:cursor-pointer"
+                    onClick={() => {
+                      const dialogCloseTrigger =
+                        document.getElementById("dialogCloseTrigger");
+                      dialogCloseTrigger?.click();
+                    }}
+                  >
+                    No
+                  </div>
+                  <Link href={"https://wa.me/" + user.whatsapp_num}>
+                    <div className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-secondary hover:cursor-pointer">
+                      Yes
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </Dialog>
           )}
         </div>
       </div>

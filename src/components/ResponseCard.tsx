@@ -153,7 +153,7 @@ const ResponseCard = React.forwardRef<
                 }
               >
                 {/* response from api has no user id  */}
-                {/* <Link href={`/user/${userId}/`}> */}
+                <Link href={`/user/${user_id}/`}>
                 {false ? (
                   <Image
                     src={`https://${image_url}`}
@@ -165,14 +165,14 @@ const ResponseCard = React.forwardRef<
                 ) : (
                   <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer" />
                 )}
-                {/* </Link> */}
+                </Link>
               </React.Suspense>
 
-              {/* <Link href={`/user/${userId}/`}> */}
-              <div className="font-headline font-bold text-body_2 text-white hover:cursor-pointer">
-                {user ? user : "Username"}
-              </div>
-              {/* </Link> */}
+              <Link href={`/user/${user_id}/`}>
+                <div className="font-headline font-bold text-body_2 text-white hover:cursor-pointer">
+                  {user ? user : "Username"}
+                </div>
+              </Link>
             </div>
 
             <Dialog
