@@ -1,5 +1,6 @@
 "use client";
 
+import { useGlobalContext } from "@/app/context/Store";
 import { useFeedsContext } from "@/app/context/feedsContext";
 import { getRequests, searchRequests } from "@/app/lib/request";
 import { cn } from "@/app/lib/utils";
@@ -15,6 +16,7 @@ const Searchbox = React.forwardRef<React.ElementRef<"div">, Props>(
     const [searchText, setSearchText] = React.useState("");
     const { currentFeedsUrl, setCurrentFeedsUrl, setFeeds } = useFeedsContext();
     const debouncedValue = useDebounce<string>(searchText, 500);
+    const { setSelectedCategoryFilter } = useGlobalContext();
 
     const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchText(event.target.value.trim());
@@ -29,6 +31,7 @@ const Searchbox = React.forwardRef<React.ElementRef<"div">, Props>(
               setCurrentFeedsUrl
             );
             setFeeds(searchRes);
+            setSelectedCategoryFilter(null);
           } else {
             const feedsRes = await getRequests(currentFeedsUrl);
             setFeeds(feedsRes);
