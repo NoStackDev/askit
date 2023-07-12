@@ -14,7 +14,7 @@ const Searchbox = React.forwardRef<React.ElementRef<"div">, Props>(
   ({ className, ...props }, ref) => {
     const [searchText, setSearchText] = React.useState("");
     const { currentFeedsUrl, setCurrentFeedsUrl, setFeeds } = useFeedsContext();
-    const debouncedValue = useDebounce<string>(searchText, 1000);
+    const debouncedValue = useDebounce<string>(searchText, 500);
 
     const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchText(event.target.value.trim());
