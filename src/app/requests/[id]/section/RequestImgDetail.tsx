@@ -170,7 +170,7 @@ const RequestImgDetail = React.forwardRef<
                         <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
                       }
                     >
-                      {bookmark ? (
+                      {bookmarked ? (
                         <BookmarkIcon
                           className="text-primary hover:cursor-pointer"
                           onClick={onBookmarkClick}
