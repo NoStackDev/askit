@@ -54,7 +54,7 @@ export default function RequestsPage() {
             title={requestData.request.title}
             user={requestData.request.user}
             created_at={requestData.request.created_at}
-            requestid={requestId}
+            requestid={Number(requestId)}
             num_of_responses={requestData.request.num_of_responses}
           />
         )}
