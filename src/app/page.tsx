@@ -87,6 +87,7 @@ export default function Home() {
       setFeedsWithBookmarkedRequests(feedsWithBookmarkedRequestsArr);
       return;
     }
+    setFeedsWithBookmarkedRequests(feeds?.data || null);
   }, [feeds, bookmarkedList]);
 
   useEffect(() => {
@@ -114,6 +115,7 @@ export default function Home() {
     setIsError(false);
     setIsLoading(true);
     const token = window.localStorage.getItem("token");
+    window.scrollTo({ top: 200, behavior: "smooth" });
     try {
       const feedsResponse = await fetch(
         feeds?.links.next?.split(":").join("s:") || "",
@@ -128,7 +130,6 @@ export default function Home() {
         setIsLoading(false);
         const data = await feedsResponse.json();
         setFeeds(data);
-        setFeedsWithBookmarkedRequests(data.data);
       } else throw new Error("failed to fetch next page");
     } catch (err) {
       console.log(err);

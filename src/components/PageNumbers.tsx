@@ -49,6 +49,8 @@ const PageNumbers = React.forwardRef<
       setIsError(false);
       setIsLoading(true);
       const token = window.localStorage.getItem("token");
+      window.scrollTo({ top: 200, behavior: "smooth" });
+
       try {
         const feedsResponse = await fetch(pageLink, {
           method: "OPTIONS",
@@ -59,7 +61,9 @@ const PageNumbers = React.forwardRef<
         if (feedsResponse.status === 200) {
           setIsLoading(false);
           const data = await feedsResponse.json();
+          // console.log(data);
           setFeeds(data);
+          // window.scrollY = 100;
         } else throw new Error("failed to fetch next page");
       } catch (err) {
         console.log(err);
