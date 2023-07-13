@@ -84,6 +84,7 @@ export default function Home() {
         return request;
       });
       setFeedsWithBookmarkedRequests(feedsWithBookmarkedRequestsArr);
+      return;
     }
   }, [feeds, bookmarkedList]);
 
@@ -187,7 +188,7 @@ export default function Home() {
               {feeds && feeds.data.length > 0 ? (
                 <>
                   <Requests
-                    requests={feedsWithBookmarkedRequests || feeds.data}
+                    requests={feedsWithBookmarkedRequests}
                     className="mt-4 md:mt-8"
                   />
 

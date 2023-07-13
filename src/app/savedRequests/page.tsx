@@ -44,7 +44,7 @@ export default function SavedRequestsPage({}: Props) {
       <div>
         {requests && requests.length > 0 ? (
           <>
-            <Requests requests={requests.reverse()} requestType="BOOKMARK" />
+            <Requests requests={requests.reverse()} requestType="SAVEDREQUESTPAGE" />
           </>
         ) : (
           <div className="flex flex-col justify-center items-center mt-10">

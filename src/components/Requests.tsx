@@ -9,9 +9,9 @@ import { RequestType } from "@/app/types";
 const Requests = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & {
-    requests: RequestType[];
+    requests: RequestType[] | null;
     variants?: "user";
-    requestType?: "BOOKMARK";
+    requestType?: "SAVEDREQUESTPAGE";
   }
 >(({ children, className, requests, variants, requestType, ...props }, ref) => {
   return (
@@ -23,18 +23,19 @@ const Requests = React.forwardRef<
       )}
       {...props}
     >
-      {requests.map((request) => {
-        const { id: requestId, ...others } = request;
-        return (
-          <RequestCard
-            {...others}
-            requestId={requestId}
-            variant={variants}
-            key={requestId}
-            requestType={requestType}
-          />
-        );
-      })}
+      {requests &&
+        requests.map((request) => {
+          const { id: requestId, ...others } = request;
+          return (
+            <RequestCard
+              {...others}
+              requestId={requestId}
+              variant={variants}
+              key={requestId}
+              requestType={requestType}
+            />
+          );
+        })}
     </div>
   );
 });

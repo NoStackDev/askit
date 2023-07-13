@@ -28,7 +28,7 @@ const RequestCard = React.forwardRef<
     Omit<RequestType, "id"> & {
       requestId: number;
       variant?: "user";
-      requestType?: "BOOKMARK";
+      requestType?: "SAVEDREQUESTPAGE";
     }
 >(
   (
@@ -52,19 +52,24 @@ const RequestCard = React.forwardRef<
     const date = new Date(created_at);
     const { feeds, setFeeds } = useFeedsContext();
     const { requests, setRequests } = useRequestContext();
+    const [bookmarked, setBookmarked] = React.useState(false);
+
+    React.useEffect(() => {
+      setBookmarked(bookmark);
+    }, []);
 
     const onBookmarkClick = async (
       event: React.MouseEvent<SVGSVGElement, MouseEvent>,
-      requestId: number,
-      bookmark: boolean
+      requestId: number
     ) => {
       event.stopPropagation();
+      const prevBookmarked = bookmarked;
 
       try {
         const token = window.localStorage.getItem("token");
         const userDetails = window.localStorage.getItem("userDetails");
         if (token && userDetails) {
-          if (requestType === "BOOKMARK") {
+          if (requestType === "SAVEDREQUESTPAGE") {
             const newRequests = requests?.filter(
               (request) => request.id !== requestId
             );
@@ -72,19 +77,7 @@ const RequestCard = React.forwardRef<
               setRequests(newRequests);
             }
           } else {
-            const newRequests = feeds?.data.map((request) => {
-              if (request.id === Number(requestId)) {
-                return {
-                  ...request,
-                  bookmark: !bookmark,
-                };
-              }
-              return request;
-            });
-
-            if (feeds && newRequests) {
-              setFeeds({ ...feeds, data: [...newRequests] });
-            }
+            setBookmarked(!bookmarked);
           }
 
           const userId = JSON.parse(userDetails).data.id;
@@ -98,11 +91,11 @@ const RequestCard = React.forwardRef<
           }
 
           if (!res.success) {
-            if (requestType === "BOOKMARK") {
+            if (requestType === "SAVEDREQUESTPAGE") {
               setRequests(requests);
             }
           } else {
-            setFeeds(feeds);
+            setBookmarked(!bookmarked);
           }
         } else window.location.href = "/login";
       } catch (err) {
@@ -116,7 +109,7 @@ const RequestCard = React.forwardRef<
           }
           return request;
         });
-        setFeeds(feeds);
+        setBookmarked(!bookmarked);
       }
     };
 
@@ -245,15 +238,15 @@ const RequestCard = React.forwardRef<
                 className="hover:cursor-pointer"
                 onClick={(e) => onClickDeleteBtn(e, requestId)}
               />
-            ) : bookmark ? (
+            ) : bookmarked ? (
               <BookmarkIcon
                 className="text-primary hover:cursor-pointer"
-                onClick={(e) => onBookmarkClick(e, requestId, bookmark)}
+                onClick={(e) => onBookmarkClick(e, requestId)}
               />
             ) : (
               <BookmarkBorderIcon
                 className="text-primary hover:cursor-pointer"
-                onClick={(e) => onBookmarkClick(e, requestId, bookmark)}
+                onClick={(e) => onBookmarkClick(e, requestId)}
               />
             )}
           </React.Suspense>
