@@ -69,8 +69,6 @@ const RequestImgDetail = React.forwardRef<
         } catch (err) {
           console.log(err);
         }
-      } else {
-        window.location.href = "/login";
       }
     };
 
