@@ -12,7 +12,16 @@ const FlagIcon = React.lazy(() => import("@mui/icons-material/Flag"));
 type Props = {};
 
 const UserPage = (props: Props) => {
-  const [responses, setResponses] = React.useState<RequestDetailResponseType[]>([]);
+  const [responses, setResponses] = React.useState<RequestDetailResponseType[]>(
+    []
+  );
+
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    }
+  }, []);
 
   return (
     <main className="md:mx-[100px] relative bg-background px-5 md:py-10 mb-20">

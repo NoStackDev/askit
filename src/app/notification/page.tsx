@@ -10,6 +10,14 @@ type Props = {};
 
 export default function NotificationPage({}: Props) {
   const [notifications, setNotifications] = React.useState<any>();
+
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    }
+  }, []);
+
   return (
     <main className="px-[20px] mb-10 md:mb-0 pt-14 flex flex-col gap-6 w-full md:pl-14 md:pr-[100px]">
       <div className="border border-[#000000] rounded-[20px] bg-primary font-headline font-bold text-headline_2 w-full text-white text-center shadow-boxShadow_4 py-[10px]">

@@ -22,6 +22,13 @@ export default function MyRequestPage({}: Props) {
 
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("token");
     const userDetails = window.localStorage.getItem("userDetails");
     (async () => {
       try {

@@ -79,6 +79,13 @@ const SettingsPage = (props: Props) => {
 
   const [saving, setSaving] = React.useState(false);
 
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    }
+  }, []);
+
   const states = stateCities ? Object.keys(stateCities) : null;
   let citiesValues: CityInterface[] = [];
 

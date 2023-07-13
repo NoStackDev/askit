@@ -48,6 +48,7 @@ export default function Home() {
         if (feedsResponse) {
           setIsLoading(false);
           setFeeds(feedsResponse);
+          setFeedsWithBookmarkedRequests(feedsResponse.data);
         }
       } catch (err) {
         console.log(err);
@@ -109,13 +110,6 @@ export default function Home() {
 
   useOnClickOutside(openSidebarRef, setShowSidebar);
 
-  const handleSidebar = () => {
-    setShowSidebar(!showSidebar);
-
-    document.body.style.overflow =
-      document.body.style.overflow === "hidden" ? "" : "hidden";
-  };
-
   const onClickNext = async () => {
     setIsError(false);
     setIsLoading(true);
@@ -134,6 +128,7 @@ export default function Home() {
         setIsLoading(false);
         const data = await feedsResponse.json();
         setFeeds(data);
+        setFeedsWithBookmarkedRequests(data.data);
       } else throw new Error("failed to fetch next page");
     } catch (err) {
       console.log(err);

@@ -20,6 +20,13 @@ const ProfilePage = (props: Props) => {
 
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("token");
     (async () => {
       try {
         if (token) {
