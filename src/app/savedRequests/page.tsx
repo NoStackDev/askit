@@ -2,19 +2,15 @@
 
 import Requests from "@/components/Requests";
 import Button from "@/components/ui/Button";
-import { requestsConfig } from "@/config.ts/requests";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { RequestType } from "../types";
 import { getBookmarks } from "../lib/bookmark";
-import { useGlobalContext } from "../context/Store";
 import { useRequestContext } from "../context/requestContext";
 
 type Props = {};
 
 export default function SavedRequestsPage({}: Props) {
-  // const [savedRequests, setSavedRequests] = React.useState<RequestType[]>();
   const { requests, setRequests } = useRequestContext();
 
   React.useEffect(() => {
@@ -44,7 +40,10 @@ export default function SavedRequestsPage({}: Props) {
       <div>
         {requests && requests.length > 0 ? (
           <>
-            <Requests requests={requests.reverse()} requestType="SAVEDREQUESTPAGE" />
+            <Requests
+              requests={requests.reverse()}
+              requestType="SAVEDREQUESTPAGE"
+            />
           </>
         ) : (
           <div className="flex flex-col justify-center items-center mt-10">

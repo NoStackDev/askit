@@ -123,73 +123,78 @@ const UserInfo = React.forwardRef<
           </Link>
         )}
 
-        <div className="font-body text-title_3 font-medium text-center text-white">
-          {variant === "profile"
-            ? "My social media links"
-            : "or check me on social media"}
-        </div>
+        {(user?.facebook_link ||
+          user?.whatsapp_num ||
+          user?.instagram_link) && (
+          <>
+            <div className="font-body text-title_3 font-medium text-center text-white">
+              {variant === "profile"
+                ? "My social media links"
+                : "or check me on social media"}
+            </div>
+            <div className="flex gap-6">
+              {user?.facebook_link && (
+                <Link href={user.facebook_link}>
+                  <Image
+                    src="/images/icons/facebookProfileIcon.png"
+                    height={24}
+                    width={24}
+                    alt="facebook link"
+                    className="hover:cursor-pointer"
+                  />
+                </Link>
+              )}
 
-        <div className="flex gap-6">
-          {user?.facebook_link && (
-            <Link href={user.facebook_link}>
-              <Image
-                src="/images/icons/facebookProfileIcon.png"
-                height={24}
-                width={24}
-                alt="facebook link"
-                className="hover:cursor-pointer"
-              />
-            </Link>
-          )}
+              {user?.instagram_link && (
+                <Link href={user.instagram_link}>
+                  <Image
+                    src="/images/icons/instagramProfileIcon.png"
+                    height={24}
+                    width={24}
+                    alt="instagram link"
+                    className="hover:cursor-pointer"
+                  />
+                </Link>
+              )}
 
-          {user?.instagram_link && (
-            <Link href={user.instagram_link}>
-              <Image
-                src="/images/icons/instagramProfileIcon.png"
-                height={24}
-                width={24}
-                alt="instagram link"
-                className="hover:cursor-pointer"
-              />
-            </Link>
-          )}
-
-          {user?.whatsapp_num && (
-            <Dialog
-              dialogTrigger={
-                <Image
-                  src="/images/icons/whatsappProfileIcon.png"
-                  height={24}
-                  width={24}
-                  alt="whatsapp link"
-                  className="hover:cursor-pointer"
-                />
-              }
-              className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-40"
-            >
-              <div className="bg-white px-3 py-4 font-body w-[200px] rounded-md">
-                <div>You are about to leave this site, continue?</div>
-                <div className="mt-2 flex justify-center gap-10">
-                  <div
-                    className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-primary/60 hover:cursor-pointer"
-                    onClick={() => {
-                      const dialogCloseTrigger =
-                        document.getElementById("dialogCloseTrigger");
-                      dialogCloseTrigger?.click();
-                    }}
-                  >
-                    No
-                  </div>
-                  <Link href={"https://wa.me/" + user.whatsapp_num}>
-                    <div className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-secondary hover:cursor-pointer">
-                      Yes
+              {user?.whatsapp_num && (
+                <Dialog
+                  dialogTrigger={
+                    <Image
+                      src="/images/icons/whatsappProfileIcon.png"
+                      height={24}
+                      width={24}
+                      alt="whatsapp link"
+                      className="hover:cursor-pointer"
+                    />
+                  }
+                  className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-40"
+                >
+                  <div className="bg-white px-3 py-4 font-body w-[200px] rounded-md">
+                    <div>You are about to leave this site, continue?</div>
+                    <div className="mt-2 flex justify-center gap-10">
+                      <div
+                        className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-primary/60 hover:cursor-pointer"
+                        onClick={() => {
+                          const dialogCloseTrigger =
+                            document.getElementById("dialogCloseTrigger");
+                          dialogCloseTrigger?.click();
+                        }}
+                      >
+                        No
+                      </div>
+                      <Link href={"https://wa.me/" + user.whatsapp_num}>
+                        <div className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-secondary hover:cursor-pointer">
+                          Yes
+                        </div>
+                      </Link>
                     </div>
-                  </Link>
-                </div>
-              </div>
-            </Dialog>
-          )}
-        </div>
+                  </div>
+                </Dialog>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
