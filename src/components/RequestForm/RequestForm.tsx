@@ -37,16 +37,16 @@ const RequestForm = React.forwardRef<
   const [city, setCity] = React.useState<number | null>(null);
   const [isPosting, setIsPosting] = React.useState(false);
 
-  React.useEffect(() => {
-    if (!token || !userDetails) {
-      window.location.replace("/login");
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   if (!token || !userDetails) {
+  //     window.location.replace("/login");
+  //   }
+  // }, []);
 
   const forms = [
     <RequestFormOne
       key={0}
-      className="mt-10 px-3 md:px-6 overflow-auto"
+      className="px-3 md:px-6"
       setTitle={setTitle}
       category={category}
       setCategory={setCategory}
@@ -59,14 +59,14 @@ const RequestForm = React.forwardRef<
     />,
     <RequestFormTwo
       key={1}
-      className="mt-10 px-3 md:px-6 md:overflow-hidden"
+      className="px-3 md:px-6 md:overflow-hidden"
       images={images}
       setImages={setImages}
       setImageFile={setImageFile}
     />,
     <RequestFormThree
       key={2}
-      className="mt-10 px-3 md:px-6 w-full md:overflow-auto"
+      className="px-3 md:px-6 w-full md:overflow-auto"
       setDescription={setDescription}
     />,
   ];
@@ -126,43 +126,14 @@ const RequestForm = React.forwardRef<
   };
 
   return (
-    <FormPrimitive.Root className="relative pb-10 flex flex-col items-center bg-white h-[85vh] max-h-[800px] rounded-[20px] w-screen max-w-[600px]">
-      <Topbar1
-        leftComponent={
-          <div className="text-white text-left font-body text-title_2 font-medium">
-            {`${formStep + 1} of ${forms.length}`}
-          </div>
-        }
-        middleComponent={
-          <div className="text-white text-center font-headline text-headline_3 font-bold w-full self">
-            Place a Request
-          </div>
-        }
-        rightComponent={
-          <Image
-            src="/images/icons/closeIcon.png"
-            width={32}
-            height={32}
-            alt="close"
-            className="w-6 h-6 md:w-8 md:h-8 justify-self-end cursor-pointer"
-            onClick={() => {
-              const dialogCloseTrigger =
-                document.getElementById("dialogCloseTrigger");
-              if (dialogCloseTrigger) {
-                dialogCloseTrigger.click();
-              }
-            }}
-          />
-        }
-        className="px-5 py-4 fixed rounded-tl-[20px] rounded-tr-[20px] w-screen max-w-[600px]"
-      />
+    <FormPrimitive.Root className="relative flex flex-col items-center bg-white h-full w-full">
       {forms[formStep]}
 
       <div
         className={cn(
-          "mt-8 w-full px-3 md:px-6 flex justify-between items-center",
+          " w-full px-3 md:px-6 flex justify-between items-center",
           formStep === 0 && "justify-center",
-          formStep === 1 && "mt-20"
+          formStep === 1 && ""
         )}
       >
         {formStep > 0 ? (

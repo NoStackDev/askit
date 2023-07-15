@@ -18,7 +18,7 @@ const RequestFormTwo = React.forwardRef<
 >(({ className, images, setImages, setImageFile, ...props }, fowardref) => {
   return (
     <div className={cn("h-full w-full", className)} ref={fowardref} {...props}>
-      <h2 className="mt-8 font-headline text-headline_2 font-bold text-[#000000] text-left">
+      <h2 className="mt-8 font-headline text-headline_3 font-bold text-[#000000] text-left">
         Visualize Your Request!
       </h2>
 

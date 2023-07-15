@@ -23,20 +23,7 @@ export default function RequestsPage() {
 
   const requestId = pathUrl.split("/")[2];
 
-  // React.useEffect(() => {
-  //   const token = window.localStorage.getItem("token");
-  //   if (!token) {
-  //     window.location.href = "/login";
-  //   }
-  // }, []);
-
   React.useEffect(() => {
-    // const token = window.localStorage.getItem("token");
-    // const userDetails = window.localStorage.getItem("userDetails");
-
-    // if (!token || !userDetails) {
-    //   window.location.replace("/login");
-    // } else
     (async () => {
       try {
         const requestRes = await getRequestDetail(Number(requestId));
