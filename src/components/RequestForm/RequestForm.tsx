@@ -58,7 +58,6 @@ const RequestForm = React.forwardRef<
   const forms = [
     <RequestFormOne
       key={0}
-      className=""
       title={title}
       setTitle={setTitle}
       category={category}
@@ -74,7 +73,6 @@ const RequestForm = React.forwardRef<
     />,
     <RequestFormTwo
       key={1}
-      className=" md:overflow-hidden"
       images={images}
       setImages={setImages}
       setImageFile={setImageFile}
@@ -182,7 +180,7 @@ const RequestForm = React.forwardRef<
   };
 
   return (
-    <FormPrimitive.Root className="relative flex flex-col items-center bg-white h-full md:max-h-[700px] w-full md:max-w-[600px] p-4 md:rounded-[20px]">
+    <FormPrimitive.Root className="relative flex flex-col items-center bg-white h-full md:max-h-[700px] w-full md:max-w-[600px] p-5 md:px-6 md:rounded-[20px]">
       <div className="flex justify-between items-center w-full">
         <h1 className="font-headline font-bold text-body_2 text-secondary/80">
           PLACE A REQUEST
@@ -192,7 +190,7 @@ const RequestForm = React.forwardRef<
           onClick={() => {
             const dialogCloseTrigger =
               document.getElementById("dialogCloseTrigger");
-            dialogCloseTrigger?.click()
+            dialogCloseTrigger?.click();
           }}
         >
           CANCEL
@@ -202,58 +200,61 @@ const RequestForm = React.forwardRef<
       <div className="font-body text-body_2 text-[#000000]/60 font-normal self-start mt-11 mb-2">
         {formStep + 1} of {forms.length}
       </div>
-      {forms[formStep]}
 
-      <div
-        className={cn(
-          " w-full  flex justify-between items-center",
-          formStep === 0 && "justify-center",
-          formStep === 1 && ""
-        )}
-      >
-        {formStep > 0 ? (
-          <div
-            className={cn(
-              "flex gap-1 items-center px-5 py-2 border rounded-xl border-[#000000] hover:cursor-pointer"
-            )}
-            onClick={onClickBackBtn}
-          >
-            <Image
-              src="/images/icons/arrowRequestForm.png"
-              height={24}
-              width={24}
-              alt="back"
-            />
+      <div className="w-full h-fit overflow-y-auto">
+        {forms[formStep]}
 
-            <span>Back</span>
-          </div>
-        ) : null}
+        <div
+          className={cn(
+            "w-full flex justify-between items-end mt-8",
+            formStep === 0 && "justify-center",
+            formStep === 1 && ""
+          )}
+        >
+          {formStep > 0 ? (
+            <div
+              className={cn(
+                "flex gap-1 items-center px-5 py-2 border rounded-xl border-[#000000] hover:cursor-pointer"
+              )}
+              onClick={onClickBackBtn}
+            >
+              <Image
+                src="/images/icons/arrowRequestForm.png"
+                height={24}
+                width={24}
+                alt="back"
+              />
 
-        {formStep + 1 === forms.length ? (
-          <div
-            className={cn(
-              "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer flex items-center mt-6",
-              isPosting && "px-8"
-            )}
-            onClick={onPostRequestClick}
-          >
-            {isPosting && (
-              <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
-            )}
-            {!isPosting && "Post Request"}
-            {isPosting && "Posting Request"}
-          </div>
-        ) : (
-          <div
-            className={cn(
-              "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer md:max-w-[204px] mt-6",
-              formStep < 1 && "w-full"
-            )}
-            onClick={onClickNextBtn}
-          >
-            Next
-          </div>
-        )}
+              <span>Back</span>
+            </div>
+          ) : null}
+
+          {formStep + 1 === forms.length ? (
+            <div
+              className={cn(
+                "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer flex items-center mt-6",
+                isPosting && "px-8"
+              )}
+              onClick={onPostRequestClick}
+            >
+              {isPosting && (
+                <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
+              )}
+              {!isPosting && "Post Request"}
+              {isPosting && "Posting Request"}
+            </div>
+          ) : (
+            <div
+              className={cn(
+                "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer md:max-w-[204px] mt-6",
+                formStep < 1 && "w-full"
+              )}
+              onClick={onClickNextBtn}
+            >
+              Next
+            </div>
+          )}
+        </div>
       </div>
     </FormPrimitive.Root>
   );

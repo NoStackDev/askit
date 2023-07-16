@@ -21,8 +21,8 @@ const RequestFormThree = React.forwardRef<
   HTMLAttributes<HTMLDivElement> & FormThreeI
 >(({ className, setDescription, ...props }, fowardref) => {
   return (
-    <div className={cn("h-full", className)} ref={fowardref} {...props}>
-      <h2 className="mt-8 font-headline text-headline_2 font-bold text-[#000000] text-left">
+    <div className={cn("h-fit", className)} ref={fowardref} {...props}>
+      <h2 className="font-headline text-headline_3 font-bold text-[#000000] text-left">
         Share More Details if You Wish!
       </h2>
 

@@ -17,25 +17,31 @@ const RequestFormTwo = React.forwardRef<
   HTMLAttributes<HTMLDivElement> & FormTwoI
 >(({ className, images, setImages, setImageFile, ...props }, fowardref) => {
   return (
-    <div className={cn("h-full w-full", className)} ref={fowardref} {...props}>
-      <h2 className="mt-8 font-headline text-headline_3 font-bold text-[#000000] text-left">
+    <div
+      className={cn("", className)}
+      ref={fowardref}
+      {...props}
+    >
+      <h2 className="font-headline text-headline_3 font-bold text-[#000000] text-left">
         Visualize Your Request!
       </h2>
 
       <FormPrimitive.Field
         name="request"
-        className="md:px-6 flex flex-col justify-center items-center gap-4 h-full w-full"
+        className="md:px-6 flex flex-col justify-center items-center gap-8 mt-24"
       >
         <FileDragDrop
           images={images}
           setImages={setImages}
           setImageFile={setImageFile}
-          className="h-1/2 w-1/2"
+          className="min-h-[209px] min-w-[209px]  h-1/2 w-1/2"
         />
 
-        <div className="font-body font-medium text-title_3 text-[#000000]">
+        <div className="font-body font-medium text-title_3 text-secondary/80">
           Add clarity with an image{" "}
-          <span className="font-body font-light text-body_2">(optional)</span>
+          <span className="font-body font-light text-body_2 text-[#000000]">
+            (optional)
+          </span>
         </div>
       </FormPrimitive.Field>
     </div>
