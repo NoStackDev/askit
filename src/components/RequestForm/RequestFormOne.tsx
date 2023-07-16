@@ -205,7 +205,7 @@ const RequestFormOne = React.forwardRef<
                     <SelectValue placeholder="Choose" className="" />
                   </SelectTrigger>
 
-                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
+                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-50">
                     <SelectGroup>
                       <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
                         Category
@@ -278,7 +278,7 @@ const RequestFormOne = React.forwardRef<
                     <SelectValue placeholder="Select type" className="" />
                   </SelectTrigger>
 
-                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
+                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-50">
                     <SelectGroup>
                       <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
                         Type
@@ -332,7 +332,7 @@ const RequestFormOne = React.forwardRef<
                     <SelectValue placeholder="Select state" className="" />
                   </SelectTrigger>
 
-                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
+                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-50">
                     <SelectGroup>
                       <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
                         State
@@ -400,7 +400,7 @@ const RequestFormOne = React.forwardRef<
                     <SelectValue placeholder="Select city" className="" />
                   </SelectTrigger>
 
-                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
+                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-50">
                     <SelectGroup>
                       <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
                         City
