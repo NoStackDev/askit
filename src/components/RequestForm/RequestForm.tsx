@@ -187,7 +187,14 @@ const RequestForm = React.forwardRef<
         <h1 className="font-headline font-bold text-body_2 text-secondary/80">
           PLACE A REQUEST
         </h1>
-        <div className="font-body text-title_3 text-[#000000] font-medium">
+        <div
+          className="font-body text-title_3 text-[#000000] font-medium hover:cursor-pointer"
+          onClick={() => {
+            const dialogCloseTrigger =
+              document.getElementById("dialogCloseTrigger");
+            dialogCloseTrigger?.click()
+          }}
+        >
           CANCEL
         </div>
       </div>
