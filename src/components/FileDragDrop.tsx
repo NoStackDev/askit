@@ -1,9 +1,9 @@
 "use client";
 
 import { cn } from "@/app/lib/utils";
+import Image from "next/image";
 import React, { DragEvent, MouseEvent } from "react";
 
-const ImageIcon = React.lazy(() => import("@mui/icons-material/Image"));
 const DeleteIcon = React.lazy(() => import("@mui/icons-material/Delete"));
 
 const FileDragDrop = React.forwardRef<
@@ -42,16 +42,6 @@ const FileDragDrop = React.forwardRef<
       const files = event.target.files;
       if (!files || files?.length === 0) return;
 
-      // for (let i = 0; i < files.length; i++) {
-      //   if (files[i].type.split("/")[0] !== "image") continue;
-      //   if (!images.some((e) => e.name === files[i].name)) {
-      //     setImages([
-      //       ...images,
-      //       { name: files[i].name, url: URL.createObjectURL(files[i]) },
-      //     ]);
-      //   }
-      // }
-
       setImages([{ name: files[0].name, url: URL.createObjectURL(files[0]) }]);
       setImageFile(files);
     };
@@ -66,18 +56,6 @@ const FileDragDrop = React.forwardRef<
       event.preventDefault();
       setIsDragging(false);
       const files = event.dataTransfer.files;
-
-      // for (let i = 0; i < files.length; i++) {
-      //   if (files[i].type.split("/")[0] !== "image") continue;
-      //   if (!images.some((e) => e.name === files[i].name)) {
-      //     setImages([
-      //       ...images,
-      //       { name: files[i].name, url: URL.createObjectURL(files[i]) },
-      //     ]);
-      //   }
-      // }
-
-      // setImages([{ name: files[0].name, url: URL.createObjectURL(files[0]) }]);
     };
 
     const onDragOver = (event: DragEvent) => {
@@ -106,12 +84,8 @@ const FileDragDrop = React.forwardRef<
         {images.length > 0 ? (
           images.map((image, index) => {
             return (
-              <div className="relative w-[100px] h-[100px]" key={index}>
-                <img
-                  src={image.url}
-                  alt={image.name}
-                  className="h-[100px] w-fit"
-                />
+              <div className="relative w-1/2 h-1/2" key={index}>
+                <img src={image.url} alt={image.name} className="h-1/2 w-1/2" />
                 <React.Suspense
                   fallback={
                     <div className="absolute top-0 right-0 w-4 h-4 bg-stroke/80"></div>
@@ -126,9 +100,12 @@ const FileDragDrop = React.forwardRef<
             );
           })
         ) : (
-          <React.Suspense>
-            <ImageIcon className="text-[#000000]/60 w-1/2 h-1/2" />
-          </React.Suspense>
+          <Image
+            src={"/images/icons/imagePlaceholderIcon.png"}
+            height={80}
+            width={80}
+            alt="add image"
+          />
         )}
 
         <input
