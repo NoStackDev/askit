@@ -36,6 +36,18 @@ const RequestForm = React.forwardRef<
   const [state, setState] = React.useState<string | null>(null);
   const [city, setCity] = React.useState<number | null>(null);
   const [isPosting, setIsPosting] = React.useState(false);
+  const [formErrors, setFormErrors] = React.useState<{
+    title: { errors: string[]; showErrors: boolean };
+    category: { errors: string[]; showErrors: boolean };
+    location: { errors: string[]; showErrors: boolean };
+  }>({
+    title: {
+      errors: ["title required", "minimum of 32 characters"],
+      showErrors: false,
+    },
+    category: { errors: ["category type required"], showErrors: false },
+    location: { errors: ["city required"], showErrors: false },
+  });
 
   // React.useEffect(() => {
   //   if (!token || !userDetails) {
@@ -46,7 +58,8 @@ const RequestForm = React.forwardRef<
   const forms = [
     <RequestFormOne
       key={0}
-      className="px-3 md:px-6"
+      className=""
+      title={title}
       setTitle={setTitle}
       category={category}
       setCategory={setCategory}
@@ -56,22 +69,65 @@ const RequestForm = React.forwardRef<
       setState={setState}
       city={city}
       setCity={setCity}
+      formErrors={formErrors}
+      setFormErrors={setFormErrors}
     />,
     <RequestFormTwo
       key={1}
-      className="px-3 md:px-6 md:overflow-hidden"
+      className=" md:overflow-hidden"
       images={images}
       setImages={setImages}
       setImageFile={setImageFile}
     />,
     <RequestFormThree
       key={2}
-      className="px-3 md:px-6 w-full md:overflow-auto"
+      className=" w-full md:overflow-auto"
       setDescription={setDescription}
     />,
   ];
 
   const onClickNextBtn = () => {
+    if (formStep === 0) {
+      let titleErrors: string[] = [];
+      let categoryTypeErrors: string[] = [];
+      let cityErrors: string[] = [];
+
+      title.trim().length > 0
+        ? titleErrors.shift()
+        : titleErrors.unshift("title required");
+
+      title.trim().length >= 32
+        ? titleErrors.pop()
+        : titleErrors.push("minimum of 32 characters");
+
+      categoryType
+        ? categoryTypeErrors.shift()
+        : categoryTypeErrors.unshift("category type required");
+
+      city ? cityErrors.shift() : cityErrors.unshift("city required");
+
+      setFormErrors({
+        title: {
+          errors: titleErrors,
+          showErrors: formErrors.title.errors.length > 0 ? true : false,
+        },
+        category: {
+          errors: categoryTypeErrors,
+          showErrors: formErrors.category.errors.length > 0 ? true : false,
+        },
+        location: {
+          errors: cityErrors,
+          showErrors: formErrors.location.errors.length > 0 ? true : false,
+        },
+      });
+
+      if (
+        titleErrors.length > 0 ||
+        categoryTypeErrors.length > 0 ||
+        cityErrors.length > 0
+      )
+        return;
+    }
     setFormStep(formStep + 1);
   };
 
@@ -126,12 +182,24 @@ const RequestForm = React.forwardRef<
   };
 
   return (
-    <FormPrimitive.Root className="relative flex flex-col items-center bg-white h-full w-full">
+    <FormPrimitive.Root className="relative flex flex-col items-center bg-white h-full md:max-h-[700px] w-full md:max-w-[600px] p-4 md:rounded-[20px]">
+      <div className="flex justify-between items-center w-full">
+        <h1 className="font-headline font-bold text-body_2 text-secondary/80">
+          PLACE A REQUEST
+        </h1>
+        <div className="font-body text-title_3 text-[#000000] font-medium">
+          CANCEL
+        </div>
+      </div>
+
+      <div className="font-body text-body_2 text-[#000000]/60 font-normal self-start mt-11 mb-2">
+        {formStep + 1} of {forms.length}
+      </div>
       {forms[formStep]}
 
       <div
         className={cn(
-          " w-full px-3 md:px-6 flex justify-between items-center",
+          " w-full  flex justify-between items-center",
           formStep === 0 && "justify-center",
           formStep === 1 && ""
         )}
@@ -157,7 +225,7 @@ const RequestForm = React.forwardRef<
         {formStep + 1 === forms.length ? (
           <div
             className={cn(
-              "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer flex items-center",
+              "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer flex items-center mt-6",
               isPosting && "px-8"
             )}
             onClick={onPostRequestClick}
@@ -171,7 +239,7 @@ const RequestForm = React.forwardRef<
         ) : (
           <div
             className={cn(
-              "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer md:max-w-[204px]",
+              "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer md:max-w-[204px] mt-6",
               formStep < 1 && "w-full"
             )}
             onClick={onClickNextBtn}

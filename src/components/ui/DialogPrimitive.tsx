@@ -21,12 +21,9 @@ const Dialog = React.forwardRef<
         {dialogTrigger}
       </DialogPrimitive.Trigger>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="bg-[#000000]/20 fixed inset-0 z-40" />
+        <DialogPrimitive.Overlay className="bg-[#000000]/50 fixed inset-0 z-40" />
         <DialogPrimitive.Content
-          className={cn(
-            "w-full h-full z-50",
-            className
-          )}
+          className={cn("w-fit h-fit z-50", className)}
         >
           {children}
           <DialogPrimitive.Close asChild>
