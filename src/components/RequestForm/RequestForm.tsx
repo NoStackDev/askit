@@ -85,47 +85,47 @@ const RequestForm = React.forwardRef<
   ];
 
   const onClickNextBtn = () => {
-    if (formStep === 0) {
-      let titleErrors: string[] = [];
-      let categoryTypeErrors: string[] = [];
-      let cityErrors: string[] = [];
+    // if (formStep === 0) {
+    //   let titleErrors: string[] = [];
+    //   let categoryTypeErrors: string[] = [];
+    //   let cityErrors: string[] = [];
 
-      title.trim().length > 0
-        ? titleErrors.shift()
-        : titleErrors.unshift("title required");
+    //   title.trim().length > 0
+    //     ? titleErrors.shift()
+    //     : titleErrors.unshift("title required");
 
-      title.trim().length >= 32
-        ? titleErrors.pop()
-        : titleErrors.push("minimum of 32 characters");
+    //   title.trim().length >= 32
+    //     ? titleErrors.pop()
+    //     : titleErrors.push("minimum of 32 characters");
 
-      categoryType
-        ? categoryTypeErrors.shift()
-        : categoryTypeErrors.unshift("category type required");
+    //   categoryType
+    //     ? categoryTypeErrors.shift()
+    //     : categoryTypeErrors.unshift("category type required");
 
-      city ? cityErrors.shift() : cityErrors.unshift("city required");
+    //   city ? cityErrors.shift() : cityErrors.unshift("city required");
 
-      setFormErrors({
-        title: {
-          errors: titleErrors,
-          showErrors: formErrors.title.errors.length > 0 ? true : false,
-        },
-        category: {
-          errors: categoryTypeErrors,
-          showErrors: formErrors.category.errors.length > 0 ? true : false,
-        },
-        location: {
-          errors: cityErrors,
-          showErrors: formErrors.location.errors.length > 0 ? true : false,
-        },
-      });
+    //   setFormErrors({
+    //     title: {
+    //       errors: titleErrors,
+    //       showErrors: formErrors.title.errors.length > 0 ? true : false,
+    //     },
+    //     category: {
+    //       errors: categoryTypeErrors,
+    //       showErrors: formErrors.category.errors.length > 0 ? true : false,
+    //     },
+    //     location: {
+    //       errors: cityErrors,
+    //       showErrors: formErrors.location.errors.length > 0 ? true : false,
+    //     },
+    //   });
 
-      if (
-        titleErrors.length > 0 ||
-        categoryTypeErrors.length > 0 ||
-        cityErrors.length > 0
-      )
-        return;
-    }
+    //   if (
+    //     titleErrors.length > 0 ||
+    //     categoryTypeErrors.length > 0 ||
+    //     cityErrors.length > 0
+    //   )
+    //     return;
+    // }
     setFormStep(formStep + 1);
   };
 
@@ -206,7 +206,7 @@ const RequestForm = React.forwardRef<
 
         <div
           className={cn(
-            "w-full flex justify-between items-end mt-8",
+            "w-full flex justify-between items-end",
             formStep === 0 && "justify-center",
             formStep === 1 && ""
           )}

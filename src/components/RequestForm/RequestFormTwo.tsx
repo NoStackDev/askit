@@ -18,7 +18,7 @@ const RequestFormTwo = React.forwardRef<
 >(({ className, images, setImages, setImageFile, ...props }, fowardref) => {
   return (
     <div
-      className={cn("", className)}
+      className={cn("mb-8 md:mb-10", className)}
       ref={fowardref}
       {...props}
     >
@@ -28,7 +28,7 @@ const RequestFormTwo = React.forwardRef<
 
       <FormPrimitive.Field
         name="request"
-        className="md:px-6 flex flex-col justify-center items-center gap-8 mt-24"
+        className="md:px-6 flex flex-col justify-center items-center gap-8 mt-24 md:mt-10"
       >
         <FileDragDrop
           images={images}

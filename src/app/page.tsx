@@ -162,11 +162,19 @@ export default function Home() {
                 <div className="font-body font-light text-special text-black">
                   for whatever you want!
                 </div>
-                <Link href="/request" className="w-full mb-[14px]">
-                  <Button variant="outlined2" className="w-full py-[5px]">
-                    Request for it
-                  </Button>
-                </Link>
+                <Dialog
+                  dialogTrigger={
+                    <Button
+                      variant="outlined2"
+                      className={cn("w-full py-[5px] mb-[14px]")}
+                    >
+                      Request for it
+                    </Button>
+                  }
+                  className="fixed -translate-x-1/2 z-50 top-1/2 -translate-y-1/2 left-1/2"
+                >
+                  <RequestForm />
+                </Dialog>
               </div>
             </div>
 

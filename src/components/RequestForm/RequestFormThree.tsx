@@ -21,7 +21,11 @@ const RequestFormThree = React.forwardRef<
   HTMLAttributes<HTMLDivElement> & FormThreeI
 >(({ className, setDescription, ...props }, fowardref) => {
   return (
-    <div className={cn("h-fit", className)} ref={fowardref} {...props}>
+    <div
+      className={cn("h-fit mb-24 md:mb-16", className)}
+      ref={fowardref}
+      {...props}
+    >
       <h2 className="font-headline text-headline_3 font-bold text-[#000000] text-left">
         Share More Details if You Wish!
       </h2>
@@ -31,9 +35,9 @@ const RequestFormThree = React.forwardRef<
         className="mt-8 flex flex-col gap-1 w-full"
       >
         <div className="flex items-baseline justify-between">
-          <FormPrimitive.Label className="font-body text-title_3 font-medium text-black">
+          <FormPrimitive.Label className="font-medium font-body text-title_3 text-secondary/80">
             Detailed Description{" "}
-            <span className="font-body text-label text-[#000000]/60">
+            <span className="font-body text-label text-[#000000]/60 font-normal">
               (optional)
             </span>
           </FormPrimitive.Label>
