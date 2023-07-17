@@ -34,10 +34,6 @@ export default function Home() {
   const { dispatch } = useAuthContext();
   const { selectedCategoryFilter } = useGlobalContext();
 
-  // if (!token || !user) {
-  //   redirect("/login");
-  // }
-
   useEffect(() => {
     dispatch({ type: "RESET" });
     (async () => {

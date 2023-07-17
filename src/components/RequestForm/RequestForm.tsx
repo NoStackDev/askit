@@ -49,11 +49,11 @@ const RequestForm = React.forwardRef<
     location: { errors: ["city required"], showErrors: false },
   });
 
-  // React.useEffect(() => {
-  //   if (!token || !userDetails) {
-  //     window.location.replace("/login");
-  //   }
-  // }, []);
+  React.useEffect(() => {
+    if (!token || !userDetails) {
+      window.location.replace("/login");
+    }
+  }, []);
 
   const forms = [
     <RequestFormOne
