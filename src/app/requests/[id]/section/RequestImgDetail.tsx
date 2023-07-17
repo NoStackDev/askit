@@ -76,12 +76,90 @@ const RequestImgDetail = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          "bg-[#ffffff] pb-2 px-[20px] md:pl-0 md:pr-[20px] flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-[20px]",
+          "bg-[#ffffff] px-5 pt-5 pb-6 flex flex-col items-start w-full",
           className
         )}
         {...props}
       >
-        {image_url && (
+        <div className="font-body text-[11px] text-[#000000]/60 font-normal">
+          Category:{" "}
+          <span className="font-body text-[11px] text-[#000000] font-medium">
+            {category}
+          </span>
+        </div>
+        {/* title */}
+        <div className="font-body font-bold text-[23px] text-[#010E1E mt-4">
+          {title}
+        </div>
+
+        {/* location and date */}
+        <div className="hidden md:flex items-center w-full justify-between md:justify-start md:gap-6 mt-4 md:mt-2">
+          <div className="w-fit flex items-center gap-2">
+            <Image
+              src={"/images/icons/locationIcon.png"}
+              height={16}
+              width={16}
+              alt="location"
+            />
+            <div className="font-body font-normal text-[#000000] text-[11px]">
+              {location}
+            </div>
+          </div>
+
+          <React.Suspense
+            fallback={
+              <div className="w-10 h-4 bg-stroke/80 animate-pulse"></div>
+            }
+          >
+            <div className="flex items-center gap-2">
+              <WatchLaterIcon className="text-[#ADABAB]" fontSize="small" />
+              <span className="text-[#000000]/60 font-body text-[11px]">
+                {date.getDay()} {month(date.getMonth())}
+              </span>
+            </div>
+          </React.Suspense>
+        </div>
+
+       {/* request image  */}
+        <div className="mt-4">
+          {image_url && (
+            <Image
+              src={`https://${image_url}`}
+              height={255}
+              width={255}
+              alt="requested product image"
+              className="w-full h-auto md:max-w-[380px]"
+            />
+          )}
+        </div>
+        {/* location and date */}
+        <div className="flex items-center w-full justify-between md:justify-start md:gap-6 mt-4 md:mt-2">
+          <div className="w-fit flex items-center gap-2">
+            <Image
+              src={"/images/icons/locationIcon.png"}
+              height={16}
+              width={16}
+              alt="location"
+            />
+            <div className="font-body font-normal text-[#000000] text-[11px]">
+              {location}
+            </div>
+          </div>
+
+          <React.Suspense
+            fallback={
+              <div className="w-10 h-4 bg-stroke/80 animate-pulse"></div>
+            }
+          >
+            <div className="flex items-center gap-2">
+              <WatchLaterIcon className="text-[#ADABAB]" fontSize="small" />
+              <span className="text-[#000000]/60 font-body text-[11px]">
+                {date.getDay()} {month(date.getMonth())}
+              </span>
+            </div>
+          </React.Suspense>
+        </div>
+        {/* {image_url && (
           <Image
             src={`https://${image_url}`}
             height={255}
@@ -91,7 +169,7 @@ const RequestImgDetail = React.forwardRef<
           />
         )}
 
-        <div className="h-full">
+        <div className="h-full w-full">
           <div className="mt-4">
             <div className="font-body text-title_1 font-medium text-left">
               {title}
@@ -110,7 +188,7 @@ const RequestImgDetail = React.forwardRef<
               <div>
                 <React.Suspense
                   fallback={
-                    <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+                    <div className="w-10 h-4 bg-stroke/80 animate-pulse"></div>
                   }
                 >
                   <div className="flex items-center gap-1">
@@ -126,7 +204,7 @@ const RequestImgDetail = React.forwardRef<
               </div>
             </div>
 
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between w-full">
               <div className="mt-6 md:mt-4 flex flex-col gap-2">
                 <div className="font-body text-title_3 text-secondary font-medium">
                   More details
@@ -134,7 +212,7 @@ const RequestImgDetail = React.forwardRef<
                 <div className="font-body text-body_1">{description}</div>
               </div>
 
-              <div className="mt-7 md:mt-11 flex items-center justify-between md:gap-10">
+              <div className="mt-7 md:mt-11 flex items-center justify-between md:gap-10 w-full">
                 <div className="flex items-center gap-1">
                   <React.Suspense
                     fallback={
@@ -148,7 +226,7 @@ const RequestImgDetail = React.forwardRef<
                   </div>
                 </div>
 
-                <div className="flex gap-3 md:gap-10 items-center">
+                <div className="flex justify-between items-center w-full ">
                   <div className="flex items-center gap-1 hover:cursor-pointer">
                     <React.Suspense
                       fallback={
@@ -201,7 +279,7 @@ const RequestImgDetail = React.forwardRef<
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

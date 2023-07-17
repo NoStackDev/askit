@@ -37,7 +37,6 @@ export default function RequestsPage() {
   return (
     <main className="flex flex-col md:grid md:grid-cols-[1fr_348px] md:mx-[100px] md:gap-5 bg-background md:py-14 mb-20">
       <div>
-        <Topbar>{requestData && requestData.request.category}</Topbar>
         {requestData && (
           <RequestImgDetail
             bookmark={requestData.request.bookmark}
