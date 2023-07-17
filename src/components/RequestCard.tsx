@@ -56,7 +56,7 @@ const RequestCard = React.forwardRef<
 
     React.useEffect(() => {
       setBookmarked(bookmark);
-    }, []);
+    }, [bookmark]);
 
     const onBookmarkClick = async (
       event: React.MouseEvent<SVGSVGElement, MouseEvent>,
