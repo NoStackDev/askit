@@ -2,11 +2,11 @@ export default async function searchRequests(
   searchText: string,
   setCurrentFeedsUrl?: React.Dispatch<React.SetStateAction<URL | null>>
 ) {
-  let url = new URL(`${process.env.API}/search`);
+  let url = new URL(`${process.env.NEXT_PUBLIC_API}/search`);
   url.searchParams.append("str", searchText);
 
   if (setCurrentFeedsUrl)
-    setCurrentFeedsUrl(new URL(`${process.env.API}/feeds`));
+    setCurrentFeedsUrl(new URL(`${process.env.NEXT_PUBLIC_API}/feeds`));
 
   const res = await fetch(url, {
     method: "OPTIONS",

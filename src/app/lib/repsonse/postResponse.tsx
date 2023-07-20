@@ -1,5 +1,5 @@
 export default async function postResponse(header: Headers, data: FormData) {
-  const res = await fetch(`${process.env.API}/responses`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/responses`, {
     method: "POST",
     headers: header,
     body: data,

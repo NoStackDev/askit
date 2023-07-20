@@ -1,5 +1,5 @@
 const updateUser = async (headers: Headers, data: FormData) => {
-  const res = await fetch(`${process.env.API}/update`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/update`, {
     method: "POST",
     headers: headers,
     body: data,

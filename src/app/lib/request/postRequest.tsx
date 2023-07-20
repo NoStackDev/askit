@@ -4,7 +4,7 @@ export default async function postRequest(
   headers: Headers
 ) {
   console.log(data.get("location_id"));
-  const res = await fetch(`${process.env.API}/requests`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/requests`, {
     method: "POST",
     headers: headers,
     body: data,

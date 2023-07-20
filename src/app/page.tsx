@@ -35,6 +35,7 @@ export default function Home() {
   const { selectedCategoryFilter } = useGlobalContext();
 
   useEffect(() => {
+    console.log(process.env.NEXT_PUBLIC_API);
     dispatch({ type: "RESET" });
     (async () => {
       try {

@@ -7,7 +7,7 @@ export default async function addDeleteBookmark(
   token: string,
   { user_id, req_id }: BookmarkType
 ) {
-  const res = await fetch(`${process.env.API}/bookmarks`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/bookmarks`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

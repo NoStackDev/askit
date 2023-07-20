@@ -1,5 +1,5 @@
 const deleteResponse = async (token: string, responseId: number) => {
-  const res = await fetch(`${process.env.API}/responses/${responseId}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/responses/${responseId}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

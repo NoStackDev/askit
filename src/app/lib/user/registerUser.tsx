@@ -18,7 +18,7 @@ export default async function registerUser(
   dispatch: React.Dispatch<ActionI>
 ) {
   dispatch({ type: "LOGIN_START" });
-  const res = await fetch(`${process.env.API}/register`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

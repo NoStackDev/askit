@@ -1,5 +1,5 @@
 export default async function getUser(token: string) {
-  const res = await fetch(`${process.env.API}/user`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/user`, {
     method: "OPTIONS",
     headers: {
       Authorization: `Bearer ${token}`,

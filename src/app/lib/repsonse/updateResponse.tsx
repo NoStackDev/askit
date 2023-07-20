@@ -29,7 +29,7 @@ export default async function updateResponse(
   }: ResponseType
 ) {
   console.log(`Bearer ${token}`);
-  const res = await fetch(`${process.env.API}/responses/${responseId}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/responses/${responseId}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

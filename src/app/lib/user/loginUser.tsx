@@ -4,7 +4,7 @@ interface LoginI {
 }
 
 export default async function loginUser({ email, password }: LoginI) {
-  const res = await fetch(`${process.env.API}/login`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,5 +1,5 @@
 const getUserResponses = async (token: string) => {
-  const res = await fetch(`${process.env.API}/responses`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/responses`, {
     method: "OPTIONS",
     headers: {
       Authorization: `Bearer ${token}`,

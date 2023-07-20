@@ -1,5 +1,5 @@
 const getPreferences = async (token: string, userId: number) => {
-  const res = await fetch(`${process.env.API}/user_preferances/${userId}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/user_preferances/${userId}`, {
     method: "OPTIONS",
     headers: {
       Authorization: `Bearer ${token}`,

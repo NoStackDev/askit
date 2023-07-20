@@ -21,7 +21,7 @@ export default async function postRequest(
   }: RequestType
 ) {
   console.log(`Bearer ${token}`);
-  const res = await fetch(`${process.env.API}/requests/${requestId}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/requests/${requestId}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

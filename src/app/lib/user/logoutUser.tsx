@@ -1,5 +1,5 @@
 export default async function logoutUser(token: string) {
-  const res = await fetch(`${process.env.API}/logout`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

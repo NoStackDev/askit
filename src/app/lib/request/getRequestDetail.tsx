@@ -1,5 +1,5 @@
 const getRequestDetail = async (requestId: number) => {
-  const res = await fetch(`${process.env.API}/requests/${requestId}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/requests/${requestId}`, {
     method: "OPTIONS",
     headers: {
       // Authorization: `Bearer ${token}`,

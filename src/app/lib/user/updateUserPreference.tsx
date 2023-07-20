@@ -8,7 +8,7 @@ export default async function updateUserPreference(
     selected_locations: number[];
   }
 ) {
-  const res = await fetch(`${process.env.API}/user_preferances`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/user_preferances`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,

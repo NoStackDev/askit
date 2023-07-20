@@ -5,7 +5,7 @@ type CategoryType = {
 };
 
 const getCategories = async () => {
-  const res = await fetch(`${process.env.API}/categoryGroups`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/categoryGroups`, {
     method: "OPTIONS",
     headers: {
       // Authorization: `Bearer ${token}`,

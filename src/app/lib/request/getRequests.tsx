@@ -6,7 +6,7 @@ export default async function getRequests(
 ) {
   let url = currentFeedsUrl
     ? currentFeedsUrl
-    : new URL(`${process.env.API}/feeds`);
+    : new URL(`${process.env.NEXT_PUBLIC_API}/feeds`);
 
   if (setCurrentFeedsUrl) setCurrentFeedsUrl(url);
 

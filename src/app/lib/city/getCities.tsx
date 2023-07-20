@@ -5,7 +5,7 @@ type CityType = {
 };
 
 const getCities = async () => {
-  const res = await fetch(`${process.env.API}/cities`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/cities`, {
     method: "OPTIONS",
     headers: {
       // Authorization: `Bearer ${token}`,

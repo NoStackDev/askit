@@ -1,5 +1,5 @@
 const getBookmarks = async (token: string) => {
-  const res = await fetch(`${process.env.API}/bookmarks`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/bookmarks`, {
     method: "OPTIONS",
     headers: {
       Authorization: `Bearer ${token}`,
