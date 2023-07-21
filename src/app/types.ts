@@ -10,6 +10,7 @@ export type UserType = {
   name: string;
   role: string;
   whatsapp_num: string;
+  updated_at: string;
 };
 
 export type City = {
