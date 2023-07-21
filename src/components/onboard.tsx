@@ -58,7 +58,7 @@ const Onboard = (props: Props) => {
   } | null>(null);
 
   const { setToken, user: authUser, setUser: setAuthUser } = useGlobalContext();
-  const { isLoading, dispatch } = useAuthContext();
+  const { isLoading, isOnboarding, dispatch } = useAuthContext();
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 
@@ -170,10 +170,37 @@ const Onboard = (props: Props) => {
     }
   };
 
+  const onClickSkip = () => {
+    window.location.href = "/";
+  };
+
   return (
     <main className="mt-4 md:mt-10 md:mx-[100px] bg-white md:bg-background flex justify-center items-center mb-10 md:mb-20">
       <div className="max-w-[700px] bg-white">
-        <Topbar className="">Setup your profile</Topbar>
+        <div
+          className={cn(
+            "relative flex items-center justify-center px-[22px] py-[18px]",
+            isOnboarding && "justify-start md:justify-center"
+          )}
+        >
+          <div
+            className={cn(
+              "font-headline text-headline_2 justify-self-center font-bold text-secondary"
+            )}
+          >
+            Setup your profile
+          </div>
+
+          {isOnboarding ? (
+            <Button
+              variant={"outlined2"}
+              className="absolute right-[0px] -translate-x-5 top-1/2 -translate-y-1/2 w-fit h-fit flex items-center gap-1 font-body text-title_2 py-1 px-4 font-medium text-primary"
+              onClick={onClickSkip}
+            >
+              Skip
+            </Button>
+          ) : null}
+        </div>
 
         <div className="flex flex-col justify-center items-center px-5 md:px-[92px]">
           <div className="mt-6 md:mt-6 text-primary font-body text-title_2 md:text-title_1 font-medium">
@@ -181,8 +208,9 @@ const Onboard = (props: Props) => {
           </div>
 
           <div className="mt-4 font-body text-body_2 text-center">
-            If you hope to be responding to people’s request, its needful you
-            set up your profile to prove your credibility to potential client.
+            By completing your profile with relevant information and showcasing
+            your skills, you will increase your chances of attracting more
+            clients when responding to requests.
           </div>
 
           <div className="flex flex-col justify-center items-center mt-6 md:mt-10 gap-2">

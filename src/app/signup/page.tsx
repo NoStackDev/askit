@@ -41,7 +41,7 @@ export default function SignupPage({}: Props) {
             className="hidden md:block absolute top-[15%] -translate-y-[50%] right-0 h-[200px] w-[200px]"
           />
 
-          <LoginCard className="absolute right-1/2 translate-x-1/2 md:right-[100px] md:translate-x-0 w-[348px] max-h-[600px] " />
+          <LoginCard className="absolute right-1/2 translate-x-1/2 md:right-[100px] md:translate-x-0 w-[348px] max-h-[600px]" />
         </main>
       )}
     </>
