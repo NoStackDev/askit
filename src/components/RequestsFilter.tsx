@@ -107,7 +107,7 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
               </span>
             </div>
           }
-          className="fixed top-1/2 left-1/2 z-30 -translate-y-1/2 -translate-x-1/2"
+          className="top-1/2 -translate-y-1/2 fixed left-1/2 -translate-x-1/2"
         >
           <div className="bg-white max-h-[500px] w-[80vw] max-w-[360px]">
             <div>
