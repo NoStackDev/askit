@@ -34,6 +34,9 @@ export default function RequestsPage() {
     })();
   }, [requestId]);
 
+  console.log(requestId);
+  console.log(requestData?.request.bookmark);
+
   return (
     <main className="flex flex-col md:grid md:grid-cols-[1fr_348px] md:mx-[100px] md:gap-5 bg-background md:py-14 mb-20">
       <div>
@@ -48,7 +51,7 @@ export default function RequestsPage() {
             user={requestData.request.user}
             created_at={requestData.request.created_at}
             requestid={Number(requestId)}
-            num_of_responses={requestData.request.num_of_responses}
+            num_of_views={requestData.request.num_of_views}
           />
         )}
         <div className="flex items-center justify-center h-fit w-full px-[20px]">

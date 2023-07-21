@@ -37,6 +37,7 @@ const RequestImgDetail = React.forwardRef<
       title,
       user,
       requestid,
+      num_of_views,
       ...props
     },
     ref
@@ -46,7 +47,7 @@ const RequestImgDetail = React.forwardRef<
 
     React.useEffect(() => {
       setBookmarked(bookmark);
-    }, []);
+    }, [bookmark]);
 
     const onBookmarkClick = async () => {
       const token = window.localStorage.getItem("token");
@@ -71,6 +72,8 @@ const RequestImgDetail = React.forwardRef<
         }
       }
     };
+
+    // console.log(bookmark)
 
     return (
       <div
@@ -186,7 +189,7 @@ const RequestImgDetail = React.forwardRef<
                   alt="number of views"
                 />
                 <div className="text-special font-body font-light text-[#000000]/60">
-                  200 views
+                  {num_of_views} views
                 </div>
               </div>
             </div>
