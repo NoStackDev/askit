@@ -93,7 +93,7 @@ const UserInfo = React.forwardRef<
 
       <div className="w-full flex flex-col items-center justify-center gap-4 mt-14">
         {variant === "profile" ? null : (
-          <Link
+          <a
             href={`mailto:${userDetails?.email}`}
             className="relative w-full bg-white rounded p-3 h-10 flex items-center"
           >
@@ -103,7 +103,7 @@ const UserInfo = React.forwardRef<
             <div className=" absolute top-1/2 -translate-y-[45%] left-1/2 -translate-x-1/2 w-full text-center font-headline font-bold text-headline_3">
               Send me an email
             </div>
-          </Link>
+          </a>
         )}
 
         {(userDetails?.facebook_link ||
@@ -142,11 +142,11 @@ const UserInfo = React.forwardRef<
                       >
                         No
                       </div>
-                      <Link href={userDetails.facebook_link}>
+                      <a href={userDetails.facebook_link}>
                         <div className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-secondary hover:cursor-pointer">
                           Yes
                         </div>
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </Dialog>
@@ -178,11 +178,11 @@ const UserInfo = React.forwardRef<
                       >
                         No
                       </div>
-                      <Link href={userDetails.instagram_link}>
+                      <a href={userDetails.instagram_link}>
                         <div className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-secondary hover:cursor-pointer">
                           Yes
                         </div>
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </Dialog>
@@ -214,11 +214,11 @@ const UserInfo = React.forwardRef<
                       >
                         No
                       </div>
-                      <Link href={"https://wa.me/" + userDetails.whatsapp_num}>
+                      <a href={"https://wa.me/" + userDetails.whatsapp_num}>
                         <div className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-secondary hover:cursor-pointer">
                           Yes
                         </div>
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </Dialog>
