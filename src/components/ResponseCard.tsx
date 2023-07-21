@@ -154,17 +154,17 @@ const ResponseCard = React.forwardRef<
               >
                 {/* response from api has no user id  */}
                 <Link href={`/user/${user_id}/`}>
-                {false ? (
-                  <Image
-                    src={`https://${image_url}`}
-                    height={20}
-                    width={20}
-                    className="rounded-full"
-                    alt={`${user}'s profile pic`}
-                  />
-                ) : (
-                  <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer" />
-                )}
+                  {false ? (
+                    <Image
+                      src={`https://${image_url}`}
+                      height={20}
+                      width={20}
+                      className="rounded-full"
+                      alt={`${user}'s profile pic`}
+                    />
+                  ) : (
+                    <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer" />
+                  )}
                 </Link>
               </React.Suspense>
 
@@ -178,11 +178,11 @@ const ResponseCard = React.forwardRef<
             <Dialog
               dialogTrigger={
                 <div className="flex gap-1 items-center hover:cursor-pointer">
-                  <div className="text-primary font-headline text-body_2 font-bold text-sm">
+                  <div className="font-headline text-body_2 font-bold text-sm text-[#20E010]">
                     WhatsApp
                   </div>
                   <React.Suspense>
-                    <NorthEastIcon className="text-primary" />
+                    <NorthEastIcon className="text-[#20E010]" />
                   </React.Suspense>
                 </div>
               }
