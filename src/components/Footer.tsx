@@ -68,7 +68,7 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
                       Place a Request
                     </div>
                   }
-                  className="-translate-x-1/2 z-30 fixed top-[80px] left-1/2"
+                  className="top-0 fixed left-0 h-full  md:-translate-x-1/2 z-50 md:top-1/2 md:-translate-y-1/2 md:left-1/2 md:h-auto"
                 >
                   <RequestForm className="" />
                 </Dialog>
