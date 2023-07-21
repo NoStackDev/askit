@@ -159,9 +159,9 @@ const Onboard = (props: Props) => {
               JSON.stringify(updatedUser)
             );
             setAuthUser(null);
-            window.location.href = "/";
+            window.location.assign("/");
           } else {
-            window.location.href = "/";
+            window.location.assign("/");
           }
         }
       }

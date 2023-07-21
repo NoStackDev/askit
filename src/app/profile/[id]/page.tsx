@@ -24,7 +24,7 @@ const UserPage = (props: Props) => {
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
     if (!token) {
-      window.location.href = "/login";
+      window.location.assign("/login");
     }
   }, []);
 
@@ -32,7 +32,7 @@ const UserPage = (props: Props) => {
     (async () => {
       const token = window.localStorage.getItem("token");
       if (!token) {
-        window.location.href = "/login";
+        window.location.assign("/login");
         return;
       }
 

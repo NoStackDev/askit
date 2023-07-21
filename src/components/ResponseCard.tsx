@@ -84,7 +84,7 @@ const ResponseCard = React.forwardRef<
               setResponses(responses);
             console.log(responses);
           }
-        } else window.location.href = "/login";
+        } else window.location.assign("/login");
       } catch (err) {
         console.log(err);
         if (responses && responseIndex && deletedResponse)

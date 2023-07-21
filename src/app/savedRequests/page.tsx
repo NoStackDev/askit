@@ -16,7 +16,7 @@ export default function SavedRequestsPage({}: Props) {
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
     if (!token) {
-      window.location.href = "/login";
+      window.location.assign("/login");
     }
   }, []);
 
@@ -33,7 +33,7 @@ export default function SavedRequestsPage({}: Props) {
           setRequests(bookmarksRes.data);
         }
       } else {
-        window.location.href = "/";
+        window.location.assign("/");
       }
     })();
   }, []);

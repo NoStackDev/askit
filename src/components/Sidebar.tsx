@@ -148,7 +148,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                           onClick={(e) => {
                             setShowSidebar(false);
                             if (sidebarItem.href) {
-                              window.location.href = sidebarItem.href;
+                              window.location.assign(`${sidebarItem.href}`);
                             }
                           }}
                         >

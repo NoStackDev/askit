@@ -82,7 +82,7 @@ const SettingsPage = (props: Props) => {
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
     if (!token) {
-      window.location.href = "/login";
+      window.location.assign("/login");
     }
   }, []);
 
@@ -121,7 +121,7 @@ const SettingsPage = (props: Props) => {
         setPreferences(res);
       })();
     } else {
-      window.location.href = "/login";
+      window.location.assign("/login");
     }
   }, []);
 
@@ -227,7 +227,7 @@ const SettingsPage = (props: Props) => {
         window.localStorage.removeItem("token");
         window.localStorage.removeItem("userDetails");
         setLoggingOut(false);
-        window.location.href = "/";
+        window.location.assign("/");
       }
     } catch (err) {
       console.log(err);

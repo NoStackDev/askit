@@ -97,7 +97,7 @@ const RequestCard = React.forwardRef<
           } else {
             setBookmarked(!bookmarked);
           }
-        } else window.location.href = "/login";
+        } else window.location.assign("/login");
       } catch (err) {
         console.log(err);
         const failedRequests = feeds?.data.map((request) => {
@@ -150,7 +150,7 @@ const RequestCard = React.forwardRef<
             if (requests && requestIndex && deletedRequest)
               setRequests(requests);
           }
-        } else window.location.href = "/login";
+        } else window.location.assign("/login");
       } catch (err) {
         console.log(err);
         if (requests && requestIndex && deletedRequest) setRequests(requests);
@@ -165,7 +165,7 @@ const RequestCard = React.forwardRef<
           className
         )}
         {...props}
-        onClick={() => (window.location.href = `/requests/${requestId}`)}
+        onClick={() => window.location.assign(`/requests/${requestId}`)}
       >
         <div className="flex gap-2 pb-3 px-2 py-4">
           {image_url && (

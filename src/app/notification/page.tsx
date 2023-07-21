@@ -14,7 +14,7 @@ export default function NotificationPage({}: Props) {
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
     if (!token) {
-      window.location.href = "/login";
+      window.location.assign("/login");
     }
   }, []);
 

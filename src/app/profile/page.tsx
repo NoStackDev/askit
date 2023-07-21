@@ -20,14 +20,14 @@ const ProfilePage = (props: Props) => {
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
     if (!token) {
-      window.location.href = "/login";
+      window.location.assign("/login");
     }
   }, []);
 
   React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
     if (!userDetails) {
-      window.location.href = "/login";
+      window.location.assign("/login");
       return;
     }
 
