@@ -4,7 +4,7 @@ import LoginCard from "@/components/LoginCard";
 import Image from "next/image";
 import React from "react";
 import { useAuthContext } from "../context/authContext";
-import Onboard from "@/components/onboard";
+import ProfileInfo from "@/components/ProfileInfo";
 
 type Props = {};
 
@@ -14,7 +14,7 @@ export default function SignupPage({}: Props) {
   return (
     <>
       {isOnboarding ? (
-        <Onboard />
+        <ProfileInfo />
       ) : (
         <main className="bg-white relative z-10 flex items-center justify-center md:px-[100px] h-main-height overflow-y-hidden">
           <Image

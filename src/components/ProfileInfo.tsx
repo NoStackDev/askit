@@ -37,9 +37,10 @@ const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
 );
 
-type Props = {};
-
-const Onboard = (props: Props) => {
+const ProfileInfo = React.forwardRef<
+  React.ElementRef<"div">,
+  React.ComponentPropsWithoutRef<"div">
+>(({ className, ...props }, forwardRef) => {
   const [state, setState] = React.useState<string | null>(null);
   const [city, setCity] = React.useState<number | null>(null);
   const [cityName, setCityName] = React.useState<string | null>(null);
@@ -175,43 +176,70 @@ const Onboard = (props: Props) => {
   };
 
   return (
-    <main className="mt-4 md:mt-10 md:mx-[100px] bg-white md:bg-background flex justify-center items-center mb-10 md:mb-20">
-      <div className="max-w-[700px] bg-white">
-        <div
-          className={cn(
-            "relative flex items-center justify-center px-[22px] py-[18px]",
-            isOnboarding && "justify-start md:justify-center"
-          )}
-        >
+    <main
+      className={cn(
+        "mt-4 md:mt-10 md:mx-[100px] bg-white md:bg-background flex justify-center items-center mb-10 md:mb-20",
+        !isOnboarding && "mt-0 pt-2",
+        className
+      )}
+      ref={forwardRef}
+    >
+      <div className="w-full max-w-[700px] bg-white">
+        {/* topbar  */}
+        {isOnboarding ? (
           <div
             className={cn(
-              "font-headline text-headline_2 justify-self-center font-bold text-secondary"
+              "relative flex items-center justify-center px-[22px] py-[18px]",
+              isOnboarding && "justify-start md:justify-center"
             )}
           >
-            Setup your profile
-          </div>
+            <div
+              className={cn(
+                "font-headline text-headline_2 justify-self-center font-bold text-secondary"
+              )}
+            >
+              Setup your profile
+            </div>
 
-          {isOnboarding ? (
+            {isOnboarding ? (
+              <Button
+                variant={"outlined2"}
+                className="absolute right-[0px] -translate-x-5 top-1/2 -translate-y-1/2 w-fit h-fit flex items-center gap-1 font-body text-title_2 py-1 px-4 font-medium text-primary"
+                onClick={onClickSkip}
+              >
+                Skip
+              </Button>
+            ) : null}
+          </div>
+        ) : (
+          <div className="w-full flex justify-between px-5 mt-5">
+            <div className="bg-[#48466D] text-white p-[2px] font-headline text-headline_3 font-bold">
+              Edit Profile
+            </div>
             <Button
               variant={"outlined2"}
-              className="absolute right-[0px] -translate-x-5 top-1/2 -translate-y-1/2 w-fit h-fit flex items-center gap-1 font-body text-title_2 py-1 px-4 font-medium text-primary"
-              onClick={onClickSkip}
+              className="font-body text-[14px] px-3"
             >
-              Skip
+              Save Changes
             </Button>
-          ) : null}
-        </div>
+          </div>
+        )}
 
         <div className="flex flex-col justify-center items-center px-5 md:px-[92px]">
-          <div className="mt-6 md:mt-6 text-primary font-body text-title_2 md:text-title_1 font-medium">
-            Hi Username, Nice to have you onboard!
-          </div>
+          {/* onboard welcome */}
+          {isOnboarding ? (
+            <>
+              <div className="mt-6 md:mt-6 text-primary font-body text-title_2 md:text-title_1 font-medium">
+                Hi Username, Nice to have you onboard!
+              </div>
 
-          <div className="mt-4 font-body text-body_2 text-center">
-            By completing your profile with relevant information and showcasing
-            your skills, you will increase your chances of attracting more
-            clients when responding to requests.
-          </div>
+              <div className="mt-4 font-body text-body_2 text-center">
+                By completing your profile with relevant information and
+                showcasing your skills, you will increase your chances of
+                attracting more clients when responding to requests.
+              </div>
+            </>
+          ) : null}
 
           <div className="flex flex-col justify-center items-center mt-6 md:mt-10 gap-2">
             <div className="font-body font-medium text-title_3 text-[#000000]">
@@ -260,18 +288,37 @@ const Onboard = (props: Props) => {
             </div>
           </div>
 
+          {!isOnboarding && (
+            <div className="w-full flex flex-col gap-1 mt-5">
+              <div className="self-start font-body font-medium text-title_3">
+                Your name
+              </div>
+              <input
+                type="text"
+                className="w-full font-body text-body_1 text-[#000000] py-2 px-3 border border-grey rounded-xl bg-[#F7F7F9]"
+              />
+            </div>
+          )}
+
           <div className="mt-4 md:mt-8 flex flex-col w-full gap-1 m">
-            <div className="font-body font-medium text-title_3 text-black self-start">
-              What do you do?
+            <div className="w-full flex justify-between items-center">
+              <div className="font-body font-medium text-title_3 text-black self-start">
+                What I do?
+              </div>
+
+              <div className="font-body text-body_3 text-[#000000]/60">
+                300chars max.
+              </div>
             </div>
 
             <textarea
               name=""
               id=""
               rows={5}
-              placeholder="Write here..."
-              className="font-body text-body_1 placeholder:font-body placeholder:text-body_1 placeholder:opacity-60 border border-[#B7B9BC] rounded-lg py-4 px-3"
+              placeholder="Briefly introduce your business..."
+              className="font-body text-body_2 text-[#000000] placeholder:font-body placeholder:text-body_2 placeholder:text-[#000000]/60 border border-[#B7B9BC] rounded-lg py-4 px-3 bg-[#F7F7F9]"
               onChange={(e) => setAbout(e.target.value)}
+              maxLength={300}
             />
           </div>
 
@@ -315,7 +362,7 @@ const Onboard = (props: Props) => {
                 id=""
                 rows={4}
                 placeholder="Enter address..."
-                className="w-full font-body text-body_1 placeholder:font-body placeholder:text-body_1 placeholder:opacity-60 border border-[#B7B9BC] rounded-lg py-4 px-3"
+                className="w-full font-body text-body_2 text-[#000000] placeholder:font-body placeholder:text-body_2 placeholder:text-[#000000]/60 border border-[#B7B9BC] bg-[#F7F7F9] rounded-lg py-4 px-3"
                 onChange={(e) => setBusinessAddr(e.target.value)}
               />
             </div>
@@ -401,9 +448,10 @@ const Onboard = (props: Props) => {
       </div>
     </main>
   );
-};
+});
 
-export default Onboard;
+ProfileInfo.displayName = "ProfileInfo";
+export default ProfileInfo;
 
 interface LocationSelectorI {
   cityName: string | null;

@@ -11,7 +11,7 @@ import { cn } from "@/app/lib/utils";
 import getUser from "@/app/lib/user/getUser";
 import { useGlobalContext } from "@/app/context/Store";
 import { useAuthContext } from "@/app/context/authContext";
-import Onboard from "./onboard";
+import ProfileInfo from "./ProfileInfo";
 import LoadingSpinner from "./LoadingSpinner";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
