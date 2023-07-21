@@ -27,9 +27,9 @@ export default function Navbar({}: Props) {
   const { showSidebar, setShowSidebar } = useSidebarContext();
   const { isOnboarding } = useAuthContext();
 
-  const pathUrl = path.split("/")[1];
+  const pathUrl = path.split("/");
   let renderOnlyLogo = Boolean(
-    onlyRenderLogo.find((urlSplit) => urlSplit === pathUrl)
+    onlyRenderLogo.find((urlSplit) => urlSplit === pathUrl[1])
   );
 
   return (
@@ -67,13 +67,13 @@ export default function Navbar({}: Props) {
                 <div
                   className={cn(
                     "h-10 w-10 bg-background rounded flex items-center justify-center",
-                    pathUrl === "notification" && "border border-secondary"
+                    pathUrl[1] === "notification" && "border border-secondary"
                   )}
                 >
                   <NotificationsIcon
                     className={cn(
                       "text-stroke",
-                      pathUrl === "notification" && "text-secondary"
+                      pathUrl[1] === "notification" && "text-secondary"
                     )}
                   />
                 </div>
@@ -89,13 +89,17 @@ export default function Navbar({}: Props) {
                 <div
                   className={cn(
                     "h-10 w-10 bg-background rounded flex items-center justify-center",
-                    pathUrl === "profile" && "border border-secondary"
+                    pathUrl[1] === "profile" &&
+                      pathUrl.length < 3 &&
+                      "border border-secondary"
                   )}
                 >
                   <PersonIcon
                     className={cn(
                       "text-stroke",
-                      pathUrl === "profile" && "text-secondary"
+                      pathUrl[1] === "profile" &&
+                        pathUrl.length < 3 &&
+                        "text-secondary"
                     )}
                   />
                 </div>

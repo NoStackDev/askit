@@ -25,11 +25,11 @@ const UserPage = (props: Props) => {
 
   return (
     <main className="md:mx-[100px] relative bg-background px-5 md:py-10 mb-20">
-      <React.Suspense>
-        <Topbar className="">Seller Details</Topbar>
-      </React.Suspense>
+      <div className="flex flex-col gap-6">
+        <div className="bg-secondary w-fit mb-[6] p-2 items-center font-headline text-white text-headline_3 font-bold">
+          Profile
+        </div>
 
-      <div className="flex flex-col md:grid md:grid-cols-[348px_1fr] gap-6">
         <React.Suspense>
           <UserInfo className="mt-10" />
         </React.Suspense>

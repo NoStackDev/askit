@@ -168,7 +168,7 @@ const ResponseCard = React.forwardRef<
                 </Link>
               </React.Suspense>
 
-              <Link href={`/user/${user_id}/`}>
+              <Link href={`/profile/${user_id}/`}>
                 <div className="font-headline font-bold text-body_2 text-white hover:cursor-pointer">
                   {user ? user : "Username"}
                 </div>

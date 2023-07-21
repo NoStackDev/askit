@@ -1,10 +1,7 @@
 "use client";
 
-import { responsesConfig } from "@/config.ts/responses";
 import React from "react";
-import { useGlobalContext } from "../context/Store";
-import { RequestDetailResponseType, ResponseType } from "../types";
-import { getUserRequests } from "../lib/request";
+
 import { getUserResponses } from "../lib/repsonse";
 import { useResponseContext } from "../context/responseContext";
 
@@ -42,8 +39,8 @@ const ProfilePage = (props: Props) => {
   return (
     <main className="relative bg-background px-[20px] md:px-0 pb-20 md:pb-0 md:mt-14 md:mb-10 md:ml-[112px] md:mr-[100px]">
       <div className="flex items-center justify-between w-full mt-10 md:mt-0 md:mx-0">
-        <div className="bg-secondary w-fit flex gap-[10px] p-2 items-center font-headline text-white text-headline_2 font-bold">
-          Profile
+        <div className="bg-secondary w-fit mt-[10] mb-[6] p-2 items-center font-headline text-white text-headline_3 font-bold">
+          My Profile
         </div>
 
         <div className="w-fit flex gap-[10px] p-2 items-center hover:cursor-pointer">
