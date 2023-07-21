@@ -35,7 +35,6 @@ export default function Home() {
   const { selectedCategoryFilter } = useGlobalContext();
 
   useEffect(() => {
-    console.log(process.env.NEXT_PUBLIC_API);
     dispatch({ type: "RESET" });
     (async () => {
       try {
@@ -59,13 +58,13 @@ export default function Home() {
     (async () => {
       if (token) {
         const bookmarksRes: { data: RequestType[] } = await getBookmarks(token);
+
         if (!bookmarksRes) {
           console.log(bookmarksRes);
+          return;
         }
-        if (bookmarksRes.data) {
-          const bookmarks = bookmarksRes.data.map((bookmark) => bookmark.id);
-          setBookmarkedList(bookmarks);
-        }
+        const bookmarks = bookmarksRes.data.map((bookmark) => bookmark.id);
+        setBookmarkedList(bookmarks);
       }
     })();
   }, [feeds]);

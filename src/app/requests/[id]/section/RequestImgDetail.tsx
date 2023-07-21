@@ -1,6 +1,6 @@
 "use client";
 
-import { addDeleteBookmark } from "@/app/lib/bookmark";
+import { addDeleteBookmark, getBookmarks } from "@/app/lib/bookmark";
 import { cn, month } from "@/app/lib/utils";
 import { RequestDetailType, RequestType } from "@/app/types";
 import Image from "next/image";
@@ -46,8 +46,27 @@ const RequestImgDetail = React.forwardRef<
     const date = new Date(created_at);
 
     React.useEffect(() => {
-      setBookmarked(bookmark);
-    }, [bookmark]);
+      const token = window.localStorage.getItem("token");
+      (async () => {
+        if (token) {
+          const bookmarksRes: { data: RequestType[] } = await getBookmarks(
+            token
+          );
+
+          if (!bookmarksRes) {
+            console.log(bookmarksRes);
+            return;
+          }
+          if (
+            bookmarksRes.data.find(
+              (requestItem) => requestItem.id === requestid
+            )
+          ) {
+            setBookmarked(true);
+          }
+        }
+      })();
+    }, []);
 
     const onBookmarkClick = async () => {
       const token = window.localStorage.getItem("token");
@@ -72,8 +91,6 @@ const RequestImgDetail = React.forwardRef<
         }
       }
     };
-
-    // console.log(bookmark)
 
     return (
       <div
@@ -189,7 +206,7 @@ const RequestImgDetail = React.forwardRef<
                   alt="number of views"
                 />
                 <div className="text-special font-body font-light text-[#000000]/60">
-                  {num_of_views} views
+                  {num_of_views} view{num_of_views === 1 ? null : "s"}
                 </div>
               </div>
             </div>
