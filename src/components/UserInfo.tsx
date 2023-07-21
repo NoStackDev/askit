@@ -20,27 +20,10 @@ const WhatsApp = React.lazy(() => import("@mui/icons-material/WhatsApp"));
 const UserInfo = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & {
+    userDetails: UserType | null;
     variant?: "profile";
   }
->(({ className, variant, ...props }, forwardRef) => {
-  const [user, setUser] = React.useState<UserType | null>(null);
-
-  React.useEffect(() => {
-    const userDetails = window.localStorage.getItem("userDetails");
-    if (!userDetails) {
-      window.location.href = "/login";
-      return;
-    }
-
-    if (variant === "profile") {
-      setUser(JSON.parse(userDetails).data);
-      return;
-    }
-    if (userDetails) {
-      // const otherUserDetails = await getCl
-    }
-  }, []);
-
+>(({ className, variant, userDetails, ...props }, forwardRef) => {
   return (
     <div
       ref={forwardRef}
@@ -50,12 +33,12 @@ const UserInfo = React.forwardRef<
       )}
       {...props}
     >
-      {user?.image_url ? (
+      {userDetails?.image_url ? (
         <Image
-          src={user.image_url}
+          src={userDetails.image_url}
           height={80}
           width={80}
-          alt={`${user.name} profile pic`}
+          alt={`${userDetails.name} profile pic`}
         />
       ) : (
         <React.Suspense>
@@ -68,42 +51,42 @@ const UserInfo = React.forwardRef<
 
       <div className="flex flex-col gap-1 justify-center mt-6 items-center">
         <div className="font-headline text-headline_2 font-bold text-white">
-          {user?.name}
+          {userDetails?.name}
         </div>
 
-        {user?.whatsapp_num && (
+        {userDetails?.whatsapp_num && (
           <div className="flex gap-2 text-white font-body text-title_3 font-medium">
             <React.Suspense>
               <CallIcon className="" />
             </React.Suspense>
 
             <div className="font-body text-title_3 font-bold">
-              {user?.whatsapp_num}
+              {userDetails?.whatsapp_num}
             </div>
           </div>
         )}
       </div>
 
-      {user?.business_addr && (
+      {userDetails?.business_addr && (
         <div className="flex flex-col gap-1 mt-4 justify-center items-center">
           <div className="w-full flex flex-col justify-center items-center gap-1">
             <div className="font-body text-special font-light text-white">
               Business Address
             </div>
             <div className="font-body text-title_3 font-medium text-white">
-              {user?.business_addr}
+              {userDetails?.business_addr}
             </div>
           </div>
         </div>
       )}
 
-      {user?.about && (
+      {userDetails?.about && (
         <div className="mt-6 flex flex-col gap-2 text-white">
           <div className="font-headline font-bold text-title_3 w-full text-center">
             WHAT I DO
           </div>
           <div className="font-body text-title_1 font-medium text-center">
-            {user?.about}
+            {userDetails?.about}
           </div>
         </div>
       )}
@@ -111,7 +94,7 @@ const UserInfo = React.forwardRef<
       <div className="w-full flex flex-col items-center justify-center gap-4 mt-14">
         {variant === "profile" ? null : (
           <Link
-            href={`mailto:${user?.email}`}
+            href={`mailto:${userDetails?.email}`}
             className="relative w-full bg-white rounded p-3 h-10 flex items-center"
           >
             <React.Suspense>
@@ -123,9 +106,9 @@ const UserInfo = React.forwardRef<
           </Link>
         )}
 
-        {(user?.facebook_link ||
-          user?.whatsapp_num ||
-          user?.instagram_link) && (
+        {(userDetails?.facebook_link ||
+          userDetails?.whatsapp_num ||
+          userDetails?.instagram_link) && (
           <>
             <div className="font-body text-title_3 font-medium text-center text-white">
               {variant === "profile"
@@ -133,8 +116,8 @@ const UserInfo = React.forwardRef<
                 : "or check me on social media"}
             </div>
             <div className="flex gap-6">
-              {user?.facebook_link && (
-                <Link href={user.facebook_link}>
+              {userDetails?.facebook_link && (
+                <Link href={userDetails.facebook_link}>
                   <Image
                     src="/images/icons/facebookProfileIcon.png"
                     height={24}
@@ -145,8 +128,8 @@ const UserInfo = React.forwardRef<
                 </Link>
               )}
 
-              {user?.instagram_link && (
-                <Link href={user.instagram_link}>
+              {userDetails?.instagram_link && (
+                <Link href={userDetails.instagram_link}>
                   <Image
                     src="/images/icons/instagramProfileIcon.png"
                     height={24}
@@ -157,7 +140,7 @@ const UserInfo = React.forwardRef<
                 </Link>
               )}
 
-              {user?.whatsapp_num && (
+              {userDetails?.whatsapp_num && (
                 <Dialog
                   dialogTrigger={
                     <Image
@@ -183,7 +166,7 @@ const UserInfo = React.forwardRef<
                       >
                         No
                       </div>
-                      <Link href={"https://wa.me/" + user.whatsapp_num}>
+                      <Link href={"https://wa.me/" + userDetails.whatsapp_num}>
                         <div className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-secondary hover:cursor-pointer">
                           Yes
                         </div>

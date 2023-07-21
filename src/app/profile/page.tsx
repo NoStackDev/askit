@@ -4,6 +4,7 @@ import React from "react";
 
 import { getUserResponses } from "../lib/repsonse";
 import { useResponseContext } from "../context/responseContext";
+import { UserType } from "../types";
 
 const UserInfo = React.lazy(() => import("@/components/UserInfo"));
 const Responses = React.lazy(() => import("@/components/Responses"));
@@ -14,12 +15,23 @@ type Props = {};
 const ProfilePage = (props: Props) => {
   const { responses, setResponses } = useResponseContext();
   const [isLoading, setIsLoading] = React.useState(true);
+  const [user, setUser] = React.useState<UserType | null>(null);
 
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
     if (!token) {
       window.location.href = "/login";
     }
+  }, []);
+
+  React.useEffect(() => {
+    const userDetails = window.localStorage.getItem("userDetails");
+    if (!userDetails) {
+      window.location.href = "/login";
+      return;
+    }
+
+    setUser(JSON.parse(userDetails).data);
   }, []);
 
   React.useEffect(() => {
@@ -56,7 +68,7 @@ const ProfilePage = (props: Props) => {
 
       <div className="flex flex-col md:grid md:grid-cols-[348px_1fr] gap-6">
         <React.Suspense>
-          <UserInfo variant="profile" className="mt-10" />
+          <UserInfo userDetails={user} variant="profile" className="mt-10" />
         </React.Suspense>
 
         <div className="col-span-2 mt-14">
