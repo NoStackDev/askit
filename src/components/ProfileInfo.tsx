@@ -439,12 +439,18 @@ const ProfileInfo = React.forwardRef<
             </div>
 
             <div className="mt-2 w-full flex flex-col gap-3">
-              <div className="px-3 py-[6px] bg-background flex w-full justify-between border border-[#D9D9D9] rounded-lg">
-                <div className="w-full">
-                  <div></div>
+              <div className="px-3 py-[10px] bg-background flex w-full justify-between border border-[#D9D9D9] rounded-lg">
+                <div className="relative w-full">
+                  <Image
+                    src={"/images/icons/facebookProfileIcon.png"}
+                    height={24}
+                    width={24}
+                    alt="facebook"
+                    className="absolute left-0"
+                  />
                   <input
                     type="text"
-                    className="font-body text-body_3 w-full bg-background placeholder:text-secondary"
+                    className="font-body text-body_3 w-11/12 bg-background placeholder:text-secondary placeholder:text-body_3 ml-8 pl-1"
                     placeholder=" Copy your Facebook link and Paste here!"
                     onChange={(e) => setFacebookLink(e.target.value)}
                     value={facebookLink}
@@ -460,12 +466,18 @@ const ProfileInfo = React.forwardRef<
                 />
               </div>
 
-              <div className="px-3 py-[6px] bg-background flex w-full justify-between border border-[#D9D9D9] rounded-lg">
-                <div className="w-full">
-                  <div></div>
+              <div className="px-3 py-[10px] bg-background flex w-full justify-between border border-[#D9D9D9] rounded-lg">
+                <div className="w-full relative">
+                  <Image
+                    src={"/images/icons/instagramProfileIcon.png"}
+                    height={24}
+                    width={24}
+                    alt="instagram"
+                    className="absolute left-0"
+                  />
                   <input
                     type="text"
-                    className="font-body text-body_3 w-full bg-background placeholder:text-secondary"
+                    className="font-body text-body_3 w-11/12 bg-background placeholder:text-secondary placeholder:text-body_3 ml-8 pl-1"
                     placeholder="Copy your Instagram link and paste here!"
                     onChange={(e) => setInstagramLink(e.target.value)}
                     value={instagramLink}
@@ -481,12 +493,18 @@ const ProfileInfo = React.forwardRef<
                 />
               </div>
 
-              <div className="px-3 py-[6px] bg-background flex w-full border border-[#D9D9D9] rounded-lg">
-                <div className="w-full">
-                  <div></div>
+              <div className="px-3 py-[10px] bg-background flex w-full border border-[#D9D9D9] rounded-lg">
+                <div className="relative w-full">
+                  <Image
+                    src={"/images/icons/whatsappProfileIcon.png"}
+                    height={24}
+                    width={24}
+                    alt="whatsapp"
+                    className="absolute left-0"
+                  />
                   <input
                     type="text"
-                    className="font-body text-body_3 w-full bg-background placeholder:text-secondary"
+                    className="font-body text-body_3 w-full bg-background placeholder:text-secondary placeholder:text-body_3 ml-8 pl-1"
                     placeholder="Type in your WhatsApp ID (WhatsApp number)"
                     onChange={(e) => setWhatsappNum(e.target.value)}
                     value={whatsppNum}
