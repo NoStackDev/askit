@@ -82,25 +82,37 @@ const ProfileInfo = React.forwardRef<
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 
-  // React.useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       if (authUser?.authEmail && authUser.authPassword) {
-  //         const tokenRes = await loginUser({
-  //           email: authUser?.authEmail,
-  //           password: authUser?.authPassword,
-  //         });
+  React.useEffect(() => {
+    isOnboarding &&
+      (async () => {
+        try {
+          if (authUser?.authEmail && authUser.authPassword) {
+            const tokenRes = await loginUser({
+              email: authUser?.authEmail,
+              password: authUser?.authPassword,
+            });
 
-  //         setToken(tokenRes.token);
-  //         window.localStorage.setItem("token", tokenRes.token);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   })();
-  // }, []);
+            setToken(tokenRes.token);
+            window.localStorage.setItem("token", tokenRes.token);
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      })();
+  }, []);
 
   const states = stateCities ? Object.keys(stateCities) : null;
+
+  if (userDetails) {
+    // const a =
+    //   stateCities &&
+    //   Object.values(stateCities).forEach((arr) =>
+    //     arr.find((city) => city.id === Number(userDetails.location))
+    //   );
+
+    // console.log(a);
+    console.log(userDetails);
+  }
 
   React.useEffect(() => {
     const stateCitiesIntermediate = window.localStorage.getItem("cities");
@@ -405,6 +417,7 @@ const ProfileInfo = React.forwardRef<
                   locationType="STATE"
                   states={states}
                   setLocation={setState}
+                  selectedState={state}
                 />
 
                 <LocationSelect
@@ -449,7 +462,7 @@ const ProfileInfo = React.forwardRef<
                   />
                   <input
                     type="text"
-                    className="font-body text-body_3 w-11/12 bg-background placeholder:text-secondary placeholder:text-body_3 ml-8 pl-1 py-1"
+                    className="font-body text-body_3 w-[calc(100%-40px)] bg-background placeholder:text-secondary placeholder:text-body_3 ml-8 pl-1 py-1"
                     placeholder=" Copy your Facebook link and Paste here!"
                     onChange={(e) => setFacebookLink(e.target.value)}
                     value={facebookLink}
@@ -476,7 +489,7 @@ const ProfileInfo = React.forwardRef<
                   />
                   <input
                     type="text"
-                    className="font-body text-body_3 w-11/12 bg-background placeholder:text-secondary placeholder:text-body_3 ml-8 pl-1 py-1"
+                    className="font-body text-body_3 w-[calc(100%-40px)] bg-background placeholder:text-secondary placeholder:text-body_3 ml-8 pl-1 py-1"
                     placeholder="Copy your Instagram link and paste here!"
                     onChange={(e) => setInstagramLink(e.target.value)}
                     value={instagramLink}
@@ -656,6 +669,7 @@ type LocationSelectI =
       locationType: "STATE";
       states: string[] | null;
       setLocation: React.Dispatch<React.SetStateAction<string | null>>;
+      selectedState: string | null;
     }
   | {
       locationType: "CITY";
