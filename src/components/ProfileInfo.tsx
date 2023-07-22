@@ -15,7 +15,12 @@ import {
   MenubarTrigger,
 } from "./ui/Menubar";
 import { statesConfig } from "@/config.ts/cities";
-import { City, CityInterface, StateCitiesInterface } from "@/app/types";
+import {
+  City,
+  CityInterface,
+  StateCitiesInterface,
+  UserType,
+} from "@/app/types";
 import {
   Select,
   SelectContent,
@@ -39,16 +44,29 @@ const KeyboardArrowDownIcon = React.lazy(
 
 const ProfileInfo = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div">
->(({ className, ...props }, forwardRef) => {
+  React.ComponentPropsWithoutRef<"div"> & { userDetails?: UserType | null }
+>(({ className, userDetails, ...props }, forwardRef) => {
+  const [username, setUsername] = React.useState<string>(
+    userDetails?.name ? userDetails.name : ""
+  );
   const [state, setState] = React.useState<string | null>(null);
   const [city, setCity] = React.useState<number | null>(null);
   const [cityName, setCityName] = React.useState<string | null>(null);
-  const [about, setAbout] = React.useState<string>("");
-  const [businessAddr, setBusinessAddr] = React.useState<string>("");
-  const [facebookLink, setFacebookLink] = React.useState<string>("");
-  const [instagramLink, setInstagramLink] = React.useState<string>("");
-  const [whatsppNum, setWhatsappNum] = React.useState<string>("");
+  const [about, setAbout] = React.useState<string>(
+    userDetails ? userDetails.about : ""
+  );
+  const [businessAddr, setBusinessAddr] = React.useState<string>(
+    userDetails?.business_addr ? userDetails.business_addr : ""
+  );
+  const [facebookLink, setFacebookLink] = React.useState<string>(
+    userDetails?.facebook_link ? userDetails.facebook_link : ""
+  );
+  const [instagramLink, setInstagramLink] = React.useState<string>(
+    userDetails?.instagram_link ? userDetails.instagram_link : ""
+  );
+  const [whatsppNum, setWhatsappNum] = React.useState<string>(
+    userDetails?.whatsapp_num ? userDetails.whatsapp_num : ""
+  );
   const [imageUrl, setImageUrl] = React.useState<string>("");
   const [imageBase64, setImageBase64] = React.useState<
     string | ArrayBuffer | null
@@ -57,29 +75,30 @@ const ProfileInfo = React.forwardRef<
   const [stateCities, setStateCities] = React.useState<{
     [id: string]: CityInterface[];
   } | null>(null);
+  const [isUpdatingUser, setIsUpdatingUser] = React.useState(false);
 
   const { setToken, user: authUser, setUser: setAuthUser } = useGlobalContext();
   const { isLoading, isOnboarding, dispatch } = useAuthContext();
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
-    (async () => {
-      try {
-        if (authUser?.authEmail && authUser.authPassword) {
-          const tokenRes = await loginUser({
-            email: authUser?.authEmail,
-            password: authUser?.authPassword,
-          });
+  // React.useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       if (authUser?.authEmail && authUser.authPassword) {
+  //         const tokenRes = await loginUser({
+  //           email: authUser?.authEmail,
+  //           password: authUser?.authPassword,
+  //         });
 
-          setToken(tokenRes.token);
-          window.localStorage.setItem("token", tokenRes.token);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
+  //         setToken(tokenRes.token);
+  //         window.localStorage.setItem("token", tokenRes.token);
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   })();
+  // }, []);
 
   const states = stateCities ? Object.keys(stateCities) : null;
 
@@ -121,6 +140,48 @@ const ProfileInfo = React.forwardRef<
     }
   };
 
+  const onUpdateClick = async () => {
+    const token = window.localStorage.getItem("token");
+    if (!token) {
+      window.location.assign("/login");
+      return;
+    }
+
+    try {
+      setIsUpdatingUser(true);
+      const headers = new Headers();
+      headers.append("Accept", "application/json");
+      headers.append("Authorization", `Bearer ${JSON.parse(token)}`);
+
+      const data = new FormData();
+      data.append("name", username);
+      data.append("about", about);
+      data.append("business_addr", businessAddr);
+      data.append("facebook_link", facebookLink);
+      data.append("whatsapp_num", whatsppNum);
+      data.append("instagram_link", instagramLink);
+      if (city) {
+        data.append("location_id", city.toString());
+      }
+
+      if (imageFile) {
+        data.append("profile_img", imageFile[0], imageFile[0].name);
+      }
+
+      const updatedUser = await updateUser(headers, data);
+
+      if (updatedUser) {
+        window.localStorage.setItem("userDetails", JSON.stringify(updatedUser));
+        setIsUpdatingUser(false);
+      } else {
+        setIsUpdatingUser(false);
+      }
+    } catch (err) {
+      console.log(err);
+      setIsUpdatingUser(false);
+    }
+  };
+
   const onSaveClick = async () => {
     try {
       if (authUser && authUser.authEmail && authUser.authPassword) {
@@ -154,7 +215,6 @@ const ProfileInfo = React.forwardRef<
           const updatedUser = await updateUser(headers, data);
 
           if (updatedUser) {
-            console.log(updateUser);
             window.localStorage.setItem(
               "userDetails",
               JSON.stringify(updatedUser)
@@ -219,8 +279,9 @@ const ProfileInfo = React.forwardRef<
             <Button
               variant={"outlined2"}
               className="font-body text-[14px] px-3"
+              onClick={onUpdateClick}
             >
-              Save Changes
+              Sav{isUpdatingUser ? "ing" : "e"} Changes
             </Button>
           </div>
         )}
@@ -295,7 +356,9 @@ const ProfileInfo = React.forwardRef<
               </div>
               <input
                 type="text"
+                value={username}
                 className="w-full font-body text-body_1 text-[#000000] py-2 px-3 border border-grey rounded-xl bg-[#F7F7F9]"
+                onChange={(e) => setUsername(e.target.value.trim())}
               />
             </div>
           )}
@@ -318,6 +381,7 @@ const ProfileInfo = React.forwardRef<
               placeholder="Briefly introduce your business..."
               className="font-body text-body_2 text-[#000000] placeholder:font-body placeholder:text-body_2 placeholder:text-[#000000]/60 border border-[#B7B9BC] rounded-lg py-4 px-3 bg-[#F7F7F9]"
               onChange={(e) => setAbout(e.target.value)}
+              value={about}
               maxLength={300}
             />
           </div>
@@ -364,11 +428,12 @@ const ProfileInfo = React.forwardRef<
                 placeholder="Enter address..."
                 className="w-full font-body text-body_2 text-[#000000] placeholder:font-body placeholder:text-body_2 placeholder:text-[#000000]/60 border border-[#B7B9BC] bg-[#F7F7F9] rounded-lg py-4 px-3"
                 onChange={(e) => setBusinessAddr(e.target.value)}
+                value={businessAddr}
               />
             </div>
           </div>
 
-          <div className="mt-8 md:mt-7 w-full">
+          <div className={cn("mt-8 md:mt-7 w-full", !isOnboarding && "mb-10")}>
             <div className="font-body text-title_3 font-medium text-black">
               Social Media Links
             </div>
@@ -382,6 +447,7 @@ const ProfileInfo = React.forwardRef<
                     className="font-body text-body_3 w-full bg-background placeholder:text-secondary"
                     placeholder=" Copy your Facebook link and Paste here!"
                     onChange={(e) => setFacebookLink(e.target.value)}
+                    value={facebookLink}
                   />
                 </div>
 
@@ -402,6 +468,7 @@ const ProfileInfo = React.forwardRef<
                     className="font-body text-body_3 w-full bg-background placeholder:text-secondary"
                     placeholder="Copy your Instagram link and paste here!"
                     onChange={(e) => setInstagramLink(e.target.value)}
+                    value={instagramLink}
                   />
                 </div>
 
@@ -422,28 +489,33 @@ const ProfileInfo = React.forwardRef<
                     className="font-body text-body_3 w-full bg-background placeholder:text-secondary"
                     placeholder="Type in your WhatsApp ID (WhatsApp number)"
                     onChange={(e) => setWhatsappNum(e.target.value)}
+                    value={whatsppNum}
                   />
                 </div>
               </div>
             </div>
           </div>
 
-          {isLoading ? (
-            <Button className="mt-8 w-full max-w-[225px] rounded-[14px] py-2">
-              Saving
-            </Button>
-          ) : (
-            <Button
-              className="mt-8 w-full max-w-[225px] rounded-[14px] py-2"
-              onClick={onSaveClick}
-            >
-              Save and continue
-            </Button>
-          )}
+          {isOnboarding ? (
+            <>
+              {isLoading ? (
+                <Button className="mt-8 w-full max-w-[225px] rounded-[14px] py-2">
+                  Saving
+                </Button>
+              ) : (
+                <Button
+                  className="mt-8 w-full max-w-[225px] rounded-[14px] py-2"
+                  onClick={onSaveClick}
+                >
+                  Save and continue
+                </Button>
+              )}
 
-          <div className="font-body text-secondary text-body_1 mt-10 md:mt-6">
-            © 2023 Askit. All Rights Reserved.
-          </div>
+              <div className="font-body text-secondary text-body_1 mt-10 md:mt-6">
+                © 2023 Askit. All Rights Reserved.
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
     </main>

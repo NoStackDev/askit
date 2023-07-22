@@ -6,6 +6,7 @@ import { getUserResponses } from "../lib/repsonse";
 import { useResponseContext } from "../context/responseContext";
 import { UserType } from "../types";
 import ProfileInfo from "@/components/ProfileInfo";
+import { useGlobalContext } from "../context/Store";
 
 const UserInfo = React.lazy(() => import("@/components/UserInfo"));
 const Responses = React.lazy(() => import("@/components/Responses"));
@@ -18,6 +19,7 @@ const ProfilePage = (props: Props) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState<UserType | null>(null);
   const [editProfile, setEditProfile] = React.useState(false);
+  const { setToken, user: authUser, setUser: setAuthUser } = useGlobalContext();
 
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -53,7 +55,7 @@ const ProfilePage = (props: Props) => {
   return (
     <>
       {editProfile ? (
-        <ProfileInfo />
+        <ProfileInfo userDetails={user} />
       ) : (
         <main className="relative bg-background px-[20px] md:px-0 pb-20 md:pb-0 md:mt-14 md:mb-10 md:ml-[112px] md:mr-[100px]">
           <div className="flex items-center justify-between w-full mt-10 md:mt-0 md:mx-0">
