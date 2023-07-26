@@ -13,6 +13,12 @@ export type UserType = {
   updated_at: string;
 };
 
+export type UserDetail = {
+  data: UserType & {
+    responses: RequestDetailResponseType[];
+  };
+};
+
 export type City = {
   countryCode: string;
   country: string;

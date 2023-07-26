@@ -1,12 +1,10 @@
 "use client";
 
 import { getOtherUser } from "@/app/lib/user";
-import { RequestDetailResponseType, UserType } from "@/app/types";
-import { responsesConfig } from "@/config.ts/responses";
+import { RequestDetailResponseType, UserDetail, UserType } from "@/app/types";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-const Topbar = React.lazy(() => import("@/components/Topbar"));
 const UserInfo = React.lazy(() => import("../../../components/UserInfo"));
 const Responses = React.lazy(() => import("@/components/Responses"));
 const FlagIcon = React.lazy(() => import("@mui/icons-material/Flag"));
@@ -37,7 +35,11 @@ const UserPage = (props: Props) => {
       }
 
       const userDetails = await getOtherUser(token, Number(userId));
-      setUser(userDetails);
+      if (userDetails.data) {
+        const { responses: responsesData, ...otherData } = userDetails.data;
+        setUser(otherData);
+        setResponses(responsesData);
+      }
     })();
   }, []);
 
