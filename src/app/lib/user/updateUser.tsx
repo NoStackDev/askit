@@ -13,7 +13,7 @@ const updateUser = async (headers: Headers, data: FormData) => {
   if (res.status !== 200) {
     const json = await res.json();
     console.log(json);
-    return { error: true, ...json };
+    return { isError: true, ...json };
   }
 };
 

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Topbar from "@/components/Topbar";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import {
@@ -14,7 +13,6 @@ import {
   MenubarSubTrigger,
   MenubarTrigger,
 } from "./ui/Menubar";
-import { statesConfig } from "@/config.ts/cities";
 import {
   City,
   CityInterface,
@@ -32,10 +30,8 @@ import {
 } from "./ui/Select";
 import { cn } from "@/app/lib/utils";
 import { useAuthContext } from "@/app/context/authContext";
-import { redirect } from "next/navigation";
 import { loginUser, updateUser } from "@/app/lib/user";
 import { useGlobalContext } from "@/app/context/Store";
-import getUser from "@/app/lib/user/getUser";
 import { getCities } from "@/app/lib/city";
 
 const KeyboardArrowDownIcon = React.lazy(
@@ -75,10 +71,13 @@ const ProfileInfo = React.forwardRef<
   const [stateCities, setStateCities] = React.useState<{
     [id: string]: CityInterface[];
   } | null>(null);
-  const [isUpdatingUser, setIsUpdatingUser] = React.useState(false);
 
   const { setToken, user: authUser, setUser: setAuthUser } = useGlobalContext();
   const { isLoading, isOnboarding, dispatch } = useAuthContext();
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [errors, setErrors] = React.useState<{
+    [errorName: string]: string[];
+  } | null>(null);
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 
@@ -119,6 +118,7 @@ const ProfileInfo = React.forwardRef<
               : userDetails.location
           )
       );
+      console.log(userDetails)
       selectedCity && setState(selectedCity.state);
       selectedCity && setCity(selectedCity.id);
       selectedCity && setCityName(selectedCity.city);
@@ -164,6 +164,7 @@ const ProfileInfo = React.forwardRef<
   };
 
   const onUpdateClick = async () => {
+    setErrors(null);
     const token = window.localStorage.getItem("token");
     if (!token) {
       window.location.assign("/login");
@@ -171,18 +172,25 @@ const ProfileInfo = React.forwardRef<
     }
 
     try {
-      setIsUpdatingUser(true);
+      setIsSaving(true);
       const headers = new Headers();
       headers.append("Accept", "application/json");
-      headers.append("Authorization", `Bearer ${JSON.parse(token)}`);
+      headers.append("Authorization", `Bearer ${token}`);
 
       const data = new FormData();
       data.append("name", username);
       data.append("about", about);
       data.append("business_addr", businessAddr);
-      data.append("facebook_link", facebookLink);
-      data.append("whatsapp_num", whatsppNum);
-      data.append("instagram_link", instagramLink);
+
+      if (facebookLink.trim().length > 1) {
+        data.append("facebook_link", facebookLink);
+      }
+      if (whatsppNum.trim().length > 1) {
+        data.append("whatsapp_num", whatsppNum);
+      }
+      if (instagramLink.trim().length > 1) {
+        data.append("instagram_link", instagramLink);
+      }
       if (city) {
         data.append("location_id", city.toString());
       }
@@ -193,15 +201,21 @@ const ProfileInfo = React.forwardRef<
 
       const updatedUser = await updateUser(headers, data);
 
-      if (updatedUser) {
-        window.localStorage.setItem("userDetails", JSON.stringify(updatedUser));
-        setIsUpdatingUser(false);
-      } else {
-        setIsUpdatingUser(false);
+      if (updatedUser.data) {
+        const { responses, ...otherData } = updatedUser.data;
+        window.localStorage.setItem(
+          "userDetails",
+          JSON.stringify({ data: otherData })
+        );
+        setIsSaving(false);
+      }
+      if (updatedUser.isError) {
+        setErrors({ ...updatedUser.errors });
+        setIsSaving(false);
       }
     } catch (err) {
       console.log(err);
-      setIsUpdatingUser(false);
+      setIsSaving(false);
     }
   };
 
@@ -258,6 +272,7 @@ const ProfileInfo = React.forwardRef<
     window.location.href = "/";
   };
 
+  console.log(city);
   return (
     <main
       className={cn(
@@ -304,7 +319,7 @@ const ProfileInfo = React.forwardRef<
               className="font-body text-[14px] px-3"
               onClick={onUpdateClick}
             >
-              Sav{isUpdatingUser ? "ing" : "e"} Changes
+              Sav{isSaving ? "ing" : "e"} Changes
             </Button>
           </div>
         )}
@@ -463,76 +478,97 @@ const ProfileInfo = React.forwardRef<
             </div>
 
             <div className="mt-2 w-full flex flex-col gap-3">
-              <div className="px-3 py-[10px] bg-background flex w-full justify-between border border-[#D9D9D9] rounded-lg">
-                <div className="relative w-full">
+              <div className="w-full">
+                {errors && errors.facebook_link && (
+                  <div className="font-body text-[red]/60 text-special">
+                    {errors.facebook_link}
+                  </div>
+                )}
+                <div className="px-3 py-[10px] bg-background flex w-full justify-between border border-[#D9D9D9] rounded-lg">
+                  <div className="relative w-full flex gap-2 items-center">
+                    <Image
+                      src={"/images/icons/facebookProfileIcon.png"}
+                      height={24}
+                      width={24}
+                      alt="facebook"
+                      className=""
+                    />
+                    <input
+                      type="text"
+                      className="font-body text-body_3 w-[calc(100%-40px)] bg-background placeholder:text-secondary placeholder:text-body_3 pl-1 py-1"
+                      placeholder=" Copy your Facebook link and Paste here!"
+                      onChange={(e) => setFacebookLink(e.target.value)}
+                      value={facebookLink}
+                    />
+                  </div>
+
                   <Image
-                    src={"/images/icons/facebookProfileIcon.png"}
-                    height={24}
-                    width={24}
-                    alt="facebook"
-                    className="absolute left-0"
-                  />
-                  <input
-                    type="text"
-                    className="font-body text-body_3 w-[calc(100%-40px)] bg-background placeholder:text-secondary placeholder:text-body_3 ml-8 pl-1 py-1"
-                    placeholder=" Copy your Facebook link and Paste here!"
-                    onChange={(e) => setFacebookLink(e.target.value)}
-                    value={facebookLink}
+                    src="/images/icons/content_paste.png"
+                    height={20}
+                    width={20}
+                    alt="copy content"
+                    className="hover:cursor-pointer"
                   />
                 </div>
-
-                <Image
-                  src="/images/icons/content_paste.png"
-                  height={20}
-                  width={20}
-                  alt="copy content"
-                  className="hover:cursor-pointer"
-                />
               </div>
 
-              <div className="px-3 py-[10px] bg-background flex w-full justify-between border border-[#D9D9D9] rounded-lg">
-                <div className="w-full relative">
+              <div className="w-full">
+                {errors && errors.instagram_link && (
+                  <div className="font-body text-[red]/60 text-special">
+                    {errors.instagram_link}
+                  </div>
+                )}
+                <div className="px-3 py-[10px] bg-background flex w-full justify-between border border-[#D9D9D9] rounded-lg">
+                  <div className="w-full relative flex gap-2 items-center">
+                    <Image
+                      src={"/images/icons/instagramProfileIcon.png"}
+                      height={24}
+                      width={24}
+                      alt="instagram"
+                      className=""
+                    />
+                    <input
+                      type="text"
+                      className="font-body text-body_3 w-[calc(100%-40px)] bg-background placeholder:text-secondary placeholder:text-body_3 pl-1 py-1"
+                      placeholder="Copy your Instagram link and paste here!"
+                      onChange={(e) => setInstagramLink(e.target.value)}
+                      value={instagramLink}
+                    />
+                  </div>
+
                   <Image
-                    src={"/images/icons/instagramProfileIcon.png"}
-                    height={24}
-                    width={24}
-                    alt="instagram"
-                    className="absolute left-0"
-                  />
-                  <input
-                    type="text"
-                    className="font-body text-body_3 w-[calc(100%-40px)] bg-background placeholder:text-secondary placeholder:text-body_3 ml-8 pl-1 py-1"
-                    placeholder="Copy your Instagram link and paste here!"
-                    onChange={(e) => setInstagramLink(e.target.value)}
-                    value={instagramLink}
+                    src="/images/icons/content_paste.png"
+                    height={20}
+                    width={20}
+                    alt="copy content"
+                    className="hover:cursor-pointer"
                   />
                 </div>
-
-                <Image
-                  src="/images/icons/content_paste.png"
-                  height={20}
-                  width={20}
-                  alt="copy content"
-                  className="hover:cursor-pointer"
-                />
               </div>
 
-              <div className="px-3 py-[10px] bg-background flex w-full border border-[#D9D9D9] rounded-lg">
-                <div className="relative w-full">
-                  <Image
-                    src={"/images/icons/whatsappProfileIcon.png"}
-                    height={24}
-                    width={24}
-                    alt="whatsapp"
-                    className="absolute left-0"
-                  />
-                  <input
-                    type="text"
-                    className="font-body text-body_3 w-full bg-background placeholder:text-secondary placeholder:text-body_3 ml-8 pl-1 py-1"
-                    placeholder="Type in your WhatsApp ID (WhatsApp number)"
-                    onChange={(e) => setWhatsappNum(e.target.value)}
-                    value={whatsppNum}
-                  />
+              <div className="w-full">
+                {errors && errors.whatsapp_num && (
+                  <div className="font-body text-[red]/60 text-special">
+                    {errors.whatsapp_num}
+                  </div>
+                )}
+                <div className="px-3 py-[10px] bg-background flex w-full border border-[#D9D9D9] rounded-lg">
+                  <div className="relative w-full flex items-center gap-2">
+                    <Image
+                      src={"/images/icons/whatsappProfileIcon.png"}
+                      height={24}
+                      width={24}
+                      alt="whatsapp"
+                      className=""
+                    />
+                    <input
+                      type="text"
+                      className="font-body text-body_3 w-full bg-background placeholder:text-secondary placeholder:text-body_3 pl-1 py-1"
+                      placeholder="Type in your WhatsApp ID (WhatsApp number)"
+                      onChange={(e) => setWhatsappNum(e.target.value)}
+                      value={whatsppNum}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

@@ -62,6 +62,7 @@ const LoginCard = React.forwardRef<
             "userDetails",
             JSON.stringify(userDetails)
           );
+          console.log(userDetails);
           dispatch({ type: "LOGIN_SUCCESSFUL" });
           window.location.replace("/");
         }

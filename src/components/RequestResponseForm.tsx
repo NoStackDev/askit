@@ -2,31 +2,14 @@
 
 import React, { useState } from "react";
 import * as FormPrimitive from "@radix-ui/react-form";
-import FileDragDrop from "./FileDragDrop";
 import VisibilityRadioGroup from "./ui/RequestVisibilityRadioGroup";
 import Button from "./ui/Button";
-import Image from "next/image";
 import { cn } from "@/app/lib/utils";
 import { usePathname } from "next/navigation";
 import { postResponse } from "@/app/lib/repsonse";
 import LoadingSpinner from "./LoadingSpinner";
-import { useGlobalContext } from "@/app/context/Store";
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger,
-} from "./ui/Menubar";
 import { getCities } from "@/app/lib/city";
-import {
-  CityInterface,
-  RequestDetailType,
-  StateCitiesInterface,
-} from "@/app/types";
+import { CityInterface, RequestDetailType } from "@/app/types";
 import Dialog from "./ui/DialogPrimitive";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 
