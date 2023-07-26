@@ -104,15 +104,22 @@ const ResponseCard = React.forwardRef<
       >
         <div className="flex gap-3 items-start">
           {image_url && (
-            <Image
-              src={`https://${image_url}`}
-              width={92}
-              height={92}
-              alt={`${user}'s profile pic`}
-            />
+            <Link href={`/profile/${user_id}/`}>
+              <Image
+                src={`https://${image_url}`}
+                width={92}
+                height={92}
+                alt={`${user}'s profile pic`}
+              />
+            </Link>
           )}
 
-          <div className="font-body text-white text-title_3 font-medium">
+          <div
+            className={cn(
+              "font-body text-white text-title_3 font-medium",
+              !image_url && "text-white text-center w-full"
+            )}
+          >
             {description}
           </div>
         </div>
@@ -152,8 +159,7 @@ const ResponseCard = React.forwardRef<
                   <div className="mt-[26px] text-stroke animate-pulse h-6 w-6 rounded-full"></div>
                 }
               >
-                {/* response from api has no user id  */}
-                <Link href={`/user/${user_id}/`}>
+                <Link href={`/profile/${user_id}/`}>
                   {false ? (
                     <Image
                       src={`https://${image_url}`}
