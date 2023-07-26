@@ -103,16 +103,27 @@ const ProfileInfo = React.forwardRef<
 
   const states = stateCities ? Object.keys(stateCities) : null;
 
-  if (userDetails) {
-    // const a =
-    //   stateCities &&
-    //   Object.values(stateCities).forEach((arr) =>
-    //     arr.find((city) => city.id === Number(userDetails.location))
-    //   );
-
-    // console.log(a);
-    console.log(userDetails);
-  }
+  React.useEffect(() => {
+    const citiesStorage = window.localStorage.getItem("cities");
+    if (userDetails && citiesStorage) {
+      let citiesFlattened: CityInterface[] = [];
+      Object.values(
+        JSON.parse(citiesStorage) as { [id: string]: CityInterface[] }
+      ).forEach((arr) => citiesFlattened.push(...arr));
+      const selectedCity = citiesFlattened.find(
+        (cityItem) =>
+          cityItem.id ===
+          Number(
+            typeof userDetails.location === "string"
+              ? null
+              : userDetails.location
+          )
+      );
+      selectedCity && setState(selectedCity.state);
+      selectedCity && setCity(selectedCity.id);
+      selectedCity && setCityName(selectedCity.city);
+    }
+  }, []);
 
   React.useEffect(() => {
     const stateCitiesIntermediate = window.localStorage.getItem("cities");
@@ -424,6 +435,7 @@ const ProfileInfo = React.forwardRef<
                   locationType="CITY"
                   cities={state && stateCities ? stateCities[state] : null}
                   setLocation={setCity}
+                  selectedCity={cityName}
                 />
               </div>
             </div>
@@ -669,12 +681,13 @@ type LocationSelectI =
       locationType: "STATE";
       states: string[] | null;
       setLocation: React.Dispatch<React.SetStateAction<string | null>>;
-      selectedState: string | null;
+      selectedState?: string | null;
     }
   | {
       locationType: "CITY";
       cities: CityInterface[] | null;
       setLocation: React.Dispatch<React.SetStateAction<number | null>>;
+      selectedCity?: string | null;
     };
 
 const LocationSelect = React.forwardRef<
@@ -748,7 +761,7 @@ const LocationSelect = React.forwardRef<
                   key={index}
                   className="hover:cursor-pointer font-body text-title_2 pl-2"
                 >
-                  {state}
+                  {props.selectedState || state}
                 </SelectItem>
               );
             })}
@@ -761,7 +774,7 @@ const LocationSelect = React.forwardRef<
                   key={city.id}
                   className="hover:cursor-pointer font-body text-title_2 pl-2"
                 >
-                  {city.city}
+                  {props.selectedCity || city.city}
                 </SelectItem>
               );
             })}

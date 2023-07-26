@@ -42,14 +42,14 @@ const UserPage = (props: Props) => {
   }, []);
 
   return (
-    <main className="md:mx-[100px] relative bg-background px-5 md:py-10 mb-20">
+    <main className="md:mx-[100px] relative bg-background px-5 md:py-10 mb-20 md:mt-4">
       <div className="flex flex-col gap-6">
         <div className="bg-secondary w-fit mb-[6] p-2 items-center font-headline text-white text-headline_3 font-bold">
           Profile
         </div>
 
         <React.Suspense>
-          <UserInfo userDetails={user} className="mt-10" />
+          <UserInfo userDetails={user} className="mt-1" />
         </React.Suspense>
 
         <div className="flex flex-col items-center justify-center h-fit w-full mt-8 md:mt-14">

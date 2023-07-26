@@ -6,7 +6,7 @@ export type UserType = {
   id: number;
   image_url: string;
   instagram_link: string;
-  location: number;
+  location: number | null;
   name: string;
   role: string;
   whatsapp_num: string;

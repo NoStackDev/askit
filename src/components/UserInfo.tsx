@@ -50,17 +50,17 @@ const UserInfo = React.forwardRef<
       )}
 
       <div className="flex flex-col gap-1 justify-center mt-6 items-center">
-        <div className="font-headline text-headline_2 font-bold text-white">
+        <div className="font-headline text-headline_2 font-bold text-white mt-4">
           {userDetails?.name}
         </div>
 
         {userDetails?.whatsapp_num && (
-          <div className="flex gap-2 text-white font-body text-title_3 font-medium">
+          <div className="flex gap-2 text-white font-body text-title_3 font-medium mt-1">
             <React.Suspense>
-              <CallIcon className="" />
+              <CallIcon className="" fontSize="small"/>
             </React.Suspense>
 
-            <div className="font-body text-title_3 font-bold">
+            <div className="font-body text-title_3 font-medium">
               {userDetails?.whatsapp_num}
             </div>
           </div>
@@ -81,7 +81,7 @@ const UserInfo = React.forwardRef<
       )}
 
       {userDetails?.about && (
-        <div className="mt-6 flex flex-col gap-2 text-white">
+        <div className="mt-10 flex flex-col gap-2 text-white">
           <div className="font-headline font-bold text-title_3 w-full text-center">
             WHAT I DO
           </div>
