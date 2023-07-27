@@ -43,6 +43,7 @@ const RequestCard = React.forwardRef<
       bookmark,
       requestId,
       num_of_views,
+      num_of_responses,
       variant,
       requestType,
       ...props
@@ -53,6 +54,7 @@ const RequestCard = React.forwardRef<
     const { feeds, setFeeds } = useFeedsContext();
     const { requests, setRequests } = useRequestContext();
     const [bookmarked, setBookmarked] = React.useState(false);
+    console.log(num_of_responses)
 
     React.useEffect(() => {
       setBookmarked(bookmark);
@@ -192,7 +194,7 @@ const RequestCard = React.forwardRef<
               <div className="flex items-center gap-1">
                 <CommentsIcon className="text-secondary" fontSize="small" />
                 <span className="text-secondary font-body font-medium text-title_3">
-                  {num_of_views}
+                  {num_of_responses}
                 </span>
               </div>
             </React.Suspense>

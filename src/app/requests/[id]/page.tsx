@@ -46,6 +46,7 @@ export default function RequestsPage() {
             created_at={requestData.request.created_at}
             requestid={Number(requestId)}
             num_of_views={requestData.request.num_of_views}
+            num_of_responses={requestData.request.num_of_responses}
           />
         )}
         <div className="flex items-center justify-center h-fit w-full px-[20px]">

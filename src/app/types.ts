@@ -38,6 +38,7 @@ export type RequestType = {
   title: string;
   user: string;
   num_of_views: number;
+  num_of_responses: number
 };
 
 export type RequestResponseType = {
