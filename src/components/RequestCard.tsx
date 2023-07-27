@@ -54,7 +54,6 @@ const RequestCard = React.forwardRef<
     const { feeds, setFeeds } = useFeedsContext();
     const { requests, setRequests } = useRequestContext();
     const [bookmarked, setBookmarked] = React.useState(false);
-    console.log(num_of_responses)
 
     React.useEffect(() => {
       setBookmarked(bookmark);
