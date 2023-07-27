@@ -30,7 +30,6 @@ const ProfilePage = (props: Props) => {
 
   React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
-    console.log(userDetails)
     if (!userDetails) {
       window.location.assign("/login");
       return;
@@ -38,7 +37,6 @@ const ProfilePage = (props: Props) => {
 
     setUser(JSON.parse(userDetails).data);
   }, []);
-
 
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");

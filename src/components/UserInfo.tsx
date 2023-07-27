@@ -1,10 +1,8 @@
 "use client";
 
-import { useGlobalContext } from "@/app/context/Store";
 import { cn } from "@/app/lib/utils";
 import { UserType } from "@/app/types";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import Dialog from "./ui/DialogPrimitive";
 

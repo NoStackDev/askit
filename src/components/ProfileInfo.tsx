@@ -110,15 +110,8 @@ const ProfileInfo = React.forwardRef<
         JSON.parse(citiesStorage) as { [id: string]: CityInterface[] }
       ).forEach((arr) => citiesFlattened.push(...arr));
       const selectedCity = citiesFlattened.find(
-        (cityItem) =>
-          cityItem.id ===
-          Number(
-            typeof userDetails.location === "string"
-              ? null
-              : userDetails.location
-          )
+        (cityItem) => cityItem.city === (userDetails.location)?.toString()
       );
-      console.log(userDetails)
       selectedCity && setState(selectedCity.state);
       selectedCity && setCity(selectedCity.id);
       selectedCity && setCityName(selectedCity.city);
@@ -272,7 +265,6 @@ const ProfileInfo = React.forwardRef<
     window.location.href = "/";
   };
 
-  console.log(city);
   return (
     <main
       className={cn(

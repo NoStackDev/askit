@@ -12,6 +12,7 @@ import { getCities } from "@/app/lib/city";
 import { CityInterface, RequestDetailType } from "@/app/types";
 import Dialog from "./ui/DialogPrimitive";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -47,15 +48,36 @@ const RequestResponseForm = React.forwardRef<
   const [imageFile, setImageFile] = React.useState<FileList>();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [city, setCity] = React.useState<number | null>(null);
+  const [errors, setErrors] = React.useState<{
+    [errorName: string]: string[];
+  } | null>(null);
   const pathUrl = usePathname();
 
   const requestId = pathUrl.split("/")[2];
 
+  console.log(errors);
+
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    setErrors(null);
     e.preventDefault();
     setIsLoading(true);
     const token = window.localStorage.getItem("token");
     const userDetails = window.localStorage.getItem("userDetails");
+
+    if (!city || !whatsappNum) {
+      let errorsTemp: {
+        [errorName: string]: string[];
+      } = {};
+      if (!city) {
+        errorsTemp["location"] = ["location needed"];
+      }
+      if (!whatsappNum) {
+        errorsTemp["whatsapp_num"] = ["location needed"];
+      }
+      setErrors({ ...errorsTemp });
+      setIsLoading(false);
+      return;
+    }
 
     try {
       if (!token || !userDetails) {
@@ -87,6 +109,10 @@ const RequestResponseForm = React.forwardRef<
               responses: [res.data, ...requestData.responses],
             });
           }
+        }
+
+        if (res.error) {
+          setErrors(res.errors);
         }
       }
     } catch (err) {
@@ -403,20 +429,18 @@ const SelectLocation = React.forwardRef<
               {state && stateCities
                 ? stateCities[state].map((city) => {
                     return (
-                      <div
-                        className="hover:bg-stroke/20 hover:cursor-pointer"
-                        key={city.id}
-                        onClick={() => {
-                          setCity(city.id);
-                          setCityName(city.city);
-                          setState(null);
-                          const dialogCloseTrigger =
-                            document.getElementById("dialogCloseTrigger");
-                          dialogCloseTrigger?.click();
-                        }}
-                      >
-                        {city.city}
-                      </div>
+                      <DialogClose asChild key={city.id}>
+                        <div
+                          className="hover:bg-stroke/20 hover:cursor-pointer"
+                          onClick={() => {
+                            setCity(city.id);
+                            setCityName(city.city);
+                            setState(null);
+                          }}
+                        >
+                          {city.city}
+                        </div>
+                      </DialogClose>
                     );
                   })
                 : states?.map((state, index) => {
