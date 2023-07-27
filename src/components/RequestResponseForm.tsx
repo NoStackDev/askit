@@ -55,8 +55,6 @@ const RequestResponseForm = React.forwardRef<
 
   const requestId = pathUrl.split("/")[2];
 
-  console.log(errors);
-
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     setErrors(null);
     e.preventDefault();
@@ -261,12 +259,11 @@ const RequestResponseForm = React.forwardRef<
             name="location"
             className="relative h-fit mt-6 w-full flex flex-col"
           >
-            <FormPrimitive.Message
-              match={"valueMissing"}
-              className="self-end font-body text-body_3 text-black/80"
-            >
-              location required
-            </FormPrimitive.Message>
+            {errors && errors.location?.length > 0 && (
+              <div className="font-body text-body_3 text-[red]/60">
+                location required
+              </div>
+            )}
 
             <div className="relative h-fit w-full">
               <FormPrimitive.Control asChild>
@@ -291,20 +288,28 @@ const RequestResponseForm = React.forwardRef<
             <AttachMoneyIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
           </FormPrimitive.Field>
 
-          <FormPrimitive.Field
-            name="Whatsapp number"
-            className="relative h-fit mt-4 w-full"
-          >
-            <FormPrimitive.Control asChild>
-              <input
-                type="text"
-                placeholder="WhatsApp number"
-                className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
-                onChange={(e) => setWhatsappNum(e.target.value)}
-              />
-            </FormPrimitive.Control>
-            <WhatsAppIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
-          </FormPrimitive.Field>
+          <div className="w-full h-fit mt-4">
+            {errors && errors.whatsapp_num?.length > 0 && (
+              <div className="font-body text-body_3 text-[red]/60">
+                whatsapp number required
+              </div>
+            )}
+
+            <FormPrimitive.Field
+              name="Whatsapp number"
+              className="relative h-fit w-full"
+            >
+              <FormPrimitive.Control asChild>
+                <input
+                  type="text"
+                  placeholder="WhatsApp number"
+                  className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
+                  onChange={(e) => setWhatsappNum(e.target.value)}
+                />
+              </FormPrimitive.Control>
+              <WhatsAppIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+            </FormPrimitive.Field>
+          </div>
 
           <VisibilityRadioGroup
             setVisibility={setVisibility}
