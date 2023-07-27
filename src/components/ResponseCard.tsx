@@ -109,7 +109,7 @@ const ResponseCard = React.forwardRef<
                 src={`https://${image_url}`}
                 width={92}
                 height={92}
-                alt={`${user}'s profile pic`}
+                alt={`product image`}
               />
             </Link>
           )}
