@@ -163,6 +163,7 @@ const RequestCard = React.forwardRef<
         ref={ref}
         className={cn(
           "flex flex-col justify-between border-[1px] border-stroke rounded-[20px] shadow-boxShadow_1 hover:border-black hover:scale-[1.01] transition-transform duration-100 h-[230px]",
+          !image_url && "justify-normal",
           className
         )}
         {...props}
@@ -182,14 +183,18 @@ const RequestCard = React.forwardRef<
             className={cn(
               "text-title_2 font-body font-medium text-[#010E1E] text-ellipsis overflow-hidden max-h-[144px]",
               !image_url &&
-                "w-full text-center h-full flex items-center justify-center"
+                "w-full text-center h-[200px] flex items-center justify-center"
             )}
           >
             {title}
           </div>
         </div>
 
-        <div className="flex justify-between py-4 px-4 border-t-[1px] border-[#EDECF0] mt-2">
+        <div
+          className={cn(
+            "flex justify-between py-4 px-4 border-t-[1px] border-[#EDECF0] mt-2"
+          )}
+        >
           <div className="flex gap-3">
             <React.Suspense
               fallback={
