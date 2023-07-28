@@ -11,9 +11,6 @@ const CallIcon = React.lazy(() => import("@mui/icons-material/Call"));
 const ContactMailIcon = React.lazy(
   () => import("@mui/icons-material/ContactMail")
 );
-const InstagramIcon = React.lazy(() => import("@mui/icons-material/Instagram"));
-const FacebookIcon = React.lazy(() => import("@mui/icons-material/Facebook"));
-const WhatsApp = React.lazy(() => import("@mui/icons-material/WhatsApp"));
 
 const UserInfo = React.forwardRef<
   React.ElementRef<"div">,
