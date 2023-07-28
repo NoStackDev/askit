@@ -39,6 +39,7 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
     const [stateCities, setStateCities] = React.useState<{
       [id: string]: CityInterface[];
     } | null>(null);
+    const contentInfoRef = React.useRef<HTMLDivElement>(null);
 
     const states = stateCities ? Object.keys(stateCities) : null;
 
@@ -118,7 +119,12 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                 {state ? (
                   <div
                     className="flex gap-4 items-center hover:cursor-pointer"
-                    onClick={() => setState(null)}
+                    onClick={() => {
+                      setState(null);
+                      if (contentInfoRef.current) {
+                        contentInfoRef.current.scrollTo(0, 0);
+                      }
+                    }}
                   >
                     <React.Suspense
                       fallback={
@@ -138,7 +144,10 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                   </h4>
                 )}
               </div>
-              <div className="p-4 flex flex-col gap-4 div max-h-[268px] overflow-auto">
+              <div
+                className="p-4 flex flex-col gap-4 div max-h-[268px] overflow-auto"
+                ref={contentInfoRef}
+              >
                 {state && stateCities
                   ? stateCities[state].map((city) => {
                       return (
@@ -164,7 +173,12 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                         <div
                           className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"
                           key={index}
-                          onClick={() => setState(state)}
+                          onClick={() => {
+                            setState(state);
+                            if (contentInfoRef.current) {
+                              contentInfoRef.current.scrollTo(0, 0);
+                            }
+                          }}
                         >
                           {state}
 
@@ -180,64 +194,8 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
                     })}
               </div>
             </div>
-
-            {/* <div>
-              <div>
-                <h3>Filter Location</h3>
-                <h4>States</h4>
-              </div>
-            </div> */}
           </div>
         </Dialog>
-
-        {/* <Menubar className="">
-          <MenubarMenu>
-            <MenubarTrigger className="flex items-center gap-2">
-              <React.Suspense
-                fallback={
-                  <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-                }
-              >
-                <FilterAltIcon className="text-primary w-4 h-4" />
-              </React.Suspense>
-              <span className="font-body text-title_3 font-medium text-primary">
-                Filter
-              </span>
-            </MenubarTrigger>
-
-            <MenubarContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-30 max-h-[50vh] overflow-auto">
-              {states.map((state, index) => {
-                return (
-                  <MenubarSub key={index}>
-                    <MenubarSubTrigger className="max-w-[200px] group font-body text-special leading-none rounded flex items-center justify-between h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none">
-                      {state.name}
-                      <React.Suspense
-                        fallback={
-                          <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
-                        }
-                      >
-                        <ChevronRightIcon className="w-5 h-5 text-[#000000]/80" />
-                      </React.Suspense>
-                    </MenubarSubTrigger>
-
-                    <MenubarSubContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-40 ax-h-[50vh] overflow-auto">
-                      {state.cities.map((city) => {
-                        return (
-                          <MenubarItem
-                            key={city.geonameid}
-                            className="px-1 font-body text-special hover:cursor-default hover:bg-stroke/60 relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none"
-                          >
-                            {city.name}
-                          </MenubarItem>
-                        );
-                      })}
-                    </MenubarSubContent>
-                  </MenubarSub>
-                );
-              })}
-            </MenubarContent>
-          </MenubarMenu>
-        </Menubar> */}
       </div>
     );
   }

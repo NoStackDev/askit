@@ -14,6 +14,7 @@ import { useGlobalContext } from "@/app/context/Store";
 import { postRequest } from "@/app/lib/request";
 import { useFeedsContext } from "@/app/context/feedsContext";
 import LoadingSpinner from "../LoadingSpinner";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -185,16 +186,11 @@ const RequestForm = React.forwardRef<
         <h1 className="font-headline font-bold text-body_2 text-secondary/80">
           PLACE A REQUEST
         </h1>
-        <div
-          className="font-body text-title_3 text-[#000000] font-medium hover:cursor-pointer"
-          onClick={() => {
-            const dialogCloseTrigger =
-              document.getElementById("dialogCloseTrigger");
-            dialogCloseTrigger?.click();
-          }}
-        >
-          CANCEL
-        </div>
+        <DialogClose asChild>
+          <div className="font-body text-title_3 text-[#000000] font-medium hover:cursor-pointer">
+            CANCEL
+          </div>
+        </DialogClose>
       </div>
 
       <div className="font-body text-body_2 text-[#000000]/60 font-normal self-start mt-11 mb-2">
