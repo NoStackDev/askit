@@ -6,6 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Dialog from "./ui/DialogPrimitive";
+import ExternalAppConfirmation from "./ExternalAppConfirmation";
+import { DialogClose } from "@radix-ui/react-dialog";
+import Button from "./ui/Button";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -194,26 +197,29 @@ const ResponseCard = React.forwardRef<
               }
               className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-40"
             >
-              <div className="bg-white px-3 py-4 font-body w-[200px] rounded-md">
-                <div>You are about to leave this site, continue?</div>
-                <div className="mt-2 flex justify-center gap-10">
-                  <div
-                    className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-primary/60 hover:cursor-pointer"
-                    onClick={() => {
-                      const dialogCloseTrigger =
-                        document.getElementById("dialogCloseTrigger");
-                      dialogCloseTrigger?.click();
-                    }}
-                  >
-                    No
+              <ExternalAppConfirmation
+                appTitle="WhatsApp"
+                closeDialogElement={
+                  <div className="flex flex-col gap-6 items-center">
+                    <DialogClose asChild>
+                      <a href={"https://wa.me/" + whatsapp_num}>
+                        <Button className="px-11 py-3 rounded-lg hover:cursor-pointer">
+                          Proceed to WhatsApp
+                        </Button>
+                      </a>
+                    </DialogClose>
+
+                    <DialogClose asChild>
+                      <Button
+                        variant={"outlined2"}
+                        className="px-[72px] py-3 text-black border-black hover:cursor-pointer"
+                      >
+                        Cancel
+                      </Button>
+                    </DialogClose>
                   </div>
-                  <Link href={whatsapp_link}>
-                    <div className="w-12 h-8 flex justify-center items-center rounded-md text-white bg-secondary hover:cursor-pointer">
-                      Yes
-                    </div>
-                  </Link>
-                </div>
-              </div>
+                }
+              />
             </Dialog>
           </div>
         )}

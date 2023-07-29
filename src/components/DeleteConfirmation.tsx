@@ -1,8 +1,8 @@
 import Image from "next/image";
 import React from "react";
-import Button from "../ui/Button";
+import Button from "./ui/Button";
 
-const ExternalAppConfirmation = React.forwardRef<
+const DeleteConfirmation = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & {
     closeDialogElement: React.ReactNode;
@@ -14,34 +14,41 @@ const ExternalAppConfirmation = React.forwardRef<
       ref={forwardRef}
     >
       <Image
-        src={"/images/pictures/externalAppConfirmation.png"}
+        src={"/images/pictures/deleteConfirmation.png"}
         width={175.88}
         height={150}
         alt="request placed"
       />
 
       <div className="text-center mt-[60px] font-mono font-bold text-[#000000] text-headline_2">
-        Chat on WhatsApp
+        Request Placed
       </div>
 
       <div className="text-center font-body text-body_1 text-[#000000]">
-        Exercise caution while dealing with users by following our{" "}
-        <span className="underline underline-offset-2 font-bold">Safety Hints</span>
+        Do you wish to delete?
       </div>
 
-      {/* {closeDialogElement} */}
+      {closeDialogElement}
 
       <div className="flex flex-col gap-6 items-center">
-        <Button className="px-11 py-3 rounded-lg">Proceed to WhatsApp</Button>
+        <Button
+          variant={"outlined2"}
+          className="px-[72px] py-3 border-black text-black"
+        >
+          No
+        </Button>
 
-        <Button variant={"outlined2"} className="px-[72px] py-3 text-black border-black">
-          Cancel
+        <Button
+          variant={"outlined2"}
+          className="px-[72px] py-3 border-black text-black"
+        >
+          Yes delete!
         </Button>
       </div>
     </div>
   );
 });
 
-ExternalAppConfirmation.displayName = "ExternalAppConfirmation";
+DeleteConfirmation.displayName = "DeleteConfirmation";
 
-export default ExternalAppConfirmation;
+export default DeleteConfirmation;
