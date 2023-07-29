@@ -29,22 +29,6 @@ const DeleteConfirmation = React.forwardRef<
       </div>
 
       {closeDialogElement}
-
-      <div className="flex flex-col gap-6 items-center">
-        <Button
-          variant={"outlined2"}
-          className="px-[72px] py-3 border-black text-black"
-        >
-          No
-        </Button>
-
-        <Button
-          variant={"outlined2"}
-          className="px-[72px] py-3 border-black text-black"
-        >
-          Yes delete!
-        </Button>
-      </div>
     </div>
   );
 });

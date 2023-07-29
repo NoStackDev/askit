@@ -7,6 +7,10 @@ import { RequestType } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
 import React, { HTMLAttributes } from "react";
+import Dialog from "./ui/DialogPrimitive";
+import DeleteConfirmation from "./DeleteConfirmation";
+import Button from "./ui/Button";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 const CommentsIcon = React.lazy(() => import("@mui/icons-material/Quickreply"));
 const WatchLaterIcon = React.lazy(
@@ -115,9 +119,10 @@ const RequestCard = React.forwardRef<
     };
 
     const onClickDeleteBtn = async (
-      event: React.MouseEvent<HTMLImageElement, MouseEvent>,
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
       requestId: number
     ) => {
+      event.preventDefault();
       event.stopPropagation();
       let requestIndex: null | number = null;
       let deletedRequest: RequestType | null = null;
@@ -242,14 +247,49 @@ const RequestCard = React.forwardRef<
             }
           >
             {variant === "user" ? (
-              <Image
-                src="/images/icons/deleteIcon.png"
-                height={18}
-                width={18}
-                alt="delete"
-                className="hover:cursor-pointer"
-                onClick={(e) => onClickDeleteBtn(e, requestId)}
-              />
+              <Dialog
+                dialogTrigger={
+                  <Image
+                    src="/images/icons/deleteIcon.png"
+                    height={18}
+                    width={18}
+                    alt="delete"
+                    className="hover:cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  />
+                }
+                className="fixed -translate-x-1/2 z-50 top-1/2 -translate-y-1/2 left-1/2"
+              >
+                <DeleteConfirmation
+                  closeDialogElement={
+                    <div className="flex flex-col gap-6 items-center">
+                      <DialogClose asChild>
+                        <Button
+                          variant={"outlined2"}
+                          className="px-[72px] py-3 border-black text-black"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          No
+                        </Button>
+                      </DialogClose>
+
+                      <DialogClose asChild>
+                        <Button
+                          variant={"outlined2"}
+                          className="px-[72px] py-3 border-black text-black"
+                          onClick={(e) => onClickDeleteBtn(e, requestId)}
+                        >
+                          Yes delete!
+                        </Button>
+                      </DialogClose>
+                    </div>
+                  }
+                />
+              </Dialog>
             ) : bookmarked ? (
               <BookmarkIcon
                 className="text-primary hover:cursor-pointer"
