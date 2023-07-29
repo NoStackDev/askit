@@ -20,7 +20,7 @@ const DeleteConfirmation = React.forwardRef<
         alt="request placed"
       />
 
-      <div className="text-center mt-[60px] font-mono font-bold text-[#000000] text-headline_2">
+      <div className="text-center mt-[60px] md:mt-[50px] font-mono font-bold text-[#000000] text-headline_2">
         Request Placed
       </div>
 
