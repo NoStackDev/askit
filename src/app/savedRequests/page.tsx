@@ -33,7 +33,7 @@ export default function SavedRequestsPage({}: Props) {
           setRequests(bookmarksRes.data);
         }
       } else {
-        window.location.assign("/");
+        window.location.assign("/login");
       }
     })();
   }, []);
