@@ -9,7 +9,10 @@ const ReportUserCard = React.forwardRef<
 >(({ className, children, ...props }, forwardRef) => {
   return (
     <div
-      className={cn("pt-6 pb-11  bg-white w-full md:max-w-[375px] md:rounded-lg", className)}
+      className={cn(
+        "pt-6 pb-11  bg-white w-full md:max-w-[375px] md:rounded-lg",
+        className
+      )}
     >
       <div className="px-5 flex items-center gap-4">
         <Image
@@ -17,7 +20,7 @@ const ReportUserCard = React.forwardRef<
           height={20}
           width={24}
           alt="back"
-          className="w-6 h-6"
+          className="w-6 h-6 hover:cursor-pointer"
         />
 
         <div className="font-headline font-bold text-headline_2 text-black">
