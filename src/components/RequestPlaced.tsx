@@ -1,16 +1,20 @@
 import Image from "next/image";
 import React from "react";
-import Button from "../ui/Button";
+import Button from "./ui/Button";
+import { cn } from "@/app/lib/utils";
 
 const RequestPlaced = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & {
-    closeDialogElement: React.ReactNode;
+    doneButton: React.ReactNode;
   }
->(({ children, className, closeDialogElement, ...props }, forwardRef) => {
+>(({ children, className, doneButton, ...props }, forwardRef) => {
   return (
     <div
-      className="w-[347px] flex flex-col gap-6 items-center bg-white pt-[88px] pb-[66px] px-7 rounded-[20px]"
+      className={cn(
+        "w-[347px] flex flex-col gap-6 items-center bg-white pt-[88px] pb-[66px] px-7 rounded-[20px]",
+        className
+      )}
       ref={forwardRef}
     >
       <Image
@@ -29,9 +33,7 @@ const RequestPlaced = React.forwardRef<
         appropriate offers will respond to it.
       </div>
 
-      {closeDialogElement}
-
-      <Button className="px-[62px] py-3 border-black text-black rounded-lg">Done</Button>
+      {doneButton}
     </div>
   );
 });

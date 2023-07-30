@@ -10,6 +10,8 @@ type requestContextType = {
   setRequestState: React.Dispatch<
     React.SetStateAction<"LOADING" | "SUCCESS" | "FAILED" | null>
   >;
+  requestStatus: "POSTING" | "SUCCESS" | "FAILED" | null;
+  setRequestStatus: React.Dispatch<"POSTING" | "SUCCESS" | "FAILED" | null>;
 };
 
 const RequestContext = React.createContext<requestContextType>({
@@ -17,6 +19,8 @@ const RequestContext = React.createContext<requestContextType>({
   setRequests: () => "",
   requestsState: null,
   setRequestState: () => "",
+  requestStatus: null,
+  setRequestStatus: () => {},
 });
 
 type RequestContextProviderType = {
@@ -30,10 +34,20 @@ export const RequestContextProvider = ({
   const [requestsState, setRequestState] = React.useState<
     "LOADING" | "SUCCESS" | "FAILED" | null
   >(null);
+  const [requestStatus, setRequestStatus] = React.useState<
+    "POSTING" | "SUCCESS" | "FAILED" | null
+  >(null);
 
   return (
     <RequestContext.Provider
-      value={{ requests, setRequests, requestsState, setRequestState }}
+      value={{
+        requests,
+        setRequests,
+        requestsState,
+        setRequestState,
+        requestStatus,
+        setRequestStatus,
+      }}
     >
       {children}
     </RequestContext.Provider>

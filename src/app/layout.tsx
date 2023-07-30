@@ -10,6 +10,7 @@ import { AuthContextProvider } from "./context/authContext";
 import { FeedsContextProvider } from "./context/feedsContext";
 import { RequestContextProvider } from "./context/requestContext";
 import { ResponseContextProvider } from "./context/responseContext";
+import StatusModal from "@/components/StatusModal";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -54,6 +55,7 @@ export default function RootLayout({
                       <div className="w-full">{children}</div>
                     </div>
                     <Footer className="" />
+                    <StatusModal />
                   </ResponseContextProvider>
                 </RequestContextProvider>
               </FeedsContextProvider>
