@@ -12,7 +12,7 @@ const getBookmarks = async (token: string) => {
     return res.json();
   }
 
-  if (res.status < 200 && res.status > 299) {
+  if (res.status < 200 || res.status > 299) {
     const json = await res.json();
     console.log(json);
     return { error: true, ...json };
