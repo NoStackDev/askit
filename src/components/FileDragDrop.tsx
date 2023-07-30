@@ -85,8 +85,12 @@ const FileDragDrop = React.forwardRef<
           images.map((image, index) => {
             return (
               <div className="relative w-1/2 h-1/2" key={index}>
-                <img src={image.url} alt={image.name} className="h-1/2 w-1/2" />
-                <React.Suspense
+                <img
+                  src={image.url}
+                  alt={image.name}
+                  className="h-full w-full"
+                />
+                {/* <React.Suspense
                   fallback={
                     <div className="absolute top-0 right-0 w-4 h-4 bg-stroke/80"></div>
                   }
@@ -95,7 +99,7 @@ const FileDragDrop = React.forwardRef<
                     className="absolute top-0 right-0 text-stroke w-4 h-4"
                     onClick={deleteImage}
                   />
-                </React.Suspense>
+                </React.Suspense> */}
               </div>
             );
           })
