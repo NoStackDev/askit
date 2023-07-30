@@ -186,7 +186,7 @@ const RequestCard = React.forwardRef<
           )}
           <div
             className={cn(
-              "text-title_2 font-body font-medium text-[#010E1E] text-ellipsis overflow-hidden max-h-[144px]",
+              "text-title_1 font-body font-medium text-[#010E1E] text-ellipsis overflow-hidden max-h-[144px]",
               !image_url &&
                 "w-full text-center h-[200px] flex items-center justify-center font-medium"
             )}
