@@ -11,7 +11,6 @@ import { cn } from "@/app/lib/utils";
 import getUser from "@/app/lib/user/getUser";
 import { useGlobalContext } from "@/app/context/Store";
 import { useAuthContext } from "@/app/context/authContext";
-import ProfileInfo from "./ProfileInfo";
 import LoadingSpinner from "./LoadingSpinner";
 
 const PersonIcon = React.lazy(() => import("@mui/icons-material/Person"));
@@ -118,7 +117,7 @@ const LoginCard = React.forwardRef<
       <div className="mt-8">
         {renderLogin ? (
           <>
-            <span className="font-body text-body_2">
+            <span className="font-body text-body_2 text-secondary">
               Don’t have an account?
             </span>{" "}
             <span className="font-body text-title_2 font-medium text-[#1F4AE6]">
@@ -129,7 +128,7 @@ const LoginCard = React.forwardRef<
           </>
         ) : (
           <>
-            <span className="font-body text-body_2">
+            <span className="font-body text-body_2 text-secondary">
               Already have an account?
             </span>{" "}
             <span className="font-body text-title_2 font-medium text-[#1F4AE6]">
@@ -269,12 +268,12 @@ function SignUpForm({
       <div className="w-full h-fit flex flex-col items-center justify-center">
         <FormPrimitive.Submit asChild className="">
           {isLoading ? (
-            <Button className="w-full mt-8" disabled>
+            <Button className="w-full mt-8 rounded" disabled>
               <LoadingSpinner className="w-4 h-4 text-primary fill-white" />{" "}
               Signing Up
             </Button>
           ) : (
-            <Button className="w-full mt-8">Sign Up</Button>
+            <Button className="w-full mt-8 rounded">Sign Up</Button>
           )}
         </FormPrimitive.Submit>
 
@@ -369,12 +368,12 @@ function LoginForm({
       <div className="w-full h-fit flex flex-col items-center justify-center">
         <FormPrimitive.Submit asChild className="">
           {isLoading ? (
-            <Button className="w-full mt-8" disabled>
+            <Button className="w-full mt-2 rounded" disabled>
               <LoadingSpinner className="w-4 h-4 text-primary fill-white" />{" "}
               Logging in
             </Button>
           ) : (
-            <Button className="w-full mt-8">Login</Button>
+            <Button className="w-full mt-2 rounded">Login</Button>
           )}
         </FormPrimitive.Submit>
 
@@ -383,6 +382,15 @@ function LoginForm({
             error: login failed
           </div>
         )}
+      </div>
+
+      <div className="flex items-center justify-center">
+        <Link
+          href={"/recoverpassword"}
+          className="font-body text-title_3 font-medium text-black"
+        >
+          Forgot Password?
+        </Link>
       </div>
     </FormPrimitive.Root>
   );
