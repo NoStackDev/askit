@@ -19,6 +19,7 @@ import { useAuthContext } from "./context/authContext";
 import { getCities } from "./lib/city";
 import { getBookmarks } from "./lib/bookmark";
 import { RequestType } from "./types";
+import ReportUserCard from "@/components/ReportUserCard";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
