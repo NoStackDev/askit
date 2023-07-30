@@ -15,6 +15,7 @@ import { postRequest } from "@/app/lib/request";
 import { useFeedsContext } from "@/app/context/feedsContext";
 import LoadingSpinner from "../LoadingSpinner";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useRequestContext } from "@/app/context/requestContext";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -49,6 +50,7 @@ const RequestForm = React.forwardRef<
     category: { errors: ["category type required"], showErrors: false },
     location: { errors: ["city required"], showErrors: false },
   });
+  const { setRequestStatus } = useRequestContext();
 
   React.useEffect(() => {
     if (!token || !userDetails) {
@@ -162,6 +164,7 @@ const RequestForm = React.forwardRef<
           if (feeds && feeds.data.length === feeds.meta.per_page) {
             feeds.data.length = feeds.meta.per_page - 1;
             setFeeds({ ...feeds, data: [res.data, ...feeds.data] });
+            setRequestStatus("SUCCESS");
             return;
           }
           if (feeds) {

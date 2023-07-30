@@ -13,6 +13,7 @@ import { CityInterface, RequestDetailType } from "@/app/types";
 import Dialog from "./ui/DialogPrimitive";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useResponseContext } from "@/app/context/responseContext";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -52,6 +53,7 @@ const RequestResponseForm = React.forwardRef<
     [errorName: string]: string[];
   } | null>(null);
   const pathUrl = usePathname();
+  const { setResponseStatus } = useResponseContext();
 
   const requestId = pathUrl.split("/")[2];
 
@@ -107,6 +109,7 @@ const RequestResponseForm = React.forwardRef<
               responses: [res.data, ...requestData.responses],
             });
           }
+          setResponseStatus("SUCCESS");
         }
 
         if (res.error) {
