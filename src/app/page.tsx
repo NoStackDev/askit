@@ -136,7 +136,7 @@ export default function Home() {
 
   return (
     <>
-      {/* <main className="relative md:mr-[100px] md:ml-[60px]">
+      <main className="relative md:mr-[100px] md:ml-[60px]">
         <div className="relative flex md:gap-[92px] md:mb-10">
           <div className="mx-5 my-6 mt-[24px] md:mt-[56px] w-full z-10">
             <Searchbox className="md:hidden" />
@@ -262,8 +262,7 @@ export default function Home() {
         >
           <RequestForm className="" />
         </Dialog>
-      </main> */}
-      <ReportUserCard />
+      </main>
     </>
   );
 }
