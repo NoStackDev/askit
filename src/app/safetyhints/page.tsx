@@ -9,7 +9,7 @@ const SafetyHintsPage = (props: Props) => {
         Safety Hints
       </div>
 
-      <div className="mt-10 text-center font-body text-title_2 text-[#000000]">
+      <div className="mt-10 md:text-center font-body text-title_2 text-[#000000]">
         Inasmuch as we try to foster a secure community that will be free of
         scam and abuse, we urge you to keep an open eye by adopting these safety
         hints while dealing with people you met on this platform or similar
