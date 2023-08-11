@@ -1,4 +1,5 @@
 import { cn } from "@/app/lib/utils";
+import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -10,18 +11,20 @@ const ReportUserCard = React.forwardRef<
   return (
     <div
       className={cn(
-        "pt-6 pb-11  bg-white w-full md:max-w-[375px] md:rounded-lg",
+        "pt-6 pb-11  bg-white w-full h-full md:max-h-[600px] md:max-w-[375px] md:rounded-lg",
         className
       )}
     >
       <div className="px-5 flex items-center gap-4">
-        <Image
-          src={"/images/icons/arrowRequestForm.png"}
-          height={20}
-          width={24}
-          alt="back"
-          className="w-6 h-6 hover:cursor-pointer"
-        />
+        <DialogClose asChild>
+          <Image
+            src={"/images/icons/arrowRequestForm.png"}
+            height={20}
+            width={24}
+            alt="back"
+            className="w-6 h-6 hover:cursor-pointer"
+          />
+        </DialogClose>
 
         <div className="font-headline font-bold text-headline_2 text-black">
           Report

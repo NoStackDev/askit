@@ -3,6 +3,8 @@
 import { addDeleteBookmark, getBookmarks } from "@/app/lib/bookmark";
 import { cn, month } from "@/app/lib/utils";
 import { RequestDetailType, RequestType } from "@/app/types";
+import ReportUserCard from "@/components/ReportUserCard";
+import Dialog from "@/components/ui/DialogPrimitive";
 import Image from "next/image";
 import React from "react";
 
@@ -218,15 +220,24 @@ const RequestImgDetail = React.forwardRef<
 
         {/* report save share  */}
         <div className="w-full flex items-center justify-between px-5 pt-5 pb-6">
-          <div className="flex items-center gap-1 hover:cursor-pointer">
-            <Image
-              src={"/images/icons/reportIcon.png"}
-              width={24}
-              height={24}
-              alt="report"
-            />
-            <div className="text-title_3 font-body text-black/60">Report</div>
-          </div>
+          <Dialog
+            dialogTrigger={
+              <div className="flex items-center gap-1 hover:cursor-pointer">
+                <Image
+                  src={"/images/icons/reportIcon.png"}
+                  width={24}
+                  height={24}
+                  alt="report"
+                />
+                <div className="text-title_3 font-body text-black/60">
+                  Report
+                </div>
+              </div>
+            }
+            className="top-0 fixed left-0 h-full md:h-fit md:-translate-x-1/2 z-50 md:top-1/2 md:-translate-y-1/2 md:left-1/2"
+          >
+            <ReportUserCard />
+          </Dialog>
 
           <div className="flex items-center gap-1 hover:cursor-pointer">
             <React.Suspense
