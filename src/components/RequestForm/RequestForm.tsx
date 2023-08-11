@@ -169,9 +169,13 @@ const RequestForm = React.forwardRef<
           }
           if (feeds) {
             setFeeds({ ...feeds, data: [res.data, ...feeds.data] });
+            setRequestStatus("SUCCESS");
             return;
           }
           setFeeds(res.data);
+          setRequestStatus("SUCCESS");
+          setRequestStatus("SUCCESS");
+          return;
         }
       }
     } catch (err) {
