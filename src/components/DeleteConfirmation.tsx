@@ -21,7 +21,7 @@ const DeleteConfirmation = React.forwardRef<
       />
 
       <div className="text-center mt-[60px] md:mt-[50px] font-mono font-bold text-[#000000] text-headline_2">
-        Request Placed
+      Do you wish to delete?
       </div>
 
       <div className="text-center font-body text-body_1 text-[#000000]">
