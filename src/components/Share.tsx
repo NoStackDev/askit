@@ -1,23 +1,26 @@
 "use client";
 
+import { cn } from "@/app/lib/utils";
 import React from "react";
 import { RWebShare } from "react-web-share";
 
 const Share = React.forwardRef<
   React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div">
->(() => {
+  React.ComponentPropsWithoutRef<"div"> & {
+    shareText?: string;
+  }
+>(({ className, children, shareText, ...props }, forwardRef) => {
   return (
-    <div>
+    <div className={cn("w-fit h-fit", className)} ref={forwardRef} {...props}>
       <RWebShare
         data={{
-          text: "Like humans, flamingos make friends for life",
-          url: "https://on.natgeo.com/2zHaNup",
-          title: "Flamingos",
+          text: shareText,
+          url: window.location.href,
+          title: "AskCenta",
         }}
         onClick={() => console.log("shared successfully!")}
       >
-        <button>Share 🔗</button>
+        {children}
       </RWebShare>
     </div>
   );

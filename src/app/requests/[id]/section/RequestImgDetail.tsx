@@ -4,6 +4,7 @@ import { addDeleteBookmark, getBookmarks } from "@/app/lib/bookmark";
 import { cn, month } from "@/app/lib/utils";
 import { RequestDetailType, RequestType } from "@/app/types";
 import ReportUserCard from "@/components/ReportUserCard";
+import Share from "@/components/Share";
 import Dialog from "@/components/ui/DialogPrimitive";
 import Image from "next/image";
 import React from "react";
@@ -260,16 +261,18 @@ const RequestImgDetail = React.forwardRef<
             <div className="text-title_3 font-body text-black/60">Save</div>
           </div>
 
-          <div className="flex items-center gap-1 hover:cursor-pointer">
-            <React.Suspense
-              fallback={
-                <div className="w-[18px] h-5 bg-stroke/80 animate-pulse"></div>
-              }
-            >
-              <ShareIcon className="text-black/60" />
-            </React.Suspense>
-            <div className="text-title_3 font-body text-black/60">Share</div>
-          </div>
+          <Share shareText={title}>
+            <div className="flex items-center gap-1 hover:cursor-pointer">
+              <React.Suspense
+                fallback={
+                  <div className="w-[18px] h-5 bg-stroke/80 animate-pulse"></div>
+                }
+              >
+                <ShareIcon className="text-black/60" />
+              </React.Suspense>
+              <div className="text-title_3 font-body text-black/60">Share</div>
+            </div>
+          </Share>
         </div>
       </div>
     );
