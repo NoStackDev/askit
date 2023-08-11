@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/app/lib/utils";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
@@ -45,10 +47,10 @@ const ReportUserCard = React.forwardRef<
           </div>
 
           <Link
-            href={"/"}
+            href={window.location.href}
             className="mt-2 font-body font-medium text-title_3 text-[#000000]/50"
           >
-            placeholderlink
+            {window.location.href}
           </Link>
         </div>
 
