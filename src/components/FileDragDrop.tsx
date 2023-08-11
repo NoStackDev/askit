@@ -84,7 +84,7 @@ const FileDragDrop = React.forwardRef<
         {images.length > 0 ? (
           images.map((image, index) => {
             return (
-              <div className="relative w-1/2 h-1/2" key={index}>
+              <div className="relative w-full h-full" key={index}>
                 <img
                   src={image.url}
                   alt={image.name}
