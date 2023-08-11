@@ -23,7 +23,7 @@ export default function Custom404({}: Props) {
 
       <Button
         className="font-body text-title_3 font-medium px-8 py-2 mt-16 text-white"
-        onClick={() => window.location.replace("/")}
+        onClick={() => (window.location.href = "/")}
       >
         Go to Homepage
       </Button>

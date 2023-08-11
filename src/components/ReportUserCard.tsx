@@ -10,6 +10,15 @@ const ReportUserCard = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div">
 >(({ className, children, ...props }, forwardRef) => {
+  const token = window.localStorage.getItem("token");
+  const userDetails = window.localStorage.getItem("userDetails");
+
+  React.useEffect(() => {
+    if (!token || !userDetails) {
+      window.location.replace("/login");
+    }
+  }, []);
+
   return (
     <div
       className={cn(

@@ -50,7 +50,7 @@ const RequestForm = React.forwardRef<
 
   React.useEffect(() => {
     if (!token || !userDetails) {
-      window.location.replace("/login");
+      window.location.href = "/login";
     }
   }, []);
 
@@ -135,7 +135,7 @@ const RequestForm = React.forwardRef<
   const onPostRequestClick = async () => {
     try {
       if (!token || !userDetails) {
-        window.location.replace("/login");
+        window.location.href = "/login";
       } else {
         setIsPosting(true);
         const headers = new Headers();

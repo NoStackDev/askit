@@ -81,7 +81,7 @@ const RequestResponseForm = React.forwardRef<
 
     try {
       if (!token || !userDetails) {
-        window.location.replace("/login");
+        window.location.href = "/login";
       } else {
         const headers = new Headers();
         headers.append("Accept", "application/json");

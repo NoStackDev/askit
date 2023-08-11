@@ -63,7 +63,7 @@ const LoginCard = React.forwardRef<
           );
           console.log(userDetails);
           dispatch({ type: "LOGIN_SUCCESSFUL" });
-          window.location.replace("/");
+          window.location.href = "/";
         }
       }
     } catch (err) {

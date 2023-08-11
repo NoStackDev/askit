@@ -241,7 +241,7 @@ const SettingsPage = (props: Props) => {
       const token = window.localStorage.getItem("token");
       const userDetails = window.localStorage.getItem("userDetails");
       if (!token && !userDetails) {
-        window.location.replace("/login");
+        window.location.href = "/login";
       } else {
         const data = {
           user_id: JSON.parse(userDetails as string).data.id,
