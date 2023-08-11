@@ -106,6 +106,9 @@ dependencies:
   react-hook-form:
     specifier: ^7.45.0
     version: 7.45.0(react@18.2.0)
+  react-web-share:
+    specifier: ^2.0.2
+    version: 2.0.2(react-dom@18.2.0)(react@18.2.0)
   tailwind-merge:
     specifier: ^1.12.0
     version: 1.12.0
@@ -4109,6 +4112,16 @@ packages:
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-web-share@2.0.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-bGm1TJc6xtC0MhAnYFsrzT4En7l2oAdLTgCK7nk7b4xGTg3L5gOldiPrmYQ8a/dEXNydgekvOj/tfjduIlIRVA==}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
