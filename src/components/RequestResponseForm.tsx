@@ -64,16 +64,34 @@ const RequestResponseForm = React.forwardRef<
     const token = window.localStorage.getItem("token");
     const userDetails = window.localStorage.getItem("userDetails");
 
-    if (!city || !whatsappNum) {
+    if (
+      !city ||
+      !whatsappNum ||
+      price.trim().length < 2 ||
+      !Number(price.trim())
+    ) {
       let errorsTemp: {
         [errorName: string]: string[];
       } = {};
       if (!city) {
-        errorsTemp["location"] = ["location needed"];
+        errorsTemp["location"] = ["location required"];
       }
       if (!whatsappNum) {
-        errorsTemp["whatsapp_num"] = ["location needed"];
+        errorsTemp["whatsapp_num"] = ["location required"];
       }
+
+      if (price.trim().length < 2) {
+        errorsTemp["price"] = [
+          "Price required and should be atlest two digits",
+        ];
+      }
+
+      if (!Number(price.trim())) {
+        errorsTemp["price"] = errorsTemp["price"]
+          ? [...errorsTemp["price"], "Price should be numbers only"]
+          : ["Price should be numbers only"];
+      }
+
       setErrors({ ...errorsTemp });
       setIsLoading(false);
       return;
@@ -280,15 +298,27 @@ const RequestResponseForm = React.forwardRef<
             name="price"
             className="relative h-fit mt-4 w-full"
           >
-            <FormPrimitive.Control asChild>
-              <input
-                type="text"
-                placeholder="Price (optional)"
-                className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </FormPrimitive.Control>
-            <AttachMoneyIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+            {errors &&
+              errors.price?.length > 0 &&
+              errors.price.map((errorItem) => {
+                return (
+                  <div className="font-body text-body_3 text-[red]/60">
+                    {errorItem}
+                  </div>
+                );
+              })}
+
+            <div className="relative h-fit w-full">
+              <FormPrimitive.Control asChild>
+                <input
+                  type="text"
+                  placeholder="Price (optional)"
+                  className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </FormPrimitive.Control>
+              <AttachMoneyIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+            </div>
           </FormPrimitive.Field>
 
           <div className="w-full h-fit mt-4">
