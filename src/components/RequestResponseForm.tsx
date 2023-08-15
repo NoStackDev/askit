@@ -6,10 +6,14 @@ import VisibilityRadioGroup from "./ui/RequestVisibilityRadioGroup";
 import Button from "./ui/Button";
 import { cn } from "@/app/lib/utils";
 import { usePathname } from "next/navigation";
-import { postResponse } from "@/app/lib/repsonse";
+import { postResponse, updateResponse } from "@/app/lib/repsonse";
 import LoadingSpinner from "./LoadingSpinner";
 import { getCities } from "@/app/lib/city";
-import { CityInterface, RequestDetailType } from "@/app/types";
+import {
+  CityInterface,
+  RequestDetailResponseType,
+  RequestDetailType,
+} from "@/app/types";
 import Dialog from "./ui/DialogPrimitive";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -33,22 +37,40 @@ const ArrowBackIcon = React.lazy(() => import("@mui/icons-material/ArrowBack"));
 const RequestResponseForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof FormPrimitive.Root> & {
-    setRequests: React.Dispatch<React.SetStateAction<RequestDetailType | null>>;
-    requestData: RequestDetailType | null;
+    setRequests?: React.Dispatch<
+      React.SetStateAction<RequestDetailType | null>
+    >;
+    requestData?: RequestDetailType | null;
+    responsePrefill?: {
+      description: string;
+      responseid: number;
+      location: string;
+      title: string;
+      user_id: number;
+      price: number;
+      whatsapp_num: string;
+      whatsapp_link: string;
+    };
   }
 >(({ className, setRequests, requestData, ...props }, ref) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(props.responsePrefill?.title || "");
   const [visibility, setVisibility] = useState<"private" | "public">("public");
-  const [price, setPrice] = useState("");
-  const [whatsappNum, setWhatsappNum] = useState("");
+  const [price, setPrice] = useState(
+    props.responsePrefill?.price.toString() || ""
+  );
+  const [whatsappNum, setWhatsappNum] = useState(
+    props.responsePrefill?.whatsapp_num || ""
+  );
   const [image, setImage] = React.useState<{
     name: string;
     url: string;
   } | null>(null);
   const [imageFile, setImageFile] = React.useState<FileList>();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const [city, setCity] = React.useState<number | null>(null);
+  const [city, setCity] = React.useState<number | null>(
+    Number(props.responsePrefill?.location) || null
+  );
   const [errors, setErrors] = React.useState<{
     [errorName: string]: string[];
   } | null>(null);
@@ -118,10 +140,16 @@ const RequestResponseForm = React.forwardRef<
         data.append("visibility", visibility);
         if (city) data.append("location_id", city?.toString());
 
-        const res = await postResponse(headers, data);
+        const res = props.responsePrefill
+          ? await updateResponse(
+              Number(props.responsePrefill?.responseid),
+              headers,
+              data
+            )
+          : await postResponse(headers, data);
 
         if (res.success) {
-          if (requestData) {
+          if (requestData && setRequests) {
             setRequests({
               ...requestData,
               responses: [res.data, ...requestData.responses],
@@ -170,13 +198,16 @@ const RequestResponseForm = React.forwardRef<
     <FormPrimitive.Root
       className={cn(
         "relative py-8 flex flex-col items-center bg-white h-full md:h-fit",
+        props.responsePrefill && "md:max-h-[600px]",
         className
       )}
       onSubmit={(e) => submitForm(e)}
     >
       <div className="fixed md:relative w-full flex justify-between items-center px-5">
         <div className="font-headline text-headline_3 font-bold text-black text-left md:pb-2 md:text-center md:border-b-[1px] md:border-grey/20 w-full">
-          Respond to This Request
+          {props.responsePrefill
+            ? "Update Response"
+            : "Respond to This Request"}
         </div>
 
         <React.Suspense
@@ -221,13 +252,14 @@ const RequestResponseForm = React.forwardRef<
               className="px-3 py-4 rounded-lg border-[1px] border-stroke placeholder:font-body placeholder:text-body_1 min-h-[146px] bg-faded"
               required
               onChange={(e) => setTitle(e.target.value)}
+              value={title}
             />
           </FormPrimitive.Control>
         </FormPrimitive.Field>
 
         <FormPrimitive.Field
           name="image"
-          className="relative w-fit h-fit mt-6 hover:cursor-pointer"
+          className="relative w-full h-fit mt-6 hover:cursor-pointer"
           onClick={onFileInputClick}
         >
           <FormPrimitive.Control asChild>
@@ -243,7 +275,7 @@ const RequestResponseForm = React.forwardRef<
           </FormPrimitive.Control>
 
           <div className="absolute top-0 h-full w-full flex items-center justify-between px-4 py-2  border border-stroke rounded">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 w-full">
               <React.Suspense
                 fallback={
                   <div className="w-[24px] h-[24px] bg-stroke/60 animate-pulse"></div>
@@ -318,6 +350,7 @@ const RequestResponseForm = React.forwardRef<
                   placeholder="Price (optional)"
                   className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
                   onChange={(e) => setPrice(e.target.value)}
+                  value={price}
                 />
               </FormPrimitive.Control>
               <AttachMoneyIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
@@ -341,6 +374,7 @@ const RequestResponseForm = React.forwardRef<
                   placeholder="WhatsApp number"
                   className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
                   onChange={(e) => setWhatsappNum(e.target.value)}
+                  value={whatsappNum}
                 />
               </FormPrimitive.Control>
               <WhatsAppIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
@@ -358,12 +392,14 @@ const RequestResponseForm = React.forwardRef<
           {isLoading ? (
             <Button className="w-full max-w-[315px] py-[6px]" disabled>
               <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
-              Sending Response...
+              {props.responsePrefill
+                ? "Updating Response.."
+                : "Sending Response..."}
             </Button>
           ) : (
             <FormPrimitive.Submit asChild className="">
               <Button className="w-full max-w-[315px] py-[6px]">
-                Send Response
+                {props.responsePrefill ? "Update Response" : "Send Response"}
               </Button>
             </FormPrimitive.Submit>
           )}

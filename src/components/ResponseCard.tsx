@@ -11,6 +11,8 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import Button from "./ui/Button";
 import { getCities } from "@/app/lib/city";
 import DeleteConfirmation from "./DeleteConfirmation";
+import RequestResponseForm from "./RequestResponseForm";
+import { useRequestContext } from "@/app/context/requestContext";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -293,13 +295,31 @@ const ResponseCard = React.forwardRef<
               />
             </Dialog>
 
-            <Image
-              src="/images/icons/editIcon.png"
-              width={24}
-              height={24}
-              alt="edit"
-              className="hover:cursor-pointer"
-            />
+            <Dialog
+              dialogTrigger={
+                <Image
+                  src="/images/icons/editIcon.png"
+                  width={24}
+                  height={24}
+                  alt="edit"
+                  className="hover:cursor-pointer"
+                />
+              }
+              className="top-0 fixed left-0 h-full md:h-fit md:-translate-x-1/2 z-50 md:top-1/2 md:-translate-y-1/2 md:left-1/2"
+            >
+              <RequestResponseForm
+                responsePrefill={{
+                  description,
+                  responseid,
+                  location,
+                  title,
+                  user_id,
+                  price,
+                  whatsapp_num,
+                  whatsapp_link,
+                }}
+              />
+            </Dialog>
           </div>
         ) : null}
       </div>
