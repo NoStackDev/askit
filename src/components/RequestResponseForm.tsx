@@ -302,7 +302,10 @@ const RequestResponseForm = React.forwardRef<
               errors.price?.length > 0 &&
               errors.price.map((errorItem) => {
                 return (
-                  <div className="font-body text-body_3 text-[red]/60">
+                  <div
+                    className="font-body text-body_3 text-[red]/60"
+                    key={errorItem}
+                  >
                     {errorItem}
                   </div>
                 );
