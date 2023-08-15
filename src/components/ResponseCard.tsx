@@ -1,7 +1,7 @@
 import { useResponseContext } from "@/app/context/responseContext";
 import { deleteResponse } from "@/app/lib/repsonse";
 import { cn, month } from "@/app/lib/utils";
-import { RequestDetailResponseType, ResponseType } from "@/app/types";
+import { CityInterface, RequestDetailResponseType } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -9,6 +9,7 @@ import Dialog from "./ui/DialogPrimitive";
 import ExternalAppConfirmation from "./ExternalAppConfirmation";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Button from "./ui/Button";
+import { getCities } from "@/app/lib/city";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -46,6 +47,38 @@ const ResponseCard = React.forwardRef<
     ref
   ) => {
     const { responses, setResponses } = useResponseContext();
+    const [locationString, setLocationString] = React.useState<string | null>(
+      null
+    );
+
+    React.useEffect(() => {
+      const stateCitiesIntermediate = window.localStorage.getItem("cities");
+
+      if (!stateCitiesIntermediate) {
+        (async () => {
+          try {
+            const citiesRes = await getCities();
+            window.localStorage.setItem("cities", JSON.stringify(citiesRes));
+          } catch (err) {
+            console.log(err);
+          }
+        })();
+      } else {
+        Object.values(
+          JSON.parse(stateCitiesIntermediate) as {
+            [id: string]: CityInterface[];
+          }
+        ).forEach((arr) => {
+          arr.forEach((arr1) => {
+            if (arr1.id === Number(location)) {
+              setLocationString(arr1.city);
+              return;
+            }
+          });
+        });
+      }
+    }, []);
+
     const date = new Date(created_at);
 
     const onClickDeleteBtn = async (
@@ -80,12 +113,10 @@ const ResponseCard = React.forwardRef<
           const res = await deleteResponse(token, responseid);
 
           if (res.success) {
-            console.log(res);
             return;
           } else {
             if (responses && responseIndex && deletedResponse)
               setResponses(responses);
-            console.log(responses);
           }
         } else window.location.assign("/login");
       } catch (err) {
@@ -137,7 +168,7 @@ const ResponseCard = React.forwardRef<
               <div className="flex items-center gap-1">
                 <LocationOnIcon className="text-[#A3A1A1] h-[16.3px] w-auto" />
                 <span className="text-grey text-special font-body font-light">
-                  {location}
+                  {locationString}
                 </span>
               </div>
             </React.Suspense>
