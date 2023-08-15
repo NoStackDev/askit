@@ -24,8 +24,8 @@ export const sidebarConfig1: SidebarItem1[] = [
   },
 
   {
-    id: "My Reqeusts",
-    title: "My Reqeusts",
+    id: "My Requests",
+    title: "My Requests",
     href: "/myRequests",
     children: null,
     subChildren: null,
