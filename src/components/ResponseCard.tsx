@@ -10,6 +10,7 @@ import ExternalAppConfirmation from "./ExternalAppConfirmation";
 import { DialogClose } from "@radix-ui/react-dialog";
 import Button from "./ui/Button";
 import { getCities } from "@/app/lib/city";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -82,7 +83,7 @@ const ResponseCard = React.forwardRef<
     const date = new Date(created_at);
 
     const onClickDeleteBtn = async (
-      event: React.MouseEvent<SVGSVGElement, MouseEvent>,
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
       responseid: number
     ) => {
       event.stopPropagation();
@@ -256,21 +257,51 @@ const ResponseCard = React.forwardRef<
         )}
 
         {variant === "user" ? (
-          <div className="flex items-center gap-8 mt-6">
-            <React.Suspense>
-              <DeleteIcon
-                className="text-white hover:cursor-pointer"
-                onClick={(e) => onClickDeleteBtn(e, responseid)}
-              />
-            </React.Suspense>
-            <Image
-              src="/images/icons/editIcon.png"
-              width={24}
-              height={24}
-              alt="edit"
-              className="hover:cursor-pointer"
+          <Dialog
+            dialogTrigger={
+              <div className="flex items-center gap-8 mt-6">
+                <React.Suspense>
+                  <DeleteIcon className="text-white hover:cursor-pointer" />
+                </React.Suspense>
+                <Image
+                  src="/images/icons/editIcon.png"
+                  width={24}
+                  height={24}
+                  alt="edit"
+                  className="hover:cursor-pointer"
+                />
+              </div>
+            }
+            className="fixed -translate-x-1/2 z-50 top-1/2 -translate-y-1/2 left-1/2"
+          >
+            <DeleteConfirmation
+              closeDialogElement={
+                <div className="flex flex-col gap-6 items-center">
+                  <DialogClose asChild>
+                    <Button
+                      variant={"outlined2"}
+                      className="px-[72px] py-3 border-black text-black"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      No
+                    </Button>
+                  </DialogClose>
+
+                  <DialogClose asChild>
+                    <Button
+                      variant={"outlined2"}
+                      className="px-[72px] py-3 border-black text-black"
+                      onClick={(e) => onClickDeleteBtn(e, responseid)}
+                    >
+                      Yes delete!
+                    </Button>
+                  </DialogClose>
+                </div>
+              }
             />
-          </div>
+          </Dialog>
         ) : null}
       </div>
     );
