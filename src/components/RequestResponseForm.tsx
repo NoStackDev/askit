@@ -133,12 +133,19 @@ const RequestResponseForm = React.forwardRef<
 
         if (res.success) {
           if (requestData && setRequests) {
+            console.log('request data: ', res.data)
             setRequests({
               ...requestData,
               responses: [res.data, ...requestData.responses],
             });
           }
           setResponseStatus("SUCCESS");
+        }
+
+        if (res.isError) {
+          window.localStorage.removeItem("userDetails");
+          window.location.href = "/login";
+          return;
         }
 
         if (res.error) {

@@ -17,6 +17,12 @@ export default async function updateResponse(
     return json;
   }
 
+  if (res.status === 401) {
+    const json = await res.json();
+    console.log(json);
+    return { isError: true, statusCode: 401 };
+  }
+
   if (res.status < 200 || res.status > 299) {
     const json = await res.json();
     console.log(json);

@@ -254,6 +254,12 @@ const SettingsPage = (props: Props) => {
         };
 
         const res = await updateUserPreference(token as string, data);
+
+        if (res.isError) {
+          window.localStorage.removeItem("userDetails");
+          window.location.href = "/login";
+          return;
+        }
       }
     } catch (err) {
       console.log(err);

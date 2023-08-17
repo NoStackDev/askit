@@ -245,6 +245,12 @@ const ProfileInfo = React.forwardRef<
 
           const updatedUser = await updateUser(headers, data);
 
+          if (updatedUser.isError) {
+            window.localStorage.removeItem("userDetails");
+            window.location.href = "/login";
+            return;
+          }
+
           if (updatedUser) {
             window.localStorage.setItem(
               "userDetails",
