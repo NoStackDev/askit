@@ -50,7 +50,7 @@ const ProfileInfo = React.forwardRef<
   const [city, setCity] = React.useState<number | null>(null);
   const [cityName, setCityName] = React.useState<string | null>(null);
   const [about, setAbout] = React.useState<string>(
-    userDetails ? userDetails.about : ""
+    userDetails?.about ? userDetails?.about : ""
   );
   const [businessAddr, setBusinessAddr] = React.useState<string>(
     userDetails?.business_addr ? userDetails.business_addr : ""
@@ -180,18 +180,18 @@ const ProfileInfo = React.forwardRef<
       headers.append("Authorization", `Bearer ${token}`);
 
       const data = new FormData();
-      data.append("name", username.trim());
-      data.append("about", about.trim());
-      data.append("business_addr", businessAddr.trim());
+      data.append("name", username);
+      data.append("about", about);
+      data.append("business_addr", businessAddr);
 
       if (facebookLink.trim().length > 1) {
-        data.append("facebook_link", facebookLink.trim());
+        data.append("facebook_link", facebookLink);
       }
       if (whatsppNum.trim().length > 1) {
-        data.append("whatsapp_num", whatsppNum.trim());
+        data.append("whatsapp_num", whatsppNum);
       }
       if (instagramLink.trim().length > 1) {
-        data.append("instagram_link", instagramLink.trim());
+        data.append("instagram_link", instagramLink);
       }
       if (city) {
         data.append("location_id", city.toString());
@@ -239,11 +239,11 @@ const ProfileInfo = React.forwardRef<
           headers.append("Authorization", `Bearer ${loginData.token}`);
 
           const data = new FormData();
-          data.append("about", about.trim());
-          data.append("business_addr", businessAddr.trim());
-          data.append("facebook_link", facebookLink.trim());
-          data.append("whatsapp_num", whatsppNum.trim());
-          data.append("instagram_link", instagramLink.trim());
+          data.append("about", about);
+          data.append("business_addr", businessAddr);
+          data.append("facebook_link", facebookLink);
+          data.append("whatsapp_num", whatsppNum);
+          data.append("instagram_link", instagramLink);
           if (city) {
             data.append("location_id", city.toString());
           }

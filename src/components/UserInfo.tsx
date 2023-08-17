@@ -22,6 +22,8 @@ const UserInfo = React.forwardRef<
     variant?: "profile";
   }
 >(({ className, variant, userDetails, ...props }, forwardRef) => {
+  console.log("image_url: ", userDetails?.image_url);
+
   return (
     <div
       ref={forwardRef}
@@ -31,7 +33,7 @@ const UserInfo = React.forwardRef<
       )}
       {...props}
     >
-      {userDetails?.image_url ? (
+      {/* {userDetails?.image_url ? (
         <Image
           src={userDetails.image_url}
           height={80}
@@ -45,7 +47,14 @@ const UserInfo = React.forwardRef<
             fontSize="large"
           />
         </React.Suspense>
-      )}
+      )} */}
+
+      <React.Suspense>
+        <PersonIcon
+          className="text-stroke scale-[200%] bg-[#D9D9D9] p-[2px] rounded-[50%] mt-4"
+          fontSize="large"
+        />
+      </React.Suspense>
 
       <div className="flex flex-col gap-1 justify-center mt-6 items-center">
         <div className="font-headline text-headline_2 font-bold text-white mt-4">
