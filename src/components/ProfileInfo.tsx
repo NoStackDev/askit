@@ -33,6 +33,7 @@ import { useAuthContext } from "@/app/context/authContext";
 import { loginUser, updateUser } from "@/app/lib/user";
 import { useGlobalContext } from "@/app/context/Store";
 import { getCities } from "@/app/lib/city";
+import getUser from "@/app/lib/user/getUser";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -93,6 +94,14 @@ const ProfileInfo = React.forwardRef<
 
             setToken(tokenRes.token);
             window.localStorage.setItem("token", tokenRes.token);
+            const userDetails = await getUser(tokenRes.token);
+
+            if (userDetails) {
+              window.localStorage.setItem(
+                "userDetails",
+                JSON.stringify(userDetails)
+              );
+            }
           }
         } catch (err) {
           console.log(err);
