@@ -163,8 +163,6 @@ const RequestCard = React.forwardRef<
       }
     };
 
-    console.log('image url: ', image_url)
-
     return (
       <div
         ref={ref}

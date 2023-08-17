@@ -86,12 +86,7 @@ const RequestResponseForm = React.forwardRef<
     const token = window.localStorage.getItem("token");
     const userDetails = window.localStorage.getItem("userDetails");
 
-    if (
-      !city ||
-      !whatsappNum ||
-      price.trim().length < 2 ||
-      !Number(price.trim())
-    ) {
+    if (!city || !whatsappNum) {
       let errorsTemp: {
         [errorName: string]: string[];
       } = {};
@@ -100,18 +95,6 @@ const RequestResponseForm = React.forwardRef<
       }
       if (!whatsappNum) {
         errorsTemp["whatsapp_num"] = ["location required"];
-      }
-
-      if (price.trim().length < 2) {
-        errorsTemp["price"] = [
-          "Price required and should be atlest two digits",
-        ];
-      }
-
-      if (!Number(price.trim())) {
-        errorsTemp["price"] = errorsTemp["price"]
-          ? [...errorsTemp["price"], "Price should be numbers only"]
-          : ["Price should be numbers only"];
       }
 
       setErrors({ ...errorsTemp });
