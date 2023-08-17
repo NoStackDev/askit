@@ -129,6 +129,7 @@ const ResponseCard = React.forwardRef<
       }
     };
 
+    console.log("image url: ", image_url);
     return (
       <div
         ref={ref}
@@ -153,8 +154,9 @@ const ResponseCard = React.forwardRef<
 
           <div
             className={cn(
-              "font-body text-white text-title_3 font-medium",
-              !image_url && "text-white text-center w-full"
+              "font-body text-white font-medium",
+              !image_url &&
+                "text-white text-center font-medium font-body w-full"
             )}
           >
             {description}
