@@ -133,10 +133,13 @@ const RequestResponseForm = React.forwardRef<
 
         if (res.success) {
           if (requestData && setRequests) {
-            console.log('request data: ', res.data)
+            let newResData = {
+              ...res.data,
+              user: JSON.parse(userDetails).data.name,
+            };
             setRequests({
               ...requestData,
-              responses: [res.data, ...requestData.responses],
+              responses: [newResData, ...requestData.responses],
             });
           }
           setResponseStatus("SUCCESS");

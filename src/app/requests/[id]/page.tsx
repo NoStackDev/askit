@@ -88,7 +88,10 @@ export default function RequestsPage() {
           </div>
 
           {requestData && (
-            <Responses responses={requestData.responses} className="mt-6" />
+            <Responses
+              responses={requestData.responses.reverse()}
+              className="mt-6"
+            />
           )}
         </div>
       </div>
