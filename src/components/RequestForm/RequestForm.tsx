@@ -173,6 +173,11 @@ const RequestForm = React.forwardRef<
           setRequestStatus("SUCCESS");
           return;
         }
+
+        if (res.isError) {
+          window.localStorage.removeItem("userDetails");
+          window.location.href = "/login";
+        }
       }
     } catch (err) {
       console.log(err);

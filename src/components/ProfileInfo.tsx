@@ -110,7 +110,7 @@ const ProfileInfo = React.forwardRef<
         JSON.parse(citiesStorage) as { [id: string]: CityInterface[] }
       ).forEach((arr) => citiesFlattened.push(...arr));
       const selectedCity = citiesFlattened.find(
-        (cityItem) => cityItem.city === (userDetails.location)?.toString()
+        (cityItem) => cityItem.city === userDetails.location?.toString()
       );
       selectedCity && setState(selectedCity.state);
       selectedCity && setCity(selectedCity.id);
@@ -171,18 +171,18 @@ const ProfileInfo = React.forwardRef<
       headers.append("Authorization", `Bearer ${token}`);
 
       const data = new FormData();
-      data.append("name", username);
-      data.append("about", about);
-      data.append("business_addr", businessAddr);
+      data.append("name", username.trim());
+      data.append("about", about.trim());
+      data.append("business_addr", businessAddr.trim());
 
       if (facebookLink.trim().length > 1) {
-        data.append("facebook_link", facebookLink);
+        data.append("facebook_link", facebookLink.trim());
       }
       if (whatsppNum.trim().length > 1) {
-        data.append("whatsapp_num", whatsppNum);
+        data.append("whatsapp_num", whatsppNum.trim());
       }
       if (instagramLink.trim().length > 1) {
-        data.append("instagram_link", instagramLink);
+        data.append("instagram_link", instagramLink.trim());
       }
       if (city) {
         data.append("location_id", city.toString());
@@ -196,6 +196,7 @@ const ProfileInfo = React.forwardRef<
 
       if (updatedUser.data) {
         const { responses, ...otherData } = updatedUser.data;
+        console.log("response: ", otherData);
         window.localStorage.setItem(
           "userDetails",
           JSON.stringify({ data: otherData })
@@ -229,11 +230,11 @@ const ProfileInfo = React.forwardRef<
           headers.append("Authorization", `Bearer ${loginData.token}`);
 
           const data = new FormData();
-          data.append("about", about);
-          data.append("business_addr", businessAddr);
-          data.append("facebook_link", facebookLink);
-          data.append("whatsapp_num", whatsppNum);
-          data.append("instagram_link", instagramLink);
+          data.append("about", about.trim());
+          data.append("business_addr", businessAddr.trim());
+          data.append("facebook_link", facebookLink.trim());
+          data.append("whatsapp_num", whatsppNum.trim());
+          data.append("instagram_link", instagramLink.trim());
           if (city) {
             data.append("location_id", city.toString());
           }
@@ -383,12 +384,22 @@ const ProfileInfo = React.forwardRef<
               <div className="self-start font-body font-medium text-title_3">
                 Your name
               </div>
-              <input
-                type="text"
-                value={username}
-                className="w-full font-body text-body_1 text-[#000000] py-2 px-3 border border-grey rounded-xl bg-[#F7F7F9]"
-                onChange={(e) => setUsername(e.target.value.trim())}
-              />
+              {userDetails ? (
+                <input
+                  type="text"
+                  value={username}
+                  className="w-full font-body text-body_1 text-[#000000] py-2 px-3 border border-grey rounded-xl bg-[#F7F7F9]"
+                  onChange={(e) => setUsername(e.target.value)}
+                  disabled
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={username}
+                  className="w-full font-body text-body_1 text-[#000000] py-2 px-3 border border-grey rounded-xl bg-[#F7F7F9]"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              )}
             </div>
           )}
 
