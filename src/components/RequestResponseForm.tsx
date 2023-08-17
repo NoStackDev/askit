@@ -57,7 +57,7 @@ const RequestResponseForm = React.forwardRef<
   const [title, setTitle] = useState(props.responsePrefill?.title || "");
   const [visibility, setVisibility] = useState<"private" | "public">("public");
   const [price, setPrice] = useState(
-    props.responsePrefill?.price.toString() || ""
+    props.responsePrefill?.price ? props.responsePrefill.price.toString() : ""
   );
   const [whatsappNum, setWhatsappNum] = useState(
     props.responsePrefill?.whatsapp_num || ""
