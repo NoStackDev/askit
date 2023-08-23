@@ -56,9 +56,9 @@ const RequestResponseForm = React.forwardRef<
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState(props.responsePrefill?.title || "");
   const [visibility, setVisibility] = useState<"private" | "public">("public");
-  const [price, setPrice] = useState(
-    props.responsePrefill?.price ? props.responsePrefill.price.toString() : ""
-  );
+  // const [price, setPrice] = useState(
+  //   props.responsePrefill?.price ? props.responsePrefill.price.toString() : ""
+  // );
   const [whatsappNum, setWhatsappNum] = useState(
     props.responsePrefill?.whatsapp_num || ""
   );
@@ -119,7 +119,7 @@ const RequestResponseForm = React.forwardRef<
           data.append("image", imageFile[0], imageFile[0].name);
         }
         data.append("whatsapp_num", whatsappNum);
-        data.append("price", price);
+        // data.append("price", price);
         data.append("visibility", visibility);
         if (city) data.append("location_id", city?.toString());
 
@@ -319,7 +319,7 @@ const RequestResponseForm = React.forwardRef<
             </div>
           </FormPrimitive.Field>
 
-          <FormPrimitive.Field
+          {/* <FormPrimitive.Field
             name="price"
             className="relative h-fit mt-4 w-full"
           >
@@ -348,7 +348,7 @@ const RequestResponseForm = React.forwardRef<
               </FormPrimitive.Control>
               <AttachMoneyIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
             </div>
-          </FormPrimitive.Field>
+          </FormPrimitive.Field> */}
 
           <div className="w-full h-fit mt-4">
             {errors && errors.whatsapp_num?.length > 0 && (
