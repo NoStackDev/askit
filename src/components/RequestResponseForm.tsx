@@ -237,8 +237,15 @@ const RequestResponseForm = React.forwardRef<
             >
               comment required
             </FormPrimitive.Message>
-          </div>
 
+            <FormPrimitive.Message
+              match={"tooLong"}
+              className="font-body text-body_3 text-black/80"
+            >
+              Maximum character length is 92
+            </FormPrimitive.Message>
+          </div>
+      
           <FormPrimitive.Control asChild>
             <textarea
               placeholder="Here is what you are looking for..."
@@ -246,6 +253,7 @@ const RequestResponseForm = React.forwardRef<
               required
               onChange={(e) => setTitle(e.target.value)}
               value={title}
+              maxLength={92}
             />
           </FormPrimitive.Control>
         </FormPrimitive.Field>
