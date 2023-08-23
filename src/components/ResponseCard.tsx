@@ -154,7 +154,7 @@ const ResponseCard = React.forwardRef<
 
           <div
             className={cn(
-              "font-body text-white font-medium",
+              "font-body text-white font-medium text-body_1",
               !image_url &&
                 "text-white text-center font-medium font-body w-full"
             )}
