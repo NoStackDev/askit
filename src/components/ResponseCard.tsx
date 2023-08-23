@@ -208,13 +208,13 @@ const ResponseCard = React.forwardRef<
                       alt={`${user}'s profile pic`}
                     />
                   ) : (
-                    <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer" />
+                    <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer" fontSize="small" />
                   )}
                 </Link>
               </React.Suspense>
 
               <Link href={`/profile/${user_id}/`}>
-                <div className="font-headline font-bold text-body_2 text-white hover:cursor-pointer">
+                <div className="font-headline font-normal text-[11px] text-white hover:cursor-pointer">
                   {user ? user : "Username"}
                 </div>
               </Link>
@@ -222,14 +222,12 @@ const ResponseCard = React.forwardRef<
 
             <Dialog
               dialogTrigger={
-                <div className="flex gap-1 items-center hover:cursor-pointer">
-                  <div className="font-headline text-body_2 font-bold text-sm text-[#20E010]">
-                    WhatsApp
-                  </div>
-                  <React.Suspense>
-                    <NorthEastIcon className="text-[#20E010]" />
-                  </React.Suspense>
-                </div>
+                <Image
+                  src={"/images/icons/responseCardWhatsappIcon.png"}
+                  height={20}
+                  width={20}
+                  alt="whatsapp"
+                />
               }
               className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-40"
             >
