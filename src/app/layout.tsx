@@ -15,7 +15,7 @@ import StatusModal from "@/components/StatusModal";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const space_mono = Space_Mono({
-  weight: ["700"],
+  weight: ["400", "700"],
   subsets: ["latin"],
   variable: "--font-space-mono",
 });
