@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/app/lib/utils";
 import Button from "./ui/Button";
@@ -20,12 +20,20 @@ const NotificationsIcon = React.lazy(
 
 type Props = {};
 
-const onlyRenderLogo = ["login", "signup", "onboard", 'recoverpassword'];
+const onlyRenderLogo = ["login", "signup", "onboard", "recoverpassword"];
 
 export default function Navbar({}: Props) {
   const path = usePathname();
   const { showSidebar, setShowSidebar } = useSidebarContext();
   const { isOnboarding } = useAuthContext();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  React.useEffect(() => {
+    const userDetails = window.localStorage.getItem("userDetails");
+    if (userDetails) {
+      setIsLoggedIn(true);
+    }
+  });
 
   const pathUrl = path.split("/");
   let renderOnlyLogo = Boolean(
@@ -58,53 +66,64 @@ export default function Navbar({}: Props) {
           <Searchbox className="hidden md:block w-full row-start-2 col-span-3 md:row-start-1 md:col-start-2 md:col-span-1" />
 
           <div className="flex items-center gap-6 justify-end">
-            <Link href="/notification" className="inline-flex rounded">
-              <React.Suspense
-                fallback={
-                  <div className="h-10 w-10 bg-background rounded animate-pulse"></div>
-                }
-              >
-                <div
-                  className={cn(
-                    "h-10 w-10 bg-background rounded flex items-center justify-center",
-                    pathUrl[1] === "notification" && "border border-secondary"
-                  )}
-                >
-                  <NotificationsIcon
-                    className={cn(
-                      "text-stroke",
-                      pathUrl[1] === "notification" && "text-secondary"
-                    )}
-                  />
-                </div>
-              </React.Suspense>
-            </Link>
+            {isLoggedIn ? (
+              <div className="h-fit w-fit flex items-center gap-6 justify-end">
+                <Link href="/notification" className="inline-flex rounded">
+                  <React.Suspense
+                    fallback={
+                      <div className="h-10 w-10 bg-background rounded animate-pulse"></div>
+                    }
+                  >
+                    <div
+                      className={cn(
+                        "h-10 w-10 bg-background rounded flex items-center justify-center",
+                        pathUrl[1] === "notification" &&
+                          "border border-secondary"
+                      )}
+                    >
+                      <NotificationsIcon
+                        className={cn(
+                          "text-stroke",
+                          pathUrl[1] === "notification" && "text-secondary"
+                        )}
+                      />
+                    </div>
+                  </React.Suspense>
+                </Link>
 
-            <Link href="/profile" className="inline-flex rounded">
-              <React.Suspense
-                fallback={
-                  <div className="h-10 w-10 bg-background rounded animate-pulse"></div>
-                }
-              >
-                <div
-                  className={cn(
-                    "h-10 w-10 bg-background rounded flex items-center justify-center",
-                    pathUrl[1] === "profile" &&
-                      pathUrl.length < 3 &&
-                      "border border-secondary"
-                  )}
-                >
-                  <PersonIcon
-                    className={cn(
-                      "text-stroke",
-                      pathUrl[1] === "profile" &&
-                        pathUrl.length < 3 &&
-                        "text-secondary"
-                    )}
-                  />
-                </div>
-              </React.Suspense>
-            </Link>
+                <Link href="/profile" className="inline-flex rounded">
+                  <React.Suspense
+                    fallback={
+                      <div className="h-10 w-10 bg-background rounded animate-pulse"></div>
+                    }
+                  >
+                    <div
+                      className={cn(
+                        "h-10 w-10 bg-background rounded flex items-center justify-center",
+                        pathUrl[1] === "profile" &&
+                          pathUrl.length < 3 &&
+                          "border border-secondary"
+                      )}
+                    >
+                      <PersonIcon
+                        className={cn(
+                          "text-stroke",
+                          pathUrl[1] === "profile" &&
+                            pathUrl.length < 3 &&
+                            "text-secondary"
+                        )}
+                      />
+                    </div>
+                  </React.Suspense>
+                </Link>
+              </div>
+            ) : (
+              <Link href={"/login"} className="">
+                <button className="font-body text-title_1 font-medium text-[#6356E5] py-[5px] px-4 hover:cursor-pointer hover:bg-grey/20 rounded-md">
+                  Login
+                </button>
+              </Link>
+            )}
 
             <React.Suspense
               fallback={

@@ -208,7 +208,10 @@ const ResponseCard = React.forwardRef<
                       alt={`${user}'s profile pic`}
                     />
                   ) : (
-                    <PersonIcon className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer" fontSize="small" />
+                    <PersonIcon
+                      className="mt-[26px] text-stroke p-[2.33px] bg-[#D9D9D9] rounded-full self-center hover:cursor-pointer"
+                      fontSize="small"
+                    />
                   )}
                 </Link>
               </React.Suspense>
