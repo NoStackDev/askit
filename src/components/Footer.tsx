@@ -50,21 +50,21 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
               <div className="flex justify-between gap-[11px] md:gap-14 mt-7 md:mt-0 items-center">
                 <Link
                   href="/aboutUs"
-                  className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
+                  className="text-white font-body font-medium text-special underline underline-offset-2 h-fit w-fit"
                 >
                   About us
                 </Link>
 
                 <Link
                   href="/faqs"
-                  className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
+                  className="text-white font-body font-medium text-special underline underline-offset-2 h-fit w-fit"
                 >
                   FAQ
                 </Link>
 
                 <Dialog
                   dialogTrigger={
-                    <div className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit hover:cursor-pointer">
+                    <div className="text-white font-body font-medium text-special underline underline-offset-2 h-fit w-fit hover:cursor-pointer">
                       Place a Request
                     </div>
                   }
@@ -75,7 +75,7 @@ const Footer = React.forwardRef<React.ElementRef<"footer">, Props>(
 
                 <Link
                   href="/safetyhints"
-                  className="text-white font-body font-medium text-title_3 underline underline-offset-2 h-fit w-fit"
+                  className="text-white font-body font-medium text-special underline underline-offset-2 h-fit w-fit"
                 >
                   Safety Hints
                 </Link>
