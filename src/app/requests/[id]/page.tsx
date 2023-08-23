@@ -67,17 +67,17 @@ export default function RequestsPage() {
         </div>
 
         <div className="flex flex-col items-center justify-center h-fit mt-8 md:mt-14 px-[20px] md:px-0 w-full">
-          <div className="flex justify-between items-start w-full">
-            <div className="bg-secondary w-fit flex gap-[10px] p-2 items-center">
+          <div className="flex justify-center items-center w-full">
+            <div className="w-fit flex gap-[10px] p-2 items-center">
               <React.Suspense
                 fallback={
                   <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
                 }
               >
-                <CommentsIcon className="text-white" fontSize="large" />
+                <CommentsIcon className="text-secondary" fontSize="large" />
               </React.Suspense>
 
-              <div className="font-headline text-white text-headline_3 md:text-headline_2 font-bold">
+              <div className="font-headline text-secondary text-headline_3 md:text-headline_2 font-bold">
                 Responses (
                 {requestData && requestData.responses.length > 0
                   ? requestData.responses.length
