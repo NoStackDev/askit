@@ -187,71 +187,75 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="min-h-[150px] md:min-h-[300px] relative">
-              {isLoading && (
-                <LoadingDots className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
-              )}
+            <div>
+              <div className="min-h-[150px] md:min-h-[300px] relative">
+                {isLoading && (
+                  <LoadingDots className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
+                )}
 
-              {feeds && feeds.data.length > 0 && (
-                <>
+                {feeds && feeds.data.length > 0 && (
                   <Requests
                     requests={feedsWithBookmarkedRequests}
                     className="mt-4 md:mt-8"
                   />
+                )}
 
-                  {feeds.meta.last_page > 1 &&
-                    feeds.meta.last_page !== feeds.meta.current_page && (
-                      <div className="w-full flex flex-col items-center justify-center">
-                        <Button
-                          variant="outlined"
-                          className="mt-12 md:mt-14 w-[255px]"
-                          onClick={onClickNext}
-                        >
-                          Next Page
-                        </Button>
-                      </div>
-                    )}
-                  {feeds.meta.last_page > 1 && (
-                    <div>
-                      <PageNumbers
-                        {...feeds.links}
-                        {...feeds.meta}
-                        setFeeds={setFeeds}
-                        className={cn(
-                          "mt-6",
-                          feeds.meta.last_page === feeds.meta.current_page &&
-                            "mt-12 md:mt-14"
-                        )}
-                        setIsLoading={setIsLoading}
-                        setIsError={setIsError}
-                      />
+                {feeds && feeds.data.length < 0 && (
+                  <div className="flex flex-col justify-center items-center mt-10">
+                    <Image
+                      src="/images/pictures/requestEmpty.png"
+                      height={150}
+                      width={177.16}
+                      alt="there are no requests"
+                    />
+
+                    <p className="mt-8 font-headline text-headline_3 font-bold text-black">
+                      Oops... Nothing Here
+                    </p>
+                    <p className="mt-4 font-body text-body_2 text-[#000000]/60 max-w-[328px] text-center">
+                      No request has been placed on this category
+                    </p>
+                    <Link href={"/"} className="mt-12 h-fit w-fit">
+                      <Button className="font-body text-title_3 font-medium px-8 py-2 text-white">
+                        Go Back
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                {feeds &&
+                  feeds.meta.last_page > 1 &&
+                  feeds.meta.last_page !== feeds.meta.current_page && (
+                    <div className="w-full flex flex-col items-center justify-center">
+                      <Button
+                        variant="outlined"
+                        className="mt-12 md:mt-14 w-[255px]"
+                        onClick={onClickNext}
+                      >
+                        Next Page
+                      </Button>
                     </div>
                   )}
-                </>
-              )}
 
-              {feeds && feeds.data.length < 0 && (
-                <div className="flex flex-col justify-center items-center mt-10">
-                  <Image
-                    src="/images/pictures/requestEmpty.png"
-                    height={150}
-                    width={177.16}
-                    alt="there are no requests"
-                  />
-
-                  <p className="mt-8 font-headline text-headline_3 font-bold text-black">
-                    Oops... Nothing Here
-                  </p>
-                  <p className="mt-4 font-body text-body_2 text-[#000000]/60 max-w-[328px] text-center">
-                    No request has been placed on this category
-                  </p>
-                  <Link href={"/"} className="mt-12 h-fit w-fit">
-                    <Button className="font-body text-title_3 font-medium px-8 py-2 text-white">
-                      Go Back
-                    </Button>
-                  </Link>
-                </div>
-              )}
+                {feeds && feeds.meta.last_page > 1 && (
+                  <div>
+                    <PageNumbers
+                      {...feeds.links}
+                      {...feeds.meta}
+                      setFeeds={setFeeds}
+                      className={cn(
+                        "mt-6",
+                        feeds.meta.last_page === feeds.meta.current_page &&
+                          "mt-12 md:mt-14"
+                      )}
+                      setIsLoading={setIsLoading}
+                      setIsError={setIsError}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
