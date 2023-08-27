@@ -188,12 +188,12 @@ export default function Home() {
             </div>
 
             <div className="min-h-[150px] md:min-h-[300px] relative">
+              {isLoading && (
+                <LoadingDots className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
+              )}
+
               {feeds && feeds.data.length > 0 ? (
                 <>
-                  {isLoading && (
-                    <LoadingDots className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
-                  )}
-
                   <Requests
                     requests={feedsWithBookmarkedRequests}
                     className="mt-4 md:mt-8"
