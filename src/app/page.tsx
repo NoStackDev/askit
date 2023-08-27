@@ -20,10 +20,11 @@ import { getCities } from "./lib/city";
 import { getBookmarks } from "./lib/bookmark";
 import { RequestType } from "./types";
 import ReportUserCard from "@/components/ReportUserCard";
+import LoadingDots from "@/components/LoadingDots";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [bookmarkedList, setBookmarkedList] = useState<number[] | null>(null);
   const [feedsWithBookmarkedRequests, setFeedsWithBookmarkedRequests] =
@@ -40,7 +41,6 @@ export default function Home() {
     (async () => {
       try {
         setIsError(false);
-        setIsLoading(true);
         const feedsResponse = await getRequests(null, setCurrentFeedsUrl);
         if (feedsResponse) {
           setIsLoading(false);
@@ -134,6 +134,8 @@ export default function Home() {
     }
   };
 
+  console.log(isLoading);
+
   return (
     <>
       <main className="relative md:mr-[100px] md:ml-[60px]">
@@ -185,9 +187,13 @@ export default function Home() {
               </div>
             </div>
 
-            <div>
+            <div className="min-h-[150px] md:min-h-[300px] relative">
               {feeds && feeds.data.length > 0 ? (
                 <>
+                  {isLoading && (
+                    <LoadingDots className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
+                  )}
+
                   <Requests
                     requests={feedsWithBookmarkedRequests}
                     className="mt-4 md:mt-8"
