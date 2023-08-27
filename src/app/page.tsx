@@ -192,7 +192,7 @@ export default function Home() {
                 <LoadingDots className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
               )}
 
-              {feeds && feeds.data.length > 0 ? (
+              {feeds && feeds.data.length > 0 && (
                 <>
                   <Requests
                     requests={feedsWithBookmarkedRequests}
@@ -228,7 +228,9 @@ export default function Home() {
                     </div>
                   )}
                 </>
-              ) : (
+              )}
+
+              {feeds && feeds.data.length < 0 && (
                 <div className="flex flex-col justify-center items-center mt-10">
                   <Image
                     src="/images/pictures/requestEmpty.png"
