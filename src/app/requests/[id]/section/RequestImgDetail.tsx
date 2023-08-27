@@ -109,7 +109,7 @@ const RequestImgDetail = React.forwardRef<
             </span>
           </div>
           {/* title */}
-          <div className="font-body font-bold text-[23px] text-[#010E1E mt-4">
+          <div className="font-body font-bold text-[46px] text-[#010E1E] mt-4">
             {title}
           </div>
 
