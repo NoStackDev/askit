@@ -7,10 +7,12 @@ import Link from "next/link";
 import React from "react";
 import { getBookmarks } from "../lib/bookmark";
 import { useRequestContext } from "../context/requestContext";
+import LoadingDots from "@/components/LoadingDots";
 
 type Props = {};
 
 export default function SavedRequestsPage({}: Props) {
+  const [isLoading, setIsLoading] = React.useState(true);
   const { requests, setRequests } = useRequestContext();
 
   React.useEffect(() => {
@@ -22,7 +24,6 @@ export default function SavedRequestsPage({}: Props) {
 
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
-
     (async () => {
       if (token) {
         const bookmarksRes = await getBookmarks(token);
@@ -31,9 +32,11 @@ export default function SavedRequestsPage({}: Props) {
         }
         if (bookmarksRes.data) {
           setRequests(bookmarksRes.data);
+          setIsLoading(false);
         }
       } else {
         window.location.assign("/login");
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -44,15 +47,21 @@ export default function SavedRequestsPage({}: Props) {
         Saved Requests
       </div>
 
-      <div>
-        {requests && requests.length > 0 ? (
+      <div className="min-h-[150px] md:min-h-[300px] relative">
+        {isLoading && (
+          <LoadingDots className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
+        )}
+
+        {requests && requests.length > 0 && (
           <>
             <Requests
               requests={requests.reverse()}
               requestType="SAVEDREQUESTPAGE"
             />
           </>
-        ) : (
+        )}
+
+        {requests && requests.length < 1 && (
           <div className="flex flex-col justify-center items-center mt-10">
             <Image
               src="/images/pictures/savedRequestsEmpty.png"
