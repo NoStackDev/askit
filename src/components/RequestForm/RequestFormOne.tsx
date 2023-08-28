@@ -20,6 +20,7 @@ import { getCities } from "@/app/lib/city";
 import { getCategories } from "@/app/lib/category";
 import LocationSelector from "../LocationSelector";
 import Dialog from "../ui/DialogPrimitive";
+import CategorySelector from "../CategorySelector";
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
 );
@@ -81,8 +82,12 @@ const RequestFormOne = React.forwardRef<
     const [citiesFlattened, setCitiesFlattened] = React.useState<
       CityInterface[] | null
     >(null);
+    const [flattenedCategories, setFlattenedCategories] = React.useState<
+      CategoryType[] | null
+    >(null);
 
     const [openLocationModal, setOpenLocationModal] = React.useState(false);
+    const [openCategoryModal, setOpenCategoryModal] = React.useState(false);
 
     React.useEffect(() => {
       const stateCitiesIntermediate = window.localStorage.getItem("cities");
@@ -109,14 +114,17 @@ const RequestFormOne = React.forwardRef<
           }
         })();
       } else {
-        let citiesValues: CityInterface[] = [];
         setStateCities(JSON.parse(stateCitiesIntermediate));
-        Object.values(
-          JSON.parse(stateCitiesIntermediate) as StateCitiesInterface
-        ).map((stateCitiesArr) => {
-          citiesValues = [...citiesValues, ...stateCitiesArr];
-        });
-        setCitiesFlattened(citiesValues);
+
+        if (!citiesFlattenedTemp) {
+          let citiesValues: CityInterface[] = [];
+          Object.values(
+            JSON.parse(stateCitiesIntermediate) as StateCitiesInterface
+          ).map((stateCitiesArr) => {
+            citiesValues = [...citiesValues, ...stateCitiesArr];
+          });
+          setCitiesFlattened(citiesValues);
+        }
       }
     }, []);
 
@@ -140,6 +148,57 @@ const RequestFormOne = React.forwardRef<
       } else {
         setCategories(JSON.parse(categoriesIntermediate));
       }
+    }, []);
+
+    React.useEffect(() => {
+      const fecthCategories = async () => {
+        const categoriesTemp = window.localStorage.getItem("categories");
+        const categoriesValuesTemp = window.localStorage.getItem(
+          "categoriesFlattened"
+        );
+
+        if (!categoriesTemp) {
+          const res = await getCategories();
+          if (res.isError) return;
+
+          setCategories(res);
+
+          let categoriesValues: CategoryType[] = [];
+          Object.values(
+            res as {
+              [category: string]: CategoryType[];
+            }
+          ).map((categoryValue) => {
+            categoriesValues = [...categoriesValues, ...categoryValue];
+          });
+          window.localStorage.setItem(
+            "categoriesFlattened",
+            JSON.stringify(categoriesValues)
+          );
+        } else {
+          setCategories(JSON.parse(categoriesTemp));
+        }
+
+        if (categoriesValuesTemp) {
+          setFlattenedCategories(JSON.parse(categoriesValuesTemp));
+        } else {
+          let categoriesValues: CategoryType[] = [];
+          categoriesTemp &&
+            Object.values(
+              JSON.parse(categoriesTemp) as {
+                [category: string]: CategoryType[];
+              }
+            ).map((categoryValue) => {
+              categoriesValues = [...categoriesValues, ...categoryValue];
+            });
+          window.localStorage.setItem(
+            "categoriesFlattened",
+            JSON.stringify(categoriesValues)
+          );
+          setFlattenedCategories(categoriesValues);
+        }
+      };
+      fecthCategories();
     }, []);
 
     return (
@@ -206,61 +265,14 @@ const RequestFormOne = React.forwardRef<
           <div className="mt-4 flex flex-col md:flex-row gap-4 md:gap-5 items-center">
             <FormPrimitive.Field
               name="category"
-              className="flex flex-col gap-1 w-full"
+              className="mt-1 flex flex-col gap-1 w-full"
             >
-              <div className="flex">
-                <FormPrimitive.Label className="font-medium font-body text-title_3 text-secondary/80">
+              <div className="w-full flex justify-between items-center">
+                <FormPrimitive.Label className="w-full font-medium font-body text-title_3 text-secondary/80">
                   Choose perfect category
                 </FormPrimitive.Label>
-              </div>
 
-              <FormPrimitive.Control asChild>
-                <Select onValueChange={(e) => setCategory(e)}>
-                  <SelectTrigger
-                    className="flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
-                    aria-label="Category"
-                    icon={
-                      <React.Suspense
-                        fallback={
-                          <div className="h-3 w-[7px] bg-stroke/60"></div>
-                        }
-                      >
-                        <KeyboardArrowDownIcon className="text-[#828080]" />
-                      </React.Suspense>
-                    }
-                  >
-                    <SelectValue placeholder="Choose" className="" />
-                  </SelectTrigger>
-
-                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-50">
-                    <SelectGroup>
-                      <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
-                        Category
-                      </SelectLabel>
-
-                      {categoryKeys?.map((category, index) => {
-                        return (
-                          <SelectItem
-                            value={category}
-                            className="hover:cursor-pointer font-body text-title_2 pl-2"
-                            key={index}
-                          >
-                            {category}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </FormPrimitive.Control>
-            </FormPrimitive.Field>
-
-            <FormPrimitive.Field
-              name="sub category"
-              className="flex flex-col gap-1 w-full md:self-end"
-            >
-              <div className="flex items-baseline justify-between">
-                <div className="w-full flex-col items-start">
+                <div className="flex-col items-end">
                   {formErrors.category.showErrors &&
                     formErrors.category.errors.map((errorMsg) => {
                       return (
@@ -276,56 +288,32 @@ const RequestFormOne = React.forwardRef<
               </div>
 
               <FormPrimitive.Control asChild>
-                <Select
-                  onValueChange={(e) => {
-                    setCategoryType(Number(e));
-                    if (formErrors.category.showErrors) {
-                      setFormErrors({
-                        ...formErrors,
-                        category: { ...formErrors.category, showErrors: false },
-                      });
-                    }
-                  }}
-                >
-                  <SelectTrigger
-                    className={cn(
-                      "flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
-                    )}
-                    aria-label="Sub Category"
-                    icon={
-                      <React.Suspense
-                        fallback={
-                          <div className="h-3 w-[7px] bg-stroke/60"></div>
+                <Dialog
+                  dialogTrigger={
+                    <div className="flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 bg-faded font-inter hover:cursor-pointer">
+                      <input
+                        value={
+                          (categoryType &&
+                            flattenedCategories &&
+                            flattenedCategories[categoryType - 1].name) ||
+                          "Select a Category"
                         }
-                      >
-                        <KeyboardArrowDownIcon className="text-[#828080]" />
-                      </React.Suspense>
-                    }
-                  >
-                    <SelectValue placeholder="Select type" className="" />
-                  </SelectTrigger>
-
-                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-50">
-                    <SelectGroup>
-                      <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
-                        Type
-                      </SelectLabel>
-                      {category &&
-                        categories &&
-                        categories[category]?.map((item, index) => {
-                          return (
-                            <SelectItem
-                              value={item.id.toString()}
-                              className="hover:cursor-pointer font-body text-title_2 pl-2"
-                              key={index}
-                            >
-                              {item.name}
-                            </SelectItem>
-                          );
-                        })}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                        className={cn(
+                          "w-full bg-faded hover:cursor-pointer text-[#000000]/60 text-[14px]",
+                          categoryType && "font-body text-black text-[16px]"
+                        )}
+                      />
+                    </div>
+                  }
+                  className="top-1/2 -translate-y-1/2 fixed left-1/2 -translate-x-1/2 z-[60]"
+                  open={openCategoryModal}
+                  onOpenChange={setOpenCategoryModal}
+                >
+                  <CategorySelector
+                    setCategory={setCategoryType}
+                    setOpenCategoryModal={setOpenCategoryModal}
+                  />
+                </Dialog>
               </FormPrimitive.Control>
             </FormPrimitive.Field>
           </div>

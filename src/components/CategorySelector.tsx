@@ -1,7 +1,7 @@
 "use client";
 
-import { getCities } from "@/app/lib/city";
-import { CityInterface, StateCitiesInterface } from "@/app/types";
+import { getCategories } from "@/app/lib/category";
+import { CategoryType } from "@/app/types";
 import React from "react";
 
 const ChevronRightIcon = React.lazy(
@@ -9,60 +9,74 @@ const ChevronRightIcon = React.lazy(
 );
 const ArrowBackIcon = React.lazy(() => import("@mui/icons-material/ArrowBack"));
 
-const LocationSelector = React.forwardRef<
+const CategorySelector = React.forwardRef<
   React.ElementRef<"div">,
   React.ComponentPropsWithoutRef<"div"> & {
-    setLocation: React.Dispatch<React.SetStateAction<number | null>>;
-    setOpenLocationModal: React.Dispatch<React.SetStateAction<boolean>>;
+    setCategory: React.Dispatch<React.SetStateAction<number | null>>;
+    setOpenCategoryModal: React.Dispatch<React.SetStateAction<boolean>>;
   }
->(({ className, setLocation, setOpenLocationModal, ...props }, fowardref) => {
-  const [locations, setLocations] = React.useState<StateCitiesInterface | null>(
+>(({ className, setCategory, setOpenCategoryModal, ...props }, fowardref) => {
+  const [categories, setCategories] = React.useState<{
+    [category: string]: CategoryType[];
+  } | null>(null);
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
     null
   );
-  const [selectedState, setSelectedState] = React.useState<string | null>(null);
+  const [flattenedCategories, setFlattenedCategories] = React.useState<
+    CategoryType[] | null
+  >(null);
 
   const contentInfoRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    const cities = window.localStorage.getItem("cities");
-    const citiesFlattenedTemp = window.localStorage.getItem("citiesFlattened");
+    const fecthCategories = async () => {
+      const categoriesTemp = window.localStorage.getItem("categories");
+      const categoriesValuesTemp = window.localStorage.getItem(
+        "categoriesFlattened"
+      );
 
-    if (!cities) {
-      (async () => {
-        try {
-          let citiesValues: CityInterface[] = [];
-          const citiesRes: StateCitiesInterface = await getCities();
-          window.localStorage.setItem("cities", JSON.stringify(citiesRes));
-          setLocations(citiesRes);
-          Object.values(citiesRes).map((stateCitiesArr) => {
-            citiesValues = [...citiesValues, ...stateCitiesArr];
-          });
-          window.localStorage.setItem(
-            "citiesFlattened",
-            JSON.stringify(citiesValues)
-          );
-        } catch (err) {
-          console.log(err);
-        }
-      })();
-    }
+      if (!categoriesTemp) {
+        const res = await getCategories();
+        if (res.isError) return;
 
-    if (cities) {
-      setLocations(JSON.parse(cities));
+        setCategories(res);
 
-      if (!citiesFlattenedTemp) {
-        let citiesValues: CityInterface[] = [];
-        Object.values(JSON.parse(cities) as StateCitiesInterface).map(
-          (stateCitiesArr) => {
-            citiesValues = [...citiesValues, ...stateCitiesArr];
+        let categoriesValues: CategoryType[] = [];
+        Object.values(
+          res as {
+            [category: string]: CategoryType[];
           }
-        );
+        ).map((categoryValue) => {
+          categoriesValues = [...categoriesValues, ...categoryValue];
+        });
         window.localStorage.setItem(
-          "citiesFlattened",
-          JSON.stringify(citiesValues)
+          "categoriesFlattened",
+          JSON.stringify(categoriesValues)
         );
+      } else {
+        setCategories(JSON.parse(categoriesTemp));
       }
-    }
+
+      if (categoriesValuesTemp) {
+        setFlattenedCategories(JSON.parse(categoriesValuesTemp));
+      } else {
+        let categoriesValues: CategoryType[] = [];
+        categoriesTemp &&
+          Object.values(
+            JSON.parse(categoriesTemp) as {
+              [category: string]: CategoryType[];
+            }
+          ).map((categoryValue) => {
+            categoriesValues = [...categoriesValues, ...categoryValue];
+          });
+        window.localStorage.setItem(
+          "categoriesFlattened",
+          JSON.stringify(categoriesValues)
+        );
+        setFlattenedCategories(categoriesValues);
+      }
+    };
+    fecthCategories();
   }, []);
 
   return (
@@ -70,13 +84,13 @@ const LocationSelector = React.forwardRef<
       <div>
         <div className="px-4 pt-10 pb-4 border-b border-[#000000]/10 flex flex-col gap-8">
           <h3 className="font-headline text-headline_3 font-bold">
-            Select Location
+            Select Category
           </h3>
-          {selectedState ? (
+          {selectedCategory ? (
             <div
               className="flex gap-4 items-center hover:cursor-pointer"
               onClick={() => {
-                setSelectedState(null);
+                setSelectedCategory(null);
                 if (contentInfoRef.current) {
                   contentInfoRef.current.scrollTo(0, 0);
                 }
@@ -91,12 +105,12 @@ const LocationSelector = React.forwardRef<
               </React.Suspense>
 
               <h4 className="font-body text-lg font-medium text-[#000000]/60">
-                {selectedState}
+                {selectedCategory}
               </h4>
             </div>
           ) : (
             <h4 className="font-body text-lg font-medium text-[#000000]/60">
-              States
+              Categories
             </h4>
           )}
         </div>
@@ -104,34 +118,34 @@ const LocationSelector = React.forwardRef<
           className="p-4 flex flex-col gap-4 div max-h-[268px] overflow-auto"
           ref={contentInfoRef}
         >
-          {selectedState && locations
-            ? locations[selectedState].map((city) => {
+          {selectedCategory && categories
+            ? categories[selectedCategory].map((category) => {
                 return (
                   <div
                     className="hover:bg-stroke/20 hover:cursor-pointer"
-                    key={city.id}
+                    key={category.id}
                     onClick={() => {
-                      setLocation(city.id);
-                      setOpenLocationModal(false);
+                      setCategory(category.id);
+                      setOpenCategoryModal(false);
                     }}
                   >
-                    {city.city}
+                    {category.name}
                   </div>
                 );
               })
-            : Object.keys(locations || {})?.map((state, index) => {
+            : Object.keys(categories || {})?.map((category, index) => {
                 return (
                   <div
                     className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"
                     key={index}
                     onClick={() => {
-                      setSelectedState(state);
+                      setSelectedCategory(category);
                       if (contentInfoRef.current) {
                         contentInfoRef.current.scrollTo(0, 0);
                       }
                     }}
                   >
-                    {state}
+                    {category}
 
                     <React.Suspense
                       fallback={
@@ -149,6 +163,4 @@ const LocationSelector = React.forwardRef<
   );
 });
 
-LocationSelector.displayName = "LocationSelector";
-
-export default LocationSelector;
+export default CategorySelector;

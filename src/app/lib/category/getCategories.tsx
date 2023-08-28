@@ -14,7 +14,7 @@ const getCategories = async () => {
     },
   });
 
-  if (res.status === 200) {
+  if (res.status >= 200 && res.status <= 299) {
     const categories: { data: CategoryType[] } = await res.json();
     const categoriesSubCategories: Record<string, CategoryType[]> = {};
     categories.data.forEach((subCategory) => {
@@ -30,15 +30,10 @@ const getCategories = async () => {
     return categoriesSubCategories;
   }
 
-  if (res.status === 200) {
-    const json = await res.json();
-    return json;
-  }
-
-  if (res.status !== 200) {
+  if (res.status < 200 || res.status > 299) {
     const json = await res.json();
     console.log(json);
-    return json;
+    return { isError: true, ...json };
   }
   return res.json();
 };
