@@ -317,6 +317,7 @@ const SettingsPage = (props: Props) => {
                       "w-full bg-faded hover:cursor-pointer text-[#000000]/60 text-[14px]",
                       selectedLocation && "font-body text-black text-[16px]"
                     )}
+                    readOnly
                   />
                 </div>
               }
@@ -395,6 +396,7 @@ const SettingsPage = (props: Props) => {
                         "w-full bg-faded hover:cursor-pointer text-[#000000]/60 text-[14px]",
                         selectedCategory && "font-body text-black text-[16px]"
                       )}
+                      readOnly
                     />
                   </div>
                 }
