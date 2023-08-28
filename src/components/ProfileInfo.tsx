@@ -4,36 +4,17 @@ import React from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger,
-} from "./ui/Menubar";
-import {
-  City,
-  CityInterface,
-  StateCitiesInterface,
   UserType,
 } from "@/app/types";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/Select";
+
 import { cn } from "@/app/lib/utils";
 import { useAuthContext } from "@/app/context/authContext";
 import { loginUser, updateUser } from "@/app/lib/user";
 import { useGlobalContext } from "@/app/context/Store";
-import { getCities } from "@/app/lib/city";
 import getUser from "@/app/lib/user/getUser";
+import LocationSelector from "./LocationSelector";
+import useLocations from "@/hooks/useLocation";
+import Dialog from "./ui/DialogPrimitive";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -46,9 +27,6 @@ const ProfileInfo = React.forwardRef<
   const [username, setUsername] = React.useState<string>(
     userDetails?.name ? userDetails.name : ""
   );
-  const [state, setState] = React.useState<string | null>(null);
-  const [city, setCity] = React.useState<number | null>(null);
-  const [cityName, setCityName] = React.useState<string | null>(null);
   const [about, setAbout] = React.useState<string>(
     userDetails?.about ? userDetails?.about : ""
   );
@@ -69,9 +47,6 @@ const ProfileInfo = React.forwardRef<
     string | ArrayBuffer | null
   >(null);
   const [imageFile, setImageFile] = React.useState<FileList>();
-  const [stateCities, setStateCities] = React.useState<{
-    [id: string]: CityInterface[];
-  } | null>(null);
 
   const { setToken, user: authUser, setUser: setAuthUser } = useGlobalContext();
   const { isLoading, isOnboarding, dispatch } = useAuthContext();
@@ -79,6 +54,13 @@ const ProfileInfo = React.forwardRef<
   const [errors, setErrors] = React.useState<{
     [errorName: string]: string[];
   } | null>(null);
+
+  const [locations, flattenedLocations] = useLocations();
+  const [selectedLocation, setSelectedLocation] = React.useState<number | null>(
+    null
+  );
+
+  const [openLocationModal, setOpenLocationModal] = React.useState(false);
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 
@@ -107,42 +89,6 @@ const ProfileInfo = React.forwardRef<
           console.log(err);
         }
       })();
-  }, []);
-
-  const states = stateCities ? Object.keys(stateCities) : null;
-
-  React.useEffect(() => {
-    const citiesStorage = window.localStorage.getItem("cities");
-    if (userDetails && citiesStorage) {
-      let citiesFlattened: CityInterface[] = [];
-      Object.values(
-        JSON.parse(citiesStorage) as { [id: string]: CityInterface[] }
-      ).forEach((arr) => citiesFlattened.push(...arr));
-      const selectedCity = citiesFlattened.find(
-        (cityItem) => cityItem.city === userDetails.location?.toString()
-      );
-      selectedCity && setState(selectedCity.state);
-      selectedCity && setCity(selectedCity.id);
-      selectedCity && setCityName(selectedCity.city);
-    }
-  }, []);
-
-  React.useEffect(() => {
-    const stateCitiesIntermediate = window.localStorage.getItem("cities");
-
-    if (!stateCitiesIntermediate) {
-      (async () => {
-        try {
-          const citiesRes = await getCities();
-          window.localStorage.setItem("cities", JSON.stringify(citiesRes));
-          setStateCities(citiesRes);
-        } catch (err) {
-          console.log(err);
-        }
-      })();
-    } else {
-      setStateCities(JSON.parse(stateCitiesIntermediate));
-    }
   }, []);
 
   const onProfilePicClick = () => {
@@ -193,8 +139,8 @@ const ProfileInfo = React.forwardRef<
       if (instagramLink.trim().length > 1) {
         data.append("instagram_link", instagramLink);
       }
-      if (city) {
-        data.append("location_id", city.toString());
+      if (selectedLocation) {
+        data.append("location_id", selectedLocation.toString());
       }
 
       if (imageFile) {
@@ -244,8 +190,8 @@ const ProfileInfo = React.forwardRef<
           data.append("facebook_link", facebookLink);
           data.append("whatsapp_num", whatsppNum);
           data.append("instagram_link", instagramLink);
-          if (city) {
-            data.append("location_id", city.toString());
+          if (selectedLocation) {
+            data.append("location_id", selectedLocation.toString());
           }
 
           if (imageFile) {
@@ -447,30 +393,33 @@ const ProfileInfo = React.forwardRef<
                 Your Location
               </div>
 
-              <LocationSelector
-                cityName={cityName}
-                setCityName={setCityName}
-                setState={setState}
-                setCity={setCity}
-                stateCities={stateCities}
-                className="md:hidden"
-              />
-
-              <div className="hidden md:flex md:flex-col gap-4">
-                <LocationSelect
-                  locationType="STATE"
-                  states={states}
-                  setLocation={setState}
-                  selectedState={state}
+              <Dialog
+                dialogTrigger={
+                  <div className="flex justify-between w-full max-w-xs rounded-lg border border-[#D9D9D9] p-3 bg-faded font-inter hover:cursor-pointer">
+                    <input
+                      value={
+                        (selectedLocation &&
+                          flattenedLocations &&
+                          flattenedLocations[selectedLocation - 1].city) ||
+                        "Select a City"
+                      }
+                      className={cn(
+                        "w-full bg-faded hover:cursor-pointer text-[#000000]/60 text-[14px]",
+                        selectedLocation && "font-body text-black text-[16px]"
+                      )}
+                      readOnly
+                    />
+                  </div>
+                }
+                className="top-1/2 -translate-y-1/2 fixed left-1/2 -translate-x-1/2 z-[60]"
+                open={openLocationModal}
+                onOpenChange={setOpenLocationModal}
+              >
+                <LocationSelector
+                  setLocation={setSelectedLocation}
+                  setOpenLocationModal={setOpenLocationModal}
                 />
-
-                <LocationSelect
-                  locationType="CITY"
-                  cities={state && stateCities ? stateCities[state] : null}
-                  setLocation={setCity}
-                  selectedCity={cityName}
-                />
-              </div>
+              </Dialog>
             </div>
 
             <div className="w-full">
@@ -620,222 +569,3 @@ const ProfileInfo = React.forwardRef<
 
 ProfileInfo.displayName = "ProfileInfo";
 export default ProfileInfo;
-
-interface LocationSelectorI {
-  cityName: string | null;
-  setCityName: React.Dispatch<React.SetStateAction<string | null>>;
-  setState: React.Dispatch<React.SetStateAction<string | null>>;
-  setCity: React.Dispatch<React.SetStateAction<number | null>>;
-  stateCities: { [id: string]: CityInterface[] } | null;
-}
-
-const LocationSelector = React.forwardRef<
-  React.ElementRef<typeof Menubar>,
-  React.ComponentPropsWithoutRef<typeof Menubar> & LocationSelectorI
->(
-  (
-    {
-      className,
-      children,
-      stateCities,
-      cityName,
-      setCityName,
-      setState,
-      setCity,
-      ...props
-    },
-    fowardref
-  ) => {
-    const states = stateCities ? Object.keys(stateCities) : null;
-
-    return (
-      <Menubar className={className} ref={fowardref} {...props}>
-        <MenubarMenu>
-          <MenubarTrigger className="flex items-center justify-between w-full px-4 py-3 border border-grey rounded">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1">
-                <Image
-                  src={"https://flagsapi.com/NG/flat/64.png"}
-                  width={24}
-                  height={18}
-                  alt="Nigerian flag"
-                />
-
-                <React.Suspense
-                  fallback={
-                    <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-                  }
-                >
-                  <KeyboardArrowDownIcon className="text-[#828080]" />
-                </React.Suspense>
-              </div>
-
-              <span className="font-body text-body_1 text-black/60">
-                {cityName || "Select"}
-              </span>
-            </div>
-
-            <React.Suspense
-              fallback={
-                <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-              }
-            >
-              <KeyboardArrowDownIcon className="text-[#828080]" />
-            </React.Suspense>
-          </MenubarTrigger>
-
-          <MenubarContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-30 max-h-[50vh] overflow-auto">
-            {states &&
-              states.map((state, index) => {
-                return (
-                  <MenubarSub key={index}>
-                    <MenubarSubTrigger className="max-w-[200px] group font-body text-special leading-none rounded flex items-center justify-between h-[25px] px-[10px] relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none">
-                      {state}
-                      <React.Suspense
-                        fallback={
-                          <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
-                        }
-                      >
-                        {/* <ChevronRightIcon className="w-5 h-5 text-[#000000]/80" /> */}
-                      </React.Suspense>
-                    </MenubarSubTrigger>
-
-                    <MenubarSubContent className="min-w-[150px] bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] [animation-duration:_400ms] [animation-timing-function:_cubic-bezier(0.16,_1,_0.3,_1)] will-change-[transform,opacity] z-40 ax-h-[50vh] overflow-auto">
-                      {stateCities &&
-                        stateCities[state].map((city) => {
-                          return (
-                            <MenubarItem
-                              key={city.id}
-                              className="px-1 font-body text-special hover:cursor-default hover:bg-stroke/60 relative select-none outline-none data-[state=open]:bg-stroke/60 data-[highlighted]:bg-gradient-to-br data-[disabled]:pointer-events-none"
-                              onClick={() => {
-                                setState(state);
-                                setCity(city.id);
-                                setCityName(city.city);
-                              }}
-                            >
-                              {city.city}
-                            </MenubarItem>
-                          );
-                        })}
-                    </MenubarSubContent>
-                  </MenubarSub>
-                );
-              })}
-          </MenubarContent>
-        </MenubarMenu>
-      </Menubar>
-    );
-  }
-);
-
-LocationSelector.displayName = "LocationSelector";
-
-type LocationSelectI =
-  | {
-      locationType: "STATE";
-      states: string[] | null;
-      setLocation: React.Dispatch<React.SetStateAction<string | null>>;
-      selectedState?: string | null;
-    }
-  | {
-      locationType: "CITY";
-      cities: CityInterface[] | null;
-      setLocation: React.Dispatch<React.SetStateAction<number | null>>;
-      selectedCity?: string | null;
-    };
-
-const LocationSelect = React.forwardRef<
-  React.ElementRef<typeof Select>,
-  React.ComponentPropsWithoutRef<typeof Select> & LocationSelectI
->(({ children, ...props }, fowardref) => {
-  return (
-    <Select
-      onValueChange={(e) => {
-        if (props.locationType === "STATE") {
-          props.setLocation(e);
-        }
-        if (props.locationType === "CITY") {
-          props.setLocation(Number(e));
-        }
-      }}
-      {...props}
-    >
-      <SelectTrigger
-        className={cn(
-          "flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
-        )}
-        aria-label="Sub Category"
-        icon={
-          <React.Suspense
-            fallback={
-              <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-            }
-          >
-            <KeyboardArrowDownIcon className="text-[#828080]" />
-          </React.Suspense>
-        }
-      >
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
-            <Image
-              src={"https://flagsapi.com/NG/flat/64.png"}
-              width={24}
-              height={18}
-              alt="Nigerian flag"
-            />
-
-            <React.Suspense
-              fallback={
-                <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-              }
-            >
-              <KeyboardArrowDownIcon className="text-[#828080]" />
-            </React.Suspense>
-          </div>
-
-          <SelectValue
-            placeholder="Select type"
-            className="placeholder:font-body placeholder:text-body placeholder:text-body_1 placeholder:text-black/60 font-body"
-          />
-        </div>
-      </SelectTrigger>
-
-      <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
-        <SelectGroup>
-          <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3 pl-2">
-            {props.locationType === "STATE" && "Select a State"}
-            {props.locationType === "CITY" && "Select a City"}
-          </SelectLabel>
-          {props.locationType === "STATE" &&
-            props.states &&
-            props.states.map((state, index) => {
-              return (
-                <SelectItem
-                  value={state}
-                  key={index}
-                  className="hover:cursor-pointer font-body text-title_2 pl-2"
-                >
-                  {props.selectedState || state}
-                </SelectItem>
-              );
-            })}
-          {props.locationType === "CITY" &&
-            props.cities &&
-            props.cities.map((city, index) => {
-              return (
-                <SelectItem
-                  value={city.id.toString()}
-                  key={city.id}
-                  className="hover:cursor-pointer font-body text-title_2 pl-2"
-                >
-                  {props.selectedCity || city.city}
-                </SelectItem>
-              );
-            })}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  );
-});
-
-LocationSelect.displayName = "LocationSelect";

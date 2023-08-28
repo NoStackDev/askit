@@ -76,13 +76,15 @@ const SettingsPage = (props: Props) => {
   });
 
   const [categories, flattenedCategories] = useCategory();
-  const [selectedLocation, setSelectedLocation] = React.useState<number | null>(
-    null
-  );
-  const [locations, flattenedLocations] = useLocations();
   const [selectedCategory, setSelectedCategory] = React.useState<number | null>(
     null
   );
+  
+  const [locations, flattenedLocations] = useLocations();
+  const [selectedLocation, setSelectedLocation] = React.useState<number | null>(
+    null
+  );
+
 
   const [openLocationModal, setOpenLocationModal] = React.useState(false);
   const [openCategoryModal, setOpenCategoryModal] = React.useState(false);
