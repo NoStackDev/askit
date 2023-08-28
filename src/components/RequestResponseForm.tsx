@@ -119,7 +119,12 @@ const RequestResponseForm = React.forwardRef<
         if (imageFile) {
           data.append("image", imageFile[0], imageFile[0].name);
         }
-        data.append("whatsapp_num", whatsappNum);
+        if (whatsappNum.length > 0) {
+          data.append(
+            "whatsapp_num",
+            whatsappNum[0] === "0" ? "234" + whatsappNum.slice(0) : whatsappNum
+          );
+        }
         // data.append("price", price);
         data.append("visibility", visibility);
         if (city) data.append("location_id", city?.toString());
