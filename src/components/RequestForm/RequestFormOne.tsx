@@ -175,7 +175,7 @@ const RequestFormOne = React.forwardRef<
                         value={
                           (categoryType &&
                             flattenedCategories &&
-                            flattenedCategories[categoryType - 1].name) ||
+                            flattenedCategories[categoryType - 1]?.name) ||
                           "Select a Category"
                         }
                         className={cn(
@@ -234,7 +234,7 @@ const RequestFormOne = React.forwardRef<
                         value={
                           (city &&
                             flattenedLocations &&
-                            flattenedLocations[city - 1].city) ||
+                            flattenedLocations[city - 1]?.city) ||
                           "Select a City"
                         }
                         className={cn(
