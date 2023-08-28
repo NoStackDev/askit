@@ -14,7 +14,7 @@ const getCities = async () => {
     },
   });
 
-  if (res.status === 200) {
+  if (res.status >= 200 && res.status < 300) {
     const cities: { data: CityType[] } = await res.json();
     const stateCityObj: Record<string, CityType[]> = {};
     cities.data.forEach((city) => {
@@ -27,7 +27,7 @@ const getCities = async () => {
     return stateCityObj;
   }
 
-  if (res.status !== 200) {
+  if (res.status >= 300 || res.status < 200) {
     const json = await res.json();
     console.log(json);
     return { error: true, ...json };

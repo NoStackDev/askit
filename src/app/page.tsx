@@ -93,14 +93,14 @@ export default function Home() {
     if (!cities) {
       (async () => {
         try {
-          setIsError(false);
-          setIsLoading(true);
+          // setIsError(false);
+          // setIsLoading(true);
 
           const citiesRes = await getCities();
           window.localStorage.setItem("cities", JSON.stringify(citiesRes));
         } catch (err) {
           console.log(err);
-          setIsError(true);
+          // setIsError(true);
         }
       })();
     }
@@ -133,8 +133,6 @@ export default function Home() {
       setIsError(true);
     }
   };
-
-  console.log(isLoading);
 
   return (
     <>

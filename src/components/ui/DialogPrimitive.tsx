@@ -11,9 +11,9 @@ const Dialog = React.forwardRef<
     // dialogContent: React.ReactNode;
     className?: string;
   }
->(({ children, className, dialogTrigger }, fowardref) => {
+>(({ children, className, dialogTrigger, ...props }, fowardref) => {
   return (
-    <DialogPrimitive.Root>
+    <DialogPrimitive.Root {...props}>
       <DialogPrimitive.Trigger
         asChild
         className="data-[state='open']:opacity-0"
@@ -21,13 +21,8 @@ const Dialog = React.forwardRef<
         {dialogTrigger}
       </DialogPrimitive.Trigger>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="bg-[#000000]/90 fixed inset-0 z-40 backdrop-blur-md" />
-        <DialogPrimitive.Content
-          className={cn(
-            "h-fit w-fit z-50",
-            className
-          )}
-        >
+        <DialogPrimitive.Overlay className="bg-[#000000]/90 fixed inset-0 z-50 backdrop-blur-md" />
+        <DialogPrimitive.Content className={cn("h-fit w-fit z-50", className)}>
           {children}
           <DialogPrimitive.Close asChild>
             <div id="dialogCloseTrigger"></div>

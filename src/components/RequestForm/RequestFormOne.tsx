@@ -18,6 +18,8 @@ import { useSidebarContext } from "@/app/context/sidebarContext";
 import { CategoryType, CityInterface, StateCitiesInterface } from "@/app/types";
 import { getCities } from "@/app/lib/city";
 import { getCategories } from "@/app/lib/category";
+import LocationSelector from "../LocationSelector";
+import Dialog from "../ui/DialogPrimitive";
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
 );
@@ -73,27 +75,48 @@ const RequestFormOne = React.forwardRef<
     const [stateCities, setStateCities] = React.useState<{
       [id: string]: CityInterface[];
     } | null>(null);
-    const states = stateCities ? Object.keys(stateCities) : null;
-    const cities = stateCities && state ? stateCities[state] : null;
     const [categories, setCategories] = React.useState<{
       [id: string]: CategoryType[];
     } | null>(null);
+    const [citiesFlattened, setCitiesFlattened] = React.useState<
+      CityInterface[] | null
+    >(null);
+
+    const [openLocationModal, setOpenLocationModal] = React.useState(false);
 
     React.useEffect(() => {
       const stateCitiesIntermediate = window.localStorage.getItem("cities");
+      const citiesFlattenedTemp =
+        window.localStorage.getItem("citiesFlattened");
 
       if (!stateCitiesIntermediate) {
         (async () => {
           try {
-            const citiesRes = await getCities();
+            let citiesValues: CityInterface[] = [];
+            const citiesRes: StateCitiesInterface = await getCities();
             window.localStorage.setItem("cities", JSON.stringify(citiesRes));
             setStateCities(citiesRes);
+            Object.values(citiesRes).map((stateCitiesArr) => {
+              citiesValues = [...citiesValues, ...stateCitiesArr];
+            });
+            window.localStorage.setItem(
+              "citiesFlattened",
+              JSON.stringify(citiesValues)
+            );
+            setCitiesFlattened(citiesValues);
           } catch (err) {
             console.log(err);
           }
         })();
       } else {
+        let citiesValues: CityInterface[] = [];
         setStateCities(JSON.parse(stateCitiesIntermediate));
+        Object.values(
+          JSON.parse(stateCitiesIntermediate) as StateCitiesInterface
+        ).map((stateCitiesArr) => {
+          citiesValues = [...citiesValues, ...stateCitiesArr];
+        });
+        setCitiesFlattened(citiesValues);
       }
     }, []);
 
@@ -120,7 +143,11 @@ const RequestFormOne = React.forwardRef<
     }, []);
 
     return (
-      <div className={cn("h-full w-full mb-8 md:mb-0", className)} ref={fowardref} {...props}>
+      <div
+        className={cn("h-full w-full mb-8 md:mb-0", className)}
+        ref={fowardref}
+        {...props}
+      >
         <h2 className="font-headline text-headline_3 font-bold text-[#000000] text-left">
           Tell us What You’re Looking For and Where!
         </h2>
@@ -310,117 +337,53 @@ const RequestFormOne = React.forwardRef<
               name="state"
               className="mt-1 flex flex-col gap-1 w-full"
             >
-              <FormPrimitive.Label className="font-medium font-body text-title_3 text-secondary/80">
-                Where will you want it?
-              </FormPrimitive.Label>
+              <div className="w-full flex justify-between items-center">
+                <FormPrimitive.Label className="w-full font-medium font-body text-title_3 text-secondary/80">
+                  Where will you want it?
+                </FormPrimitive.Label>
 
-              <FormPrimitive.Control asChild>
-                <Select onValueChange={(e) => setState(e)}>
-                  <SelectTrigger
-                    className="flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
-                    aria-label="state"
-                    icon={
-                      <React.Suspense
-                        fallback={
-                          <div className="h-3 w-[7px] bg-stroke/60"></div>
-                        }
-                      >
-                        <KeyboardArrowDownIcon className="text-[#828080]" />
-                      </React.Suspense>
-                    }
-                  >
-                    <SelectValue placeholder="Select state" className="" />
-                  </SelectTrigger>
-
-                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-50">
-                    <SelectGroup>
-                      <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
-                        State
-                      </SelectLabel>
-                      {states?.map((item, index) => {
-                        return (
-                          <SelectItem
-                            value={item}
-                            className="hover:cursor-pointer font-body text-title_2 pl-2"
-                            key={index}
-                          >
-                            {item}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </FormPrimitive.Control>
-            </FormPrimitive.Field>
-
-            <FormPrimitive.Field
-              name="city"
-              className="flex flex-col gap-1 w-full md:self-end"
-            >
-              <div className="w-full flex-col items-start">
-                {formErrors.location.showErrors &&
-                  formErrors.location.errors.map((errorMsg) => {
-                    return (
-                      <div
-                        className="font-body text-body_3 text-[red]/80 self-end"
-                        key={errorMsg}
-                      >
-                        {errorMsg}
-                      </div>
-                    );
-                  })}
+                <div className="w-full flex-col items-end">
+                  {formErrors.location.showErrors &&
+                    formErrors.location.errors.map((errorMsg) => {
+                      return (
+                        <div
+                          className="font-body text-body_3 text-[red]/80 self-end"
+                          key={errorMsg}
+                        >
+                          {errorMsg}
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
 
               <FormPrimitive.Control asChild>
-                <Select
-                  onValueChange={(e) => {
-                    setCity(Number(e));
-                    if (formErrors.category.showErrors) {
-                      setFormErrors({
-                        ...formErrors,
-                        location: { ...formErrors.location, showErrors: false },
-                      });
-                    }
-                  }}
-                >
-                  <SelectTrigger
-                    className="flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
-                    aria-label="city"
-                    icon={
-                      <React.Suspense
-                        fallback={
-                          <div className="h-3 w-[7px] bg-stroke/60"></div>
+                <Dialog
+                  dialogTrigger={
+                    <div className="flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 bg-faded font-inter hover:cursor-pointer">
+                      <input
+                        value={
+                          (city &&
+                            citiesFlattened &&
+                            citiesFlattened[city - 1].city) ||
+                          "Select a City"
                         }
-                      >
-                        <KeyboardArrowDownIcon className="text-[#828080]" />
-                      </React.Suspense>
-                    }
-                  >
-                    <SelectValue placeholder="Select city" className="" />
-                  </SelectTrigger>
-
-                  <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-50">
-                    <SelectGroup>
-                      <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
-                        City
-                      </SelectLabel>
-                      {state &&
-                        cities &&
-                        cities.map((city, index) => {
-                          return (
-                            <SelectItem
-                              value={city.id.toString()}
-                              className="hover:cursor-pointer font-body text-title_2 pl-2"
-                              key={city.id}
-                            >
-                              {city.city}
-                            </SelectItem>
-                          );
-                        })}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                        className={cn(
+                          "w-full bg-faded hover:cursor-pointer text-[#000000]/60 text-[14px]",
+                          city && "font-body text-black text-[16px]"
+                        )}
+                      />
+                    </div>
+                  }
+                  className="top-1/2 -translate-y-1/2 fixed left-1/2 -translate-x-1/2 z-[60]"
+                  open={openLocationModal}
+                  onOpenChange={setOpenLocationModal}
+                >
+                  <LocationSelector
+                    setLocation={setCity}
+                    setOpenLocationModal={setOpenLocationModal}
+                  />
+                </Dialog>
               </FormPrimitive.Control>
             </FormPrimitive.Field>
           </div>
