@@ -18,6 +18,7 @@ import Dialog from "./ui/DialogPrimitive";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useResponseContext } from "@/app/context/responseContext";
+import useLocations from "@/hooks/useLocation";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -245,7 +246,7 @@ const RequestResponseForm = React.forwardRef<
               Maximum character length is 92
             </FormPrimitive.Message>
           </div>
-      
+
           <FormPrimitive.Control asChild>
             <textarea
               placeholder="Here is what you are looking for..."
@@ -426,29 +427,8 @@ const SelectLocation = React.forwardRef<
 >(({ className, setCity, ...props }, forwardRef) => {
   const [cityName, setCityName] = React.useState<string | null>(null);
   const [state, setState] = React.useState<string | null>(null);
-  const [stateCities, setStateCities] = React.useState<{
-    [id: string]: CityInterface[];
-  } | null>(null);
 
-  const states = stateCities ? Object.keys(stateCities) : null;
-
-  React.useEffect(() => {
-    const stateCitiesIntermediate = window.localStorage.getItem("cities");
-
-    if (!stateCitiesIntermediate) {
-      (async () => {
-        try {
-          const citiesRes = await getCities();
-          window.localStorage.setItem("cities", JSON.stringify(citiesRes));
-          setStateCities(citiesRes);
-        } catch (err) {
-          console.log(err);
-        }
-      })();
-    } else {
-      setStateCities(JSON.parse(stateCitiesIntermediate));
-    }
-  }, []);
+  const [locations, flattenedLocations] = useLocations();
 
   return (
     <div>
@@ -504,8 +484,8 @@ const SelectLocation = React.forwardRef<
               )}
             </div>
             <div className="p-4 flex flex-col gap-4 div max-h-[268px] overflow-auto">
-              {state && stateCities
-                ? stateCities[state].map((city) => {
+              {state && locations
+                ? locations[state].map((city) => {
                     return (
                       <DialogClose asChild key={city.id}>
                         <div
@@ -521,7 +501,8 @@ const SelectLocation = React.forwardRef<
                       </DialogClose>
                     );
                   })
-                : states?.map((state, index) => {
+                : locations &&
+                  Object.keys(locations).map((state, index) => {
                     return (
                       <div
                         className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"
