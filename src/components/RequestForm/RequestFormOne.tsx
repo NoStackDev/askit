@@ -148,7 +148,7 @@ const RequestFormOne = React.forwardRef<
               className="mt-1 flex flex-col gap-1 w-full"
             >
               <div className="w-full flex justify-between items-center">
-                <FormPrimitive.Label className="w-full font-medium font-body text-title_3 text-secondary/80">
+                <FormPrimitive.Label className="font-medium font-body text-title_3 text-secondary/80">
                   Choose perfect category
                 </FormPrimitive.Label>
 
@@ -207,11 +207,11 @@ const RequestFormOne = React.forwardRef<
               className="mt-1 flex flex-col gap-1 w-full"
             >
               <div className="w-full flex justify-between items-center">
-                <FormPrimitive.Label className="w-full font-medium font-body text-title_3 text-secondary/80">
+                <FormPrimitive.Label className="font-medium font-body text-title_3 text-secondary/80">
                   Where will you want it?
                 </FormPrimitive.Label>
 
-                <div className="w-full flex-col items-end">
+                <div className="flex-col items-end">
                   {formErrors.location.showErrors &&
                     formErrors.location.errors.map((errorMsg) => {
                       return (
