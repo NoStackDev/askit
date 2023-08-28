@@ -182,6 +182,7 @@ const RequestFormOne = React.forwardRef<
                           "w-full bg-faded hover:cursor-pointer text-[#000000]/60 text-[14px]",
                           categoryType && "font-body text-black text-[16px]"
                         )}
+                        readOnly
                       />
                     </div>
                   }
@@ -240,6 +241,7 @@ const RequestFormOne = React.forwardRef<
                           "w-full bg-faded hover:cursor-pointer text-[#000000]/60 text-[14px]",
                           city && "font-body text-black text-[16px]"
                         )}
+                        readOnly
                       />
                     </div>
                   }
