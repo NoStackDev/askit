@@ -64,7 +64,7 @@ const CategorySelector = React.forwardRef<
           ref={contentInfoRef}
         >
           {selectedCategory && categories
-            ? categories[selectedCategory].map((category) => {
+            ? categories[selectedCategory]?.map((category) => {
                 return (
                   <div
                     className="hover:bg-stroke/20 hover:cursor-pointer"
@@ -78,7 +78,8 @@ const CategorySelector = React.forwardRef<
                   </div>
                 );
               })
-            : Object.keys(categories || {})?.map((category, index) => {
+            : categories &&
+              Object.keys(categories)?.map((category, index) => {
                 return (
                   <div
                     className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"

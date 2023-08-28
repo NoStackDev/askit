@@ -62,7 +62,7 @@ const LocationSelector = React.forwardRef<
           ref={contentInfoRef}
         >
           {selectedState && locations
-            ? locations[selectedState].map((city) => {
+            ? locations[selectedState]?.map((city) => {
                 return (
                   <div
                     className="hover:bg-stroke/20 hover:cursor-pointer"
@@ -76,7 +76,8 @@ const LocationSelector = React.forwardRef<
                   </div>
                 );
               })
-            : Object.keys(locations || {})?.map((state, index) => {
+            : locations &&
+              Object.keys(locations)?.map((state, index) => {
                 return (
                   <div
                     className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"
