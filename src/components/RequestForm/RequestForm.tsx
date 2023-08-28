@@ -78,7 +78,7 @@ const RequestForm = React.forwardRef<
     />,
     <RequestFormThree
       key={2}
-      className=" w-full md:overflow-auto"
+      className="w-full md:overflow-auto"
       setDescription={setDescription}
     />,
   ];

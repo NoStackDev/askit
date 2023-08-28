@@ -18,7 +18,7 @@ const RequestFormTwo = React.forwardRef<
 >(({ className, images, setImages, setImageFile, ...props }, fowardref) => {
   return (
     <div
-      className={cn("mb-8 md:mb-10", className)}
+      className={cn("", className)}
       ref={fowardref}
       {...props}
     >

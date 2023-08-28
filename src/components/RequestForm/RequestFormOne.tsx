@@ -83,7 +83,7 @@ const RequestFormOne = React.forwardRef<
 
     return (
       <div
-        className={cn("h-full w-full mb-8 md:mb-0", className)}
+        className={cn("w-full", className)}
         ref={fowardref}
         {...props}
       >
