@@ -2,6 +2,7 @@
 
 import { getCategories } from "@/app/lib/category";
 import { CategoryType } from "@/app/types";
+import useCategory from "@/hooks/useCategory";
 import React from "react";
 
 const ChevronRightIcon = React.lazy(
@@ -16,68 +17,12 @@ const CategorySelector = React.forwardRef<
     setOpenCategoryModal: React.Dispatch<React.SetStateAction<boolean>>;
   }
 >(({ className, setCategory, setOpenCategoryModal, ...props }, fowardref) => {
-  const [categories, setCategories] = React.useState<{
-    [category: string]: CategoryType[];
-  } | null>(null);
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
     null
   );
-  const [flattenedCategories, setFlattenedCategories] = React.useState<
-    CategoryType[] | null
-  >(null);
+  const [categories, flattenedCategories] = useCategory();
 
   const contentInfoRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    const fecthCategories = async () => {
-      const categoriesTemp = window.localStorage.getItem("categories");
-      const categoriesValuesTemp = window.localStorage.getItem(
-        "categoriesFlattened"
-      );
-
-      if (!categoriesTemp) {
-        const res = await getCategories();
-        if (res.isError) return;
-
-        setCategories(res);
-
-        let categoriesValues: CategoryType[] = [];
-        Object.values(
-          res as {
-            [category: string]: CategoryType[];
-          }
-        ).map((categoryValue) => {
-          categoriesValues = [...categoriesValues, ...categoryValue];
-        });
-        window.localStorage.setItem(
-          "categoriesFlattened",
-          JSON.stringify(categoriesValues)
-        );
-      } else {
-        setCategories(JSON.parse(categoriesTemp));
-      }
-
-      if (categoriesValuesTemp) {
-        setFlattenedCategories(JSON.parse(categoriesValuesTemp));
-      } else {
-        let categoriesValues: CategoryType[] = [];
-        categoriesTemp &&
-          Object.values(
-            JSON.parse(categoriesTemp) as {
-              [category: string]: CategoryType[];
-            }
-          ).map((categoryValue) => {
-            categoriesValues = [...categoriesValues, ...categoryValue];
-          });
-        window.localStorage.setItem(
-          "categoriesFlattened",
-          JSON.stringify(categoriesValues)
-        );
-        setFlattenedCategories(categoriesValues);
-      }
-    };
-    fecthCategories();
-  }, []);
 
   return (
     <div className="bg-white max-h-[500px] w-[80vw] max-w-[360px]">

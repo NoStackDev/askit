@@ -21,6 +21,7 @@ import { getBookmarks } from "./lib/bookmark";
 import { RequestType } from "./types";
 import ReportUserCard from "@/components/ReportUserCard";
 import LoadingDots from "@/components/LoadingDots";
+import useLocations from "@/hooks/useLocation";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -29,6 +30,7 @@ export default function Home() {
   const [bookmarkedList, setBookmarkedList] = useState<number[] | null>(null);
   const [feedsWithBookmarkedRequests, setFeedsWithBookmarkedRequests] =
     useState<RequestType[] | null>(null);
+  useLocations();
   const openSidebarRef = useRef<HTMLDivElement>(null);
 
   const { feeds, setFeeds, currentFeedsUrl, setCurrentFeedsUrl } =
@@ -86,25 +88,6 @@ export default function Home() {
     }
     setFeedsWithBookmarkedRequests(feeds?.data || null);
   }, [feeds, bookmarkedList]);
-
-  useEffect(() => {
-    const cities = window.localStorage.getItem("cities");
-
-    if (!cities) {
-      (async () => {
-        try {
-          // setIsError(false);
-          // setIsLoading(true);
-
-          const citiesRes = await getCities();
-          window.localStorage.setItem("cities", JSON.stringify(citiesRes));
-        } catch (err) {
-          console.log(err);
-          // setIsError(true);
-        }
-      })();
-    }
-  }, []);
 
   useOnClickOutside(openSidebarRef, setShowSidebar);
 

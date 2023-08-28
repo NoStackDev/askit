@@ -21,6 +21,8 @@ import { getCategories } from "@/app/lib/category";
 import LocationSelector from "../LocationSelector";
 import Dialog from "../ui/DialogPrimitive";
 import CategorySelector from "../CategorySelector";
+import useCategory from "@/hooks/useCategory";
+import useLocations from "@/hooks/useLocation";
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
 );
@@ -73,133 +75,11 @@ const RequestFormOne = React.forwardRef<
     },
     fowardref
   ) => {
-    const [stateCities, setStateCities] = React.useState<{
-      [id: string]: CityInterface[];
-    } | null>(null);
-    const [categories, setCategories] = React.useState<{
-      [id: string]: CategoryType[];
-    } | null>(null);
-    const [citiesFlattened, setCitiesFlattened] = React.useState<
-      CityInterface[] | null
-    >(null);
-    const [flattenedCategories, setFlattenedCategories] = React.useState<
-      CategoryType[] | null
-    >(null);
+    const [categories, flattenedCategories] = useCategory();
+    const [locations, flattenedLocations] = useLocations();
 
     const [openLocationModal, setOpenLocationModal] = React.useState(false);
     const [openCategoryModal, setOpenCategoryModal] = React.useState(false);
-
-    React.useEffect(() => {
-      const stateCitiesIntermediate = window.localStorage.getItem("cities");
-      const citiesFlattenedTemp =
-        window.localStorage.getItem("citiesFlattened");
-
-      if (!stateCitiesIntermediate) {
-        (async () => {
-          try {
-            let citiesValues: CityInterface[] = [];
-            const citiesRes: StateCitiesInterface = await getCities();
-            window.localStorage.setItem("cities", JSON.stringify(citiesRes));
-            setStateCities(citiesRes);
-            Object.values(citiesRes).map((stateCitiesArr) => {
-              citiesValues = [...citiesValues, ...stateCitiesArr];
-            });
-            window.localStorage.setItem(
-              "citiesFlattened",
-              JSON.stringify(citiesValues)
-            );
-            setCitiesFlattened(citiesValues);
-          } catch (err) {
-            console.log(err);
-          }
-        })();
-      } else {
-        setStateCities(JSON.parse(stateCitiesIntermediate));
-
-        if (!citiesFlattenedTemp) {
-          let citiesValues: CityInterface[] = [];
-          Object.values(
-            JSON.parse(stateCitiesIntermediate) as StateCitiesInterface
-          ).map((stateCitiesArr) => {
-            citiesValues = [...citiesValues, ...stateCitiesArr];
-          });
-          setCitiesFlattened(citiesValues);
-        }
-      }
-    }, []);
-
-    const categoryKeys = categories ? Object.keys(categories) : null;
-
-    React.useEffect(() => {
-      const categoriesIntermediate = window.localStorage.getItem("categories");
-      if (!categoriesIntermediate) {
-        (async () => {
-          try {
-            const categoriesRes = await getCategories();
-            setCategories(categoriesRes);
-            window.localStorage.setItem(
-              "categories",
-              JSON.stringify(categoriesRes)
-            );
-          } catch (err) {
-            console.log(err);
-          }
-        })();
-      } else {
-        setCategories(JSON.parse(categoriesIntermediate));
-      }
-    }, []);
-
-    React.useEffect(() => {
-      const fecthCategories = async () => {
-        const categoriesTemp = window.localStorage.getItem("categories");
-        const categoriesValuesTemp = window.localStorage.getItem(
-          "categoriesFlattened"
-        );
-
-        if (!categoriesTemp) {
-          const res = await getCategories();
-          if (res.isError) return;
-
-          setCategories(res);
-
-          let categoriesValues: CategoryType[] = [];
-          Object.values(
-            res as {
-              [category: string]: CategoryType[];
-            }
-          ).map((categoryValue) => {
-            categoriesValues = [...categoriesValues, ...categoryValue];
-          });
-          window.localStorage.setItem(
-            "categoriesFlattened",
-            JSON.stringify(categoriesValues)
-          );
-        } else {
-          setCategories(JSON.parse(categoriesTemp));
-        }
-
-        if (categoriesValuesTemp) {
-          setFlattenedCategories(JSON.parse(categoriesValuesTemp));
-        } else {
-          let categoriesValues: CategoryType[] = [];
-          categoriesTemp &&
-            Object.values(
-              JSON.parse(categoriesTemp) as {
-                [category: string]: CategoryType[];
-              }
-            ).map((categoryValue) => {
-              categoriesValues = [...categoriesValues, ...categoryValue];
-            });
-          window.localStorage.setItem(
-            "categoriesFlattened",
-            JSON.stringify(categoriesValues)
-          );
-          setFlattenedCategories(categoriesValues);
-        }
-      };
-      fecthCategories();
-    }, []);
 
     return (
       <div
@@ -352,8 +232,8 @@ const RequestFormOne = React.forwardRef<
                       <input
                         value={
                           (city &&
-                            citiesFlattened &&
-                            citiesFlattened[city - 1].city) ||
+                            flattenedLocations &&
+                            flattenedLocations[city - 1].city) ||
                           "Select a City"
                         }
                         className={cn(

@@ -2,6 +2,7 @@
 
 import { getCities } from "@/app/lib/city";
 import { CityInterface, StateCitiesInterface } from "@/app/types";
+import useLocations from "@/hooks/useLocation";
 import React from "react";
 
 const ChevronRightIcon = React.lazy(
@@ -16,54 +17,10 @@ const LocationSelector = React.forwardRef<
     setOpenLocationModal: React.Dispatch<React.SetStateAction<boolean>>;
   }
 >(({ className, setLocation, setOpenLocationModal, ...props }, fowardref) => {
-  const [locations, setLocations] = React.useState<StateCitiesInterface | null>(
-    null
-  );
   const [selectedState, setSelectedState] = React.useState<string | null>(null);
+  const [locations, flattenedLocations] = useLocations();
 
   const contentInfoRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    const cities = window.localStorage.getItem("cities");
-    const citiesFlattenedTemp = window.localStorage.getItem("citiesFlattened");
-
-    if (!cities) {
-      (async () => {
-        try {
-          let citiesValues: CityInterface[] = [];
-          const citiesRes: StateCitiesInterface = await getCities();
-          window.localStorage.setItem("cities", JSON.stringify(citiesRes));
-          setLocations(citiesRes);
-          Object.values(citiesRes).map((stateCitiesArr) => {
-            citiesValues = [...citiesValues, ...stateCitiesArr];
-          });
-          window.localStorage.setItem(
-            "citiesFlattened",
-            JSON.stringify(citiesValues)
-          );
-        } catch (err) {
-          console.log(err);
-        }
-      })();
-    }
-
-    if (cities) {
-      setLocations(JSON.parse(cities));
-
-      if (!citiesFlattenedTemp) {
-        let citiesValues: CityInterface[] = [];
-        Object.values(JSON.parse(cities) as StateCitiesInterface).map(
-          (stateCitiesArr) => {
-            citiesValues = [...citiesValues, ...stateCitiesArr];
-          }
-        );
-        window.localStorage.setItem(
-          "citiesFlattened",
-          JSON.stringify(citiesValues)
-        );
-      }
-    }
-  }, []);
 
   return (
     <div className="bg-white max-h-[500px] w-[80vw] max-w-[360px]">

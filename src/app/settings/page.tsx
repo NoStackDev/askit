@@ -27,6 +27,11 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { getCities } from "../lib/city";
 import { getCategories } from "../lib/category";
 import updateUserPreference from "../lib/user/updateUserPreference";
+import useCategory from "@/hooks/useCategory";
+import useLocations from "@/hooks/useLocation";
+import LocationSelector from "@/components/LocationSelector";
+import Dialog from "@/components/ui/DialogPrimitive";
+import CategorySelector from "@/components/CategorySelector";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -70,12 +75,17 @@ const SettingsPage = (props: Props) => {
     user_id: 0,
   });
 
-  const [stateCities, setStateCities] = React.useState<{
-    [id: string]: CityInterface[];
-  } | null>(null);
-  const [categories, setCategories] = React.useState<{
-    [id: string]: CategoryType[];
-  } | null>(null);
+  const [categories, flattenedCategories] = useCategory();
+  const [selectedLocation, setSelectedLocation] = React.useState<number | null>(
+    null
+  );
+  const [locations, flattenedLocations] = useLocations();
+  const [selectedCategory, setSelectedCategory] = React.useState<number | null>(
+    null
+  );
+
+  const [openLocationModal, setOpenLocationModal] = React.useState(false);
+  const [openCategoryModal, setOpenCategoryModal] = React.useState(false);
 
   const [saving, setSaving] = React.useState(false);
 
@@ -85,28 +95,6 @@ const SettingsPage = (props: Props) => {
       window.location.assign("/login");
     }
   }, []);
-
-  const states = stateCities ? Object.keys(stateCities) : null;
-  let citiesValues: CityInterface[] = [];
-
-  if (states && stateCities) {
-    states?.map((statekey) => {
-      stateCities[statekey].forEach((cityValue) => {
-        citiesValues.push(cityValue);
-      });
-    });
-  }
-
-  const categoryKeys = categories ? Object.keys(categories) : null;
-  let categoriesValues: CategoryType[] = [];
-
-  if (categoryKeys && categories) {
-    categoryKeys?.map((categorykey) => {
-      categories[categorykey].forEach((categoryValue) => {
-        categoriesValues.push(categoryValue);
-      });
-    });
-  }
 
   React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
@@ -126,58 +114,26 @@ const SettingsPage = (props: Props) => {
   }, []);
 
   React.useEffect(() => {
-    const stateCitiesIntermediate = window.localStorage.getItem("cities");
-
-    if (!stateCitiesIntermediate) {
-      (async () => {
-        try {
-          const citiesRes = await getCities();
-          window.localStorage.setItem("cities", JSON.stringify(citiesRes));
-          setStateCities(citiesRes);
-        } catch (err) {
-          console.log(err);
-        }
-      })();
-    } else {
-      setStateCities(JSON.parse(stateCitiesIntermediate));
-    }
-  }, []);
-
-  React.useEffect(() => {
-    const categoriesIntermediate = window.localStorage.getItem("categories");
-    if (!categoriesIntermediate) {
-      (async () => {
-        try {
-          const categoriesRes = await getCategories();
-          setCategories(categoriesRes);
-          window.localStorage.setItem(
-            "categories",
-            JSON.stringify(categoriesRes)
-          );
-        } catch (err) {
-          console.log(err);
-        }
-      })();
-    } else {
-      setCategories(JSON.parse(categoriesIntermediate));
-    }
-  }, []);
-
-  React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
     if (userDetails) setUser(JSON.parse(userDetails).data);
   }, []);
 
   const onClickCityAdd = () => {
-    if (city) {
-      if (preferences.selected_locations.find((x) => x === city.id)) {
+    if (selectedLocation && flattenedLocations) {
+      if (preferences.selected_locations.find((x) => x === selectedLocation)) {
         return;
       }
       setPreferences({
         ...preferences,
-        selected_locations: [...preferences.selected_locations, city.id],
+        selected_locations: [
+          ...preferences.selected_locations,
+          selectedLocation,
+        ],
       });
-      setSelectedCities([...selectedCities, city]);
+      setSelectedCities([
+        ...selectedCities,
+        flattenedLocations[selectedLocation - 1],
+      ]);
     }
   };
 
@@ -192,18 +148,21 @@ const SettingsPage = (props: Props) => {
   };
 
   const onClickCategoryTypeAdd = () => {
-    if (subCategory) {
-      if (preferences.selected_categories.find((x) => x === subCategory.id)) {
+    if (selectedCategory && flattenedCategories) {
+      if (preferences.selected_categories.find((x) => x === selectedCategory)) {
         return;
       }
       setPreferences({
         ...preferences,
         selected_categories: [
           ...preferences.selected_categories,
-          subCategory.id,
+          selectedCategory,
         ],
       });
-      setSelectedSubCategories([...selectedSubCategories, subCategory]);
+      setSelectedSubCategories([
+        ...selectedSubCategories,
+        flattenedCategories[selectedCategory - 1],
+      ]);
     }
   };
 
@@ -343,43 +302,56 @@ const SettingsPage = (props: Props) => {
             </span>
           </div>
 
-          <div className="mt-4 w-full flex flex-col md:flex-row gap-4">
-            <OptionSelect
-              selectType="STATE"
-              locations={states}
-              setLocation={setState}
-            />
-
-            <div className="w-full flex gap-6">
-              <OptionSelect
-                selectType="CITY"
-                locations={state && stateCities ? stateCities[state] : null}
-                setLocation={setCity}
+          <div className="mt-4 w-full flex gap-6">
+            <Dialog
+              dialogTrigger={
+                <div className="flex justify-between w-full max-w-xs rounded-lg border border-[#D9D9D9] p-3 bg-faded font-inter hover:cursor-pointer">
+                  <input
+                    value={
+                      (selectedLocation &&
+                        flattenedLocations &&
+                        flattenedLocations[selectedLocation - 1].city) ||
+                      "Select a City"
+                    }
+                    className={cn(
+                      "w-full bg-faded hover:cursor-pointer text-[#000000]/60 text-[14px]",
+                      selectedLocation && "font-body text-black text-[16px]"
+                    )}
+                  />
+                </div>
+              }
+              className="top-1/2 -translate-y-1/2 fixed left-1/2 -translate-x-1/2 z-[60]"
+              open={openLocationModal}
+              onOpenChange={setOpenLocationModal}
+            >
+              <LocationSelector
+                setLocation={setSelectedLocation}
+                setOpenLocationModal={setOpenLocationModal}
               />
+            </Dialog>
 
-              <Button
-                variant="outlined2"
-                className="py-[10px] px-6"
-                onClick={onClickCityAdd}
-              >
-                Add
-              </Button>
-            </div>
+            <Button
+              variant="outlined2"
+              className="py-[10px] px-6"
+              onClick={onClickCityAdd}
+            >
+              Add
+            </Button>
           </div>
 
           <div className="flex flex-wrap gap-3 mt-4">
-            {citiesValues &&
-              citiesValues
-                .filter((city) => {
-                  return preferences.selected_locations.includes(city.id);
+            {flattenedLocations &&
+              flattenedLocations
+                .filter((location) => {
+                  return preferences.selected_locations.includes(location.id);
                 })
-                .map((city) => {
+                .map((location) => {
                   return (
                     <div
-                      key={city.id}
+                      key={location.id}
                       className="flex items-center gap-[10px] font-body text-body_2 text-black/70 rounded-2xl px-3 p-[6px] bg-faded"
                     >
-                      {city.city}
+                      {location.city}
 
                       <React.Suspense
                         fallback={
@@ -389,7 +361,7 @@ const SettingsPage = (props: Props) => {
                         <CloseIcon
                           className="w-3 h-3 hover:cursor-pointer"
                           fontSize="small"
-                          onClick={() => onClickdeleteCityTag(city)}
+                          onClick={() => onClickdeleteCityTag(location)}
                         />
                       </React.Suspense>
                     </div>
@@ -408,20 +380,33 @@ const SettingsPage = (props: Props) => {
           </div>
 
           <div className="mt-4 w-full flex flex-col md:flex-row gap-4">
-            <OptionSelect
-              selectType="CATEGORY"
-              categories={categoryKeys}
-              setCategory={setCategory}
-            />
-
             <div className="w-full flex gap-6">
-              <OptionSelect
-                selectType="SUBCATEGORY"
-                subCategories={
-                  categories && category ? categories[category] : null
+              <Dialog
+                dialogTrigger={
+                  <div className="flex justify-between w-full max-w-xs rounded-lg border border-[#D9D9D9] p-3 bg-faded font-inter hover:cursor-pointer">
+                    <input
+                      value={
+                        (selectedCategory &&
+                          flattenedCategories &&
+                          flattenedCategories[selectedCategory - 1].name) ||
+                        "Select a Category"
+                      }
+                      className={cn(
+                        "w-full bg-faded hover:cursor-pointer text-[#000000]/60 text-[14px]",
+                        selectedCategory && "font-body text-black text-[16px]"
+                      )}
+                    />
+                  </div>
                 }
-                setSubCategory={setSubCategory}
-              />
+                className="top-1/2 -translate-y-1/2 fixed left-1/2 -translate-x-1/2 z-[60]"
+                open={openCategoryModal}
+                onOpenChange={setOpenCategoryModal}
+              >
+                <CategorySelector
+                  setCategory={setSelectedCategory}
+                  setOpenCategoryModal={setOpenCategoryModal}
+                />
+              </Dialog>
 
               <Button
                 variant="outlined2"
@@ -434,8 +419,8 @@ const SettingsPage = (props: Props) => {
           </div>
 
           <div className="flex flex-wrap gap-3 mt-4">
-            {categoriesValues &&
-              categoriesValues
+            {flattenedCategories &&
+              flattenedCategories
                 .filter((categoryValue) => {
                   return preferences.selected_categories.includes(
                     categoryValue.id
@@ -622,142 +607,3 @@ const SettingsPage = (props: Props) => {
 };
 
 export default SettingsPage;
-
-type OptionSelectI =
-  | {
-      selectType: "STATE";
-      setLocation: React.Dispatch<React.SetStateAction<string | null>>;
-      locations: string[] | null;
-    }
-  | {
-      selectType: "CITY";
-      setLocation: React.Dispatch<React.SetStateAction<CityInterface | null>>;
-      locations: CityInterface[] | null;
-    }
-  | {
-      selectType: "CATEGORY";
-      setCategory: React.Dispatch<React.SetStateAction<string | null>>;
-      categories: string[] | null;
-    }
-  | {
-      selectType: "SUBCATEGORY";
-      setSubCategory: React.Dispatch<React.SetStateAction<CategoryType | null>>;
-      subCategories: CategoryType[] | null;
-    };
-
-const OptionSelect = React.forwardRef<
-  React.ElementRef<typeof Select>,
-  React.ComponentPropsWithoutRef<typeof Select> & OptionSelectI
->(({ children, ...props }, fowardref) => {
-  return (
-    <Select
-      onValueChange={(e) => {
-        if (props.selectType === "STATE") {
-          props.setLocation(e);
-        }
-        if (props.selectType === "CITY") {
-          props.setLocation(JSON.parse(e));
-        }
-        if (props.selectType === "CATEGORY") {
-          props.setCategory(e);
-        }
-        if (props.selectType === "SUBCATEGORY") {
-          props.setSubCategory(JSON.parse(e));
-        }
-      }}
-    >
-      <SelectTrigger
-        className={cn(
-          "flex justify-between w-full rounded-lg border border-[#D9D9D9] p-3 data-[placeholder]:bg-faded data-[placeholder]:font-inter data-[placeholder]:text-[14px] data-[placeholder]:text-[#000000]/60"
-        )}
-        aria-label="Sub Category"
-        icon={
-          <React.Suspense
-            fallback={
-              <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-            }
-          >
-            <KeyboardArrowDownIcon className="text-[#828080]" />
-          </React.Suspense>
-        }
-      >
-        <div className="flex items-center gap-4">
-          <SelectValue
-            placeholder={
-              (props.selectType === "STATE" && "Select State") ||
-              (props.selectType === "CITY" && "City") ||
-              (props.selectType === "CATEGORY" && "Category") ||
-              (props.selectType === "SUBCATEGORY" && "Type")
-            }
-            className="placeholder:font-body placeholder:text-body placeholder:text-body_1 placeholder:text-black/60 font-body"
-          />
-        </div>
-      </SelectTrigger>
-
-      <SelectContent className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] z-40">
-        <SelectGroup>
-          <SelectLabel className="text-[#000000]/60 opacity-60 font-body text-body_1 mb-3">
-            {props.selectType === "STATE" && "Select a State"}
-            {props.selectType === "CITY" && "Select a City"}
-            {props.selectType === "CATEGORY" && "Category"}
-            {props.selectType === "SUBCATEGORY" && "Type"}
-          </SelectLabel>
-          {props.selectType === "STATE" &&
-            props.locations &&
-            props.locations.map((location, index) => {
-              return (
-                <SelectItem
-                  value={location}
-                  key={index}
-                  className="hover:cursor-pointer font-body text-title_2 pl-2"
-                >
-                  {location}
-                </SelectItem>
-              );
-            })}
-          {props.selectType === "CATEGORY" &&
-            props.categories &&
-            props.categories.map((category, index) => {
-              return (
-                <SelectItem
-                  value={category}
-                  key={index}
-                  className="hover:cursor-pointer font-body text-title_2 pl-2"
-                >
-                  {category}
-                </SelectItem>
-              );
-            })}
-          {props.selectType === "CITY" &&
-            props.locations &&
-            props.locations.map((city) => {
-              return (
-                <SelectItem
-                  value={JSON.stringify(city)}
-                  key={city.id}
-                  className="hover:cursor-pointer font-body text-title_2 pl-2"
-                >
-                  {city.city}
-                </SelectItem>
-              );
-            })}
-          {props.selectType === "SUBCATEGORY" &&
-            props.subCategories &&
-            props.subCategories.map((subCategories) => {
-              return (
-                <SelectItem
-                  value={JSON.stringify(subCategories)}
-                  key={subCategories.id}
-                  className="hover:cursor-pointer font-body text-title_2 pl-2"
-                >
-                  {subCategories.name}
-                </SelectItem>
-              );
-            })}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  );
-});
-
-OptionSelect.displayName = "OptionSelect";

@@ -20,6 +20,8 @@ import { useFeedsContext } from "@/app/context/feedsContext";
 import { getRequests } from "@/app/lib/request";
 import { getCities } from "@/app/lib/city";
 import { CityInterface, StateCitiesInterface } from "@/app/types";
+import useLocations from "@/hooks/useLocation";
+import LocationSelector from "./LocationSelector";
 
 const FilterAltIcon = React.lazy(() => import("@mui/icons-material/FilterAlt"));
 const ChevronRightIcon = React.lazy(
@@ -39,38 +41,26 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
     const [stateCities, setStateCities] = React.useState<{
       [id: string]: CityInterface[];
     } | null>(null);
+    const [openLocationModal, setOpenLocationModal] = React.useState(false);
+    const [locations, flattenedLocations] = useLocations();
     const contentInfoRef = React.useRef<HTMLDivElement>(null);
 
-    const states = stateCities ? Object.keys(stateCities) : null;
-
     React.useEffect(() => {
-      const stateCitiesIntermediate = window.localStorage.getItem("cities");
+      const onCityClick = async (cityId: number) => {
+        try {
+          currentFeedsUrl?.searchParams.delete("city_id");
+          currentFeedsUrl?.searchParams.append("city_id", cityId.toString());
+          const feedsResponse = await getRequests(currentFeedsUrl);
+          setFeeds(feedsResponse);
+        } catch (err) {
+          console.log(err);
+        }
+      };
 
-      if (!stateCitiesIntermediate) {
-        (async () => {
-          try {
-            const citiesRes = await getCities();
-            window.localStorage.setItem("cities", JSON.stringify(citiesRes));
-            setStateCities(citiesRes);
-          } catch (err) {
-            console.log(err);
-          }
-        })();
-      } else {
-        setStateCities(JSON.parse(stateCitiesIntermediate));
+      if (city) {
+        onCityClick(city);
       }
-    }, []);
-
-    const onCityClick = async (cityId: number) => {
-      try {
-        currentFeedsUrl?.searchParams.delete("city_id");
-        currentFeedsUrl?.searchParams.append("city_id", cityId.toString());
-        const feedsResponse = await getRequests(currentFeedsUrl);
-        setFeeds(feedsResponse);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    }, [city]);
 
     return (
       <div
@@ -89,7 +79,9 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
           />
 
           <span className="font-body text-body_2 font-normal max-w-[32ch]">
-            {cityName ? cityName : "whole country"}
+            {city && flattenedLocations
+              ? flattenedLocations[city - 1].city
+              : "whole country"}
           </span>
         </div>
 
@@ -109,92 +101,13 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
             </div>
           }
           className="top-1/2 -translate-y-1/2 fixed left-1/2 -translate-x-1/2"
+          open={openLocationModal}
+          onOpenChange={setOpenLocationModal}
         >
-          <div className="bg-white max-h-[500px] w-[80vw] max-w-[360px]">
-            <div>
-              <div className="px-4 pt-10 pb-4 border-b border-[#000000]/10 flex flex-col gap-8">
-                <h3 className="font-headline text-headline_3 font-bold">
-                  Filter Location
-                </h3>
-                {state ? (
-                  <div
-                    className="flex gap-4 items-center hover:cursor-pointer"
-                    onClick={() => {
-                      setState(null);
-                      if (contentInfoRef.current) {
-                        contentInfoRef.current.scrollTo(0, 0);
-                      }
-                    }}
-                  >
-                    <React.Suspense
-                      fallback={
-                        <div className="w-4 h-4 bg-stroke/60 animate-pulse"></div>
-                      }
-                    >
-                      <ArrowBackIcon className="w-4 h-4" />
-                    </React.Suspense>
-
-                    <h4 className="font-body text-lg font-medium text-[#000000]/60">
-                      {state}
-                    </h4>
-                  </div>
-                ) : (
-                  <h4 className="font-body text-lg font-medium text-[#000000]/60">
-                    States
-                  </h4>
-                )}
-              </div>
-              <div
-                className="p-4 flex flex-col gap-4 div max-h-[268px] overflow-auto"
-                ref={contentInfoRef}
-              >
-                {state && stateCities
-                  ? stateCities[state].map((city) => {
-                      return (
-                        <div
-                          className="hover:bg-stroke/20 hover:cursor-pointer"
-                          key={city.id}
-                          onClick={() => {
-                            setCity(city.id);
-                            setCityName(city.city);
-                            setState(null);
-                            onCityClick(city.id);
-                            const dialogCloseTrigger =
-                              document.getElementById("dialogCloseTrigger");
-                            dialogCloseTrigger?.click();
-                          }}
-                        >
-                          {city.city}
-                        </div>
-                      );
-                    })
-                  : states?.map((state, index) => {
-                      return (
-                        <div
-                          className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"
-                          key={index}
-                          onClick={() => {
-                            setState(state);
-                            if (contentInfoRef.current) {
-                              contentInfoRef.current.scrollTo(0, 0);
-                            }
-                          }}
-                        >
-                          {state}
-
-                          <React.Suspense
-                            fallback={
-                              <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
-                            }
-                          >
-                            <ChevronRightIcon className="w-5 h-5 text-[#000000]/60" />
-                          </React.Suspense>
-                        </div>
-                      );
-                    })}
-              </div>
-            </div>
-          </div>
+          <LocationSelector
+            setLocation={setCity}
+            setOpenLocationModal={setOpenLocationModal}
+          />
         </Dialog>
       </div>
     );
