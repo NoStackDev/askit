@@ -13,6 +13,7 @@ import { getCities } from "@/app/lib/city";
 import DeleteConfirmation from "./DeleteConfirmation";
 import RequestResponseForm from "./RequestResponseForm";
 import { useRequestContext } from "@/app/context/requestContext";
+import useLocations from "@/hooks/useLocation";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -50,37 +51,8 @@ const ResponseCard = React.forwardRef<
     ref
   ) => {
     const { responses, setResponses } = useResponseContext();
-    const [locationString, setLocationString] = React.useState<string | null>(
-      null
-    );
 
-    React.useEffect(() => {
-      const stateCitiesIntermediate = window.localStorage.getItem("cities");
-
-      if (!stateCitiesIntermediate) {
-        (async () => {
-          try {
-            const citiesRes = await getCities();
-            window.localStorage.setItem("cities", JSON.stringify(citiesRes));
-          } catch (err) {
-            console.log(err);
-          }
-        })();
-      } else {
-        Object.values(
-          JSON.parse(stateCitiesIntermediate) as {
-            [id: string]: CityInterface[];
-          }
-        ).forEach((arr) => {
-          arr.forEach((arr1) => {
-            if (arr1.id === Number(location)) {
-              setLocationString(arr1.city);
-              return;
-            }
-          });
-        });
-      }
-    }, []);
+    const [locations, flattenedLocations] = useLocations();
 
     const date = new Date(created_at);
 
@@ -173,7 +145,8 @@ const ResponseCard = React.forwardRef<
               <div className="flex items-center gap-1">
                 <LocationOnIcon className="text-[#A3A1A1] h-[16.3px] w-auto" />
                 <span className="text-grey text-special font-body font-light">
-                  {locationString}
+                  {flattenedLocations &&
+                    flattenedLocations[Number(location)]?.city}
                 </span>
               </div>
             </React.Suspense>
