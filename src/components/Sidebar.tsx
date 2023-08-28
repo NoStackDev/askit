@@ -19,6 +19,7 @@ import { useFeedsContext } from "@/app/context/feedsContext";
 import { getRequests } from "@/app/lib/request";
 import { CategoryType } from "@/app/types";
 import { useGlobalContext } from "@/app/context/Store";
+import useCategory from "@/hooks/useCategory";
 
 const ExpandMoreIcon = React.lazy(
   () => import("@mui/icons-material/ExpandMore")
@@ -38,11 +39,9 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 const Sidebar = React.forwardRef<HTMLDivElement, Props>(
   ({ children, className, ...props }, ref) => {
     const { showSidebar, setShowSidebar } = useSidebarContext();
-    const [categories, setCategories] = React.useState<{
-      [id: string]: CategoryType[];
-    } | null>(null);
     const sidebarRef = React.useRef<HTMLDivElement>(null);
     const { isOnboarding } = useAuthContext();
+    const [categories] = useCategory();
 
     const [selectedCategory, setSelectedCategory] = React.useState<
       string | null
@@ -66,26 +65,6 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
       }
     }, [showSidebar]);
 
-    useEffect(() => {
-      const categoriesIntermediate = window.localStorage.getItem("categories");
-      if (!categoriesIntermediate) {
-        (async () => {
-          try {
-            const categoriesRes = await getCategories();
-            setCategories(categoriesRes);
-            window.localStorage.setItem(
-              "categories",
-              JSON.stringify(categoriesRes)
-            );
-          } catch (err) {
-            console.log(err);
-          }
-        })();
-      } else {
-        setCategories(JSON.parse(categoriesIntermediate));
-      }
-    }, []);
-
     const onClickSubCategory = async (subCategoryId: number) => {
       setShowSidebar(false);
 
@@ -101,8 +80,6 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
         console.log(err);
       }
     };
-
-    const categoryKeys = categories ? Object.keys(categories) : null;
 
     return (
       <>
@@ -158,76 +135,83 @@ const Sidebar = React.forwardRef<HTMLDivElement, Props>(
                         <div
                           className={cn(
                             "text-white font-body font-medium w-full px-4 py-2",
-                            categoryKeys && "mt-4 py-0"
+                            categories && Object.keys(categories) && "mt-4 py-0"
                           )}
                         >
                           {sidebarItem.title}
                         </div>
                       )}
 
-                      {sidebarItem.children && categoryKeys && (
-                        <Accordion
-                          type="single"
-                          collapsible
-                          className={cn("flex flex-col gap-3 items-start mt-3")}
-                        >
-                          {categoryKeys.map((category, index) => {
-                            return (
-                              <AccordionItem
-                                value={category}
-                                key={category + index}
-                                className="w-full"
-                              >
-                                <AccordionTrigger
-                                  icon={
-                                    <React.Suspense
-                                      fallback={
-                                        <div className="w-4 h-4 bg-stroke/60 animate-pulse"></div>
+                      {sidebarItem.children &&
+                        categories &&
+                        Object.keys(categories) && (
+                          <Accordion
+                            type="single"
+                            collapsible
+                            className={cn(
+                              "flex flex-col gap-3 items-start mt-3"
+                            )}
+                          >
+                            {categories &&
+                              Object.keys(categories).map((category, index) => {
+                                return (
+                                  <AccordionItem
+                                    value={category}
+                                    key={category + index}
+                                    className="w-full"
+                                  >
+                                    <AccordionTrigger
+                                      icon={
+                                        <React.Suspense
+                                          fallback={
+                                            <div className="w-4 h-4 bg-stroke/60 animate-pulse"></div>
+                                          }
+                                        >
+                                          <ExpandMoreIcon className="text-white/50 group-hover:text-black/50 ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180" />
+                                        </React.Suspense>
+                                      }
+                                      headerClassName="w-full"
+                                      className="px-4 py-2 group hover:cursor-pointer hover:bg-white w-full flex items-center justify-between"
+                                      onClick={() =>
+                                        setSelectedCategory(category)
                                       }
                                     >
-                                      <ExpandMoreIcon className="text-white/50 group-hover:text-black/50 ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180" />
-                                    </React.Suspense>
-                                  }
-                                  headerClassName="w-full"
-                                  className="px-4 py-2 group hover:cursor-pointer hover:bg-white w-full flex items-center justify-between"
-                                  onClick={() => setSelectedCategory(category)}
-                                >
-                                  <div className="text-white group-hover:text-black font-body font-medium text-title_3">
-                                    {category}
-                                  </div>
-                                </AccordionTrigger>
-                                {categoryKeys &&
-                                  selectedCategory &&
-                                  categories &&
-                                  categories[selectedCategory].map(
-                                    (subCategory) => {
-                                      return (
-                                        <AccordionContent
-                                          key={subCategory.id}
-                                          className="text-title_3"
-                                        >
-                                          <div
-                                            className="hover:cursor-pointer hover:bg-white hover:text-black font-body text-white font-medium w-full py-2 pl-8 first:mt-3"
-                                            onClick={() => {
-                                              onClickSubCategory(
-                                                subCategory.id
-                                              );
-                                              setSelectedCategoryFilter(
-                                                subCategory.name
-                                              );
-                                            }}
-                                          >
-                                            {subCategory.name}
-                                          </div>
-                                        </AccordionContent>
-                                      );
-                                    }
-                                  )}
-                              </AccordionItem>
-                            );
-                          })}
-                        </Accordion>
-                      )}
+                                      <div className="text-white group-hover:text-black font-body font-medium text-title_3">
+                                        {category}
+                                      </div>
+                                    </AccordionTrigger>
+                                    {categories &&
+                                      selectedCategory &&
+                                      categories &&
+                                      categories[selectedCategory].map(
+                                        (subCategory) => {
+                                          return (
+                                            <AccordionContent
+                                              key={subCategory.id}
+                                              className="text-title_3"
+                                            >
+                                              <div
+                                                className="hover:cursor-pointer hover:bg-white hover:text-black font-body text-white font-medium w-full py-2 pl-8 first:mt-3"
+                                                onClick={() => {
+                                                  onClickSubCategory(
+                                                    subCategory.id
+                                                  );
+                                                  setSelectedCategoryFilter(
+                                                    subCategory.name
+                                                  );
+                                                }}
+                                              >
+                                                {subCategory.name}
+                                              </div>
+                                            </AccordionContent>
+                                          );
+                                        }
+                                      )}
+                                  </AccordionItem>
+                                );
+                              })}
+                          </Accordion>
+                        )}
                     </div>
                   );
                 })}
