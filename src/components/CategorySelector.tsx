@@ -163,4 +163,6 @@ const CategorySelector = React.forwardRef<
   );
 });
 
+CategorySelector.displayName = "CategorySelector";
+
 export default CategorySelector;
