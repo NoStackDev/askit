@@ -13,6 +13,7 @@ import { useGlobalContext } from "../context/Store";
 import { useRequestContext } from "../context/requestContext";
 import RequestForm from "@/components/RequestForm/RequestForm";
 import Dialog from "@/components/ui/DialogPrimitive";
+import LoadingDots from "@/components/LoadingDots";
 
 type Props = {};
 
@@ -35,6 +36,7 @@ export default function MyRequestPage({}: Props) {
         if (token) {
           const res = await getUserRequests(token);
           setRequests(res.data.reverse());
+          setIsLoading(false);
         }
       } catch (err) {
         console.log(err);
@@ -48,8 +50,12 @@ export default function MyRequestPage({}: Props) {
         My Requests
       </div>
 
-      <div>
-        {requests && requests.length > 0 ? (
+      <div className="min-h-[150px] md:min-h-[300px] relative">
+        {isLoading && (
+          <LoadingDots className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
+        )}
+
+        {requests && requests.length > 0 && (
           <>
             <Requests requests={requests} variants="user" className="mt-6" />
             {/* <div className="w-full flex flex-col items-center justify-center">
@@ -63,7 +69,9 @@ export default function MyRequestPage({}: Props) {
               <PageNumbers  className="mt-6" />
             </div> */}
           </>
-        ) : (
+        )}
+
+        {requests && requests.length < 1 && (
           <div className="flex flex-col justify-center items-center mt-10">
             <Image
               src="/images/pictures/requestEmpty.png"

@@ -169,7 +169,7 @@ export default function Home() {
             </div>
 
             <div>
-              <div className="min-h-[150px] md:min-h-[300px] relative ">
+              <div className="min-h-[150px] md:min-h-[300px] relative">
                 {isLoading && !feeds && (
                   <LoadingDots className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2" />
                 )}

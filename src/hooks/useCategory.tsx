@@ -14,9 +14,6 @@ export default function useCategory() {
   React.useEffect(() => {
     const fecthCategories = async () => {
       const categoriesTemp = window.localStorage.getItem("categories");
-      const categoriesValuesTemp = window.localStorage.getItem(
-        "categoriesFlattened"
-      );
 
       if (!categoriesTemp) {
         const res = await getCategories();

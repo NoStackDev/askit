@@ -14,8 +14,6 @@ export default function useLocations() {
   React.useEffect(() => {
     const fecthLocations = async () => {
       const locationsTemp = window.localStorage.getItem("locations");
-      const locationsValuesTemp =
-        window.localStorage.getItem("locationsFlattened");
 
       if (!locationsTemp) {
         const res = await getCities();
