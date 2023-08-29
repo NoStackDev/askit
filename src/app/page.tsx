@@ -98,7 +98,7 @@ export default function Home() {
     window.scrollTo({ top: 200, behavior: "smooth" });
     try {
       const feedsResponse = await fetch(
-        feeds?.links.next?.split(":").join("s:") || "",
+        feeds?.links.next?.split(":").join(":") || "",
         {
           method: "OPTIONS",
           headers: {
@@ -106,7 +106,7 @@ export default function Home() {
           },
         }
       );
-      if (feedsResponse.status === 200) {
+      if (feedsResponse.status >= 200 || feedsResponse.status <= 299) {
         setIsLoading(false);
         const data = await feedsResponse.json();
         setFeeds(data);
