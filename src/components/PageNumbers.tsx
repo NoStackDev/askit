@@ -45,7 +45,7 @@ const PageNumbers = React.forwardRef<
 
     const onClickBtn = async (pageNumber: number) => {
       const pageLink =
-        firstPageLink?.split(":").join("s:").split("=")[0] + "=" + pageNumber;
+        firstPageLink?.split(":").join(":").split("=")[0] + "=" + pageNumber;
       setIsError(false);
       setIsLoading(true);
       const token = window.localStorage.getItem("token");
