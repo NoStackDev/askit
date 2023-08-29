@@ -95,9 +95,29 @@ const RequestResponseForm = React.forwardRef<
         errorsTemp["location"] = ["location required"];
       }
       if (!whatsappNum) {
-        errorsTemp["whatsapp_num"] = ["location required"];
+        errorsTemp["whatsapp_num"] = ["whatsapp number required"];
       }
 
+      setErrors({ ...errorsTemp });
+      setIsLoading(false);
+      return;
+    }
+
+    if (!Number(whatsappNum)) {
+      let errorsTemp: {
+        [errorName: string]: string[];
+      } = {};
+      errorsTemp["whatsapp_num"] = ["whatsapp number can only contain digits"];
+      setErrors({ ...errorsTemp });
+      setIsLoading(false);
+      return;
+    }
+
+    if (whatsappNum.length !== 11) {
+      let errorsTemp: {
+        [errorName: string]: string[];
+      } = {};
+      errorsTemp["whatsapp_num"] = ["whatsapp number can only be 11 digits"];
       setErrors({ ...errorsTemp });
       setIsLoading(false);
       return;
@@ -122,9 +142,10 @@ const RequestResponseForm = React.forwardRef<
         if (whatsappNum.length > 0) {
           data.append(
             "whatsapp_num",
-            whatsappNum[0] === "0" ? "234" + whatsappNum.slice(0) : whatsappNum
+            whatsappNum[0] === "0" ? "234" + whatsappNum.slice(1) : whatsappNum
           );
         }
+
         // data.append("price", price);
         data.append("visibility", visibility);
         if (city) data.append("location_id", city?.toString());
@@ -321,7 +342,7 @@ const RequestResponseForm = React.forwardRef<
           >
             {errors && errors.location?.length > 0 && (
               <div className="font-body text-body_3 text-[red]/60">
-                location required
+                {errors.location[0]}
               </div>
             )}
 
@@ -367,7 +388,7 @@ const RequestResponseForm = React.forwardRef<
           <div className="w-full h-fit mt-4">
             {errors && errors.whatsapp_num?.length > 0 && (
               <div className="font-body text-body_3 text-[red]/60">
-                whatsapp number required
+                {errors.whatsapp_num[0]}
               </div>
             )}
 
