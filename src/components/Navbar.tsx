@@ -26,12 +26,12 @@ export default function Navbar({}: Props) {
   const path = usePathname();
   const { showSidebar, setShowSidebar } = useSidebarContext();
   const { isOnboarding } = useAuthContext();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
-    if (userDetails) {
-      setIsLoggedIn(true);
+    if (!userDetails) {
+      setIsLoggedIn(false);
     }
   });
 
