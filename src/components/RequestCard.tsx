@@ -222,7 +222,7 @@ const RequestCard = React.forwardRef<
               <div className="flex items-center gap-1">
                 <WatchLaterIcon className="text-[#ADABAB]" fontSize="small" />
                 <span className="text-[#000000]/60 font-body text-special">
-                  {date.getDay()} {month(date.getMonth())}
+                  {date.getDate()} {month(date.getMonth())}
                 </span>
               </div>
             </React.Suspense>

@@ -135,7 +135,7 @@ const RequestImgDetail = React.forwardRef<
               <div className="flex items-center gap-2">
                 <WatchLaterIcon className="text-[#ADABAB]" fontSize="small" />
                 <span className="text-[#000000]/60 font-body text-[11px]">
-                  {date.getDay()} {month(date.getMonth())}
+                  {date.getDate()} {month(date.getMonth())}
                 </span>
               </div>
             </React.Suspense>
