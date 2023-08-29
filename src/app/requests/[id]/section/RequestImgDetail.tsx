@@ -41,6 +41,7 @@ const RequestImgDetail = React.forwardRef<
       user,
       requestid,
       num_of_views,
+      user_id,
       ...props
     },
     ref

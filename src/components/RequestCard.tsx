@@ -50,6 +50,7 @@ const RequestCard = React.forwardRef<
       num_of_responses,
       variant,
       requestType,
+      user_id,
       ...props
     },
     ref
@@ -58,6 +59,15 @@ const RequestCard = React.forwardRef<
     const { feeds, setFeeds } = useFeedsContext();
     const { requests, setRequests } = useRequestContext();
     const [bookmarked, setBookmarked] = React.useState(false);
+    const [showBookmarker, setShowBookmarker] = React.useState(false);
+
+    React.useEffect(() => {
+      const userDetails = window.localStorage.getItem("userDetails");
+
+      if (userDetails && JSON.parse(userDetails).data.id !== Number(user_id)) {
+        setShowBookmarker(true);
+      }
+    }, []);
 
     React.useEffect(() => {
       setBookmarked(bookmark);
@@ -246,7 +256,7 @@ const RequestCard = React.forwardRef<
               <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
             }
           >
-            {variant === "user" ? (
+            {variant === "user" && (
               <Dialog
                 dialogTrigger={
                   <Image
@@ -290,16 +300,22 @@ const RequestCard = React.forwardRef<
                   }
                 />
               </Dialog>
-            ) : bookmarked ? (
-              <BookmarkIcon
-                className="text-primary hover:cursor-pointer"
-                onClick={(e) => onBookmarkClick(e, requestId)}
-              />
-            ) : (
-              <BookmarkBorderIcon
-                className="text-primary hover:cursor-pointer"
-                onClick={(e) => onBookmarkClick(e, requestId)}
-              />
+            )}
+
+            {showBookmarker && (
+              <>
+                {bookmarked ? (
+                  <BookmarkIcon
+                    className="text-primary hover:cursor-pointer"
+                    onClick={(e) => onBookmarkClick(e, requestId)}
+                  />
+                ) : (
+                  <BookmarkBorderIcon
+                    className="text-primary hover:cursor-pointer"
+                    onClick={(e) => onBookmarkClick(e, requestId)}
+                  />
+                )}
+              </>
             )}
           </React.Suspense>
         </div>
