@@ -179,7 +179,7 @@ const RequestImgDetail = React.forwardRef<
                       fontSize="small"
                     />
                     <span className="text-[#000000]/60 font-body text-[11px]">
-                      {date.getDay()} {month(date.getMonth())}
+                      {date.getDate()} {month(date.getMonth())}
                     </span>
                   </div>
                 </React.Suspense>
