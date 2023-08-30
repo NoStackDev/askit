@@ -1,42 +1,32 @@
-type RequestType = {
-  requestId: number;
-  title: string;
-  user_id: number;
-  category_group_id: number;
-  location_id: number;
-  description: string;
-  image?: File;
-};
-
-export default async function postRequest(
-  token: string,
-  {
-    requestId,
-    title,
-    user_id,
-    category_group_id,
-    location_id,
-    description,
-    image,
-  }: RequestType
+export default async function updateRequest(
+  requestId: number,
+  header: Headers,
+  data: FormData
 ) {
-  console.log(`Bearer ${token}`);
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API}/requests/${requestId}`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      title,
-      user_id,
-      category_group_id,
-      location_id,
-      description,
-      image,
-    }),
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API}/requests/${requestId}`,
+    {
+      method: "POST",
+      headers: header,
+      body: data,
+    }
+  );
 
-  return res.json();
+  if (res.status >= 200 && res.status <= 299) {
+    const json = await res.json();
+
+    return { success: true, ...json };
+  }
+
+  if (res.status === 401) {
+    const json = await res.json();
+    console.log(json);
+    return { isError: true, statusCode: 401 };
+  }
+
+  if (res.status < 200 || res.status > 299) {
+    const json = await res.json();
+    console.log(json);
+    return { error: true, ...json };
+  }
 }

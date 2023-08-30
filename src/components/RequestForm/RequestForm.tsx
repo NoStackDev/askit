@@ -7,7 +7,7 @@ import RequestFormOne from "./RequestFormOne";
 import RequestFormTwo from "./RequestFormTwo";
 import { cn } from "@/app/lib/utils";
 import RequestFormThree from "./RequestFormThree";
-import { postRequest } from "@/app/lib/request";
+import { postRequest, updateRequest } from "@/app/lib/request";
 import { useFeedsContext } from "@/app/context/feedsContext";
 import LoadingSpinner from "../LoadingSpinner";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -160,8 +160,15 @@ const RequestForm = React.forwardRef<
           data.append("location_id", city.toString());
         }
 
-        const res = await postRequest(token, data, headers);
+        const res = prefill
+          ? await updateRequest(Number(prefill?.id), headers, data)
+          : await postRequest(data, headers);
         if (res.success) {
+          if (prefill) {
+            window.location.reload();
+            return;
+          }
+
           if (feeds && feeds.data.length === feeds.meta.per_page) {
             feeds.data.length = feeds.meta.per_page - 1;
             setFeeds({ ...feeds, data: [res.data, ...feeds.data] });
@@ -249,8 +256,10 @@ const RequestForm = React.forwardRef<
               {isPosting && (
                 <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
               )}
-              {!isPosting && "Post Request"}
-              {isPosting && "Posting"}
+              {!isPosting && !prefill && "Post Request"}
+              {isPosting && !prefill && "Posting"}
+              {!isPosting && prefill && "Update Request"}
+              {isPosting && prefill && "Updating"}
             </div>
           ) : (
             <div

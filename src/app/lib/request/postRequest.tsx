@@ -1,8 +1,4 @@
-export default async function postRequest(
-  token: string,
-  data: FormData,
-  headers: Headers
-) {
+export default async function postRequest(data: FormData, headers: Headers) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API}/requests`, {
     method: "POST",
     headers: headers,

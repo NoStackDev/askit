@@ -366,7 +366,11 @@ const RequestImgDetail = React.forwardRef<
               className="top-0 fixed left-0 h-full md:h-fit md:-translate-x-1/2 z-50 md:top-1/2 md:-translate-y-1/2 md:left-1/2"
             >
               <RequestForm
-                prefill={{ title: title, description: description }}
+                prefill={{
+                  title: title,
+                  description: description,
+                  id: requestid,
+                }}
               />
             </Dialog>
           )}
