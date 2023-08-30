@@ -12,6 +12,9 @@ const DeleteConfirmation = React.forwardRef<
     <div
       className="w-[347px] flex flex-col gap-6 items-center bg-white pt-[88px] pb-[66px] px-7 rounded-[20px]"
       ref={forwardRef}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <Image
         src={"/images/pictures/deleteConfirmation.png"}
@@ -21,7 +24,7 @@ const DeleteConfirmation = React.forwardRef<
       />
 
       <div className="text-center mt-[60px] md:mt-[50px] font-mono font-bold text-[#000000] text-headline_2">
-      Do you wish to delete?
+        Do you wish to delete?
       </div>
 
       <div className="text-center font-body text-body_1 text-[#000000]">

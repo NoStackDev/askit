@@ -17,6 +17,9 @@ const ExternalAppConfirmation = React.forwardRef<
       <div
         className="w-[347px] flex flex-col gap-6 items-center bg-white pt-[88px] md:pt-[70px] pb-[66px] md:pb-[50px] px-7 rounded-[20px]"
         ref={forwardRef}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
       >
         <Image
           src={"/images/pictures/externalAppConfirmation.png"}

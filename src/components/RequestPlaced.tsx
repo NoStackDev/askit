@@ -16,6 +16,9 @@ const RequestPlaced = React.forwardRef<
         className
       )}
       ref={forwardRef}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <Image
         src={"/images/pictures/requestPlaced.png"}

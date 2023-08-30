@@ -14,6 +14,9 @@ const ResponseSent = React.forwardRef<
         className
       )}
       ref={forwardRef}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
     >
       <Image
         src={"/images/pictures/responseSent.png"}
