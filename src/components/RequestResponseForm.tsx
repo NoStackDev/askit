@@ -19,6 +19,7 @@ import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useResponseContext } from "@/app/context/responseContext";
 import useLocations from "@/hooks/useLocation";
+import LocationSelector from "./LocationSelector";
 
 const LocationOnIcon = React.lazy(
   () => import("@mui/icons-material/LocationOn")
@@ -62,7 +63,9 @@ const RequestResponseForm = React.forwardRef<
   //   props.responsePrefill?.price ? props.responsePrefill.price.toString() : ""
   // );
   const [whatsappNum, setWhatsappNum] = useState(
-    props.responsePrefill?.whatsapp_num || ""
+    props.responsePrefill?.whatsapp_num.slice(0, 0) +
+      "0" +
+      props.responsePrefill?.whatsapp_num.slice(3) || ""
   );
   const [image, setImage] = React.useState<{
     name: string;
@@ -78,6 +81,18 @@ const RequestResponseForm = React.forwardRef<
   } | null>(null);
   const pathUrl = usePathname();
   const { setResponseStatus } = useResponseContext();
+  const [locations, flattenedLocations] = useLocations();
+  const [openLocationModal, setOpenLocationModal] = React.useState(false);
+
+  React.useEffect(() => {
+    if (props.responsePrefill && props.responsePrefill.location) {
+      flattenedLocations?.forEach((location) => {
+        if (location.id === Number(props.responsePrefill?.location)) {
+          setCity(location.id);
+        }
+      });
+    }
+  }, [flattenedLocations]);
 
   const requestId = pathUrl.split("/")[2];
 
@@ -352,42 +367,44 @@ const RequestResponseForm = React.forwardRef<
 
                 <div className="relative h-fit w-full">
                   <FormPrimitive.Control asChild>
-                    <SelectLocation setCity={setCity} className="w-full" />
+                    <Dialog
+                      dialogTrigger={
+                        <div className="relative flex w-full items-center gap-3 font-body text-body_1 text-[#000000]/60 bg-faded pl-4 py-2 rounded-[4px] hover:cursor-pointer">
+                          <input
+                            value={
+                              (city &&
+                                flattenedLocations &&
+                                flattenedLocations[city - 1]?.city) ||
+                              "Select a City"
+                            }
+                            className={cn(
+                              "w-full bg-faded hover:cursor-pointer text-[#000000]/60 text-[14px]",
+                              city && "font-body text-black text-[16px]"
+                            )}
+                            readOnly
+                          />
+
+                          <React.Suspense
+                            fallback={
+                              <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
+                            }
+                          >
+                            <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 right-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+                          </React.Suspense>
+                        </div>
+                      }
+                      className="top-1/2 -translate-y-1/2 fixed left-1/2 -translate-x-1/2 z-[60]"
+                      open={openLocationModal}
+                      onOpenChange={setOpenLocationModal}
+                    >
+                      <LocationSelector
+                        setLocation={setCity}
+                        setOpenLocationModal={setOpenLocationModal}
+                      />
+                    </Dialog>
                   </FormPrimitive.Control>
-                  <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
                 </div>
               </FormPrimitive.Field>
-
-              {/* <FormPrimitive.Field
-            name="price"
-            className="relative h-fit mt-4 w-full"
-          >
-            {errors &&
-              errors.price?.length > 0 &&
-              errors.price.map((errorItem) => {
-                return (
-                  <div
-                    className="font-body text-body_3 text-[red]/60"
-                    key={errorItem}
-                  >
-                    {errorItem}
-                  </div>
-                );
-              })}
-
-            <div className="relative h-fit w-full">
-              <FormPrimitive.Control asChild>
-                <input
-                  type="text"
-                  placeholder="Price (optional)"
-                  className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
-                  onChange={(e) => setPrice(e.target.value)}
-                  value={price}
-                />
-              </FormPrimitive.Control>
-              <AttachMoneyIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
-            </div>
-          </FormPrimitive.Field> */}
 
               <div className="w-full h-fit mt-4">
                 {errors && errors.whatsapp_num?.length > 0 && (
@@ -452,118 +469,6 @@ RequestResponseForm.displayName = "RequestResponseForm";
 
 export default RequestResponseForm;
 
-const SelectLocation = React.forwardRef<
-  React.ElementRef<"div">,
-  React.ComponentPropsWithoutRef<"div"> & {
-    setCity: React.Dispatch<React.SetStateAction<number | null>>;
-  }
->(({ className, setCity, ...props }, forwardRef) => {
-  const [cityName, setCityName] = React.useState<string | null>(null);
-  const [state, setState] = React.useState<string | null>(null);
-
-  const [locations, flattenedLocations] = useLocations();
-
-  return (
-    <div>
-      <Dialog
-        dialogTrigger={
-          <div className="flex w-full items-center gap-3 font-body text-body_1 text-[#000000]/60 bg-faded pl-4 py-2 rounded-[4px] hover:cursor-pointer">
-            <React.Suspense
-              fallback={
-                <div className="w-6 h-6 bg-stroke/60 animate-pulse"></div>
-              }
-            >
-              <LocationOnIcon className=" text-[#424040] w-[19.89px] h-[25.11px]" />
-            </React.Suspense>
-            <span
-              className={cn(
-                "font-body text-body_1  text-[#000000]/40",
-                cityName && "text-[#000000]/60"
-              )}
-            >
-              {cityName ? cityName : "Your location"}
-            </span>
-          </div>
-        }
-        className="fixed top-1/2 left-1/2 z-50 -translate-y-1/2 -translate-x-1/2"
-      >
-        <div className="bg-white max-h-[500px] w-[80vw] max-w-[360px]">
-          <div>
-            <div className="px-4 pt-10 pb-4 border-b border-[#000000]/10 flex flex-col gap-8">
-              <h3 className="font-headline text-headline_3 font-bold">
-                Select your location
-              </h3>
-              {state ? (
-                <div
-                  className="flex gap-4 items-center hover:cursor-pointer"
-                  onClick={() => setState(null)}
-                >
-                  <React.Suspense
-                    fallback={
-                      <div className="w-4 h-4 bg-stroke/60 animate-pulse"></div>
-                    }
-                  >
-                    <ArrowBackIcon className="w-4 h-4" />
-                  </React.Suspense>
-
-                  <h4 className="font-body text-lg font-medium text-[#000000]/60">
-                    {state}
-                  </h4>
-                </div>
-              ) : (
-                <h4 className="font-body text-lg font-medium text-[#000000]/60">
-                  States
-                </h4>
-              )}
-            </div>
-            <div className="p-4 flex flex-col gap-4 div max-h-[268px] overflow-auto">
-              {state && locations
-                ? locations[state].map((city) => {
-                    return (
-                      <DialogClose asChild key={city.id}>
-                        <div
-                          className="hover:bg-stroke/20 hover:cursor-pointer"
-                          onClick={() => {
-                            setCity(city.id);
-                            setCityName(city.city);
-                            setState(null);
-                          }}
-                        >
-                          {city.city}
-                        </div>
-                      </DialogClose>
-                    );
-                  })
-                : locations &&
-                  Object.keys(locations).map((state, index) => {
-                    return (
-                      <div
-                        className="hover:bg-stroke/20 hover:cursor-pointer flex items-center justify-between"
-                        key={index}
-                        onClick={() => setState(state)}
-                      >
-                        {state}
-
-                        <React.Suspense
-                          fallback={
-                            <div className="w-5 h-5 bg-stroke/60 animate-pulse"></div>
-                          }
-                        >
-                          <ChevronRightIcon className="w-5 h-5 text-[#000000]/60" />
-                        </React.Suspense>
-                      </div>
-                    );
-                  })}
-            </div>
-          </div>
-        </div>
-      </Dialog>
-    </div>
-  );
-});
-
-SelectLocation.displayName = "SelectLocation";
-
 const RadioSelect = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
@@ -591,3 +496,34 @@ const RadioSelect = React.forwardRef<
 });
 
 RadioSelect.displayName = "RadioSelect";
+
+/* <FormPrimitive.Field
+            name="price"
+            className="relative h-fit mt-4 w-full"
+          >
+            {errors &&
+              errors.price?.length > 0 &&
+              errors.price.map((errorItem) => {
+                return (
+                  <div
+                    className="font-body text-body_3 text-[red]/60"
+                    key={errorItem}
+                  >
+                    {errorItem}
+                  </div>
+                );
+              })}
+
+            <div className="relative h-fit w-full">
+              <FormPrimitive.Control asChild>
+                <input
+                  type="text"
+                  placeholder="Price (optional)"
+                  className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
+                  onChange={(e) => setPrice(e.target.value)}
+                  value={price}
+                />
+              </FormPrimitive.Control>
+              <AttachMoneyIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+            </div>
+          </FormPrimitive.Field> */

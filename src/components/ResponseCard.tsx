@@ -146,7 +146,7 @@ const ResponseCard = React.forwardRef<
                 <LocationOnIcon className="text-[#A3A1A1] h-[16.3px] w-auto" />
                 <span className="text-grey text-special font-body font-light">
                   {flattenedLocations &&
-                    flattenedLocations[Number(location)]?.city}
+                    flattenedLocations[Number(location) - 1]?.city}
                 </span>
               </div>
             </React.Suspense>
