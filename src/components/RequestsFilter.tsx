@@ -2,24 +2,11 @@
 
 import React from "react";
 import { twMerge } from "tailwind-merge";
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
-  MenubarTrigger,
-} from "./ui/Menubar";
 import Image from "next/image";
 import Dialog from "./ui/DialogPrimitive";
-import { statesConfig } from "@/config.ts/cities";
-import { useGlobalContext } from "@/app/context/Store";
 import { useFeedsContext } from "@/app/context/feedsContext";
 import { getRequests } from "@/app/lib/request";
-import { getCities } from "@/app/lib/city";
-import { CityInterface, StateCitiesInterface } from "@/app/types";
+import { CityInterface } from "@/app/types";
 import useLocations from "@/hooks/useLocation";
 import LocationSelector from "./LocationSelector";
 

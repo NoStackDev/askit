@@ -5,7 +5,6 @@ import Link from "next/link";
 import React, { HTMLAttributes, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
-import { getCategories } from "@/app/lib/category";
 import {
   Accordion,
   AccordionContent,
@@ -17,7 +16,6 @@ import useOnClickOutside from "@/hooks/useOnclickOutside";
 import { useAuthContext } from "@/app/context/authContext";
 import { useFeedsContext } from "@/app/context/feedsContext";
 import { getRequests } from "@/app/lib/request";
-import { CategoryType } from "@/app/types";
 import { useGlobalContext } from "@/app/context/Store";
 import useCategory from "@/hooks/useCategory";
 

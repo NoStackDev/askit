@@ -4,7 +4,6 @@ import { useGlobalContext } from "@/app/context/Store";
 import { useAuthContext } from "@/app/context/authContext";
 import { cn } from "@/app/lib/utils";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import React from "react";
 
 const ArrowCircleLeftIcon = React.lazy(

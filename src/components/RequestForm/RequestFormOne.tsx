@@ -1,23 +1,7 @@
 import React, { HTMLAttributes } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/Select";
 
 import * as FormPrimitive from "@radix-ui/react-form";
 import { cn } from "@/app/lib/utils";
-import { sidebarConfig1 } from "@/config.ts/sidebarConfig";
-import { statesConfig } from "@/config.ts/cities";
-import { useGlobalContext } from "@/app/context/Store";
-import { useSidebarContext } from "@/app/context/sidebarContext";
-import { CategoryType, CityInterface, StateCitiesInterface } from "@/app/types";
-import { getCities } from "@/app/lib/city";
-import { getCategories } from "@/app/lib/category";
 import LocationSelector from "../LocationSelector";
 import Dialog from "../ui/DialogPrimitive";
 import CategorySelector from "../CategorySelector";
@@ -82,11 +66,7 @@ const RequestFormOne = React.forwardRef<
     const [openCategoryModal, setOpenCategoryModal] = React.useState(false);
 
     return (
-      <div
-        className={cn("w-full", className)}
-        ref={fowardref}
-        {...props}
-      >
+      <div className={cn("w-full", className)} ref={fowardref} {...props}>
         <h2 className="font-headline text-headline_3 font-bold text-[#000000] text-left">
           Tell us What You’re Looking For and Where!
         </h2>

@@ -1,15 +1,10 @@
 "use client";
 
-import PageNumbers from "@/components/PageNumbers";
 import Requests from "@/components/Requests";
 import Button from "@/components/ui/Button";
-import { requestsConfig } from "@/config.ts/requests";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
-import { RequestType } from "../types";
 import { getUserRequests } from "../lib/request";
-import { useGlobalContext } from "../context/Store";
 import { useRequestContext } from "../context/requestContext";
 import RequestForm from "@/components/RequestForm/RequestForm";
 import Dialog from "@/components/ui/DialogPrimitive";

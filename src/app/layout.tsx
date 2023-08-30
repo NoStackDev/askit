@@ -46,10 +46,10 @@ export default function RootLayout({
         <GlobalContextProvider>
           <AuthContextProvider>
             <SidebarContextProvider>
+              <Navbar />
               <FeedsContextProvider>
                 <RequestContextProvider>
                   <ResponseContextProvider>
-                    <Navbar />
                     <div className="bg-background md:flex w-full md:mb-20">
                       <Sidebar className="" />
                       <div className="w-full">{children}</div>

@@ -33,7 +33,7 @@ export default function Navbar({}: Props) {
     if (!userDetails) {
       setIsLoggedIn(false);
     }
-  });
+  }, []);
 
   const pathUrl = path.split("/");
   let renderOnlyLogo = Boolean(
