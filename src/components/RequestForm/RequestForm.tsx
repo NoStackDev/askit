@@ -48,7 +48,7 @@ const RequestForm = React.forwardRef<
       errors: ["title required", "minimum of 32 characters"],
       showErrors: false,
     },
-    category: { errors: ["category type required"], showErrors: false },
+    category: { errors: ["category required"], showErrors: false },
     location: { errors: ["location required"], showErrors: false },
   });
   const { setRequestStatus } = useRequestContext();
@@ -104,7 +104,7 @@ const RequestForm = React.forwardRef<
 
       categoryType
         ? categoryTypeErrors.shift()
-        : categoryTypeErrors.unshift("category type required");
+        : categoryTypeErrors.unshift("category required");
 
       city ? cityErrors.shift() : cityErrors.unshift("location required");
 
