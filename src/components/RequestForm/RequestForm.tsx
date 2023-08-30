@@ -13,6 +13,8 @@ import LoadingSpinner from "../LoadingSpinner";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useRequestContext } from "@/app/context/requestContext";
 import { RequestType } from "@/app/types";
+import useCategory from "@/hooks/useCategory";
+import useLocations from "@/hooks/useLocation";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
@@ -52,12 +54,34 @@ const RequestForm = React.forwardRef<
     location: { errors: ["location required"], showErrors: false },
   });
   const { setRequestStatus } = useRequestContext();
+  const [categories, flattenedCategories] = useCategory();
+  const [locations, flattenedLocations] = useLocations();
 
   React.useEffect(() => {
     if (!token || !userDetails) {
       window.location.href = "/login";
     }
   }, []);
+
+  React.useEffect(() => {
+    if (prefill && prefill.category) {
+      flattenedCategories?.forEach((category) => {
+        if (category.name === prefill.category) {
+          setCategoryType(category.id);
+        }
+      });
+    }
+  }, [flattenedCategories]);
+
+  React.useEffect(() => {
+    if (prefill && prefill.location) {
+      flattenedLocations?.forEach((location) => {
+        if (location.city === prefill.location) {
+          setCity(location.id);
+        }
+      });
+    }
+  }, [flattenedLocations]);
 
   const forms = [
     <RequestFormOne

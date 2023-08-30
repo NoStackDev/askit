@@ -370,6 +370,8 @@ const RequestImgDetail = React.forwardRef<
                   title: title,
                   description: description,
                   id: requestid,
+                  category: category,
+                  location: location,
                 }}
               />
             </Dialog>

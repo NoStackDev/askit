@@ -7,6 +7,7 @@ import Dialog from "../ui/DialogPrimitive";
 import CategorySelector from "../CategorySelector";
 import useCategory from "@/hooks/useCategory";
 import useLocations from "@/hooks/useLocation";
+import { RequestType } from "@/app/types";
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
 );
