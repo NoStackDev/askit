@@ -216,146 +216,149 @@ const RequestResponseForm = React.forwardRef<
   };
 
   return (
-    <FormPrimitive.Root
-      className={cn(
-        "relative py-8 flex flex-col items-center bg-white h-full md:h-fit",
-        props.responsePrefill && "md:max-h-[600px]",
-        className
-      )}
-      onSubmit={(e) => submitForm(e)}
-    >
-      <div className="fixed md:relative w-full flex justify-between items-center px-5">
-        <div className="font-headline text-headline_3 font-bold text-black text-left md:pb-2 md:text-center md:border-b-[1px] md:border-grey/20 w-full">
-          {props.responsePrefill
-            ? "Update Response"
-            : "Respond to This Request"}
-        </div>
-
-        <React.Suspense
-          fallback={
-            <div className="md:hidden w-6 h-6 bg-stroke/60 animate-pulse"></div>
-          }
+    <>
+      {disableResBtn && <div className="md:h-32 bg-white"></div>}
+      {!disableResBtn && (
+        <FormPrimitive.Root
+          className={cn(
+            "relative py-8 flex flex-col items-center bg-white h-full md:h-fit",
+            props.responsePrefill && "md:max-h-[600px]",
+            className
+          )}
+          onSubmit={(e) => submitForm(e)}
         >
-          <CloseIcon
-            className="w-6 h-6 md:hidden"
-            onClick={() => {
-              const dialogCloseTrigger =
-                document.getElementById("dialogCloseTrigger");
-              if (dialogCloseTrigger) {
-                dialogCloseTrigger.click();
+          <div className="fixed md:relative w-full flex justify-between items-center px-5">
+            <div className="font-headline text-headline_3 font-bold text-black text-left md:pb-2 md:text-center md:border-b-[1px] md:border-grey/20 w-full">
+              {props.responsePrefill
+                ? "Update Response"
+                : "Respond to This Request"}
+            </div>
+
+            <React.Suspense
+              fallback={
+                <div className="md:hidden w-6 h-6 bg-stroke/60 animate-pulse"></div>
               }
-            }}
-          />
-        </React.Suspense>
-      </div>
-
-      <div className="px-5 mt-10 md:mt-0 overflow-auto">
-        <FormPrimitive.Field
-          name="comment"
-          className="mt-8 flex flex-col gap-1"
-        >
-          <div className="flex items-baseline justify-between">
-            <FormPrimitive.Label className="font-body text-title_3 font-medium">
-              Comment
-            </FormPrimitive.Label>
-
-            <FormPrimitive.Message
-              match={"valueMissing"}
-              className="font-body text-body_3 text-black/80"
             >
-              comment required
-            </FormPrimitive.Message>
-
-            <FormPrimitive.Message
-              match={"tooLong"}
-              className="font-body text-body_3 text-black/80"
-            >
-              Maximum character length is 92
-            </FormPrimitive.Message>
+              <CloseIcon
+                className="w-6 h-6 md:hidden"
+                onClick={() => {
+                  const dialogCloseTrigger =
+                    document.getElementById("dialogCloseTrigger");
+                  if (dialogCloseTrigger) {
+                    dialogCloseTrigger.click();
+                  }
+                }}
+              />
+            </React.Suspense>
           </div>
 
-          <FormPrimitive.Control asChild>
-            <textarea
-              placeholder="Here is what you are looking for..."
-              className="px-3 py-4 rounded-lg border-[1px] border-stroke placeholder:font-body placeholder:text-body_1 min-h-[146px] bg-faded"
-              required
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-              maxLength={92}
-            />
-          </FormPrimitive.Control>
-        </FormPrimitive.Field>
+          <div className="px-5 mt-10 md:mt-0 overflow-auto">
+            <FormPrimitive.Field
+              name="comment"
+              className="mt-8 flex flex-col gap-1"
+            >
+              <div className="flex items-baseline justify-between">
+                <FormPrimitive.Label className="font-body text-title_3 font-medium">
+                  Comment
+                </FormPrimitive.Label>
 
-        <FormPrimitive.Field
-          name="image"
-          className="relative w-full h-fit mt-6 hover:cursor-pointer"
-          onClick={onFileInputClick}
-        >
-          <FormPrimitive.Control asChild>
-            <input
-              type="file"
-              name="image"
-              id="responseImage"
-              className="w-9/12 opacity-0"
-              ref={fileInputRef}
-              onChange={onFileSelect}
-              accept="image/png, image/jpg, image/jpeg"
-            />
-          </FormPrimitive.Control>
+                <FormPrimitive.Message
+                  match={"valueMissing"}
+                  className="font-body text-body_3 text-black/80"
+                >
+                  comment required
+                </FormPrimitive.Message>
 
-          <div className="absolute top-0 h-full w-full flex items-center justify-between px-4 py-2  border border-stroke rounded">
-            <div className="flex items-center gap-3 w-full">
-              <React.Suspense
-                fallback={
-                  <div className="w-[24px] h-[24px] bg-stroke/60 animate-pulse"></div>
-                }
-              >
-                <ImageIcon className="text-[#000000]/60 w-[17px] h-[17px]" />
-              </React.Suspense>
-              {image ? (
-                <span className="font-body text-title_3 text-[#000000]/60 font-light max-w-[24ch] overflow-hidden truncate">
-                  {image.name}
-                </span>
-              ) : (
-                <span className="font-body text-title_3 text-[#000000]/60 font-light">
-                  Add Image (optional)
-                </span>
-              )}
-            </div>
-
-            <>
-              {image ? (
-                <React.Suspense>
-                  <CancelIcon
-                    className="text-[#000000]/60 w-4 h-4"
-                    onClick={(e) => onRemoveImage(e)}
-                  />
-                </React.Suspense>
-              ) : null}
-            </>
-          </div>
-        </FormPrimitive.Field>
-
-        <div className="w-full">
-          <FormPrimitive.Field
-            name="location"
-            className="relative h-fit mt-6 w-full flex flex-col"
-          >
-            {errors && errors.location?.length > 0 && (
-              <div className="font-body text-body_3 text-[red]/60">
-                {errors.location[0]}
+                <FormPrimitive.Message
+                  match={"tooLong"}
+                  className="font-body text-body_3 text-black/80"
+                >
+                  Maximum character length is 92
+                </FormPrimitive.Message>
               </div>
-            )}
 
-            <div className="relative h-fit w-full">
               <FormPrimitive.Control asChild>
-                <SelectLocation setCity={setCity} className="w-full" />
+                <textarea
+                  placeholder="Here is what you are looking for..."
+                  className="px-3 py-4 rounded-lg border-[1px] border-stroke placeholder:font-body placeholder:text-body_1 min-h-[146px] bg-faded"
+                  required
+                  onChange={(e) => setTitle(e.target.value)}
+                  value={title}
+                  maxLength={92}
+                />
               </FormPrimitive.Control>
-              <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
-            </div>
-          </FormPrimitive.Field>
+            </FormPrimitive.Field>
 
-          {/* <FormPrimitive.Field
+            <FormPrimitive.Field
+              name="image"
+              className="relative w-full h-fit mt-6 hover:cursor-pointer"
+              onClick={onFileInputClick}
+            >
+              <FormPrimitive.Control asChild>
+                <input
+                  type="file"
+                  name="image"
+                  id="responseImage"
+                  className="w-9/12 opacity-0"
+                  ref={fileInputRef}
+                  onChange={onFileSelect}
+                  accept="image/png, image/jpg, image/jpeg"
+                />
+              </FormPrimitive.Control>
+
+              <div className="absolute top-0 h-full w-full flex items-center justify-between px-4 py-2  border border-stroke rounded">
+                <div className="flex items-center gap-3 w-full">
+                  <React.Suspense
+                    fallback={
+                      <div className="w-[24px] h-[24px] bg-stroke/60 animate-pulse"></div>
+                    }
+                  >
+                    <ImageIcon className="text-[#000000]/60 w-[17px] h-[17px]" />
+                  </React.Suspense>
+                  {image ? (
+                    <span className="font-body text-title_3 text-[#000000]/60 font-light max-w-[24ch] overflow-hidden truncate">
+                      {image.name}
+                    </span>
+                  ) : (
+                    <span className="font-body text-title_3 text-[#000000]/60 font-light">
+                      Add Image (optional)
+                    </span>
+                  )}
+                </div>
+
+                <>
+                  {image ? (
+                    <React.Suspense>
+                      <CancelIcon
+                        className="text-[#000000]/60 w-4 h-4"
+                        onClick={(e) => onRemoveImage(e)}
+                      />
+                    </React.Suspense>
+                  ) : null}
+                </>
+              </div>
+            </FormPrimitive.Field>
+
+            <div className="w-full">
+              <FormPrimitive.Field
+                name="location"
+                className="relative h-fit mt-6 w-full flex flex-col"
+              >
+                {errors && errors.location?.length > 0 && (
+                  <div className="font-body text-body_3 text-[red]/60">
+                    {errors.location[0]}
+                  </div>
+                )}
+
+                <div className="relative h-fit w-full">
+                  <FormPrimitive.Control asChild>
+                    <SelectLocation setCity={setCity} className="w-full" />
+                  </FormPrimitive.Control>
+                  <LocationOnIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+                </div>
+              </FormPrimitive.Field>
+
+              {/* <FormPrimitive.Field
             name="price"
             className="relative h-fit mt-4 w-full"
           >
@@ -386,58 +389,62 @@ const RequestResponseForm = React.forwardRef<
             </div>
           </FormPrimitive.Field> */}
 
-          <div className="w-full h-fit mt-4">
-            {errors && errors.whatsapp_num?.length > 0 && (
-              <div className="font-body text-body_3 text-[red]/60">
-                {errors.whatsapp_num[0]}
+              <div className="w-full h-fit mt-4">
+                {errors && errors.whatsapp_num?.length > 0 && (
+                  <div className="font-body text-body_3 text-[red]/60">
+                    {errors.whatsapp_num[0]}
+                  </div>
+                )}
+
+                <FormPrimitive.Field
+                  name="Whatsapp number"
+                  className="relative h-fit w-full"
+                >
+                  <FormPrimitive.Control asChild>
+                    <input
+                      type="text"
+                      placeholder="WhatsApp number"
+                      className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
+                      onChange={(e) => setWhatsappNum(e.target.value)}
+                      value={whatsappNum}
+                    />
+                  </FormPrimitive.Control>
+                  <WhatsAppIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
+                </FormPrimitive.Field>
+              </div>
+
+              <VisibilityRadioGroup
+                setVisibility={setVisibility}
+                className="mt-6"
+              />
+            </div>
+
+            {!disableResBtn && (
+              <div className="w-full mt-6 flex items-center justify-center">
+                {isLoading ? (
+                  <Button className="w-full max-w-[315px] py-[6px]" disabled>
+                    <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
+                    {props.responsePrefill ? "Updating.." : "Sending..."}
+                  </Button>
+                ) : (
+                  <FormPrimitive.Submit asChild className="">
+                    <Button className="w-full max-w-[315px] py-[6px]">
+                      {props.responsePrefill
+                        ? "Update Response"
+                        : "Send Response"}
+                    </Button>
+                  </FormPrimitive.Submit>
+                )}
               </div>
             )}
 
-            <FormPrimitive.Field
-              name="Whatsapp number"
-              className="relative h-fit w-full"
-            >
-              <FormPrimitive.Control asChild>
-                <input
-                  type="text"
-                  placeholder="WhatsApp number"
-                  className="font-body text-body_1 text-[#000000]/60 bg-faded pl-12 py-2 h-full w-full rounded-[4px]"
-                  onChange={(e) => setWhatsappNum(e.target.value)}
-                  value={whatsappNum}
-                />
-              </FormPrimitive.Control>
-              <WhatsAppIcon className="absolute top-1/2 -translate-y-1/2 left-4 text-[#424040] w-[19.89px] h-[25.11px]" />
-            </FormPrimitive.Field>
+            <div className="font-body text-body_3 text-[#000000] text-center mt-3">
+              Only post a response that aligns with this request
+            </div>
           </div>
-
-          <VisibilityRadioGroup
-            setVisibility={setVisibility}
-            className="mt-6"
-          />
-        </div>
-
-        {!disableResBtn && (
-          <div className="w-full mt-6 flex items-center justify-center">
-            {isLoading ? (
-              <Button className="w-full max-w-[315px] py-[6px]" disabled>
-                <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
-                {props.responsePrefill ? "Updating.." : "Sending..."}
-              </Button>
-            ) : (
-              <FormPrimitive.Submit asChild className="">
-                <Button className="w-full max-w-[315px] py-[6px]">
-                  {props.responsePrefill ? "Update Response" : "Send Response"}
-                </Button>
-              </FormPrimitive.Submit>
-            )}
-          </div>
-        )}
-
-        <div className="font-body text-body_3 text-[#000000] text-center mt-3">
-          Only post a response that aligns with this request
-        </div>
-      </div>
-    </FormPrimitive.Root>
+        </FormPrimitive.Root>
+      )}
+    </>
   );
 });
 
