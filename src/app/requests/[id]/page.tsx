@@ -16,9 +16,21 @@ export default function RequestsPage() {
   const [requestData, setReqeustData] =
     React.useState<RequestDetailType | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [showRespondBtn, setShowRespondBtn] = React.useState(false);
   const pathUrl = usePathname();
 
   const requestId = pathUrl.split("/")[2];
+
+  React.useEffect(() => {
+    const userDetails = window.localStorage.getItem("userDetails");
+    if (
+      userDetails &&
+      requestData &&
+      JSON.parse(userDetails).data.id !== Number(requestData.request.user_id)
+    ) {
+      setShowRespondBtn(true);
+    }
+  });
 
   React.useEffect(() => {
     (async () => {
@@ -50,22 +62,24 @@ export default function RequestsPage() {
             user_id={requestData.request.user_id}
           />
         )}
-        <div className="flex items-center justify-center h-fit w-full px-[20px]">
-          <Dialog
-            dialogTrigger={
-              <Button className="md:hidden mt-8 w-full">
-                Respond to Request
-              </Button>
-            }
-            className="top-0 fixed left-0 h-full"
-          >
-            <RequestResponseForm
-              setRequests={setReqeustData}
-              requestData={requestData}
-              className="w-screen h-screen"
-            />
-          </Dialog>
-        </div>
+        {showRespondBtn && (
+          <div className="flex items-center justify-center h-fit w-full px-[20px]">
+            <Dialog
+              dialogTrigger={
+                <Button className="md:hidden mt-8 w-full">
+                  Respond to Request
+                </Button>
+              }
+              className="top-0 fixed left-0 h-full"
+            >
+              <RequestResponseForm
+                setRequests={setReqeustData}
+                requestData={requestData}
+                className="w-screen h-screen"
+              />
+            </Dialog>
+          </div>
+        )}
 
         <div className="flex flex-col items-center justify-center h-fit mt-8 md:mt-14 px-[20px] md:px-0 w-full">
           <div className="flex justify-center items-center w-full">
@@ -101,6 +115,7 @@ export default function RequestsPage() {
         <RequestResponseForm
           setRequests={setReqeustData}
           requestData={requestData}
+          disableResBtn={!showRespondBtn}
         />
       </div>
     </main>

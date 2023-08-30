@@ -41,6 +41,7 @@ const RequestResponseForm = React.forwardRef<
     setRequests?: React.Dispatch<
       React.SetStateAction<RequestDetailType | null>
     >;
+    disableResBtn?: boolean;
     requestData?: RequestDetailType | null;
     responsePrefill?: {
       description: string;
@@ -53,7 +54,7 @@ const RequestResponseForm = React.forwardRef<
       whatsapp_link: string;
     };
   }
->(({ className, setRequests, requestData, ...props }, ref) => {
+>(({ className, setRequests, requestData, disableResBtn, ...props }, ref) => {
   const [isLoading, setIsLoading] = useState(false);
   const [title, setTitle] = useState(props.responsePrefill?.title || "");
   const [visibility, setVisibility] = useState<"private" | "public">("public");
@@ -413,25 +414,24 @@ const RequestResponseForm = React.forwardRef<
             setVisibility={setVisibility}
             className="mt-6"
           />
-          {/* <RadioSelect /> */}
         </div>
 
-        <div className="w-full mt-6 flex items-center justify-center">
-          {isLoading ? (
-            <Button className="w-full max-w-[315px] py-[6px]" disabled>
-              <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
-              {props.responsePrefill
-                ? "Updating Response.."
-                : "Sending Response..."}
-            </Button>
-          ) : (
-            <FormPrimitive.Submit asChild className="">
-              <Button className="w-full max-w-[315px] py-[6px]">
-                {props.responsePrefill ? "Update Response" : "Send Response"}
+        {!disableResBtn && (
+          <div className="w-full mt-6 flex items-center justify-center">
+            {isLoading ? (
+              <Button className="w-full max-w-[315px] py-[6px]" disabled>
+                <LoadingSpinner className="h-4 w-4 text-primary fill-white" />
+                {props.responsePrefill ? "Updating.." : "Sending..."}
               </Button>
-            </FormPrimitive.Submit>
-          )}
-        </div>
+            ) : (
+              <FormPrimitive.Submit asChild className="">
+                <Button className="w-full max-w-[315px] py-[6px]">
+                  {props.responsePrefill ? "Update Response" : "Send Response"}
+                </Button>
+              </FormPrimitive.Submit>
+            )}
+          </div>
+        )}
 
         <div className="font-body text-body_3 text-[#000000] text-center mt-3">
           Only post a response that aligns with this request
