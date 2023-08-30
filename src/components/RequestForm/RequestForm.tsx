@@ -197,7 +197,7 @@ const RequestForm = React.forwardRef<
     <FormPrimitive.Root className="relative flex flex-col items-center bg-white h-full md:max-h-[700px] w-screen md:max-w-[600px] p-5 md:px-6 md:rounded-[20px]">
       <div className="flex justify-between items-center w-full">
         <h1 className="font-headline font-bold text-body_2 text-secondary/80">
-          PLACE A REQUEST
+          {prefill ? "UPDATE " : "PLACE A "} REQUEST
         </h1>
         <DialogClose asChild>
           <div className="font-body text-title_3 text-[#000000] font-medium hover:cursor-pointer">
