@@ -12,17 +12,22 @@ import { useFeedsContext } from "@/app/context/feedsContext";
 import LoadingSpinner from "../LoadingSpinner";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { useRequestContext } from "@/app/context/requestContext";
+import { RequestType } from "@/app/types";
 
 const RequestForm = React.forwardRef<
   React.ElementRef<typeof FormPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof FormPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof FormPrimitive.Root> & {
+    prefill?: Partial<RequestType>;
+  }
+>(({ className, prefill, ...props }, ref) => {
   const [images, setImages] = React.useState<{ name: string; url: string }[]>(
     []
   );
   const [imageFile, setImageFile] = React.useState<FileList>();
-  const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [title, setTitle] = React.useState(prefill?.title || "");
+  const [description, setDescription] = React.useState(
+    prefill?.description || ""
+  );
 
   const [formStep, setFormStep] = React.useState(0);
   const { feeds, setFeeds } = useFeedsContext();
@@ -236,7 +241,7 @@ const RequestForm = React.forwardRef<
           {formStep + 1 === forms.length ? (
             <div
               className={cn(
-                "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer flex items-center mt-6",
+                "text-center font-body text-title_2 bg-primary rounded-xl px-12 md:px-20 py-2 text-white hover:cursor-pointer flex items-center mt-6 min-w-[200px]",
                 isPosting && "px-8"
               )}
               onClick={onPostRequestClick}

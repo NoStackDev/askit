@@ -1,12 +1,18 @@
 "use client";
 
 import { addDeleteBookmark, getBookmarks } from "@/app/lib/bookmark";
+import { deleteRequest } from "@/app/lib/request";
 import { cn, month } from "@/app/lib/utils";
 import { RequestDetailType, RequestType } from "@/app/types";
+import DeleteConfirmation from "@/components/DeleteConfirmation";
 import ReportUserCard from "@/components/ReportUserCard";
+import RequestForm from "@/components/RequestForm/RequestForm";
 import Share from "@/components/Share";
+import Button from "@/components/ui/Button";
 import Dialog from "@/components/ui/DialogPrimitive";
+import { DialogClose } from "@radix-ui/react-dialog";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const WatchLaterIcon = React.lazy(
@@ -47,6 +53,22 @@ const RequestImgDetail = React.forwardRef<
     ref
   ) => {
     const [bookmarked, setBookmarked] = React.useState(false);
+    const [showDeleteEdit, setShowDeleteEdit] = React.useState(false);
+    const [showReportSave, setShowReportSave] = React.useState(false);
+    const router = useRouter();
+
+    React.useEffect(() => {
+      const userDetails = window.localStorage.getItem("userDetails");
+
+      if (userDetails && JSON.parse(userDetails).data.id === Number(user_id)) {
+        setShowDeleteEdit(true);
+      }
+
+      if (userDetails && JSON.parse(userDetails).data.id !== Number(user_id)) {
+        setShowReportSave(true);
+      }
+    }, []);
+
     const date = new Date(created_at);
 
     React.useEffect(() => {
@@ -93,6 +115,35 @@ const RequestImgDetail = React.forwardRef<
         } catch (err) {
           console.log(err);
         }
+      }
+    };
+
+    const onClickDeleteBtn = async (
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+      requestId: number
+    ) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const token = window.localStorage.getItem("token");
+      const userDetails = window.localStorage.getItem("userDetails");
+
+      try {
+        const token = window.localStorage.getItem("token");
+        const userDetails = window.localStorage.getItem("userDetails");
+        if (token && userDetails) {
+          const userId = JSON.parse(userDetails).data.id;
+          const res = await deleteRequest(token, requestId);
+
+          if (res.success) {
+            router.back();
+            return;
+          } else {
+            return;
+          }
+        } else window.location.assign("/login");
+      } catch (err) {
+        console.log(err);
       }
     };
 
@@ -220,47 +271,128 @@ const RequestImgDetail = React.forwardRef<
         {/* divider */}
         <div className="h-[2px] w-full bg-grey/20"></div>
 
-        {/* report save share  */}
+        {/* delete report edit save share  */}
         <div className="w-full flex items-center justify-between px-5 pt-5 pb-6">
-          <Dialog
-            dialogTrigger={
-              <div className="flex items-center gap-1 hover:cursor-pointer">
-                <Image
-                  src={"/images/icons/reportIcon.png"}
-                  width={24}
-                  height={24}
-                  alt="report"
-                />
-                <div className="text-title_3 font-body text-black/60">
-                  Report
-                </div>
-              </div>
-            }
-            className="top-0 fixed left-0 h-full md:h-fit md:-translate-x-1/2 z-50 md:top-1/2 md:-translate-y-1/2 md:left-1/2"
-          >
-            <ReportUserCard />
-          </Dialog>
+          {showDeleteEdit && (
+            <Dialog
+              dialogTrigger={
+                <div className="flex gap-1 justify-between items-center hover:cursor-pointer">
+                  <Image
+                    src="/images/icons/deleteIcon.png"
+                    height={18}
+                    width={18}
+                    alt="delete"
+                    className="hover:cursor-pointer opacity-80"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  />
 
-          <div className="flex items-center gap-1 hover:cursor-pointer">
-            <React.Suspense
-              fallback={
-                <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+                  <span className="font-body text-black/60 text-body_2">
+                    Delete
+                  </span>
+                </div>
               }
+              className="fixed -translate-x-1/2 z-50 top-1/2 -translate-y-1/2 left-1/2"
             >
-              {bookmarked ? (
-                <BookmarkIcon
-                  className="text-primary hover:cursor-pointer"
-                  onClick={onBookmarkClick}
-                />
-              ) : (
-                <BookmarkBorderIcon
-                  className="text-primary hover:cursor-pointer"
-                  onClick={onBookmarkClick}
-                />
-              )}
-            </React.Suspense>
-            <div className="text-title_3 font-body text-black/60">Save</div>
-          </div>
+              <DeleteConfirmation
+                closeDialogElement={
+                  <div className="flex flex-col gap-6 items-center">
+                    <DialogClose asChild>
+                      <Button
+                        variant={"outlined2"}
+                        className="px-[72px] py-3 border-black text-black"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        No
+                      </Button>
+                    </DialogClose>
+
+                    <DialogClose asChild>
+                      <Button
+                        variant={"outlined2"}
+                        className="px-[72px] py-3 border-black text-black"
+                        onClick={(e) => onClickDeleteBtn(e, requestid)}
+                      >
+                        Yes delete!
+                      </Button>
+                    </DialogClose>
+                  </div>
+                }
+              />
+            </Dialog>
+          )}
+
+          {showReportSave && (
+            <Dialog
+              dialogTrigger={
+                <div className="flex items-center gap-1 hover:cursor-pointer">
+                  <Image
+                    src={"/images/icons/reportIcon.png"}
+                    width={24}
+                    height={24}
+                    alt="report"
+                  />
+                  <div className="text-title_3 font-body text-black/60">
+                    Report
+                  </div>
+                </div>
+              }
+              className="top-0 fixed left-0 h-full md:h-fit md:-translate-x-1/2 z-50 md:top-1/2 md:-translate-y-1/2 md:left-1/2"
+            >
+              <ReportUserCard />
+            </Dialog>
+          )}
+
+          {showDeleteEdit && (
+            <Dialog
+              dialogTrigger={
+                <div className="flex gap-1 justify-between items-center hover:cursor-pointer">
+                  <Image
+                    src="/images/icons/editIcon.png"
+                    width={24}
+                    height={24}
+                    alt="edit"
+                    className="hover:cursor-pointer"
+                  />
+
+                  <span className="font-body text-black/60 text-body_2">
+                    Edit
+                  </span>
+                </div>
+              }
+              className="top-0 fixed left-0 h-full md:h-fit md:-translate-x-1/2 z-50 md:top-1/2 md:-translate-y-1/2 md:left-1/2"
+            >
+              <RequestForm
+                prefill={{ title: title, description: description }}
+              />
+            </Dialog>
+          )}
+
+          {showReportSave && (
+            <div className="flex items-center gap-1 hover:cursor-pointer">
+              <React.Suspense
+                fallback={
+                  <div className="w-4 h-4 bg-stroke/80 animate-pulse"></div>
+                }
+              >
+                {bookmarked ? (
+                  <BookmarkIcon
+                    className="text-primary hover:cursor-pointer"
+                    onClick={onBookmarkClick}
+                  />
+                ) : (
+                  <BookmarkBorderIcon
+                    className="text-primary hover:cursor-pointer"
+                    onClick={onBookmarkClick}
+                  />
+                )}
+              </React.Suspense>
+              <div className="text-title_3 font-body text-black/60">Save</div>
+            </div>
+          )}
 
           <Share shareText={title}>
             <div className="flex items-center gap-1 hover:cursor-pointer">

@@ -3,14 +3,13 @@ export default async function postRequest(
   data: FormData,
   headers: Headers
 ) {
-  console.log(data.get("location_id"));
   const res = await fetch(`${process.env.NEXT_PUBLIC_API}/requests`, {
     method: "POST",
     headers: headers,
     body: data,
   });
 
-  if (res.status === 200) {
+  if (res.status >= 200 && res.status <= 299) {
     const json = await res.json();
     return json;
   }
