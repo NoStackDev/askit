@@ -205,7 +205,7 @@ const ResponseCard = React.forwardRef<
                   alt="whatsapp"
                 />
               }
-              className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-40"
+              className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
             >
               <ExternalAppConfirmation
                 appTitle="WhatsApp"

@@ -90,9 +90,9 @@ const SafetyHintsPage = (props: Props) => {
         <div className="flex flex-col gap-6">
           <p className="font-body text-body_1 text-black">
             If you encounter any inappropriate, fraudulent, or suspicious
-            activity on the platform, report it immediately to the platform&apos;s
-            support team. This helps maintain a safe and reliable community for
-            all users.
+            activity on the platform, report it immediately to the
+            platform&apos;s support team. This helps maintain a safe and
+            reliable community for all users.
           </p>
         </div>
       </div>
