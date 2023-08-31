@@ -9,19 +9,18 @@ import useOnClickOutside from "@/hooks/useOnclickOutside";
 import { cn } from "@/app/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getRequests } from "./lib/request";
 import Dialog from "@/components/ui/DialogPrimitive";
 import { useGlobalContext } from "./context/Store";
 import RequestForm from "@/components/RequestForm";
 import { useFeedsContext } from "./context/feedsContext";
 import { useAuthContext } from "./context/authContext";
-import { getCities } from "./lib/city";
 import { getBookmarks } from "./lib/bookmark";
 import { RequestType } from "./types";
-import ReportUserCard from "@/components/ReportUserCard";
 import LoadingDots from "@/components/LoadingDots";
 import useLocations from "@/hooks/useLocation";
+import usePreferences from "@/hooks/usePreferences";
 
 export default function Home() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -37,6 +36,7 @@ export default function Home() {
     useFeedsContext();
   const { dispatch } = useAuthContext();
   const { selectedCategoryFilter } = useGlobalContext();
+  const { preferences } = usePreferences();
 
   useEffect(() => {
     dispatch({ type: "RESET" });
@@ -116,6 +116,43 @@ export default function Home() {
       setIsError(true);
     }
   };
+
+  React.useEffect(() => {
+    async function fetchPref(currentFeedsUrl: URL | null) {
+      const feedsResponse = await getRequests(currentFeedsUrl);
+      if (feedsResponse.isError) return;
+      setFeeds(feedsResponse);
+    }
+
+    if (preferences) {
+      if (preferences.selected_categories.length > 0) {
+        currentFeedsUrl?.searchParams.delete("category_group_id");
+        let categoryIds = "";
+        preferences.selected_categories.forEach((id) => {
+          categoryIds.length > 0
+            ? (categoryIds += `,${id}`)
+            : (categoryIds += categoryIds);
+        });
+        currentFeedsUrl?.searchParams.append("category_group_id", categoryIds);
+      }
+
+      if (preferences.selected_locations.length > 0) {
+        currentFeedsUrl?.searchParams.delete("city_id");
+        let cityIds = "";
+        preferences.selected_locations.forEach((id) => {
+          cityIds.length > 0 ? (cityIds += `,${id}`) : (cityIds += id);
+        });
+        currentFeedsUrl?.searchParams.append("city_id", cityIds);
+      }
+
+      if (
+        preferences.selected_categories.length > 0 ||
+        preferences.selected_locations.length > 0
+      ) {
+        fetchPref(currentFeedsUrl);
+      }
+    }
+  }, [preferences]);
 
   return (
     <>
