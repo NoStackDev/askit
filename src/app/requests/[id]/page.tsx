@@ -24,9 +24,10 @@ export default function RequestsPage() {
   React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
     if (
-      userDetails &&
-      requestData &&
-      JSON.parse(userDetails).data.id !== Number(requestData.request.user_id)
+      !userDetails ||
+      (userDetails &&
+        requestData &&
+        JSON.parse(userDetails).data.id !== Number(requestData.request.user_id))
     ) {
       setShowRespondBtn(true);
     }

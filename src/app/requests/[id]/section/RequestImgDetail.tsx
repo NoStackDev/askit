@@ -64,7 +64,10 @@ const RequestImgDetail = React.forwardRef<
         setShowDeleteEdit(true);
       }
 
-      if (userDetails && JSON.parse(userDetails).data.id !== Number(user_id)) {
+      if (
+        !userDetails ||
+        (userDetails && JSON.parse(userDetails).data.id !== Number(user_id))
+      ) {
         setShowReportSave(true);
       }
     }, []);
@@ -115,6 +118,8 @@ const RequestImgDetail = React.forwardRef<
         } catch (err) {
           console.log(err);
         }
+      } else {
+        window.location.assign("/login");
       }
     };
 
@@ -328,7 +333,19 @@ const RequestImgDetail = React.forwardRef<
           {showReportSave && (
             <Dialog
               dialogTrigger={
-                <div className="flex items-center gap-1 hover:cursor-pointer">
+                <div
+                  className="flex items-center gap-1 hover:cursor-pointer"
+                  onClick={(e) => {
+                    const token = window.localStorage.getItem("token");
+                    const userDetails =
+                      window.localStorage.getItem("userDetails");
+                    if (!token || !userDetails) {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      window.location.assign("/login");
+                    }
+                  }}
+                >
                   <Image
                     src={"/images/icons/reportIcon.png"}
                     width={24}

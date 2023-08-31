@@ -64,7 +64,10 @@ const RequestCard = React.forwardRef<
     React.useEffect(() => {
       const userDetails = window.localStorage.getItem("userDetails");
 
-      if (userDetails && JSON.parse(userDetails).data.id !== Number(user_id)) {
+      if (
+        !userDetails ||
+        (userDetails && JSON.parse(userDetails).data.id !== Number(user_id))
+      ) {
         setShowBookmarker(true);
       }
     }, []);

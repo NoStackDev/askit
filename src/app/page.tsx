@@ -131,9 +131,12 @@ export default function Home() {
         preferences.selected_categories.forEach((id) => {
           categoryIds.length > 0
             ? (categoryIds += `,${id}`)
-            : (categoryIds += categoryIds);
+            : (categoryIds += id);
         });
-        currentFeedsUrl?.searchParams.append("category_group_id", categoryIds);
+        currentFeedsUrl?.searchParams.append(
+          "category_group_id",
+          categoryIds.trim()
+        );
       }
 
       if (preferences.selected_locations.length > 0) {
