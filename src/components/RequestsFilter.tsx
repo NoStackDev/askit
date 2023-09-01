@@ -20,14 +20,10 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
   ({ className, ...props }, ref) => {
-    const [country, setCountry] = React.useState("ng");
-    const [state, setState] = React.useState<string | null>(null);
     const [city, setCity] = React.useState<number | null>(null);
     const [cityName, setCityName] = React.useState<string | null>(null);
-    const { currentFeedsUrl, setFeeds } = useFeedsContext();
-    const [stateCities, setStateCities] = React.useState<{
-      [id: string]: CityInterface[];
-    } | null>(null);
+    const { setFeeds } = useFeedsContext();
+
     const [openLocationModal, setOpenLocationModal] = React.useState(false);
     const [locations, flattenedLocations] = useLocations();
     const contentInfoRef = React.useRef<HTMLDivElement>(null);
@@ -35,9 +31,9 @@ const RequestsFilter = React.forwardRef<React.ElementRef<"div">, Props>(
     React.useEffect(() => {
       const onCityClick = async (cityId: number) => {
         try {
-          currentFeedsUrl?.searchParams.delete("city_id");
-          currentFeedsUrl?.searchParams.append("city_id", cityId.toString());
-          const feedsResponse = await getRequests(currentFeedsUrl);
+          const feedsUrl = new URL(`${process.env.NEXT_PUBLIC_API}/feeds`);
+          feedsUrl.searchParams.append("city_id", cityId.toString());
+          const feedsResponse = await getRequests(feedsUrl);
           setFeeds(feedsResponse);
         } catch (err) {
           console.log(err);
