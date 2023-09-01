@@ -3,9 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
-import {
-  UserType,
-} from "@/app/types";
+import { UserType } from "@/app/types";
 
 import { cn } from "@/app/lib/utils";
 import { useAuthContext } from "@/app/context/authContext";
@@ -15,6 +13,7 @@ import getUser from "@/app/lib/user/getUser";
 import LocationSelector from "./LocationSelector";
 import useLocations from "@/hooks/useLocation";
 import Dialog from "./ui/DialogPrimitive";
+import usePreferences from "@/hooks/usePreferences";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -61,6 +60,7 @@ const ProfileInfo = React.forwardRef<
   );
 
   const [openLocationModal, setOpenLocationModal] = React.useState(false);
+  usePreferences();
 
   const profilePicRef = React.useRef<HTMLInputElement>(null);
 

@@ -32,6 +32,7 @@ import useLocations from "@/hooks/useLocation";
 import LocationSelector from "@/components/LocationSelector";
 import Dialog from "@/components/ui/DialogPrimitive";
 import CategorySelector from "@/components/CategorySelector";
+import usePreferences from "@/hooks/usePreferences";
 
 const KeyboardArrowDownIcon = React.lazy(
   () => import("@mui/icons-material/KeyboardArrowDown")
@@ -64,32 +65,25 @@ const SettingsPage = (props: Props) => {
   >("PUBLIC");
   const [loggingOut, setLoggingOut] = React.useState(false);
   const [user, setUser] = React.useState<UserType | null>(null);
-  const [preferences, setPreferences] = React.useState<UserPreferencesType>({
-    all_categories: false,
-    all_locations: false,
-    created_at: "",
-    id: 0,
-    selected_categories: [],
-    selected_locations: [],
-    updated_at: "",
-    user_id: 0,
-  });
+  const [preferences, setPreferences] =
+    React.useState<UserPreferencesType | null>(null);
 
   const [categories, flattenedCategories] = useCategory();
   const [selectedCategory, setSelectedCategory] = React.useState<number | null>(
     null
   );
-  
+
   const [locations, flattenedLocations] = useLocations();
   const [selectedLocation, setSelectedLocation] = React.useState<number | null>(
     null
   );
 
-
   const [openLocationModal, setOpenLocationModal] = React.useState(false);
   const [openCategoryModal, setOpenCategoryModal] = React.useState(false);
 
   const [saving, setSaving] = React.useState(false);
+
+  const { preferences: userPreferences } = usePreferences();
 
   React.useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -103,17 +97,12 @@ const SettingsPage = (props: Props) => {
     const token = window.localStorage.getItem("token");
     if (userDetails && token) {
       (async () => {
-        const res: UserPreferencesType = await getPreferences(
-          token,
-          JSON.parse(userDetails).data.id
-        );
-
-        setPreferences(res);
+        if (userPreferences != undefined) setPreferences(userPreferences);
       })();
     } else {
       window.location.assign("/login");
     }
-  }, []);
+  }, [userPreferences]);
 
   React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
@@ -121,7 +110,7 @@ const SettingsPage = (props: Props) => {
   }, []);
 
   const onClickCityAdd = () => {
-    if (selectedLocation && flattenedLocations) {
+    if (preferences && selectedLocation && flattenedLocations) {
       if (preferences.selected_locations.find((x) => x === selectedLocation)) {
         return;
       }
@@ -140,17 +129,18 @@ const SettingsPage = (props: Props) => {
   };
 
   const onClickdeleteCityTag = (e: CityInterface) => {
-    setPreferences({
-      ...preferences,
-      selected_locations: preferences.selected_locations.filter(
-        (x) => x != e.id
-      ),
-    });
+    if (preferences)
+      setPreferences({
+        ...preferences,
+        selected_locations: preferences.selected_locations.filter(
+          (x) => x != e.id
+        ),
+      });
     setSelectedCities(selectedCities.filter((x) => x.id != e.id));
   };
 
   const onClickCategoryTypeAdd = () => {
-    if (selectedCategory && flattenedCategories) {
+    if (preferences && selectedCategory && flattenedCategories) {
       if (preferences.selected_categories.find((x) => x === selectedCategory)) {
         return;
       }
@@ -169,12 +159,13 @@ const SettingsPage = (props: Props) => {
   };
 
   const onClickdeleteCategoryTag = (e: CategoryType) => {
-    setPreferences({
-      ...preferences,
-      selected_categories: preferences.selected_categories.filter(
-        (x) => x != e.id
-      ),
-    });
+    if (preferences)
+      setPreferences({
+        ...preferences,
+        selected_categories: preferences.selected_categories.filter(
+          (x) => x != e.id
+        ),
+      });
     setSelectedSubCategories(selectedSubCategories.filter((x) => x.id != e.id));
   };
 
@@ -187,6 +178,7 @@ const SettingsPage = (props: Props) => {
         const res = await logoutUser(token);
         window.localStorage.removeItem("token");
         window.localStorage.removeItem("userDetails");
+        window.localStorage.removeItem("userPreferences");
         setLoggingOut(false);
         window.location.assign("/");
       }
@@ -201,11 +193,11 @@ const SettingsPage = (props: Props) => {
     try {
       const token = window.localStorage.getItem("token");
       const userDetails = window.localStorage.getItem("userDetails");
-      if (!token && !userDetails) {
-        window.location.href = "/login";
-      } else {
+      const userPreferences = window.localStorage.getItem("userPreferences");
+
+      if (preferences && token && userDetails) {
         const data = {
-          user_id: JSON.parse(userDetails as string).data.id,
+          user_id: JSON.parse(userDetails).data.id,
           all_categories:
             preferences.selected_categories.length > 0 ? false : true,
           selected_categories: [...preferences.selected_categories],
@@ -214,13 +206,20 @@ const SettingsPage = (props: Props) => {
           selected_locations: [...preferences.selected_locations],
         };
 
-        const res = await updateUserPreference(token as string, data);
+        const res = await updateUserPreference(token, data);
 
         if (res.isError) {
           window.localStorage.removeItem("userDetails");
           window.location.href = "/login";
           return;
         }
+
+        window.localStorage.setItem(
+          "userPreferences",
+          JSON.stringify({ ...preferences, ...data })
+        );
+      } else {
+        window.location.href = "/login";
       }
     } catch (err) {
       console.log(err);
@@ -346,7 +345,7 @@ const SettingsPage = (props: Props) => {
             {flattenedLocations &&
               flattenedLocations
                 .filter((location) => {
-                  return preferences.selected_locations.includes(location.id);
+                  return preferences?.selected_locations.includes(location.id);
                 })
                 .map((location) => {
                   return (
@@ -426,7 +425,7 @@ const SettingsPage = (props: Props) => {
             {flattenedCategories &&
               flattenedCategories
                 .filter((categoryValue) => {
-                  return preferences.selected_categories.includes(
+                  return preferences?.selected_categories.includes(
                     categoryValue.id
                   );
                 })

@@ -40,21 +40,61 @@ export default function Home() {
 
   useEffect(() => {
     dispatch({ type: "RESET" });
-    (async () => {
+
+    async function fetchPrefFeed(currentFeedsUrl?: URL | null) {
       try {
-        setIsError(false);
-        const feedsResponse = await getRequests(null, setCurrentFeedsUrl);
-        if (feedsResponse) {
-          setIsLoading(false);
-          setFeeds(feedsResponse);
-          setFeedsWithBookmarkedRequests(feedsResponse.data);
-        }
+        const feedsResponse = await getRequests(currentFeedsUrl);
+        if (feedsResponse.isError) return;
+        setIsLoading(false);
+        setFeeds(feedsResponse);
+        setFeedsWithBookmarkedRequests(feedsResponse.data);
       } catch (err) {
         console.log(err);
-        setIsError(true);
       }
-    })();
-  }, []);
+    }
+
+    if (preferences === undefined) {
+    } else {
+      switch (preferences) {
+        case null:
+          fetchPrefFeed();
+          break;
+
+        default:
+          const currentUrl = new URL(`${process.env.NEXT_PUBLIC_API}/feeds`);
+
+          if (preferences.selected_locations.length > 0) {
+            currentUrl.searchParams.delete("city_id");
+            let cityIds = "";
+            preferences.selected_locations.forEach((id) => {
+              cityIds.length > 0 ? (cityIds += `,${id}`) : (cityIds += id);
+            });
+            currentUrl.searchParams.append("city_id", cityIds);
+          }
+
+          if (preferences.selected_categories.length > 0) {
+            currentUrl.searchParams.delete("category_group_id");
+            let categoryIds = "";
+            preferences.selected_categories.forEach((id) => {
+              categoryIds.length > 0
+                ? (categoryIds += `,${id}`)
+                : (categoryIds += id);
+            });
+            currentUrl.searchParams.append("category_group_id", categoryIds);
+          }
+
+          console.log(currentUrl);
+          if (
+            preferences.selected_categories.length > 0 ||
+            preferences.selected_locations.length > 0
+          ) {
+            fetchPrefFeed(currentUrl);
+          }
+
+          break;
+      }
+    }
+  }, [preferences]);
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -116,46 +156,6 @@ export default function Home() {
       setIsError(true);
     }
   };
-
-  React.useEffect(() => {
-    async function fetchPref(currentFeedsUrl: URL | null) {
-      const feedsResponse = await getRequests(currentFeedsUrl);
-      if (feedsResponse.isError) return;
-      setFeeds(feedsResponse);
-    }
-
-    if (preferences) {
-      if (preferences.selected_categories.length > 0) {
-        currentFeedsUrl?.searchParams.delete("category_group_id");
-        let categoryIds = "";
-        preferences.selected_categories.forEach((id) => {
-          categoryIds.length > 0
-            ? (categoryIds += `,${id}`)
-            : (categoryIds += id);
-        });
-        currentFeedsUrl?.searchParams.append(
-          "category_group_id",
-          categoryIds.trim()
-        );
-      }
-
-      if (preferences.selected_locations.length > 0) {
-        currentFeedsUrl?.searchParams.delete("city_id");
-        let cityIds = "";
-        preferences.selected_locations.forEach((id) => {
-          cityIds.length > 0 ? (cityIds += `,${id}`) : (cityIds += id);
-        });
-        currentFeedsUrl?.searchParams.append("city_id", cityIds);
-      }
-
-      if (
-        preferences.selected_categories.length > 0 ||
-        preferences.selected_locations.length > 0
-      ) {
-        fetchPref(currentFeedsUrl);
-      }
-    }
-  }, [preferences]);
 
   return (
     <>

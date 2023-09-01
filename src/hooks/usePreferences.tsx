@@ -3,8 +3,9 @@ import { UserPreferencesType } from "@/app/types";
 import React from "react";
 
 export default function usePreferences() {
-  const [preferences, setPreferences] =
-    React.useState<UserPreferencesType | null>(null);
+  const [preferences, setPreferences] = React.useState<
+    UserPreferencesType | null | undefined
+  >(undefined);
 
   React.useEffect(() => {
     const userDetails = window.localStorage.getItem("userDetails");
@@ -24,10 +25,12 @@ export default function usePreferences() {
       }
     };
 
-    if (userPreferences) {
-      setPreferences(JSON.parse(userPreferences));
+    if (token && userDetails) {
+      if (userPreferences) {
+        setPreferences(JSON.parse(userPreferences));
+      } else fecthPreferences();
     } else {
-      fecthPreferences();
+      setPreferences(null);
     }
   }, []);
 

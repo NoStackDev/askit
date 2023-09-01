@@ -22,25 +22,25 @@ const Searchbox = React.forwardRef<React.ElementRef<"div">, Props>(
       setSearchText(event.target.value.trim());
     };
 
-    React.useEffect(() => {
-      (async () => {
-        try {
-          if (searchText.trim() !== "") {
-            const searchRes = await searchRequests(
-              searchText.trim(),
-              setCurrentFeedsUrl
-            );
-            setFeeds(searchRes);
-            setSelectedCategoryFilter(null);
-          } else {
-            const feedsRes = await getRequests(currentFeedsUrl);
-            setFeeds(feedsRes);
-          }
-        } catch (err) {
-          console.log(err);
-        }
-      })();
-    }, [debouncedValue]);
+    // React.useEffect(() => {
+    //   (async () => {
+    //     try {
+    //       if (searchText.trim() !== "") {
+    //         const searchRes = await searchRequests(
+    //           searchText.trim(),
+    //           setCurrentFeedsUrl
+    //         );
+    //         setFeeds(searchRes);
+    //         setSelectedCategoryFilter(null);
+    //       } else {
+    //         const feedsRes = await getRequests(currentFeedsUrl);
+    //         setFeeds(feedsRes);
+    //       }
+    //     } catch (err) {
+    //       console.log(err);
+    //     }
+    //   })();
+    // }, [debouncedValue]);
 
     return (
       <div className={cn("relative h-fit", className)} ref={ref}>
