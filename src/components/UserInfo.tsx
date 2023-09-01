@@ -134,7 +134,7 @@ const UserInfo = React.forwardRef<
                       className="hover:cursor-pointer"
                     />
                   }
-                  className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-40"
+                  className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50"
                 >
                   <ExternalAppConfirmation
                     appTitle="Facebook"
@@ -173,7 +173,7 @@ const UserInfo = React.forwardRef<
                       className="hover:cursor-pointer"
                     />
                   }
-                  className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-40"
+                  className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50"
                 >
                   <ExternalAppConfirmation
                     appTitle="Instagram"
@@ -212,7 +212,7 @@ const UserInfo = React.forwardRef<
                       className="hover:cursor-pointer"
                     />
                   }
-                  className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-40"
+                  className="fixed top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50"
                 >
                   <ExternalAppConfirmation
                     appTitle="WhatsApp"

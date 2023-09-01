@@ -88,7 +88,7 @@ export default function MyRequestPage({}: Props) {
                   Place a Request
                 </Button>
               }
-              className="-translate-x-1/2 z-30 fixed top-[80px] left-1/2"
+              className="-translate-x-1/2 z-50 fixed top-[80px] left-1/2"
             >
               <RequestForm className="" />
             </Dialog>
