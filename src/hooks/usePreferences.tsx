@@ -28,6 +28,7 @@ export default function usePreferences() {
     if (token && userDetails) {
       if (userPreferences) {
         setPreferences(JSON.parse(userPreferences));
+        fecthPreferences();
       } else fecthPreferences();
     } else {
       setPreferences(null);
