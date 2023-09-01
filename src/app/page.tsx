@@ -83,13 +83,12 @@ export default function Home() {
             currentUrl.searchParams.append("category_group_id", categoryIds);
           }
 
-          console.log(currentUrl);
           if (
             preferences.selected_categories.length > 0 ||
             preferences.selected_locations.length > 0
           ) {
             fetchPrefFeed(currentUrl);
-          }
+          } else fetchPrefFeed();
 
           break;
       }
