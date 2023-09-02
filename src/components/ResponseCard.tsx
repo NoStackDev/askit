@@ -46,6 +46,7 @@ const ResponseCard = React.forwardRef<
       variant,
       whatsapp_num,
       whatsapp_link,
+      request_url,
       ...props
     },
     ref
@@ -293,6 +294,7 @@ const ResponseCard = React.forwardRef<
                   price,
                   whatsapp_num,
                   whatsapp_link,
+                  request_url,
                 }}
               />
             </Dialog>

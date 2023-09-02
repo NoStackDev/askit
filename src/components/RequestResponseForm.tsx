@@ -53,6 +53,7 @@ const RequestResponseForm = React.forwardRef<
       price: number;
       whatsapp_num: string;
       whatsapp_link: string;
+      request_url: string;
     };
   }
 >(({ className, setRequests, requestData, disableResBtn, ...props }, ref) => {
@@ -151,7 +152,10 @@ const RequestResponseForm = React.forwardRef<
         data.append("title", title);
         data.append("description", title);
         data.append("user_id", JSON.parse(userDetails).data.id);
-        data.append("req_id", requestId);
+        data.append(
+          "req_id",
+          props.responsePrefill?.request_url.split("/").at(-1) || requestId
+        );
         if (imageFile) {
           data.append("image", imageFile[0], imageFile[0].name);
         }
